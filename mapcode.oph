@@ -1,0 +1,226 @@
+.org $1900
+unlimited_values:   ; $7c,$7d=first,second
+                    ; Add $7c and $7d, store the result in $7d and the original
+                    ; $7d value in $7c, returning the sum in the accumulator.
+    lda $7c
+    sta $7b
+    lda $7d
+    sta $7c
+    adc $7b
+    sta $7d
+    clc
+    rts
+
+next_value:
+    lda $7d
+
+divide_loop:
+    cmp #9
+    bmi after_divide_loop
+    sec
+    sbc #9
+    jmp divide_loop
+
+after_divide_loop:
+    clc
+    and #3
+    sta $7b
+    rts
+
+make_room:          ; $78,$79=i,j
+                    ; $7e,$7f=first,second
+    lda $7f
+    adc $79
+    sta $7c
+    sec
+    lda #100
+    sbc $78
+    sec
+    sbc $7e
+    sta $7d
+    clc
+                    ; Discard the first ten values.
+    ldx #10
+make_room_loop0:
+    jsr unlimited_values
+    dex
+    bne make_room_loop0
+    rts
+
+
+plot:               ; $70,$71=source address
+                    ; $72,$73=destination address
+    ldy #$1f
+plotloop0:
+    lda ($70),y
+    sta ($72),y
+    dey
+    bpl plotloop0
+
+    lda $72
+    adc #$20
+    sta $72
+    lda $73
+    adc #$01
+    sta $73         ; next line minus 0x20
+    clc
+
+    ldy #$3f
+plotloop1:
+    lda ($70),y
+    sta ($72),y
+    dey
+    cpy #$20
+    bpl plotloop1
+
+    lda $72
+    adc #$20
+    sta $72
+    lda $73
+    adc #$01
+    sta $73         ; next line minus 0x20
+    clc
+
+    ldy #$5f
+plotloop2:
+    lda ($70),y
+    sta ($72),y
+    dey
+    cpy #$40
+    bpl plotloop2
+    
+    sec
+    lda $72
+    sbc #$20
+    sta $72
+    lda $73
+    sbc #$02
+    sta $73         ; back two lines minus 0x20
+    clc
+    
+    rts
+
+
+plot_tile:          ; $74,$75=sprite area address
+                    ; $7b=tile number
+                    ; $72,$73=screen position 
+
+                    ; Calculate the sprite address ($74,$75 + $76*0x60).
+    lda $74
+    sta $70
+    lda $75
+    sta $71
+    lda $7b
+    tax
+
+    cpx #0
+    beq after_multiply_loop
+
+multiply_loop:
+
+    clc
+    lda $70
+    adc #$60
+    sta $70
+    lda $71
+    adc #0
+    sta $71
+    clc
+    dex
+    bne multiply_loop
+
+after_multiply_loop:
+    clc
+    jsr plot
+    rts
+
+plot_room:          ; $78,$79 = i,j
+    lda #0
+    sta $7e
+    sta $7f
+    
+    lda #$e0
+    sta $72
+    lda #$5b
+    sta $73         ; $72,$73 = screen position
+
+    lda #$00
+    sta $74
+    lda #$56
+    sta $75         ; $74,$75 = sprite area address
+
+    lda #0
+    sta $7e         ; first
+    sta $7f         ; second
+
+    jsr make_room
+
+row_loop:
+
+    lda #8
+    sta $7a
+column_loop:
+    jsr unlimited_values
+    jsr next_value
+    jsr plot_tile
+
+    sec
+    lda $7a
+    sbc #1
+    sta $7a
+    clc
+
+    cmp #0
+    bne column_loop
+    clc
+
+    lda $72
+    adc #$c0
+    sta $72
+    lda $73
+    adc #$02
+    sta $73
+    clc
+    cmp #$79
+    beq end_rows
+
+    jmp row_loop
+    
+end_rows:
+    rts
+
+
+test_plot:
+    lda #$60
+    sta $70
+    lda #$56
+    sta $71
+    lda #0
+    sta $72
+    lda #$58
+    sta $73
+    jsr plot
+    rts
+
+test_plot_tile:
+    lda #$00
+    sta $74
+    lda #$56
+    sta $75
+    lda #1
+    sta $7d
+    lda #0
+    sta $72
+    lda #$58
+    sta $73
+test_plot_tile_loop:
+    lda $7d
+    sta $7b
+    jsr plot_tile
+    clc
+    lda $7d
+    adc #1
+    sta $7d
+    cmp #4
+    bne test_plot_tile_loop
+    rts
