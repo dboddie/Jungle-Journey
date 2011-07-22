@@ -12,11 +12,12 @@ unlimited_values:   ; $7c,$7d=first,second
     rts
 
 next_value:
+    jsr unlimited_values
     lda $7d
 
 divide_loop:
     cmp #9
-    bmi after_divide_loop
+    bcc after_divide_loop   ; bmi should work here, I think, but it doesn't
     sec
     sbc #9
     jmp divide_loop
@@ -40,10 +41,10 @@ make_room:          ; $78,$79=i,j
     sta $7d
     clc
                     ; Discard the first ten values.
-    ldx #10
+    ldy #10
 make_room_loop0:
     jsr unlimited_values
-    dex
+    dey
     bne make_room_loop0
     rts
 
@@ -135,10 +136,6 @@ after_multiply_loop:
     rts
 
 plot_room:          ; $78,$79 = i,j
-    lda #0
-    sta $7e
-    sta $7f
-    
     lda #$e0
     sta $72
     lda #$5b
@@ -160,7 +157,7 @@ row_loop:
     lda #8
     sta $7a
 column_loop:
-    jsr unlimited_values
+    clc
     jsr next_value
     jsr plot_tile
 
