@@ -65,6 +65,9 @@ if __name__ == "__main__":
     t = read_basic("LOADER")
     files.append(("LOADER", 0xffff0e00, 0xffff802b, t))
     
+    t = read_basic("TESTVALUES")
+    files.append(("TEST", 0xffff0e00, 0xffff802b, t))
+    
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
     u.import_files(0, files)
