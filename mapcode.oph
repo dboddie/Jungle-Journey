@@ -11,10 +11,7 @@ unlimited_values:   ; $7c,$7d=first,second
     clc
     rts
 
-next_value:
-    jsr unlimited_values
-    lda $7d
-
+div9:               ; A = value
 divide_loop:
     cmp #9
     bcc after_divide_loop   ; bmi should work here, I think, but it doesn't
@@ -24,12 +21,250 @@ divide_loop:
 
 after_divide_loop:
     clc
+    rts             ; A % 9
+
+next_value:         ; no argument
+    jsr unlimited_values
+    lda $7d
+    jsr div9
     and #3
     sta $7b
+    rts             ; $7b = (next value % 9) & 3
+
+draw_top_line:
+    ldx #9
+    lda #1
+draw_top_line_loop0:
+    sta $57f6,x
+    dex
+    bpl draw_top_line_loop0
+
+    ldx #3
+    lda $76
+draw_top_line_loop1:
+    sta $57f9,x
+    dex
+    bpl draw_top_line_loop1
+    clc
+    rts
+
+draw_left_line:
+    ldx #99
+draw_left_line_loop0:
+    lda #1
+    sta $579c,x
+    txa
+    sec
+    sbc #10
+    tax
+    bpl draw_left_line_loop0
+
+    ldx #39
+draw_left_line_loop1:
+    lda $77
+    sta $57ba,x
+    txa
+    sec
+    sbc #10
+    tax
+    bpl draw_left_line_loop1
+    clc
+    rts
+
+draw_bottom_line:
+    ldx #9
+    lda #1
+draw_bottom_line_loop0:
+    sta $579c,x
+    dex
+    bpl draw_bottom_line_loop0
+
+    ldx #3
+    lda $76
+draw_bottom_line_loop1:
+    sta $579f,x
+    dex
+    bpl draw_bottom_line_loop1
+    clc
+    rts
+
+draw_right_line:
+    ldx #90
+draw_right_line_loop0:
+    lda #1
+    sta $579c,x
+    txa
+    sec
+    sbc #10
+    tax
+    bpl draw_right_line_loop0
+
+    ldx #30
+draw_right_line_loop1:
+    lda $77
+    sta $57ba,x
+    txa
+    sec
+    sbc #10
+    tax
+    bpl draw_right_line_loop1
+    clc
+    rts
+
+top_left_exits:     ; $70=test number
+    lda $78
+    adc $7f         ; i + second
+    sta $7c
+    clc
+    lda $79
+    adc $7e
+    sta $7d         ; j + first
+    clc
+
+    lda $70
+    adc #4          ; 4 + test number
+    clc
+    tax
+top_left_loop:
+    jsr unlimited_values
+    dex
+    bne top_left_loop
+
     rts
 
 make_room:          ; $78,$79=i,j
                     ; $7e,$7f=first,second
+
+    ; Determine if there is a top exit.
+    lda #0
+    sta $76
+
+    lda $78
+    cmp #0
+    bne not_top_screen
+    lda #1
+    sta $76
+    jmp do_top_exit
+not_top_screen:
+    clc
+
+    lda $7e
+    sta $70
+    jsr top_left_exits
+
+    jsr div9
+    sta $70         ; store the result temporarily
+
+    lda $7e
+    jsr div9        ; second % 9
+    cmp $70
+    bne do_top_exit
+    lda #1
+    sta $76         ; top exit
+
+do_top_exit:
+    clc
+    jsr draw_top_line
+
+    ; Determine if there is a left exit.
+    lda #0
+    sta $77
+
+    lda $79
+    cmp #0
+    bne not_left_screen
+    lda #1
+    sta $77
+    jmp do_left_exit
+not_left_screen:
+    clc
+
+    lda $7f
+    sta $70
+    jsr top_left_exits
+
+    jsr div9
+    sta $70         ; store the result temporarily
+
+    lda $7f
+    jsr div9        ; second % 9
+    cmp $70
+    bne do_left_exit
+    lda #1
+    sta $77         ; left exit
+
+do_left_exit:
+    clc
+    jsr draw_left_line
+
+    ; Determine if there is a right exit.
+    lda #0
+    sta $77
+
+    lda $79
+    cmp #10
+    bne not_right_screen
+    lda #1
+    sta $77
+    jmp do_right_exit
+not_right_screen:
+    clc
+
+    inc $79
+    lda $7f
+    sta $70
+    jsr top_left_exits
+    dec $79
+
+    jsr div9
+    sta $70         ; store the result temporarily
+
+    lda $7f
+    jsr div9        ; second % 9
+    cmp $70
+    bne do_right_exit
+    lda #1
+    sta $77         ; right exit
+
+do_right_exit:
+    clc
+    jsr draw_right_line
+
+    ; Determine if there is a bottom exit.
+    lda #0
+    sta $76
+
+    lda $78
+    cmp #10
+    bne not_bottom_screen
+    lda #1
+    sta $76
+    jmp do_bottom_exit
+not_bottom_screen:
+    clc
+
+    inc $78
+    lda $7e
+    sta $70
+    jsr top_left_exits
+    dec $78
+
+    jsr div9
+    sta $70         ; store the result temporarily
+
+    lda $7e
+    jsr div9        ; second % 9
+    cmp $70
+    bne do_bottom_exit
+    lda #1
+    sta $76         ; bottom exit
+
+do_bottom_exit:
+    clc
+    jsr draw_bottom_line
+
+    ; Fill in the room details.
+
     lda $7f
     adc $79
     sta $7c
@@ -46,6 +281,26 @@ make_room_loop0:
     jsr unlimited_values
     dey
     bne make_room_loop0
+    
+                    ; Fill the room array with values.
+    ldx #78
+    ldy #63
+make_room_loop1:
+    jsr next_value
+    sta $57a6,x
+    dey
+    tya
+    and #7
+    cmp #7
+    bne next1
+    dex
+    dex
+
+next1:
+    clc
+    dex
+    bpl make_room_loop1
+    
     rts
 
 
@@ -106,7 +361,7 @@ plot_tile:          ; $74,$75=sprite area address
                     ; $7b=tile number
                     ; $72,$73=screen position 
 
-                    ; Calculate the sprite address ($74,$75 + $76*0x60).
+                    ; Calculate the sprite address ($74,$75 + $7b*0x60).
     lda $74
     sta $70
     lda $75
@@ -136,9 +391,9 @@ after_multiply_loop:
     rts
 
 plot_room:          ; $78,$79 = i,j
-    lda #$e0
+    lda #$00
     sta $72
-    lda #$5b
+    lda #$58
     sta $73         ; $72,$73 = screen position
 
     lda #$00
@@ -152,33 +407,41 @@ plot_room:          ; $78,$79 = i,j
 
     jsr make_room
 
+    lda #99
+    sta $7a
 row_loop:
 
-    lda #8
-    sta $7a
+    lda #9
+    sta $76
 column_loop:
-    clc
-    jsr next_value
+    lda $7a
+    tax
+    lda $579c,x
+    sta $7b
     jsr plot_tile
 
-    sec
     lda $7a
+    sec
     sbc #1
     sta $7a
+    lda $76
+    sec
+    sbc #1
+    sta $76
     clc
-
     cmp #0
-    bne column_loop
+    bpl column_loop
+
     clc
 
     lda $72
-    adc #$c0
+    adc #$80
     sta $72
     lda $73
     adc #$02
     sta $73
     clc
-    cmp #$79
+    cmp #$7d
     beq end_rows
 
     jmp row_loop
