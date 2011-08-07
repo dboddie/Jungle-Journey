@@ -46,6 +46,15 @@ if __name__ == "__main__":
     
     out_uef_file = sys.argv[1]
     
+    # Planned memory map
+    # 1900 CODE (map)
+    # 1x00 space
+    # 5000 CHARS (character sprites)
+    # 5600 SPRITES (map)
+    # 5780 space
+    # 579c room data (generated)
+    # 5800 screen memory
+    
     files = []
     
     system("ophis mapcode.oph CODE")
@@ -59,14 +68,14 @@ if __name__ == "__main__":
                 print hex(i + 1)
         i += 1
     
-    data = makesprites.read_sprites()
+    data = makesprites.read_sprites(makesprites.chars)
+    files.append(("CHARS", 0x5000, 0x5000, data))
+    
+    data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5600, 0x5600, data))
     
     t = read_basic("LOADER")
     files.append(("LOADER", 0xffff0e00, 0xffff802b, t))
-    
-    t = read_basic("TESTEXITS")
-    files.append(("TEST", 0xffff0e00, 0xffff802b, t))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6

@@ -439,3 +439,65 @@ column_loop:
     
 end_rows:
     rts
+
+
+
+plot12x16_y0:           ; $70,$71=source address
+                        ; $72,$73=destination address
+    ldy #23
+
+plotloop12x15_y0_0:
+    lda ($70),y
+    sta ($72),y
+    dey
+    bpl plotloop12x15_y0_0
+    clc
+
+    lda $72
+    adc #$28
+    sta $72
+    lda $73
+    adc #$01
+    sta $73
+    clc
+
+    ldy #47
+
+plotloop12x15_y0_1:
+    lda ($70),y
+    sta ($72),y
+    dey
+    cpy #24
+    bpl plotloop12x15_y0_1
+
+    rts
+
+plot12x16_y1:           ; $70,$71=source address
+                        ; $72,$73=destination address
+    ldy #3
+
+plotloop12x15_y1_0:
+    lda ($70),y
+    sta ($72),y
+    dey
+    bpl plotloop12x15_y1_0
+    clc
+
+    lda $72
+    adc #$28
+    sta $72
+    lda $73
+    adc #$01
+    sta $73
+    clc
+
+    ldy #47
+
+plotloop12x15_y1_1:
+    lda ($70),y
+    sta ($72),y
+    dey
+    cpy #24
+    bpl plotloop12x15_y1_1
+
+    rts
