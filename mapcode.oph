@@ -27,13 +27,15 @@ next_value:         ; no argument
     jsr unlimited_values
     lda $7d
     jsr div9
-    and #3
+    and #7
     sta $7b
     rts             ; $7b = (next value % 9) & 3
 
+; Room filling routines, writing to 0x579c to 0x57ff.
+
 draw_top_line:
     ldx #9
-    lda #1
+    lda #6
 draw_top_line_loop0:
     sta $57f6,x
     dex
@@ -51,7 +53,7 @@ draw_top_line_loop1:
 draw_left_line:
     ldx #99
 draw_left_line_loop0:
-    lda #1
+    lda #6
     sta $579c,x
     txa
     sec
@@ -73,7 +75,7 @@ draw_left_line_loop1:
 
 draw_bottom_line:
     ldx #9
-    lda #1
+    lda #6
 draw_bottom_line_loop0:
     sta $579c,x
     dex
@@ -91,7 +93,7 @@ draw_bottom_line_loop1:
 draw_right_line:
     ldx #90
 draw_right_line_loop0:
-    lda #1
+    lda #6
     sta $579c,x
     txa
     sec
@@ -111,156 +113,148 @@ draw_right_line_loop1:
     clc
     rts
 
-top_left_exits:     ; $70=test number
-    lda $78
-    adc $7f         ; i + second
-    sta $7c
-    clc
-    lda $79
-    adc $7e
-    sta $7d         ; j + first
-    clc
-
-    lda $70
-    adc #4          ; 4 + test number
-    clc
-    tax
-top_left_loop:
-    jsr unlimited_values
-    dex
-    bne top_left_loop
-
-    rts
-
 make_room:          ; $78,$79=i,j
-                    ; $7e,$7f=first,second
 
-    ; Determine if there is a top exit.
+; Determine if there is a top exit.
     lda #0
     sta $76
 
-    lda $78
+    lda $78         ; i == 0
     cmp #0
     bne not_top_screen
-    lda #1
+    lda #6
     sta $76
     jmp do_top_exit
 not_top_screen:
     clc
 
-    lda $7e
-    sta $70
-    jsr top_left_exits
-
-    jsr div9
-    sta $70         ; store the result temporarily
-
-    lda $7e
-    jsr div9        ; second % 9
+    lda $78
+    and #7          ; i & 7
+    sta $70         ; temporary result
+    lda $79
+    and #7          ; j & 7
     cmp $70
+    beq do_top_exit
+    clc
+
+    lda $78
+    eor $79         ; i ^ j
+    adc $78         ; + i
+    clc
+    cmp $79         ; (i ^ j) + i == j
     bne do_top_exit
-    lda #1
+    lda #6
     sta $76         ; top exit
 
 do_top_exit:
-    clc
     jsr draw_top_line
 
-    ; Determine if there is a left exit.
+; Determine if there is a left exit.
     lda #0
     sta $77
 
     lda $79
     cmp #0
     bne not_left_screen
-    lda #1
+    lda #6
     sta $77
     jmp do_left_exit
 not_left_screen:
     clc
 
-    lda $7f
-    sta $70
-    jsr top_left_exits
-
-    jsr div9
-    sta $70         ; store the result temporarily
-
-    lda $7f
-    jsr div9        ; second % 9
+    lda $78
+    and #3          ; i & 3
+    sta $70         ; temporary result
+    lda $79
+    and #3          ; j & 3
     cmp $70
+    beq do_left_exit
+    clc
+
+    lda $78
+    ora $79         ; i | j
+    eor $79         ; ^ j
+    cmp $78         ; (i | j) ^ j == i
     bne do_left_exit
-    lda #1
+    lda #6
     sta $77         ; left exit
 
 do_left_exit:
-    clc
     jsr draw_left_line
 
-    ; Determine if there is a right exit.
+; Determine if there is a right exit.
     lda #0
     sta $77
 
     lda $79
     cmp #10
     bne not_right_screen
-    lda #1
+    lda #6
     sta $77
     jmp do_right_exit
 not_right_screen:
     clc
 
-    inc $79
-    lda $7f
-    sta $70
-    jsr top_left_exits
-    dec $79
-
-    jsr div9
-    sta $70         ; store the result temporarily
-
-    lda $7f
-    jsr div9        ; second % 9
+    lda $78
+    and #3          ; i & 3
+    sta $70         ; temporary result
+    lda $79
+    adc #1
+    and #3          ; j & 3
     cmp $70
+    beq do_right_exit
+    clc
+
+    lda $79
+    adc #1
+    sta $70
+
+    lda $78
+    ora $70         ; i | j
+    eor $70         ; ^ j
+    cmp $78         ; (i | j) ^ j == i
     bne do_right_exit
-    lda #1
+    lda #6
     sta $77         ; right exit
 
 do_right_exit:
-    clc
     jsr draw_right_line
 
-    ; Determine if there is a bottom exit.
+; Determine if there is a bottom exit.
     lda #0
     sta $76
 
     lda $78
     cmp #10
     bne not_bottom_screen
-    lda #1
+    lda #6
     sta $76
     jmp do_bottom_exit
 not_bottom_screen:
     clc
 
-    inc $78
-    lda $7e
-    sta $70
-    jsr top_left_exits
-    dec $78
-
-    jsr div9
-    sta $70         ; store the result temporarily
-
-    lda $7e
-    jsr div9        ; second % 9
+    lda $78
+    adc #1
+    and #7          ; i & 7
+    sta $70         ; temporary result
+    lda $79
+    and #7          ; j & 7
     cmp $70
+    beq do_bottom_exit
+    clc
+
+    lda $78
+    adc #1
+    sta $70
+
+    eor $79         ; i ^ j
+    adc $70         ; + i
+    cmp $79         ; (i ^ j) + i == j
     bne do_bottom_exit
-    lda #1
+    lda #6
     sta $76         ; bottom exit
 
 do_bottom_exit:
-    clc
     jsr draw_bottom_line
 
     ; Fill in the room details.
@@ -357,35 +351,41 @@ plotloop2:
     rts
 
 
-plot_tile:          ; $74,$75=sprite area address
-                    ; $7b=tile number
+plot_tile:          ; $7b=tile number
                     ; $72,$73=screen position 
 
-                    ; Calculate the sprite address ($74,$75 + $7b*0x60).
-    lda $74
-    sta $70
-    lda $75
-    sta $71
     lda $7b
-    tax
-
-    cpx #0
-    beq after_multiply_loop
-
-multiply_loop:
-
-    clc
-    lda $70
-    adc #$60
+    cmp #1
+    bne not_flowers
+    lda #$60
     sta $70
-    lda $71
-    adc #0
+    lda #$56
     sta $71
     clc
-    dex
-    bne multiply_loop
-
-after_multiply_loop:
+    jmp plot        ; optimise away the rts
+not_flowers:
+    cmp #6
+    bne not_tree1
+    lda #$c0
+    sta $70
+    lda #$56
+    sta $71
+    clc
+    jmp plot        ; optimise away the rts
+not_tree1:
+    cmp #7
+    bne not_tree2
+    lda #$20
+    sta $70
+    lda #$57
+    sta $71
+    clc
+    jmp plot        ; optimise away the rts
+not_tree2:
+    lda #$00
+    sta $70
+    lda #$56
+    sta $71
     clc
     jsr plot
     rts
@@ -395,15 +395,6 @@ plot_room:          ; $78,$79 = i,j
     sta $72
     lda #$58
     sta $73         ; $72,$73 = screen position
-
-    lda #$00
-    sta $74
-    lda #$56
-    sta $75         ; $74,$75 = sprite area address
-
-    lda #0
-    sta $7e         ; first
-    sta $7f         ; second
 
     jsr make_room
 
@@ -447,40 +438,4 @@ column_loop:
     jmp row_loop
     
 end_rows:
-    rts
-
-
-test_plot:
-    lda #$60
-    sta $70
-    lda #$56
-    sta $71
-    lda #0
-    sta $72
-    lda #$58
-    sta $73
-    jsr plot
-    rts
-
-test_plot_tile:
-    lda #$00
-    sta $74
-    lda #$56
-    sta $75
-    lda #1
-    sta $7d
-    lda #0
-    sta $72
-    lda #$58
-    sta $73
-test_plot_tile_loop:
-    lda $7d
-    sta $7b
-    jsr plot_tile
-    clc
-    lda $7d
-    adc #1
-    sta $7d
-    cmp #4
-    bne test_plot_tile_loop
     rts
