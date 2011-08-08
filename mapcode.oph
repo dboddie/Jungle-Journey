@@ -12,12 +12,12 @@ unlimited_values:   ; $7c,$7d=first,second
     rts
 
 div9:               ; A = value
-divide_loop:
-    cmp #9
-    bcc after_divide_loop   ; bmi should work here, I think, but it doesn't
-    sec
-    sbc #9
-    jmp divide_loop
+    divide_loop:
+        cmp #9
+        bcc after_divide_loop   ; bmi should work here, I think, but it doesn't
+        sec
+        sbc #9
+        jmp divide_loop
 
 after_divide_loop:
     clc
@@ -36,80 +36,81 @@ next_value:         ; no argument
 draw_top_line:
     ldx #9
     lda #6
-draw_top_line_loop0:
-    sta $57f6,x
-    dex
-    bpl draw_top_line_loop0
+
+    draw_top_line_loop0:
+        sta $57f6,x
+        dex
+        bpl draw_top_line_loop0
 
     ldx #3
     lda $76
-draw_top_line_loop1:
-    sta $57f9,x
-    dex
-    bpl draw_top_line_loop1
+    draw_top_line_loop1:
+        sta $57f9,x
+        dex
+        bpl draw_top_line_loop1
     clc
     rts
 
 draw_left_line:
     ldx #99
-draw_left_line_loop0:
-    lda #6
-    sta $579c,x
-    txa
-    sec
-    sbc #10
-    tax
-    bpl draw_left_line_loop0
+    draw_left_line_loop0:
+        lda #6
+        sta $579c,x
+        txa
+        sec
+        sbc #10
+        tax
+        bpl draw_left_line_loop0
 
     ldx #39
-draw_left_line_loop1:
-    lda $77
-    sta $57ba,x
-    txa
-    sec
-    sbc #10
-    tax
-    bpl draw_left_line_loop1
+    draw_left_line_loop1:
+        lda $77
+        sta $57ba,x
+        txa
+        sec
+        sbc #10
+        tax
+        bpl draw_left_line_loop1
     clc
     rts
 
 draw_bottom_line:
     ldx #9
     lda #6
-draw_bottom_line_loop0:
-    sta $579c,x
-    dex
-    bpl draw_bottom_line_loop0
+    draw_bottom_line_loop0:
+        sta $579c,x
+        dex
+        bpl draw_bottom_line_loop0
 
     ldx #3
     lda $76
-draw_bottom_line_loop1:
-    sta $579f,x
-    dex
-    bpl draw_bottom_line_loop1
+    draw_bottom_line_loop1:
+        sta $579f,x
+        dex
+        bpl draw_bottom_line_loop1
     clc
     rts
 
 draw_right_line:
     ldx #90
-draw_right_line_loop0:
-    lda #6
-    sta $579c,x
-    txa
-    sec
-    sbc #10
-    tax
-    bpl draw_right_line_loop0
+    draw_right_line_loop0:
+        lda #6
+        sta $579c,x
+        txa
+        sec
+        sbc #10
+        tax
+        bpl draw_right_line_loop0
 
     ldx #30
-draw_right_line_loop1:
-    lda $77
-    sta $57ba,x
-    txa
-    sec
-    sbc #10
-    tax
-    bpl draw_right_line_loop1
+    draw_right_line_loop1:
+        lda $77
+        sta $57ba,x
+        txa
+        sec
+        sbc #10
+        tax
+        bpl draw_right_line_loop1
     clc
     rts
 
@@ -271,22 +272,22 @@ do_bottom_exit:
     clc
                     ; Discard the first ten values.
     ldy #10
-make_room_loop0:
-    jsr unlimited_values
-    dey
-    bne make_room_loop0
+    make_room_loop0:
+        jsr unlimited_values
+        dey
+        bne make_room_loop0
     
                     ; Fill the room array with values.
     ldx #78
     ldy #63
-make_room_loop1:
-    jsr next_value
-    sta $57a6,x
-    dey
-    tya
-    and #7
-    cmp #7
-    bne next1
+    make_room_loop1:
+        jsr next_value
+        sta $57a6,x
+        dey
+        tya
+        and #7
+        cmp #7
+        bne next1
     dex
     dex
 
@@ -301,11 +302,11 @@ next1:
 plot:               ; $70,$71=source address
                     ; $72,$73=destination address
     ldy #$1f
-plotloop0:
-    lda ($70),y
-    sta ($72),y
-    dey
-    bpl plotloop0
+    plotloop0:
+        lda ($70),y
+        sta ($72),y
+        dey
+        bpl plotloop0
 
     lda $72
     adc #$20
@@ -316,12 +317,12 @@ plotloop0:
     clc
 
     ldy #$3f
-plotloop1:
-    lda ($70),y
-    sta ($72),y
-    dey
-    cpy #$20
-    bpl plotloop1
+    plotloop1:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #$20
+        bpl plotloop1
 
     lda $72
     adc #$20
@@ -332,12 +333,12 @@ plotloop1:
     clc
 
     ldy #$5f
-plotloop2:
-    lda ($70),y
-    sta ($72),y
-    dey
-    cpy #$40
-    bpl plotloop2
+    plotloop2:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #$40
+        bpl plotloop2
     
     sec
     lda $72
@@ -400,57 +401,58 @@ plot_room:          ; $78,$79 = i,j
 
     lda #99
     sta $7a
-row_loop:
+    row_loop:
 
-    lda #9
-    sta $76
-column_loop:
-    lda $7a
-    tax
-    lda $579c,x
-    sta $7b
-    jsr plot_tile
+        lda #9
+        sta $76
 
-    lda $7a
-    sec
-    sbc #1
-    sta $7a
-    lda $76
-    sec
-    sbc #1
-    sta $76
-    clc
-    cmp #0
-    bpl column_loop
+        column_loop:
+            lda $7a
+            tax
+            lda $579c,x
+            sta $7b
+            jsr plot_tile
 
-    clc
+            lda $7a
+            sec
+            sbc #1
+            sta $7a
+            lda $76
+            sec
+            sbc #1
+            sta $76
+            clc
+            cmp #0
+            bpl column_loop
 
-    lda $72
-    adc #$80
-    sta $72
-    lda $73
-    adc #$02
-    sta $73
-    clc
-    cmp #$7d
-    beq end_rows
+        clc
 
-    jmp row_loop
+        lda $72
+        adc #$80
+        sta $72
+        lda $73
+        adc #$02
+        sta $73
+        clc
+        cmp #$7d
+        beq end_rows
+
+        jmp row_loop
     
 end_rows:
     rts
 
 
 
-plot12x16_y0:           ; $70,$71=source address
+plot12x24_y0:           ; $70,$71=source address
                         ; $72,$73=destination address
     ldy #23
 
-plotloop12x15_y0_0:
-    lda ($70),y
-    sta ($72),y
-    dey
-    bpl plotloop12x15_y0_0
+    plotloop12x24_y0_0:
+        lda ($70),y
+        sta ($72),y
+        dey
+        bpl plotloop12x24_y0_0
     clc
 
     lda $72
@@ -463,24 +465,12 @@ plotloop12x15_y0_0:
 
     ldy #47
 
-plotloop12x15_y0_1:
-    lda ($70),y
-    sta ($72),y
-    dey
-    cpy #24
-    bpl plotloop12x15_y0_1
-
-    rts
-
-plot12x16_y1:           ; $70,$71=source address
-                        ; $72,$73=destination address
-    ldy #3
-
-plotloop12x15_y1_0:
-    lda ($70),y
-    sta ($72),y
-    dey
-    bpl plotloop12x15_y1_0
+    plotloop12x24_y0_1:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #24
+        bpl plotloop12x24_y0_1
     clc
 
     lda $72
@@ -491,13 +481,13 @@ plotloop12x15_y1_0:
     sta $73
     clc
 
-    ldy #47
+    ldy #71
 
-plotloop12x15_y1_1:
-    lda ($70),y
-    sta ($72),y
-    dey
-    cpy #24
-    bpl plotloop12x15_y1_1
+    plotloop12x24_y0_2:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #48
+        bpl plotloop12x24_y0_2
 
     rts
