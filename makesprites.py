@@ -17,6 +17,29 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+def read_xpm(path):
+
+    lines = open(path).readlines()
+    char_lines = filter(lambda line: line.startswith('"'), lines)
+    strings = map(lambda line: line.strip()[1:-2], char_lines)
+    strings[-1] = strings[-1][:-1]
+    
+    width, height, colours = map(int, strings[0].split()[:3])
+    strings = strings[-height:]
+    
+    symbols = [(".", 0), ("+", 2), ("@", 3)]
+    data = []
+    
+    for s in strings:
+    
+        for symbol, value in symbols:
+            s = s.replace(symbol, str(value))
+        
+        data.append(s)
+    
+    return data
+
+
 tiles = [
         ("0000000000000000",)*24,
         ("0002020020000200",
@@ -93,56 +116,8 @@ tiles = [
          "0000220000002000")
     ]
 
-chars = [
-    ("000022220000",
-     "000202022000",
-     "000020202000",
-     "002202020200",
-     "002020202200",
-     "000333323000",
-     "000303323000",
-     "003333233000",
-     "000333230000",
-     "000033230000",
-     "000200000000",
-     "000022220220",
-     "000200220222",
-     "322020022022",
-     "320202022020",
-     "000002233000",
-     "000202033000",
-     "000020200000",
-     "000200020000",
-     "000020202000",
-     "000202020000",
-     "000000000000",
-     "000200202000",
-     "002020020200"),
-    ("000022220000",
-     "000222222000",
-     "000222222000",
-     "002222222200",
-     "002222222200",
-     "000333323000",
-     "000303323000",
-     "003333233000",
-     "000333230000",
-     "000033230000",
-     "000200000000",
-     "000222220220",
-     "000222220220",
-     "320220220220",
-     "320220220220",
-     "000000330000",
-     "000222000000",
-     "000222020000",
-     "000222020000",
-     "000222020000",
-     "000222200000",
-     "000000002200",
-     "002222202200",
-     "002222202200")
-    ]
+chars = [read_xpm("images/left1.xpm"),
+         read_xpm("images/left2.xpm")]
 
 
 def read_sprite(lines):

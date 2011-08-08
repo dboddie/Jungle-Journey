@@ -1,0 +1,15 @@
+AUTO
+OSCLI("LOAD CODE")
+OSCLI("LOAD CHARS")
+
+MODE 5
+VDU 19,2,2;0;
+VDU 19,3,3;0;
+
+PRINT TAB(0,3);
+
+?&70=0
+?&71=&50
+?&72=0
+?&73=&58
+CALL &{addr}

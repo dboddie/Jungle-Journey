@@ -12,7 +12,7 @@ VDU 19,3,3,0,0,0
 ?&79=5
 
 REPEAT
-CALL &1B1F
+CALL &{addr}
 
 A% = GET
 IF A%=90 AND ?&79>0 THEN ?&79=?&79-1

@@ -446,7 +446,7 @@ end_rows:
 
 plot12x24_y0:           ; $70,$71=source address
                         ; $72,$73=destination address
-    ldy #23
+    ldy #15
 
     plotloop12x24_y0_0:
         lda ($70),y
@@ -456,38 +456,38 @@ plot12x24_y0:           ; $70,$71=source address
     clc
 
     lda $72
-    adc #$28
+    adc #$30
     sta $72
     lda $73
     adc #$01
-    sta $73
+    sta $73     ; 0x140 - 16
     clc
 
-    ldy #47
+    ldy #31
 
     plotloop12x24_y0_1:
         lda ($70),y
         sta ($72),y
         dey
-        cpy #24
+        cpy #16
         bpl plotloop12x24_y0_1
     clc
 
     lda $72
-    adc #$28
+    adc #$30
     sta $72
     lda $73
     adc #$01
-    sta $73
+    sta $73     ; 0x140 - 16
     clc
 
-    ldy #71
+    ldy #47
 
     plotloop12x24_y0_2:
         lda ($70),y
         sta ($72),y
         dey
-        cpy #48
+        cpy #32
         bpl plotloop12x24_y0_2
 
     rts

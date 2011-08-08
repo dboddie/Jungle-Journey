@@ -59,13 +59,15 @@ if __name__ == "__main__":
     
     system("ophis mapcode.oph CODE")
     code = open("CODE").read()
-    files.append(("CODE", 0x1900, 0x1900, code))
-
+    code_start = 0x1900
+    files.append(("CODE", code_start, code_start, code))
+    
+    addresses = []
     i = 0
     while i < len(code):
         if ord(code[i]) == 0x60:
             if i + 1 < len(code):
-                print hex(i + 1)
+                addresses.append(code_start + i + 1)
         i += 1
     
     data = makesprites.read_sprites(makesprites.chars)
@@ -74,8 +76,12 @@ if __name__ == "__main__":
     data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5600, 0x5600, data))
     
-    t = read_basic("LOADER")
+    t = read_basic("LOADER").replace("{addr}", "%X" % addresses[-2])
+    
     files.append(("LOADER", 0xffff0e00, 0xffff802b, t))
+    
+    t = read_basic("TESTSPRITES").replace("{addr}", "%X" % addresses[-1])
+    files.append(("TEST", 0xffff0e00, 0xffff802b, t))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
