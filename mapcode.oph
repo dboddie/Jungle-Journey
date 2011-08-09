@@ -491,3 +491,81 @@ plot12x24_y0:           ; $70,$71=source address
         bpl plotloop12x24_y0_2
 
     rts
+
+
+plot12x24_y1:           ; $70,$71=source address
+                        ; $72,$73=destination address
+    ldy #3
+
+    plotloop12x24_y1_0:
+        lda ($70),y
+        sta ($72),y
+        dey
+        bpl plotloop12x24_y1_0
+    clc
+
+    ldy #11
+
+    plotloop12x24_y1_1:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #8
+        bpl plotloop12x24_y1_1
+    clc
+
+    lda $72
+    adc #$38
+    sta $72
+    lda $73
+    adc #$01
+    sta $73     ; 0x140 - 8
+    clc
+
+    ldy #7
+
+    plotloop12x24_y1_2:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #4
+        bpl plotloop12x24_y1_2
+    clc
+
+    ldy #15
+
+    plotloop12x24_y1_3:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #12
+        bpl plotloop12x24_y1_3
+
+    rts
+
+
+key_input:
+    lda #129
+    ldx #158
+    ldy #255
+    jsr $fff4
+    cpy #255
+    bne not_left_key
+    lda #1
+    sta $74
+    jmp exit_keys
+not_left_key:    
+    lda #129
+    ldx #151
+    ldy #255
+    jsr $fff4
+    cpy #255
+    bne not_down_key
+    lda #2
+    sta $74
+    jmp exit_keys
+not_down_key:
+    lda #0
+    sta $74
+exit_keys:
+    rts

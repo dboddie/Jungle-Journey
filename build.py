@@ -49,6 +49,11 @@ if __name__ == "__main__":
     # Planned memory map
     # 1900 CODE (map)
     # 1x00 space
+    # 4E00 character table (256/4 entries)
+    #   n   type
+    #   n+1 counter/direction
+    #   n+2 x position (0-19, top bit 0-1)
+    #   n+3 y position (0-27, top bit 0-1)
     # 5000 CHARS (character sprites)
     # 5600 SPRITES (map)
     # 5780 space
@@ -76,11 +81,14 @@ if __name__ == "__main__":
     data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5600, 0x5600, data))
     
-    t = read_basic("LOADER").replace("{addr}", "%X" % addresses[-2])
+    t = read_basic("LOADER").replace("{addr}", "%X" % addresses[-4])
     
     files.append(("LOADER", 0xffff0e00, 0xffff802b, t))
     
-    t = read_basic("TESTSPRITES").replace("{addr}", "%X" % addresses[-1])
+    t = read_basic("TESTSPRITES")
+    t = t.replace("{plot0}", "%X" % addresses[-3]
+                  ).replace("{key_input}", "%X" % addresses[-1]
+                  ).replace("{plot1}", "%X" % addresses[-2])
     files.append(("TEST", 0xffff0e00, 0xffff802b, t))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)

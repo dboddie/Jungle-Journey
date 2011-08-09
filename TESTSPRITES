@@ -3,6 +3,7 @@ OSCLI("LOAD CODE")
 OSCLI("LOAD CHARS")
 
 MODE 5
+VDU 23,1,0;0;0;0;
 VDU 19,2,2;0;
 VDU 19,3,3;0;
 
@@ -10,6 +11,17 @@ PRINT TAB(0,3);
 
 ?&70=0
 ?&71=&50
-?&72=0
+X%=19*16
+Y%=0
+
+REPEAT
+
+?&72=X%+(Y%*4)
 ?&73=&58
-CALL &{addr}
+IF Y%=0 THEN CALL &{plot0} ELSE CALL &{plot1}
+
+CALL &{key_input}
+IF ?&74=1 X%=X%-8
+IF ?&74=2 Y%=1-Y%
+
+UNTIL FALSE
