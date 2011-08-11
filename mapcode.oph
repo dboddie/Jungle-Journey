@@ -495,51 +495,83 @@ plot12x24_y0:           ; $70,$71=source address
 
 plot12x24_y1:           ; $70,$71=source address
                         ; $72,$73=destination address
-    ldy #3
 
-    plotloop12x24_y1_0:
-        lda ($70),y
-        sta ($72),y
-        dey
-        bpl plotloop12x24_y1_0
-    clc
+    ldx #2
 
-    ldy #11
+    plotloop12x24_y1_loop:
 
-    plotloop12x24_y1_1:
-        lda ($70),y
-        sta ($72),y
-        dey
-        cpy #8
-        bpl plotloop12x24_y1_1
-    clc
+        ldy #3
 
-    lda $72
-    adc #$38
-    sta $72
-    lda $73
-    adc #$01
-    sta $73     ; 0x140 - 8
-    clc
+        plotloop12x24_y1_0:
+            lda ($70),y
+            sta ($72),y
+            dey
+            bpl plotloop12x24_y1_0
+        clc
 
-    ldy #7
+        ldy #11
 
-    plotloop12x24_y1_2:
-        lda ($70),y
-        sta ($72),y
-        dey
-        cpy #4
-        bpl plotloop12x24_y1_2
-    clc
+        plotloop12x24_y1_1:
+            lda ($70),y
+            sta ($72),y
+            dey
+            cpy #8
+            bpl plotloop12x24_y1_1
+        clc
 
-    ldy #15
+        lda $70
+        adc #4
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
 
-    plotloop12x24_y1_3:
-        lda ($70),y
-        sta ($72),y
-        dey
-        cpy #12
-        bpl plotloop12x24_y1_3
+        lda $72
+        adc #$3c
+        sta $72
+        lda $73
+        adc #$01
+        sta $73
+        clc
+
+        ldy #3
+
+        plotloop12x24_y1_2:
+            lda ($70),y
+            sta ($72),y
+            dey
+            bpl plotloop12x24_y1_2
+        clc
+
+        ldy #11
+
+        plotloop12x24_y1_3:
+            lda ($70),y
+            sta ($72),y
+            dey
+            cpy #8
+            bpl plotloop12x24_y1_3
+        clc
+
+        lda $70
+        adc #12
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+
+        lda $72
+        adc #4
+        sta $72
+        lda $73
+        adc #0
+        sta $73
+        clc
+
+        dex
+        bpl plotloop12x24_y1_loop
 
     rts
 

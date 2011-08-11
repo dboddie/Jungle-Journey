@@ -16,6 +16,8 @@ Y%=0
 
 REPEAT
 
+?&70=(Y%*48)
+?&71=&50
 ?&72=X%+(Y%*4)
 ?&73=&58
 IF Y%=0 THEN CALL &{plot0} ELSE CALL &{plot1}
