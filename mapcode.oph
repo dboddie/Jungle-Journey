@@ -391,7 +391,12 @@ not_tree2:
     jsr plot
     rts
 
-plot_room:          ; $78,$79 = i,j
+plot_room:          ; $78,$79 = i,j (from $4ff0,$4ff1)
+    lda $4ff0
+    sta $78
+    lda $4ff1
+    sta $79
+
     lda #$00
     sta $72
     lda #$58
@@ -492,6 +497,20 @@ plot12x24_y0:           ; $70,$71=source address
 
     rts
 
+
+; Sprite data stored in memory: 00 11 22 33 44 55 66 77 88 99 aa bb
+;
+; Write to screen in this arrangement:
+; -- --
+; 00 22
+;
+; 11 33
+; 44 66
+;
+; 55 77
+; 88 aa
+;
+; 99 bb
 
 plot12x24_y1:           ; $70,$71=source address
                         ; $72,$73=destination address
@@ -600,4 +619,97 @@ not_down_key:
     lda #0
     sta $74
 exit_keys:
+    rts
+
+
+set_palette:
+                    ; $70=logical colour
+                    ; $71=physical colour
+    lda $70
+    sta $4ffb
+    lda $71
+    sta $4ffc
+    lda #0
+    sta $4ffd
+    sta $4ffe
+    sta $4fff
+
+    lda #$c         
+    ldx #$fb
+    ldy #$4f
+    jsr $fff1
+    rts
+
+sprites_file_name: .byte "SPRITES", 13
+chars_file_name: .byte "CHARS", 13
+
+sprites_block: .byte <sprites_file_name, >sprites_file_name
+               .byte 0, $56, 0, 0
+               .byte 0, $56, 0, 0
+               .byte $80, $01, 0, 0
+               .byte $80, $57, 0, 0
+
+init:
+    lda #255
+    ldx #<sprites_block
+    ldy #>sprites_block
+    jsr $ffdd
+
+    lda #22         ; MODE 5
+    jsr $ffee
+    lda #5
+    jsr $ffee
+
+    lda #23         ; disable flashing cursor
+    jsr $ffee
+    lda #1
+    jsr $ffee
+    ldx #7
+    cursor_loop:
+        lda #0
+        jsr $ffee
+        dex
+        bpl cursor_loop
+
+    lda #2
+    sta $70
+    lda #2
+    sta $71
+    jsr set_palette
+
+    lda #3
+    sta $70
+    lda #3
+    sta $71
+    jsr set_palette
+
+    rts
+
+start_new_game:
+    lda #5
+    sta $4ff0
+    lda #5
+    sta $4ff1
+
+    rts
+
+main:
+    jsr init
+
+    main_loop:
+
+        main_wait_loop:
+            lda #129
+            ldx #157
+            ldy #255
+            jsr $fff4
+            cpy #255
+            bne main_wait_loop
+
+        jsr start_new_game
+        jsr plot_room
+
+        game_loop:
+
+        jmp main_loop
     rts

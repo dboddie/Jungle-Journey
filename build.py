@@ -49,11 +49,21 @@ if __name__ == "__main__":
     # Planned memory map
     # 1900 CODE (map)
     # 1x00 space
-    # 4E00 character table (256/4 entries)
+    # 4F00 character table (128/4 entries)
     #   n   type
     #   n+1 counter/direction
     #   n+2 x position (0-19, top bit 0-1)
     #   n+3 y position (0-27, top bit 0-1)
+    #
+    #   first character is always the player
+    #   second character is always the player's weapon
+    #   new characters are added 
+    #
+    # 4FF0 current room (i, j)
+    # 4FF2 lives
+    # 4FF4 score (two bytes)
+    # 4FFB palette workspace (enough for one 5 byte palette entry)
+    #
     # 5000 CHARS (character sprites)
     # 5600 SPRITES (map)
     # 5780 space
@@ -65,7 +75,6 @@ if __name__ == "__main__":
     system("ophis mapcode.oph CODE")
     code = open("CODE").read()
     code_start = 0x1900
-    files.append(("CODE", code_start, code_start, code))
     
     addresses = []
     i = 0
@@ -74,6 +83,8 @@ if __name__ == "__main__":
             if i + 1 < len(code):
                 addresses.append(code_start + i + 1)
         i += 1
+    
+    files.append(("CODE", code_start, addresses[-1], code))
     
     data = makesprites.read_sprites(makesprites.chars)
     files.append(("CHARS", 0x5000, 0x5000, data))
