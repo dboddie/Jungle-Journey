@@ -392,6 +392,8 @@ not_tree2:
     rts
 
 plot_room:          ; $78,$79 = i,j (from $4ff0,$4ff1)
+    jsr blank_screen
+
     lda $4ff0
     sta $78
     lda $4ff1
@@ -445,6 +447,24 @@ plot_room:          ; $78,$79 = i,j (from $4ff0,$4ff1)
         jmp row_loop
     
 end_rows:
+    lda #1
+    sta $70
+    lda $78
+    eor $79
+    and #3
+    asl
+    adc #1
+    sta $71
+    jsr set_palette
+
+    lda #2
+    sta $70
+    sta $71
+    jsr set_palette
+    lda #3
+    sta $70
+    sta $71
+    jsr set_palette
     rts
 
 
@@ -638,6 +658,24 @@ set_palette:
     ldx #$fb
     ldy #$4f
     jsr $fff1
+    rts
+
+blank_screen:
+    lda #1
+    sta $70
+    lda #0
+    sta $71
+    jsr set_palette
+    lda #2
+    sta $70
+    lda #0
+    sta $71
+    jsr set_palette
+    lda #3
+    sta $70
+    lda #0
+    sta $71
+    jsr set_palette
     rts
 
 sprites_file_name: .byte "SPRITES", 13
