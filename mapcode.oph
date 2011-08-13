@@ -258,6 +258,39 @@ not_bottom_screen:
 do_bottom_exit:
     jsr draw_bottom_line
 
+    ; Make sure that the starting room is empty.
+
+    lda $78
+    cmp $4ff0
+    bne not_starting_room
+    lda $79
+    cmp $4ff1
+    bne not_starting_room
+
+    clc
+
+    ; Fill the room with empty space.
+
+    ldx #78
+    ldy #63
+    make_empty_room_loop:
+        lda #0
+        sta $57a6,x
+        dey
+        tya
+        and #7
+        cmp #7
+        bne finished_empty_room
+    dex
+    dex
+
+finished_empty_room:
+    clc
+    rts
+
+not_starting_room:
+    clc
+
     ; Fill in the room details.
 
     lda $7f
@@ -270,14 +303,17 @@ do_bottom_exit:
     sbc $7e
     sta $7d
     clc
-                    ; Discard the first ten values.
+
+    ; Discard the first ten values.
+
     ldy #10
     make_room_loop0:
         jsr unlimited_values
         dey
         bne make_room_loop0
     
-                    ; Fill the room array with values.
+    ; Fill the room array with values.
+
     ldx #78
     ldy #63
     make_room_loop1:
@@ -394,9 +430,9 @@ not_tree2:
 plot_room:          ; $78,$79 = i,j (from $4ff0,$4ff1)
     jsr blank_screen
 
-    lda $4ff0
+    lda $4ff2
     sta $78
-    lda $4ff1
+    lda $4ff3
     sta $79
 
     lda #$00
@@ -615,30 +651,56 @@ plot12x24_y1:           ; $70,$71=source address
     rts
 
 
-key_input:
-    lda #129
-    ldx #158
+check_key:      ; x=key code
+    lda #129    ; returns y=255 or 0
     ldy #255
     jsr $fff4
+    rts
+
+key_input:              ; returns A=0 (no key), 1 (left), 2 (right), 3 (up)
+                        ;           4 (down), 5 (fire)
+
+    ldx #158            ; -98 (Z)
+    jsr check_key
     cpy #255
     bne not_left_key
     lda #1
-    sta $74
-    jmp exit_keys
-not_left_key:    
-    lda #129
-    ldx #151
-    ldy #255
-    jsr $fff4
+    rts
+
+not_left_key:
+    ldx #189            ; -67 (X)
+    jsr check_key
+    cpy #255
+    bne not_right_key
+    lda #2
+    rts
+
+not_right_key:
+    ldx #183            ; -73 (:)
+    jsr check_key
+    cpy #255
+    bne not_up_key
+    lda #3
+    rts
+
+not_up_key:
+    ldx #151            ; -105 (/)
+    jsr check_key
     cpy #255
     bne not_down_key
-    lda #2
-    sta $74
-    jmp exit_keys
+    lda #4
+    rts
+
 not_down_key:
+    ldx #182            ; -74 (Return)
+    jsr check_key
+    cpy #255
+    bne not_fire_key
+    lda #5
+    rts
+
+not_fire_key:
     lda #0
-    sta $74
-exit_keys:
     rts
 
 
@@ -724,10 +786,12 @@ init:
     rts
 
 start_new_game:
-    lda #5
+    lda #5          ; set starting room and current room
     sta $4ff0
+    sta $4ff2
     lda #5
     sta $4ff1
+    sta $4ff3
 
     rts
 
@@ -745,9 +809,29 @@ main:
             bne main_wait_loop
 
         jsr start_new_game
-        jsr plot_room
 
         game_loop:
+            lda $4ff2
+            sta $78
+            lda $4ff3
+            sta $79
+            jsr plot_room
+
+            key_loop:
+                jsr key_input
+                cmp #1
+                bne not_left
+                sec
+                lda $4ff3
+                sbc #1
+                sta $4ff3
+                jmp after_key_loop
+
+            not_left:
+                jmp key_loop
+
+        after_key_loop:
+            jmp game_loop
 
         jmp main_loop
     rts

@@ -59,9 +59,10 @@ if __name__ == "__main__":
     #   second character is always the player's weapon
     #   new characters are added 
     #
-    # 4FF0 current room (i, j)
-    # 4FF2 lives
-    # 4FF4 score (two bytes)
+    # 4FF0 starting room (i, j)
+    # 4FF2 current room (i, j)
+    # 4FF4 lives
+    # 4FF6 score (four bytes)
     # 4FFB palette workspace (enough for one 5 byte palette entry)
     #
     # 5000 CHARS (character sprites)
