@@ -387,6 +387,57 @@ plot:               ; $70,$71=source address
     
     rts
 
+plot_blank:         ; $72,$73=destination address
+
+    ldy #$1f
+    lda #0
+    plot_blank_loop0:
+        sta ($72),y
+        dey
+        bpl plot_blank_loop0
+
+    lda $72
+    adc #$20
+    sta $72
+    lda $73
+    adc #$01
+    sta $73         ; next line minus 0x20
+    clc
+
+    ldy #$3f
+    lda #0
+    plot_blank_loop1:
+        sta ($72),y
+        dey
+        cpy #$20
+        bpl plot_blank_loop1
+
+    lda $72
+    adc #$20
+    sta $72
+    lda $73
+    adc #$01
+    sta $73         ; next line minus 0x20
+    clc
+
+    ldy #$5f
+    lda #0
+    plot_blank_loop2:
+        sta ($72),y
+        dey
+        cpy #$40
+        bpl plot_blank_loop2
+    
+    sec
+    lda $72
+    sbc #$20
+    sta $72
+    lda $73
+    sbc #$02
+    sta $73         ; back two lines minus 0x20
+    clc
+    
+    rts
 
 plot_tile:          ; $7b=tile number
                     ; $72,$73=screen position 
@@ -419,12 +470,8 @@ not_tree1:
     clc
     jmp plot        ; optimise away the rts
 not_tree2:
-    lda #$00
-    sta $70
-    lda #$56
-    sta $71
     clc
-    jsr plot
+    jsr plot_blank
     rts
 
 plot_room:          ; $78,$79 = i,j (from $4ff0,$4ff1)
@@ -703,6 +750,23 @@ not_fire_key:
     lda #0
     rts
 
+plot_characters:
+    rts
+
+move_player:
+    jsr key_input
+    cmp #1
+    bne not_left_room
+    sec
+    lda $4ff3
+    sbc #1
+    sta $4ff3
+    sec
+    rts
+
+not_left_room:
+    clc
+    rts
 
 set_palette:
                     ; $70=logical colour
@@ -786,12 +850,27 @@ init:
     rts
 
 start_new_game:
-    lda #5          ; set starting room and current room
+
+    ; Set starting room and current room.
+
+    lda #5
     sta $4ff0
     sta $4ff2
     lda #5
     sta $4ff1
     sta $4ff3
+
+    ; Clear the character table and set player position.
+
+    ldx #234
+    clear_character_loop:
+        lda #0
+        sta $4f00,x
+        txa
+        sec
+        sbc #6
+        tax
+        bpl clear_character_loop
 
     rts
 
@@ -817,20 +896,14 @@ main:
             sta $79
             jsr plot_room
 
-            key_loop:
-                jsr key_input
-                cmp #1
-                bne not_left
-                sec
-                lda $4ff3
-                sbc #1
-                sta $4ff3
-                jmp after_key_loop
+            room_loop:
+                jsr plot_characters
+                jsr move_player
+                bcs after_room_loop
+                jmp room_loop
 
-            not_left:
-                jmp key_loop
-
-        after_key_loop:
+        after_room_loop:
+            clc
             jmp game_loop
 
         jmp main_loop

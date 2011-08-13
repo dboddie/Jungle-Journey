@@ -49,11 +49,13 @@ if __name__ == "__main__":
     # Planned memory map
     # 1900 CODE (map)
     # 1x00 space
-    # 4F00 character table (128/4 entries)
-    #   n   type
+    # 4F00 character table (0xf0/6 = 40 entries)
+    #   n   type (0 missing, 1 player, 2 projectile, 3 explosion, 4)
     #   n+1 counter/direction
-    #   n+2 x position (0-19, top bit 0-1)
-    #   n+3 y position (0-27, top bit 0-1)
+    #   n+2 room offset (0-99)
+    #   n+3 x and y steps (0-1, bits 0 and 1)
+    #   n+4 screen address (low byte)
+    #   n+5 screen address (high byte)
     #
     #   first character is always the player
     #   second character is always the player's weapon
@@ -63,6 +65,7 @@ if __name__ == "__main__":
     # 4FF2 current room (i, j)
     # 4FF4 lives
     # 4FF6 score (four bytes)
+    # 4FFA level
     # 4FFB palette workspace (enough for one 5 byte palette entry)
     #
     # 5000 CHARS (character sprites)
