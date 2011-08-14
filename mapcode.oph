@@ -505,9 +505,9 @@ plot_room:          ; $78,$79 = i,j (from $33f0,$33f1)
     lda $33f3
     sta $79
 
-    lda #$00
+    lda #$80
     sta $72
-    lda #$58
+    lda #$5a
     sta $73         ; $72,$73 = screen position
 
     jsr make_room
@@ -546,7 +546,7 @@ plot_room:          ; $78,$79 = i,j (from $33f0,$33f1)
         adc #$02
         sta $73
         clc
-        cmp #$7d
+        cmp #$80
         beq end_rows
 
         jmp row_loop
@@ -812,8 +812,8 @@ not_fire_key:
 player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50
 player_direction_chars_high: .byte $34,$34,$34,$34,$34,$34,$35,$35
 
-screen_rows_low: .byte $00,$c0,$80,$40,$00,$c0,$80,$40,$00,$c0
-screen_rows_high: .byte $58,$5b,$5f,$63,$67,$6a,$6e,$72,$76,$79
+screen_rows_low: .byte $80,$40,$00,$c0,$80,$40,$00,$c0,$80,$40
+screen_rows_high: .byte $5a,$5e,$62,$65,$69,$6d,$71,$74,$78,$7c
 screen_subrows_low: .byte $00,$04,$40,$44,$80,$84
 screen_subrows_high: .byte $00,$00,$01,$01,$02,$02
 
