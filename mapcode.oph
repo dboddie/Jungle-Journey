@@ -928,31 +928,42 @@ animate_player_left:
     sta $3301
     rts
 
+animate_player_right:
+
+    ; Set the direction and toggle the animation bit.
+
+    lda $3301
+    and #1      ; remove direction information (result is 0)
+    eor #1      ; toggle animation flag
+    ora #2      ; right
+    sta $3301
+    rts
+
 move_player:
 
-    ldx #158            ; handle left key
+    ; Handle the left key.
+
+    ldx #158            ; (Z)
     jsr check_key
     cpy #255
     bne move_player_not_left_key
 
-    ; Handle the left key.
-
     lda $3305           ; read dx
     cmp #0
-    beq move_player_check_x
+    beq move_player_left_check_x
 
     dec $3305
     clc
     jmp animate_player_left ; optimise away the rts
     
-    move_player_check_x:    ; Check the x offset.
+    move_player_left_check_x:   ; Check the x offset.
 
     lda $3304
     cmp #0
     beq move_player_leave_room_left
 
     sec
-    sbc #1                  ; x - 1
+    sbc #1                      ; x - 1
     tay
     lda $3302                   ; load the y offset
     tax                         ; as an index
@@ -998,12 +1009,93 @@ move_player:
     sta $3305
 
     sec                     ; indicate to the calling routine that the player
-    jsr animate_player_left ; has left the room
-    rts
+    jmp animate_player_left ; has left the room (optimising away the rts)
 
     move_player_not_left_key:
 
-    move_player_not_up_key:
+    ; Handle the right key.
+
+    ldx #189            ; (X)
+    jsr check_key
+    cpy #255
+    bne move_player_not_right_key
+
+    lda $3305                   ; read dx
+    cmp #2
+    bpl move_player_right_check_x
+
+    inc $3305
+    clc
+    jmp animate_player_right    ; optimise away the rts
+    
+    move_player_right_check_x:  ; Check the x offset.
+
+    lda $3304
+    cmp #9
+    beq move_player_leave_room_right
+
+    clc
+    adc #1                      ; x + 1
+    tay
+    lda $3302                   ; load the y offset
+    tax                         ; as an index
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile to the right
+
+    cmp #0
+    bne move_player_not_right_key
+
+    lda $3303                   ; dy
+    cmp #0
+    bne move_player_allow_right
+    lda $70
+    adc #10
+    lda ($70),y                 ; load the tile below and to the right
+
+    cmp #0
+    bne move_player_not_right_key
+
+    move_player_allow_right:
+
+    lda $3305                   ; only if the player is leaving the tile
+    cmp #3                      ; do we update the x offset
+    beq move_player_right_tile
+
+    inc $3305                   ; otherwise, we update dx instead
+    clc
+    jmp animate_player_right    ; optimise away the rts
+
+    move_player_right_tile:
+
+    tya
+    sta $3304               ; store the new room x offset
+    lda #0
+    sta $3305               ; dx = 0
+    clc
+    jmp animate_player_right ; optimise away the rts
+
+    move_player_leave_room_right:
+    clc
+    lda $33f3
+    adc #1
+    sta $33f3
+    clc
+
+    ; Set the player's position on the left of the screen.
+
+    lda #0      ; x = 0
+    sta $3304
+    lda #0      ; dx = 0
+    sta $3305
+
+    sec                         ; indicate to the calling routine that the
+    jmp animate_player_right    ; player has left the room (optimising away the
+                                ; rts)
+
+    move_player_not_right_key:
     clc
     rts
 
