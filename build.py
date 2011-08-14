@@ -49,15 +49,13 @@ if __name__ == "__main__":
     # Planned memory map
     # 1900 CODE (map)
     # 1x00 space
-    # 3300 character table (0xf0/8 = 30 entries)
+    # 3300 character table (0xf0/6 = 40 entries)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion, 4)
-    #   n+1 counter/direction
-    #   n+2 x room offset (0-10)
-    #   n+3 y room offset (0-10)
-    #   n+4 screen address (low byte)
-    #   n+5 screen address (high byte)
-    #   n+6 dx (0-3)
-    #   n+7 dy (0-5)
+    #   n+1 counter/direction (player: bit 1 is direction, bit 0 is animation)
+    #   n+2 y room offset (0-10)
+    #   n+3 dy (0-5)
+    #   n+4 x room offset (0-10)
+    #   n+5 dx (0-3)
     #
     #   first character is always the player
     #   second character is always the player's weapon

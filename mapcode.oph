@@ -23,38 +23,42 @@ after_divide_loop:
     clc
     rts             ; A % 9
 
+tile_values_map: .byte 0,1,0,0,0,0,2,3
+
 next_value:         ; no argument
     jsr unlimited_values
     lda $7d
     jsr div9
-    and #7
+    and #7          ; (next value % 9) & 7
+    tax
+    lda tile_values_map,x
     sta $7b
-    rts             ; $7b = (next value % 9) & 3
+    rts
 
 ; Room filling routines, writing to 0x579c to 0x57ff.
 
 draw_top_line:
     ldx #9
-    lda #6
+    lda #2
 
     draw_top_line_loop0:
-        sta $57f6,x
+        sta $579c,x
         dex
         bpl draw_top_line_loop0
 
-    ldx #3
+    ldx #3                      ; draw the exit or wall
     lda $76
     draw_top_line_loop1:
-        sta $57f9,x
+        sta $579f,x
         dex
         bpl draw_top_line_loop1
     clc
     rts
 
 draw_left_line:
-    ldx #99
+    ldx #90
     draw_left_line_loop0:
-        lda #6
+        lda #2
         sta $579c,x
         txa
         sec
@@ -62,7 +66,7 @@ draw_left_line:
         tax
         bpl draw_left_line_loop0
 
-    ldx #39
+    ldx #30
     draw_left_line_loop1:
         lda $77
         sta $57ba,x
@@ -76,25 +80,25 @@ draw_left_line:
 
 draw_bottom_line:
     ldx #9
-    lda #6
+    lda #2
     draw_bottom_line_loop0:
-        sta $579c,x
+        sta $57f6,x
         dex
         bpl draw_bottom_line_loop0
 
     ldx #3
     lda $76
     draw_bottom_line_loop1:
-        sta $579f,x
+        sta $57f9,x
         dex
         bpl draw_bottom_line_loop1
     clc
     rts
 
 draw_right_line:
-    ldx #90
+    ldx #99
     draw_right_line_loop0:
-        lda #6
+        lda #2
         sta $579c,x
         txa
         sec
@@ -105,7 +109,7 @@ draw_right_line:
     ldx #30
     draw_right_line_loop1:
         lda $77
-        sta $57ba,x
+        sta $57c3,x
         txa
         sec
         sbc #10
@@ -116,14 +120,24 @@ draw_right_line:
 
 make_room:          ; $78,$79=i,j
 
-; Determine if there is a top exit.
+    ; Fill the room with empty space.
+
+    ldx #100
+    make_empty_room_loop:
+        lda #0
+        sta $579c,x
+        dex
+        bpl make_empty_room_loop
+
+    ; Determine if there is a top exit.
+
     lda #0
     sta $76
 
     lda $78         ; i == 0
     cmp #0
     bne not_top_screen
-    lda #6
+    lda #2
     sta $76
     jmp do_top_exit
 not_top_screen:
@@ -144,7 +158,7 @@ not_top_screen:
     clc
     cmp $79         ; (i ^ j) + i == j
     bne do_top_exit
-    lda #6
+    lda #2
     sta $76         ; top exit
 
 do_top_exit:
@@ -157,7 +171,7 @@ do_top_exit:
     lda $79
     cmp #0
     bne not_left_screen
-    lda #6
+    lda #2
     sta $77
     jmp do_left_exit
 not_left_screen:
@@ -177,7 +191,7 @@ not_left_screen:
     eor $79         ; ^ j
     cmp $78         ; (i | j) ^ j == i
     bne do_left_exit
-    lda #6
+    lda #2
     sta $77         ; left exit
 
 do_left_exit:
@@ -190,7 +204,7 @@ do_left_exit:
     lda $79
     cmp #10
     bne not_right_screen
-    lda #6
+    lda #2
     sta $77
     jmp do_right_exit
 not_right_screen:
@@ -215,7 +229,7 @@ not_right_screen:
     eor $70         ; ^ j
     cmp $78         ; (i | j) ^ j == i
     bne do_right_exit
-    lda #6
+    lda #2
     sta $77         ; right exit
 
 do_right_exit:
@@ -228,7 +242,7 @@ do_right_exit:
     lda $78
     cmp #10
     bne not_bottom_screen
-    lda #6
+    lda #2
     sta $76
     jmp do_bottom_exit
 not_bottom_screen:
@@ -252,7 +266,7 @@ not_bottom_screen:
     adc $70         ; + i
     cmp $79         ; (i ^ j) + i == j
     bne do_bottom_exit
-    lda #6
+    lda #2
     sta $76         ; bottom exit
 
 do_bottom_exit:
@@ -267,28 +281,9 @@ do_bottom_exit:
     cmp $33f1
     bne not_starting_room
 
-    clc
-
-    ; Fill the room with empty space.
-
-    ldx #78
-    ldy #63
-    make_empty_room_loop:
-        lda #0
-        sta $57a6,x
-        dey
-        tya
-        and #7
-        cmp #7
-        bne finished_empty_room
-    dex
-    dex
-
-finished_empty_room:
-    clc
     rts
 
-not_starting_room:
+    not_starting_room:
     clc
 
     ; Fill in the room details.
@@ -314,24 +309,30 @@ not_starting_room:
     
     ; Fill the room array with values.
 
-    ldx #78
-    ldy #63
-    make_room_loop1:
-        jsr next_value
-        sta $57a6,x
-        dey
-        tya
-        and #7
-        cmp #7
-        bne next1
-    dex
-    dex
+    lda #$a7
+    sta $70
+    lda #$57
+    sta $71
 
-next1:
-    clc
-    dex
-    bpl make_room_loop1
+    ldy #0
+    make_room_loop1:
+
+        jsr next_value
+        sta ($70),y
+        iny
+        cpy #8
+        bne make_room_loop1     ; continue the same row
+
+        lda $70
+        cmp #$ed
+        beq make_room_loop1_exit    ; exit after the last row
+
+        adc #10
+        sta $70
+        ldy #0                  ; reset the row counter
+        jmp make_room_loop1
     
+    make_room_loop1_exit:
     rts
 
 
@@ -452,7 +453,7 @@ plot_tile:          ; $7b=tile number
     jmp plot_not_blank
 
 not_flowers:
-    cmp #6
+    cmp #2
     bne not_tree1
     lda #$60
     sta $70
@@ -461,7 +462,7 @@ not_flowers:
     jmp plot_not_blank
 
 not_tree1:
-    cmp #7
+    cmp #3
     bne not_tree2
     lda #$c0
     sta $70
@@ -511,7 +512,7 @@ plot_room:          ; $78,$79 = i,j (from $33f0,$33f1)
 
     jsr make_room
 
-    lda #99
+    lda #0
     sta $7a
     row_loop:
 
@@ -526,8 +527,7 @@ plot_room:          ; $78,$79 = i,j (from $33f0,$33f1)
             jsr plot_tile
 
             lda $7a
-            sec
-            sbc #1
+            adc #1
             sta $7a
             lda $76
             sec
@@ -580,6 +580,7 @@ plot8x24_y0:            ; $70,$71=source address
 
     plotloop8x24_y0_0:
         lda ($70),y
+        eor ($72),y
         sta ($72),y
         dey
         bpl plotloop8x24_y0_0
@@ -597,6 +598,7 @@ plot8x24_y0:            ; $70,$71=source address
 
     plotloop8x24_y0_1:
         lda ($70),y
+        eor ($72),y
         sta ($72),y
         dey
         cpy #16
@@ -615,6 +617,7 @@ plot8x24_y0:            ; $70,$71=source address
 
     plotloop8x24_y0_2:
         lda ($70),y
+        eor ($72),y
         sta ($72),y
         dey
         cpy #32
@@ -647,6 +650,7 @@ plot8x24_y1:            ; $70,$71=source address
 
         plotloop8x24_y1_0:
             lda ($70),y
+            eor ($72),y
             sta ($72),y
             dey
             bpl plotloop8x24_y1_0
@@ -656,6 +660,7 @@ plot8x24_y1:            ; $70,$71=source address
 
         plotloop8x24_y1_1:
             lda ($70),y
+            eor ($72),y
             sta ($72),y
             dey
             cpy #8
@@ -682,6 +687,7 @@ plot8x24_y1:            ; $70,$71=source address
 
         plotloop8x24_y1_2:
             lda ($70),y
+            eor ($72),y
             sta ($72),y
             dey
             bpl plotloop8x24_y1_2
@@ -691,6 +697,7 @@ plot8x24_y1:            ; $70,$71=source address
 
         plotloop8x24_y1_3:
             lda ($70),y
+            eor ($72),y
             sta ($72),y
             dey
             cpy #8
@@ -805,107 +812,149 @@ not_fire_key:
 player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50
 player_direction_chars_high: .byte $34,$34,$34,$34,$34,$34,$35,$35
 
+screen_rows_low: .byte $00,$c0,$80,$40,$00,$c0,$80,$40,$00,$c0
+screen_rows_high: .byte $58,$5b,$5f,$63,$67,$6a,$6e,$72,$76,$79
+screen_subrows_low: .byte $00,$04,$40,$44,$80,$84
+screen_subrows_high: .byte $00,$00,$01,$01,$02,$02
+
+screen_columns_low: .byte $00,$20,$40,$60,$80,$a0,$c0,$e0,$00,$20
+screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
+screen_subcolumns_low: .byte $00,$08,$10,$18
+
 plot_characters:
 
-    lda $3300
-    cmp #1
-    bne plot_characters_loop
-    clc
+    lda #$00
+    sta $74
+    lda #$33
+    sta $75
 
-    ; Use lookup tables to load the offsets into the sprite.
-
-    lda $3301   ; direction
-    tax
-    lda player_direction_chars_low,x
-    sta $70
-    lda player_direction_chars_high,x
-    sta $71
-
-    ; Load the screen address.
-
-    lda $3304
-    sta $72
-    lda $3305
-    sta $73
-
-    ; Use the dy value to determine which plotting routine to use.
-
-    lda $3307
-    and #1
-    bne plot_characters_plot_player1
-
-    jsr plot8x24_y0
-    jmp plot_characters_array
-
-plot_characters_plot_player1:
-    clc
-    jsr plot8x24_y1
-
-plot_characters_array:
-    ldx #6
-
+    ldy #0
     plot_characters_loop:
-        lda $3300,x
-        txa
-        clc
-        adc #6
-        cmp #234
-        tax
-        bne plot_characters_loop
 
+        lda ($74),y
+        cmp #1
+        bne plot_characters_next
+
+        ; Use lookup tables to load the offsets into the sprite.
+
+        ; Direction
+        iny
+        lda ($74),y
+        tax
+        lda player_direction_chars_low,x
+        sta $70
+        lda player_direction_chars_high,x
+        sta $71
+
+        ; y
+        iny
+        lda ($74),y
+        tax
+        lda screen_rows_low,x
+        sta $72
+        lda screen_rows_high,x
+        sta $73
+        clc
+
+        ; dy
+        iny
+        lda ($74),y
+        tax
+        lda screen_subrows_low,x
+        adc $72
+        sta $72
+        lda screen_subrows_high,x
+        adc $73
+        sta $73
+        clc
+
+        ; x
+        iny
+        lda ($74),y
+        tax
+        lda screen_columns_low,x
+        adc $72
+        sta $72
+        lda screen_columns_high,x
+        adc $73
+        sta $73
+        clc
+
+        ; dx
+        iny
+        lda ($74),y
+        tax
+        lda screen_subcolumns_low,x
+        adc $72
+        sta $72
+        clc
+
+        ; Use the dy value to determine which plotting routine to use.
+
+        iny
+        lda ($74),y
+        and #1
+        bne plot_characters_plot_player1
+
+        jsr plot8x24_y0
+        jmp plot_characters_exit
+
+        plot_characters_plot_player1:
+        clc
+        jsr plot8x24_y1
+
+        plot_characters_next:
+        clc
+
+        ; Examine the next character.
+
+        iny
+        bcc plot_characters_loop
+
+    plot_characters_exit:
+    clc
     rts
 
+; Note that the room offsets reflect that the room is 
 room_row_offsets_low: .byte $9c,$a6,$b0,$ba,$c4,$ce,$d8,$e2,$ec,$f6
 
-move_player_left:
+animate_player_left:
 
-    ; Decrement dx and subtract 8 from the screen address.
+    ; Set the direction and toggle the animation bit.
 
     lda $3301
-    and #254    ; remove direction information
+    and #1      ; remove direction information (result is 0)
     eor #1      ; toggle animation flag
     sta $3301
-    lda #0      ; direction = 0
-    sta $3301
-
-    dec $3306
-    bpl move_player_left_not_underflow
-    lda #3
-    sta $3306
-
-move_player_left_not_underflow:
-    sec
-    lda $3304   ; screen position -= 8
-    sbc #8
-    sta $3304
-    clc
     rts
 
 move_player:
-    jsr key_input
-    cmp #1
+
+    ldx #158            ; handle left key
+    jsr check_key
+    cpy #255
     bne move_player_not_left_key
 
     ; Handle the left key.
 
-    lda $3306           ; read dx
+    lda $3305           ; read dx
     cmp #0
     beq move_player_check_x
 
-    jmp move_player_left    ; optimise rts
+    dec $3305
+    clc
+    jmp animate_player_left ; optimise away the rts
+    
+    move_player_check_x:    ; Check the x offset.
 
-move_player_check_x:
-
-    ; Check the x offset.
-
-    lda $3302
+    lda $3304
     cmp #0
     beq move_player_leave_room_left
 
     sec
-    sbc #1                  ; dx = dx - 1
+    sbc #1                  ; x - 1
     tay
-    lda $3303                   ; load the y offset
+    lda $3302                   ; load the y offset
     tax                         ; as an index
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -916,13 +965,25 @@ move_player_check_x:
     cmp #0
     bne move_player_not_left_key
 
-    tya
-    sta $3302               ; store the new room x offset
-    lda #3
-    sta $3306               ; dx = 3
-    jmp move_player_left    ; optimise rts
+    lda $3303               ; dy
+    cmp #0
+    bne move_player_allow_left
+    lda $70
+    adc #10
+    lda ($70),y             ; load the tile below and to the left
 
-move_player_leave_room_left:
+    cmp #0
+    bne move_player_not_left_key
+
+    move_player_allow_left:
+    tya
+    sta $3304               ; store the new room x offset
+    lda #3
+    sta $3305               ; dx = 3
+    clc
+    jmp animate_player_left ; optimise away the rts
+
+    move_player_leave_room_left:
     sec
     lda $33f3
     sbc #1
@@ -932,22 +993,17 @@ move_player_leave_room_left:
     ; Set the player's position on the right of the screen.
 
     lda #9      ; x = 9
-    sta $3302
-    lda #2      ; dx = 2
-    sta $3306
-
-    lda $3304
-    adc #$30
     sta $3304
-    lda $3305
-    adc #0
+    lda #2      ; dx = 2
     sta $3305
-    
-    sec
+
+    sec                     ; indicate to the calling routine that the player
+    jsr animate_player_left ; has left the room
     rts
 
-not_left_room:
-move_player_not_left_key:
+    move_player_not_left_key:
+
+    move_player_not_up_key:
     clc
     rts
 
@@ -1073,20 +1129,16 @@ start_new_game:
 
     lda #1      ; player
     sta $3300
-    lda #3      ; down
+    lda #6      ; down (first frame)
     sta $3301
-    lda #5      ; x=5
-    sta $3302
     lda #5      ; y=5
-    sta $3303
-    lda #$60    ; centre of the screen
-    sta $3304
-    lda #$6b
-    sta $3305
-    lda #0      ; dx=0
-    sta $3306
+    sta $3302
     lda #0      ; dy=0
-    sta $3307
+    sta $3303
+    lda #5      ; x=5
+    sta $3304
+    lda #0      ; dx=0
+    sta $3305
     rts
 
 main:
@@ -1110,11 +1162,21 @@ main:
             lda $33f3
             sta $79
             jsr plot_room
+            jsr plot_characters
 
             room_loop:
-                jsr plot_characters
+                lda #19
+                jsr $fff4
+                jsr plot_characters ; unplot
                 jsr move_player
                 bcs after_room_loop
+
+                jsr plot_characters ; plot
+                ldx #157
+                jsr check_key
+                cpy #255
+                beq exit
+                clc
                 jmp room_loop
 
         after_room_loop:
@@ -1122,4 +1184,7 @@ main:
             jmp game_loop
 
         jmp main_loop
+
+    exit:
+    clc
     rts
