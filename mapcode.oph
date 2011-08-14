@@ -261,10 +261,10 @@ do_bottom_exit:
     ; Make sure that the starting room is empty.
 
     lda $78
-    cmp $4ff0
+    cmp $33f0
     bne not_starting_room
     lda $79
-    cmp $4ff1
+    cmp $33f1
     bne not_starting_room
 
     clc
@@ -445,41 +445,63 @@ plot_tile:          ; $7b=tile number
     lda $7b
     cmp #1
     bne not_flowers
-    lda #$60
+    lda #$00
     sta $70
-    lda #$56
+    lda #$53
     sta $71
-    clc
-    jmp plot        ; optimise away the rts
+    jmp plot_not_blank
+
 not_flowers:
     cmp #6
     bne not_tree1
-    lda #$c0
+    lda #$60
     sta $70
-    lda #$56
+    lda #$53
     sta $71
-    clc
-    jmp plot        ; optimise away the rts
+    jmp plot_not_blank
+
 not_tree1:
     cmp #7
     bne not_tree2
-    lda #$20
+    lda #$c0
     sta $70
-    lda #$57
+    lda #$53
     sta $71
-    clc
-    jmp plot        ; optimise away the rts
+    jmp plot_not_blank
+
 not_tree2:
     clc
-    jsr plot_blank
+    jmp plot_blank      ; optimise away the rts
+
+plot_not_blank:
+    clc
+    lda $33fa
+    and #3
+    tax
+    plot_add_loop:
+        cpx #0
+        beq after_plot_add_loop
+        clc
+        lda $70
+        adc #$20
+        sta $70
+        lda $71
+        adc #$01
+        sta $71
+        dex
+        jmp plot_add_loop
+
+after_plot_add_loop:
+    clc
+    jsr plot
     rts
 
-plot_room:          ; $78,$79 = i,j (from $4ff0,$4ff1)
+plot_room:          ; $78,$79 = i,j (from $33f0,$33f1)
     jsr blank_screen
 
-    lda $4ff2
+    lda $33f2
     sta $78
-    lda $4ff3
+    lda $33f3
     sta $79
 
     lda #$00
@@ -552,15 +574,15 @@ end_rows:
 
 
 
-plot12x24_y0:           ; $70,$71=source address
+plot8x24_y0:            ; $70,$71=source address
                         ; $72,$73=destination address
     ldy #15
 
-    plotloop12x24_y0_0:
+    plotloop8x24_y0_0:
         lda ($70),y
         sta ($72),y
         dey
-        bpl plotloop12x24_y0_0
+        bpl plotloop8x24_y0_0
     clc
 
     lda $72
@@ -573,12 +595,12 @@ plot12x24_y0:           ; $70,$71=source address
 
     ldy #31
 
-    plotloop12x24_y0_1:
+    plotloop8x24_y0_1:
         lda ($70),y
         sta ($72),y
         dey
         cpy #16
-        bpl plotloop12x24_y0_1
+        bpl plotloop8x24_y0_1
     clc
 
     lda $72
@@ -591,15 +613,14 @@ plot12x24_y0:           ; $70,$71=source address
 
     ldy #47
 
-    plotloop12x24_y0_2:
+    plotloop8x24_y0_2:
         lda ($70),y
         sta ($72),y
         dey
         cpy #32
-        bpl plotloop12x24_y0_2
+        bpl plotloop8x24_y0_2
 
     rts
-
 
 ; Sprite data stored in memory: 00 11 22 33 44 55 66 77 88 99 aa bb
 ;
@@ -615,30 +636,30 @@ plot12x24_y0:           ; $70,$71=source address
 ;
 ; 99 bb
 
-plot12x24_y1:           ; $70,$71=source address
+plot8x24_y1:            ; $70,$71=source address
                         ; $72,$73=destination address
 
     ldx #2
 
-    plotloop12x24_y1_loop:
+    plotloop8x24_y1_loop:
 
         ldy #3
 
-        plotloop12x24_y1_0:
+        plotloop8x24_y1_0:
             lda ($70),y
             sta ($72),y
             dey
-            bpl plotloop12x24_y1_0
+            bpl plotloop8x24_y1_0
         clc
 
         ldy #11
 
-        plotloop12x24_y1_1:
+        plotloop8x24_y1_1:
             lda ($70),y
             sta ($72),y
             dey
             cpy #8
-            bpl plotloop12x24_y1_1
+            bpl plotloop8x24_y1_1
         clc
 
         lda $70
@@ -659,21 +680,21 @@ plot12x24_y1:           ; $70,$71=source address
 
         ldy #3
 
-        plotloop12x24_y1_2:
+        plotloop8x24_y1_2:
             lda ($70),y
             sta ($72),y
             dey
-            bpl plotloop12x24_y1_2
+            bpl plotloop8x24_y1_2
         clc
 
         ldy #11
 
-        plotloop12x24_y1_3:
+        plotloop8x24_y1_3:
             lda ($70),y
             sta ($72),y
             dey
             cpy #8
-            bpl plotloop12x24_y1_3
+            bpl plotloop8x24_y1_3
         clc
 
         lda $70
@@ -693,7 +714,38 @@ plot12x24_y1:           ; $70,$71=source address
         clc
 
         dex
-        bpl plotloop12x24_y1_loop
+        bpl plotloop8x24_y1_loop
+
+    rts
+
+plot16x16_y0:           ; $70,$71=source address
+                        ; $72,$73=destination address
+    ldy #31
+
+    plotloop16x16_y0_0:
+        lda ($70),y
+        sta ($72),y
+        dey
+        bpl plotloop16x16_y0_0
+    clc
+
+    lda $72
+    adc #$20
+    sta $72
+    lda $73
+    adc #$01
+    sta $73     ; 0x140 - 32
+    clc
+
+    ldy #63
+
+    plotloop16x16_y0_1:
+        lda ($70),y
+        sta ($72),y
+        dey
+        cpy #32
+        bpl plotloop16x16_y0_1
+    clc
 
     rts
 
@@ -750,21 +802,152 @@ not_fire_key:
     lda #0
     rts
 
+player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50
+player_direction_chars_high: .byte $34,$34,$34,$34,$34,$34,$35,$35
+
 plot_characters:
+
+    lda $3300
+    cmp #1
+    bne plot_characters_loop
+    clc
+
+    ; Use lookup tables to load the offsets into the sprite.
+
+    lda $3301   ; direction
+    tax
+    lda player_direction_chars_low,x
+    sta $70
+    lda player_direction_chars_high,x
+    sta $71
+
+    ; Load the screen address.
+
+    lda $3304
+    sta $72
+    lda $3305
+    sta $73
+
+    ; Use the dy value to determine which plotting routine to use.
+
+    lda $3307
+    and #1
+    bne plot_characters_plot_player1
+
+    jsr plot8x24_y0
+    jmp plot_characters_array
+
+plot_characters_plot_player1:
+    clc
+    jsr plot8x24_y1
+
+plot_characters_array:
+    ldx #6
+
+    plot_characters_loop:
+        lda $3300,x
+        txa
+        clc
+        adc #6
+        cmp #234
+        tax
+        bne plot_characters_loop
+
+    rts
+
+room_row_offsets_low: .byte $9c,$a6,$b0,$ba,$c4,$ce,$d8,$e2,$ec,$f6
+
+move_player_left:
+
+    ; Decrement dx and subtract 8 from the screen address.
+
+    lda $3301
+    and #254    ; remove direction information
+    eor #1      ; toggle animation flag
+    sta $3301
+    lda #0      ; direction = 0
+    sta $3301
+
+    dec $3306
+    bpl move_player_left_not_underflow
+    lda #3
+    sta $3306
+
+move_player_left_not_underflow:
+    sec
+    lda $3304   ; screen position -= 8
+    sbc #8
+    sta $3304
+    clc
     rts
 
 move_player:
     jsr key_input
     cmp #1
-    bne not_left_room
+    bne move_player_not_left_key
+
+    ; Handle the left key.
+
+    lda $3306           ; read dx
+    cmp #0
+    beq move_player_check_x
+
+    jmp move_player_left    ; optimise rts
+
+move_player_check_x:
+
+    ; Check the x offset.
+
+    lda $3302
+    cmp #0
+    beq move_player_leave_room_left
+
     sec
-    lda $4ff3
+    sbc #1                  ; dx = dx - 1
+    tay
+    lda $3303                   ; load the y offset
+    tax                         ; as an index
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y             ; load the tile to the left
+
+    cmp #0
+    bne move_player_not_left_key
+
+    tya
+    sta $3302               ; store the new room x offset
+    lda #3
+    sta $3306               ; dx = 3
+    jmp move_player_left    ; optimise rts
+
+move_player_leave_room_left:
+    sec
+    lda $33f3
     sbc #1
-    sta $4ff3
+    sta $33f3
+    clc
+
+    ; Set the player's position on the right of the screen.
+
+    lda #9      ; x = 9
+    sta $3302
+    lda #2      ; dx = 2
+    sta $3306
+
+    lda $3304
+    adc #$30
+    sta $3304
+    lda $3305
+    adc #0
+    sta $3305
+    
     sec
     rts
 
 not_left_room:
+move_player_not_left_key:
     clc
     rts
 
@@ -772,17 +955,17 @@ set_palette:
                     ; $70=logical colour
                     ; $71=physical colour
     lda $70
-    sta $4ffb
+    sta $33fb
     lda $71
-    sta $4ffc
+    sta $33fc
     lda #0
-    sta $4ffd
-    sta $4ffe
-    sta $4fff
+    sta $33fd
+    sta $33fe
+    sta $33ff
 
     lda #$c         
     ldx #$fb
-    ldy #$4f
+    ldy #$33
     jsr $fff1
     rts
 
@@ -808,15 +991,26 @@ sprites_file_name: .byte "SPRITES", 13
 chars_file_name: .byte "CHARS", 13
 
 sprites_block: .byte <sprites_file_name, >sprites_file_name
-               .byte 0, $56, 0, 0
-               .byte 0, $56, 0, 0
+               .byte 0, $53, 0, 0
+               .byte 0, $53, 0, 0
+               .byte $60, $03, 0, 0
+               .byte $60, $56, 0, 0
+
+chars_block: .byte <chars_file_name, >chars_file_name
+               .byte 0, $34, 0, 0
+               .byte 0, $34, 0, 0
                .byte $80, $01, 0, 0
-               .byte $80, $57, 0, 0
+               .byte $80, $35, 0, 0
 
 init:
     lda #255
     ldx #<sprites_block
     ldy #>sprites_block
+    jsr $ffdd
+
+    lda #255
+    ldx #<chars_block
+    ldy #>chars_block
     jsr $ffdd
 
     lda #22         ; MODE 5
@@ -851,27 +1045,48 @@ init:
 
 start_new_game:
 
+    ; Set level.
+
+    lda #0
+    sta $33fa
+
     ; Set starting room and current room.
 
     lda #5
-    sta $4ff0
-    sta $4ff2
+    sta $33f0
+    sta $33f2
     lda #5
-    sta $4ff1
-    sta $4ff3
+    sta $33f1
+    sta $33f3
 
     ; Clear the character table and set player position.
 
     ldx #234
     clear_character_loop:
         lda #0
-        sta $4f00,x
+        sta $3300,x
         txa
         sec
         sbc #6
         tax
         bpl clear_character_loop
 
+    lda #1      ; player
+    sta $3300
+    lda #3      ; down
+    sta $3301
+    lda #5      ; x=5
+    sta $3302
+    lda #5      ; y=5
+    sta $3303
+    lda #$60    ; centre of the screen
+    sta $3304
+    lda #$6b
+    sta $3305
+    lda #0      ; dx=0
+    sta $3306
+    lda #0      ; dy=0
+    sta $3307
     rts
 
 main:
@@ -890,9 +1105,9 @@ main:
         jsr start_new_game
 
         game_loop:
-            lda $4ff2
+            lda $33f2
             sta $78
-            lda $4ff3
+            lda $33f3
             sta $79
             jsr plot_room
 

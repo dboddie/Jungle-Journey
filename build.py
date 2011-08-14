@@ -49,27 +49,38 @@ if __name__ == "__main__":
     # Planned memory map
     # 1900 CODE (map)
     # 1x00 space
-    # 4F00 character table (0xf0/6 = 40 entries)
+    # 3300 character table (0xf0/8 = 30 entries)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion, 4)
     #   n+1 counter/direction
-    #   n+2 room offset (0-99)
-    #   n+3 x and y steps (0-1, bits 0 and 1)
+    #   n+2 x room offset (0-10)
+    #   n+3 y room offset (0-10)
     #   n+4 screen address (low byte)
     #   n+5 screen address (high byte)
+    #   n+6 dx (0-3)
+    #   n+7 dy (0-5)
     #
     #   first character is always the player
     #   second character is always the player's weapon
     #   new characters are added 
     #
-    # 4FF0 starting room (i, j)
-    # 4FF2 current room (i, j)
-    # 4FF4 lives
-    # 4FF6 score (four bytes)
-    # 4FFA level
-    # 4FFB palette workspace (enough for one 5 byte palette entry)
+    # 33F0 starting room (i, j)
+    # 33F2 current room (i, j)
+    # 33F4 lives
+    # 33F6 score (four bytes)
+    # 33FA level
+    # 33FB palette workspace (enough for one 5 byte palette entry)
     #
-    # 5000 CHARS (character sprites)
-    # 5600 SPRITES (map)
+    # 3400 CHARS (character sprites)
+    #   4 * 2 * 0x30 (player movement)
+    #       4 * 0x30 (player demise)
+    #   3 * 2 * 0x10 (projectile)
+    #   4 * 2 * 0x40 (enemies)
+    #       4 * 0x40 (enemy demise)
+    #       3 * 0x40 (weapons)
+    #       4 * 0x40 (treasure)
+    #       1 * 0x40 (exit)
+    #
+    # 5300 SPRITES (map)
     # 5780 space
     # 579c room data (generated)
     # 5800 screen memory
@@ -91,10 +102,10 @@ if __name__ == "__main__":
     files.append(("CODE", code_start, addresses[-1], code))
     
     data = makesprites.read_sprites(makesprites.chars)
-    files.append(("CHARS", 0x5000, 0x5000, data))
+    files.append(("CHARS", 0x3400, 0x3400, data))
     
     data = makesprites.read_sprites(makesprites.tiles)
-    files.append(("SPRITES", 0x5600, 0x5600, data))
+    files.append(("SPRITES", 0x5300, 0x5300, data))
     
     t = read_basic("LOADER").replace("{addr}", "%X" % addresses[-4])
     
