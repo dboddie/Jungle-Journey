@@ -859,6 +859,7 @@ plot_characters:
         ; dy
         iny
         lda ($74),y
+        sta $76
         tax
         lda screen_subrows_low,x
         adc $72
@@ -891,8 +892,7 @@ plot_characters:
 
         ; Use the dy value to determine which plotting routine to use.
 
-        iny
-        lda ($74),y
+        lda $76
         and #1
         bne plot_characters_plot_player1
 
@@ -903,13 +903,22 @@ plot_characters:
         clc
         jsr plot8x24_y1
 
-        plot_characters_next:
-        clc
-
         ; Examine the next character.
 
         iny
-        bcc plot_characters_loop
+        cpy #$f0
+        bmi plot_characters_loop
+
+        plot_characters_next:
+        clc
+        
+        ; Examine the next character.
+        tya
+        adc #6
+        tay
+
+        cpy #$f0
+        bmi plot_characters_loop
 
     plot_characters_exit:
     clc
@@ -923,9 +932,9 @@ animate_player_left:
     ; Set the direction and toggle the animation bit.
 
     lda $3301
-    and #1      ; remove direction information (result is 0)
+    and #1
     eor #1      ; toggle animation flag
-    sta $3301
+    sta $3301   ; left (directional bits are 0)
     rts
 
 animate_player_right:
@@ -936,6 +945,28 @@ animate_player_right:
     and #1      ; remove direction information (result is 0)
     eor #1      ; toggle animation flag
     ora #2      ; right
+    sta $3301
+    rts
+
+animate_player_up:
+
+    ; Set the direction and toggle the animation bit.
+
+    lda $3301
+    and #1      ; remove direction information (result is 0)
+    eor #1      ; toggle animation flag
+    ora #4      ; up
+    sta $3301
+    rts
+
+animate_player_down:
+
+    ; Set the direction and toggle the animation bit.
+
+    lda $3301
+    and #1      ; remove direction information (result is 0)
+    eor #1      ; toggle animation flag
+    ora #6      ; down
     sta $3301
     rts
 
@@ -978,9 +1009,12 @@ move_player:
 
     lda $3303               ; dy
     cmp #0
-    bne move_player_allow_left
-    lda $70
+    beq move_player_allow_left
+
+    clc
+    lda $70                 ; dy > 0 so we need to check another tile
     adc #10
+    sta $70
     lda ($70),y             ; load the tile below and to the left
 
     cmp #0
@@ -1050,9 +1084,12 @@ move_player:
 
     lda $3303                   ; dy
     cmp #0
-    bne move_player_allow_right
+    beq move_player_allow_right
+
+    clc                         ; dy > 0 so we need to check another tile
     lda $70
     adc #10
+    sta $70
     lda ($70),y                 ; load the tile below and to the right
 
     cmp #0
@@ -1096,6 +1133,166 @@ move_player:
                                 ; rts)
 
     move_player_not_right_key:
+
+    ; Handle the up key.
+
+    ldx #183            ; (:)
+    jsr check_key
+    cpy #255
+    bne move_player_not_up_key
+
+    lda $3303           ; read dy
+    cmp #0
+    beq move_player_up_check_y
+
+    dec $3303
+    clc
+    jmp animate_player_up       ; optimise away the rts
+    
+    move_player_up_check_y:     ; Check the y offset.
+
+    lda $3302
+    cmp #0
+    beq move_player_leave_room_up
+
+    sec
+    sbc #1                      ; y - 1
+    tax                         ; use the y offset as an index
+    lda $3304                   ; load the x offset
+    tay
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile above
+
+    cmp #0
+    bne move_player_not_up_key
+
+    lda $3305                   ; dx
+    cmp #3
+    bmi move_player_allow_up
+
+    clc                     ; dx > 2 so we need to check another tile
+    iny
+    lda ($70),y             ; load the tile above and to the right
+
+    cmp #0
+    bne move_player_not_up_key
+
+    move_player_allow_up:
+    txa
+    sta $3302               ; store the new room y offset
+    lda #5
+    sta $3303               ; dy = 5
+    clc
+    jmp animate_player_up   ; optimise away the rts
+
+    move_player_leave_room_up:
+    sec
+    lda $33f2
+    sbc #1
+    sta $33f2
+    clc
+
+    ; Set the player's position on the bottom of the screen.
+
+    lda #9      ; y = 9
+    sta $3302
+    lda #0      ; dy = 0
+    sta $3303
+
+    sec                     ; indicate to the calling routine that the player
+    jmp animate_player_up   ; has left the room (optimising away the rts)
+
+    move_player_not_up_key:
+
+    ; Handle the down key.
+
+    ldx #151            ; (/)
+    jsr check_key
+    cpy #255
+    bne move_player_not_down_key
+
+    lda $3303                   ; read dy
+    cmp #0
+    beq move_player_down_check_y
+    cmp #5
+    beq move_player_down_check_y
+
+    inc $3303                   ; 0 < dy < 5
+    clc
+    jmp animate_player_down    ; optimise away the rts
+    
+    move_player_down_check_y:  ; Check the y offset.
+
+    lda $3302
+    cmp #9
+    beq move_player_leave_room_down
+
+    clc
+    adc #1                      ; y + 1
+    tax
+    lda $3304                   ; load the x offset
+    tay
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile below
+
+    cmp #0
+    bne move_player_not_down_key
+
+    lda $3305                   ; dx
+    cmp #3
+    bmi move_player_allow_down
+
+    clc                         ; dx > 2 so we need to check another tile
+    iny
+    lda ($70),y                 ; load the tile below and to the right
+
+    cmp #0
+    bne move_player_not_down_key
+
+    move_player_allow_down:
+
+    lda $3303                   ; only if the player is leaving the tile
+    cmp #5                      ; do we update the y offset
+    beq move_player_down_tile
+
+    inc $3303                   ; otherwise, we update dy instead
+    clc
+    jmp animate_player_down     ; optimise away the rts
+
+    move_player_down_tile:
+
+    txa
+    sta $3302                   ; store the new room y offset
+    lda #0
+    sta $3303                   ; dy = 0
+    clc
+    jmp animate_player_down     ; optimise away the rts
+
+    move_player_leave_room_down:
+    clc
+    lda $33f2
+    adc #1
+    sta $33f2
+    clc
+
+    ; Set the player's position on the top of the screen.
+
+    lda #0      ; y = 0
+    sta $3302
+    lda #0      ; dy = 0
+    sta $3303
+
+    sec                         ; indicate to the calling routine that the
+    jmp animate_player_down     ; player has left the room (optimising away the
+                                ; rts)
+
+    move_player_not_down_key:
     clc
     rts
 
