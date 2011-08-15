@@ -640,24 +640,24 @@ plot8x24_y0:            ; $70,$71=source address
 
     rts
 
-; Sprite data stored in memory: 00 11 22 33 44 55 66 77 88 99 aa bb
+; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c
 ;
 ; Write to screen in this arrangement:
 ; -- --
-; 00 22
+; 00 08
 ;
-; 11 33
-; 44 66
+; 04 0c
+; 10 18
 ;
-; 55 77
-; 88 aa
+; 14 1c
+; 20 28
 ;
-; 99 bb
+; 24 2c
 
 plot8x24_y1:            ; $70,$71=source address
                         ; $72,$73=destination address
 
-    ldx #2
+    ldx #2              ; plotting 3 8x8 pieces
 
     plotloop8x24_y1_loop:
 
@@ -746,6 +746,7 @@ plot16x16_y0:           ; $70,$71=source address
 
     plotloop16x16_y0_0:
         lda ($70),y
+        eor ($72),y
         sta ($72),y
         dey
         bpl plotloop16x16_y0_0
@@ -763,10 +764,195 @@ plot16x16_y0:           ; $70,$71=source address
 
     plotloop16x16_y0_1:
         lda ($70),y
+        eor ($72),y
         sta ($72),y
         dey
         cpy #32
         bpl plotloop16x16_y0_1
+    clc
+
+    rts
+
+; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c 30 34 38 3c
+;
+; Write to screen in this arrangement:
+; -- -- -- --
+; 00 08 10 18
+;
+; 04 0c 14 1c
+; 20 28 30 38
+;
+; 24 2c 34 3c
+
+plot16x16_y1:           ; $70,$71=source address
+                        ; $72,$73=destination address
+
+    ldx #3
+
+    plotloop16x16_y1_loop:
+
+        ldy #3
+
+        plotloop16x16_y1_0:
+            lda ($70),y
+            eor ($72),y
+            sta ($72),y
+            dey
+            bpl plotloop16x16_y1_0
+        clc
+
+        ldy #11
+
+        plotloop16x16_y1_1:
+            lda ($70),y
+            eor ($72),y
+            sta ($72),y
+            dey
+            cpy #8
+            bpl plotloop16x16_y1_1
+        clc
+
+        ldy #19
+
+        plotloop16x16_y1_2:
+            lda ($70),y
+            eor ($72),y
+            sta ($72),y
+            dey
+            cpy #16
+            bpl plotloop16x16_y1_2
+        clc
+
+        ldy #27
+
+        plotloop16x16_y1_3:
+            lda ($70),y
+            eor ($72),y
+            sta ($72),y
+            dey
+            cpy #24
+            bpl plotloop16x16_y1_3
+        clc
+
+        dex
+        bmi plotloop16x16_y1_exit
+        txa
+        and #1
+        bne plotloop16x16_y1_loop_next
+
+        lda $70         ; add by 4 to start the next half row
+        adc #4
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+
+        lda $72         ; subtract by 0x140 - 4 to plot the next top half row
+        adc #$3c
+        sta $72
+        lda $73
+        adc #$01
+        sta $73
+        clc
+
+        plotloop16x16_y1_loop_next:
+        clc
+
+        lda $70             ; add 28 to start the next row
+        adc #$1c
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+
+        lda $72             ; add 4 to plot the next half row
+        adc #4
+        sta $72
+        lda $73
+        adc #0
+        sta $73
+        clc
+
+        jmp plotloop16x16_y1_loop
+
+    plotloop16x16_y1_exit:
+    clc
+    rts
+
+plot8x8_y0:             ; $70,$71=source address
+                        ; $72,$73=destination address
+    ldy #31
+
+    plotloop8x8_y0_0:
+        lda ($70),y
+        sta ($72),y
+        dey
+        bpl plotloop8x8_y0_0
+    clc
+
+    rts
+
+; Sprite data stored in memory: 00 04
+;
+; Write to screen in this arrangement:
+; --
+; 00
+;
+; 04
+
+plot8x8_y1:             ; $70,$71=source address
+                        ; $72,$73=destination address
+
+    ldx #1
+
+    plotloop8x8_y1_loop:
+
+        ldy #3
+
+        plotloop8x8_y1_0:
+            lda ($70),y
+            eor ($72),y
+            sta ($72),y
+            dey
+            bpl plotloop8x8_y1_0
+        clc
+
+        ldy #11
+
+        plotloop8x8_y1_1:
+            lda ($70),y
+            eor ($72),y
+            sta ($72),y
+            dey
+            cpy #8
+            bpl plotloop8x8_y1_1
+        clc
+
+        dex
+        bmi plot8x8_y1_exit
+        clc
+
+        lda $70         ; add by 4 to start the next half row
+        adc #4
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+
+        lda $72         ; subtract by 0x140 - 4 to plot the next top half row
+        adc #$3c
+        sta $72
+        lda $73
+        adc #$01
+        sta $73
+        clc
+
+        jmp plotloop8x8_y1_loop
+
+    plot8x8_y1_exit:
     clc
 
     rts
@@ -836,6 +1022,9 @@ screen_columns_low: .byte $00,$20,$40,$60,$80,$a0,$c0,$e0,$00,$20
 screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
 screen_subcolumns_low: .byte $00,$08,$10,$18
 
+enemy_direction_chars_low: .byte $c0,$00,$40,$80,$c0,$00,$40,$80
+enemy_direction_chars_high: .byte $36,$37,$37,$37,$37,$38,$38,$38
+
 plot_characters:
 
     lda #$00
@@ -843,23 +1032,25 @@ plot_characters:
     lda #$33
     sta $75
 
-    ldy #0
     plot_characters_loop:
 
+        ldy #0
         lda ($74),y
-        cmp #1
-        bne plot_characters_next
+        cmp #0
+        bne plot_characters_read_character
+        jmp plot_characters_next
+
+        plot_characters_read_character:
+        clc
+
+        sta $77         ; temporarily store the object type
 
         ; Use lookup tables to load the offsets into the sprite.
 
         ; Direction
         iny
         lda ($74),y
-        tax
-        lda player_direction_chars_low,x
-        sta $70
-        lda player_direction_chars_high,x
-        sta $71
+        sta $80         ; temporarily store the direction
 
         ; y
         iny
@@ -905,35 +1096,111 @@ plot_characters:
         sta $72
         clc
 
+        lda $77
+        cmp #1
+        bne plot_characters_loop_not_player
+        
+        ; Plot 8x24 sprites (player)
+
+        ldx $80
+        lda player_direction_chars_low,x
+        sta $70
+        lda player_direction_chars_high,x
+        sta $71
+
         ; Use the dy value to determine which plotting routine to use.
 
         lda $76
         and #1
-        bne plot_characters_plot_player1
+        bne plot_characters_plot_8x24_1
 
         jsr plot8x24_y0
-        jmp plot_characters_exit
+        jmp plot_characters_next
 
-        plot_characters_plot_player1:
+        plot_characters_plot_8x24_1:
         clc
         jsr plot8x24_y1
+        jmp plot_characters_next
 
-        ; Examine the next character.
 
-        iny
-        cpy #$f0
-        bmi plot_characters_loop
+        plot_characters_loop_not_player:
+        cmp #2
+        bne plot_characters_loop_not_projectile
+
+        ; Plot 8x8 sprites (projectiles)
+
+        ; Use the dy value to determine which plotting routine to use.
+
+        lda $76
+        and #1
+        bne plot_characters_plot_8x8_1
+
+        jsr plot8x8_y0
+        jmp plot_characters_next
+
+        plot_characters_plot_8x8_1:
+        clc
+        jsr plot8x8_y1
+        jmp plot_characters_next
+
+
+        plot_characters_loop_not_projectile:
+        cmp #3
+        bne plot_characters_loop_not_explosion
+
+        ; Plot 16x16 sprites (explosions)
+
+
+        plot_characters_loop_not_explosion:
+        cmp #4
+        bmi plot_characters_loop_not_enemy
+
+        ; Plot 16x16 sprites (enemies)
+
+        ; Select the set of sprites to use.
+
+        and #248
+        lsr
+        lsr     ; bits 3,4,5 >> 2
+        clc
+        sta $71 ; 0x00, 0x02, 0x04, 0x06, 0x08
+
+        ldx $80
+        lda enemy_direction_chars_low,x
+        sta $70
+        lda enemy_direction_chars_high,x
+        adc $71
+        sta $71
+
+        ; Use the dy value to determine which plotting routine to use.
+
+        lda $76
+        and #1
+        bne plot_characters_plot_16x16_1
+
+        jsr plot16x16_y0
+        jmp plot_characters_next
+
+        plot_characters_plot_16x16_1:
+        clc
+        jsr plot16x16_y1
+        jmp plot_characters_next
+
+
+        plot_characters_loop_not_enemy:
+        clc
 
         plot_characters_next:
         clc
-        
-        ; Examine the next character.
-        tya
-        adc #6
-        tay
 
-        cpy #$f0
-        bmi plot_characters_loop
+        ; Examine the next character.
+        lda $74
+        adc #6
+
+        cmp #$3c
+        bpl plot_characters_exit
+        sta $74
+        jmp plot_characters_loop
 
     plot_characters_exit:
     clc
@@ -1357,10 +1624,10 @@ sprites_block: .byte <sprites_file_name, >sprites_file_name
                .byte $60, $56, 0, 0
 
 chars_block: .byte <chars_file_name, >chars_file_name
-               .byte 0, $34, 0, 0
-               .byte 0, $34, 0, 0
-               .byte $80, $01, 0, 0
-               .byte $80, $35, 0, 0
+               .byte $00, $34, 0, 0
+               .byte $00, $34, 0, 0
+               .byte $c0, $11, 0, 0
+               .byte $c0, $45, 0, 0
 
 init:
     lda #255
@@ -1421,15 +1688,15 @@ start_new_game:
 
     ; Clear the character table and set player position.
 
-    ldx #234
+    ldx #0
     clear_character_loop:
         lda #0
         sta $3300,x
         txa
-        sec
-        sbc #6
+        adc #6
         tax
-        bpl clear_character_loop
+        cpx #$f0
+        bmi clear_character_loop
 
     lda #1      ; player
     sta $3300
@@ -1443,6 +1710,71 @@ start_new_game:
     sta $3304
     lda #0      ; dx=0
     sta $3305
+
+;    lda #$4     ; enemy (0)
+;    sta $330c
+;    lda #0      ; left up (first frame)
+;    sta $330d
+;    lda #3      ; y=3
+;    sta $330e
+;    lda #0      ; dy=0
+;    sta $330f
+;    lda #3      ; x=3
+;    sta $3310
+;    lda #0      ; dx=0
+;    sta $3311
+;
+;    lda #$c     ; enemy (1)
+;    sta $3312
+;    lda #4      ; left down (first frame)
+;    sta $3313
+;    lda #3      ; y=3
+;    sta $3314
+;    lda #0      ; dy=0
+;    sta $3315
+;    lda #7      ; x=7
+;    sta $3316
+;    lda #0      ; dx=0
+;    sta $3317
+;
+;    lda #$14    ; enemy (2)
+;    sta $3318
+;    lda #2      ; right up (first frame)
+;    sta $3319
+;    lda #7      ; y=7
+;    sta $331a
+;    lda #0      ; dy=0
+;    sta $331b
+;    lda #3      ; x=3
+;    sta $331c
+;    lda #0      ; dx=0
+;    sta $331d
+;
+;    lda #$1c    ; enemy (3)
+;    sta $331e
+;    lda #2      ; right up (first frame)
+;    sta $331f
+;    lda #7      ; y=7
+;    sta $3320
+;    lda #0      ; dy=0
+;    sta $3321
+;    lda #3      ; x=3
+;    sta $3322
+;    lda #0      ; dx=0
+;    sta $3323
+;
+;    lda #$24    ; enemy (4)
+;    sta $3324
+;    lda #6      ; right down (first frame)
+;    sta $3325
+;    lda #7      ; y=7
+;    sta $3326
+;    lda #0      ; dy=0
+;    sta $3327
+;    lda #7      ; x=7
+;    sta $3328
+;    lda #0      ; dx=0
+;    sta $3329
     rts
 
 main:

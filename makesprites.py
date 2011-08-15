@@ -45,8 +45,8 @@ def read_xpm(path, symbols = None):
 tiles = [read_xpm("images/flowers.xpm", [(".", "0"), ("@", "1"), ("+", "2")]),
          read_xpm("images/leaf1.xpm"),
          read_xpm("images/leaf2.xpm"),
-         read_xpm("images/stones.xpm", [(".", "2"), ("#", "1"), ("+", "0"), ("@", "3")]),
-         read_xpm("images/rock1.xpm"),
+         read_xpm("images/flowers2.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/leaf3.xpm", [(".", "0"), ("@", "3"), ("+", "2")]),
          read_xpm("images/rock2.xpm", [(" ", "0"), ("#", "1"), ("@", "2"), ("+", "3")]),
          read_xpm("images/bricks.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          read_xpm("images/wall1.xpm"),
@@ -59,7 +59,105 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/up1.xpm"),
          read_xpm("images/up2.xpm"),
          read_xpm("images/down1.xpm"),
-         read_xpm("images/down2.xpm")]
+         read_xpm("images/down2.xpm"),
+
+         # placeholder player demise sprites
+         read_xpm("images/left1.xpm"),
+         read_xpm("images/right1.xpm"),
+         read_xpm("images/up1.xpm"),
+         read_xpm("images/down1.xpm"),
+
+         read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         # placeholder projectile sprites
+         read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdld1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdld2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder enemy sprites
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdld1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdld2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+
+         # placeholder enemy sprites
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdld1.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdld2.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+         read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
+
+         # placeholder enemy sprites
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdld1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdld2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder enemy sprites
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdld1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdld2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder enemy appear
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder enemy demise
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder weapons
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder treasure
+         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # exit
+         read_xpm("images/exit1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/exit2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+
+         # placeholder final exit
+         read_xpm("images/exit1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/exit2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         ]
 
 
 def read_sprite(lines):
