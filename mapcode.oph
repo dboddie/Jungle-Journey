@@ -848,7 +848,7 @@ plot16x16_y1:           ; $70,$71=source address
         sta $71
         clc
 
-        lda $72         ; subtract by 0x140 - 4 to plot the next top half row
+        lda $72         ; add 0x140 - 4 to plot the next top half row
         adc #$3c
         sta $72
         lda $73
@@ -856,10 +856,12 @@ plot16x16_y1:           ; $70,$71=source address
         sta $73
         clc
 
+        jmp plotloop16x16_y1_loop
+
         plotloop16x16_y1_loop_next:
         clc
 
-        lda $70             ; add 28 to start the next row
+        lda $70         ; add 28 to start the next row
         adc #$1c
         sta $70
         lda $71
@@ -867,7 +869,7 @@ plot16x16_y1:           ; $70,$71=source address
         sta $71
         clc
 
-        lda $72             ; add 4 to plot the next half row
+        lda $72         ; add 4 to plot the next half row
         adc #4
         sta $72
         lda $73
@@ -1717,7 +1719,7 @@ start_new_game:
 ;    sta $330d
 ;    lda #3      ; y=3
 ;    sta $330e
-;    lda #0      ; dy=0
+;    lda #1      ; dy=1
 ;    sta $330f
 ;    lda #3      ; x=3
 ;    sta $3310
