@@ -1340,7 +1340,9 @@ move_player:
 
     lda $3305                   ; read dx
     cmp #2
-    bpl move_player_right_check_x
+    beq move_player_right_check_x
+    cmp #3
+    beq move_player_right_tile
 
     inc $3305
     clc
@@ -1381,18 +1383,13 @@ move_player:
 
     move_player_allow_right:
 
-    lda $3305                   ; only if the player is leaving the tile
-    cmp #3                      ; do we update the x offset
-    beq move_player_right_tile
-
-    inc $3305                   ; otherwise, we update dx instead
+    inc $3305                   ; update dx
     clc
     jmp animate_player_right    ; optimise away the rts
 
     move_player_right_tile:
 
-    tya
-    sta $3304               ; store the new room x offset
+    inc $3304               ; store the new room x offset
     lda #0
     sta $3305               ; dx = 0
     clc
@@ -1502,7 +1499,7 @@ move_player:
     cmp #0
     beq move_player_down_check_y
     cmp #5
-    beq move_player_down_check_y
+    beq move_player_down_tile
 
     inc $3303                   ; 0 < dy < 5
     clc
@@ -1541,18 +1538,13 @@ move_player:
 
     move_player_allow_down:
 
-    lda $3303                   ; only if the player is leaving the tile
-    cmp #5                      ; do we update the y offset
-    beq move_player_down_tile
-
-    inc $3303                   ; otherwise, we update dy instead
+    inc $3303                   ; update dy
     clc
     jmp animate_player_down     ; optimise away the rts
 
     move_player_down_tile:
 
-    txa
-    sta $3302                   ; store the new room y offset
+    inc $3302                   ; store the new room y offset
     lda #0
     sta $3303                   ; dy = 0
     clc
