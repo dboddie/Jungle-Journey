@@ -52,7 +52,11 @@ if __name__ == "__main__":
     # 3300 character table (0x3C/6 = 10 entries)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 and higher enemy - bits 3,4,5 are enemy type)
-    #   n+1 counter/direction (bits 1,2 are direction, bit 0 is animation)
+    #   n+1 counter/direction (player/enemy: bits 1,2 are direction,
+    #                                        bit 0 is animation)
+    #  (emerging, explosion: bits 4,5,6 are enemy type for emerging,
+    #                        bit 3 is type 0=emerge,1=explode,
+    #                        bits 0,1,2 are animation with bit 0 a delay bit)
     #   n+2 y room offset (0-10)
     #   n+3 dy (0-5)
     #   n+4 x room offset (0-10)
@@ -75,12 +79,14 @@ if __name__ == "__main__":
     # 33F6 score (four bytes)
     # 33FA level
     # 33FB palette workspace (enough for one 5 byte palette entry)
+    #       33FE and 33FF are also enemy generation counter when in a room
     #
     # 3400 CHARS (character sprites)
     #       4 * 2 * 0x30 (player movement)
     #           4 * 0x30 (player demise)
     #       4 * 2 * 0x10 (projectile)
-    #   5 * 4 * 2 * 0x40 (enemies)          36C0
+    #           4 * 0x10 (projectile explode)
+    #   5 * 4 * 2 * 0x40 (enemies)          3700
     #           4 * 0x40 (enemy appear)
     #           4 * 0x40 (enemy demise)
     #           4 * 0x40 (weapons)
@@ -88,7 +94,7 @@ if __name__ == "__main__":
     #           2 * 0x40 (exit)
     #           2 * 0x40 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 2*0x40 + 2*0x40 + 0x3400
+    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 2*0x40 + 2*0x40 + 0x3400
     #
     # 45C0 space
     # 5300 SPRITES (map)

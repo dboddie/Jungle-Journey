@@ -76,6 +76,11 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         # placeholder projectile explode sprites
+         read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/spell1-2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
          read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
@@ -127,10 +132,10 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
          # placeholder enemy appear
-         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/emerge1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/emerge2.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/emerge3.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/emerge4.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
 
          # placeholder enemy demise
          read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
