@@ -98,9 +98,9 @@ if __name__ == "__main__":
     #
     # 4600 space
     # 4700 plot buffer (alternate unplot/plot entries terminating in 255)
-    #   n,n+1   address
-    #   n+2,n+3 source address
-    #   n+4,n+5 destination address
+    #   n       type
+    #   n+1,n+2 source address
+    #   n+3,n+4 destination address
     #
     #   4700 and every 12 bytes is unplot entries
     #   4706 and every 12 bytes is plot entries

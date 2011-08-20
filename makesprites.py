@@ -47,7 +47,7 @@ tiles = [read_xpm("images/flowers.xpm", [(".", "0"), ("@", "1"), ("+", "2")]),
          read_xpm("images/leaf2.xpm"),
          read_xpm("images/flowers2.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          read_xpm("images/leaf3.xpm", [(".", "0"), ("@", "3"), ("+", "2")]),
-         read_xpm("images/rock2.xpm", [(" ", "0"), ("#", "1"), ("@", "2"), ("+", "3")]),
+         read_xpm("images/leaf4.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
          read_xpm("images/bricks.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          read_xpm("images/wall1.xpm"),
          read_xpm("images/wall2.xpm")]
@@ -91,15 +91,14 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
-         # placeholder enemy sprites
-         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdld1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdld2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdrd1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/birdrd2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/wasplu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/wasplu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/waspru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/waspru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/waspld1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/waspld2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/wasprd1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/wasprd2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
          # placeholder enemy sprites
          read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "3"), ("@", "3")]),
@@ -133,7 +132,7 @@ chars = [read_xpm("images/left1.xpm"),
 
          # placeholder enemy appear
          read_xpm("images/emerge1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
-         read_xpm("images/emerge2.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/emerge2.xpm", [(".", "0"), ("+", "1"), ("#", "3"), ("@", "2")]),
          read_xpm("images/emerge3.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
          read_xpm("images/emerge4.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
 
