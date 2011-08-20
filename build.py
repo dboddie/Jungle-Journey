@@ -49,7 +49,7 @@ if __name__ == "__main__":
     # Planned memory map
     # 1900 CODE (map)
     # 1x00 space
-    # 3300 character table (0x3C/6 = 10 entries)
+    # 3300 character table (0x24/6 = 6 entries)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 and higher enemy - bits 3,4,5 are enemy type)
     #   n+1 counter/direction (player/enemy: bits 1,2 are direction,
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     #   second character is always the player's weapon
     #   new characters are added after these
     #
-    # 333C objects/treasure table (0xB4/5 = 36 entries)
+    # 3324 objects/treasure table (0xB4/5 = 36 entries)
     #   n   type
     #   n+1 i map offset
     #   n+2 j map offset
@@ -96,7 +96,15 @@ if __name__ == "__main__":
     #
     # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 2*0x40 + 2*0x40 + 0x3400
     #
-    # 45C0 space
+    # 4600 space
+    # 4700 plot buffer (alternate unplot/plot entries terminating in 255)
+    #   n,n+1   address
+    #   n+2,n+3 source address
+    #   n+4,n+5 destination address
+    #
+    #   4700 and every 12 bytes is unplot entries
+    #   4706 and every 12 bytes is plot entries
+    #   
     # 5300 SPRITES (map)
     # 5780 space
     # 579c room data (generated)

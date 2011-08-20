@@ -638,7 +638,8 @@ plot8x24_y0:            ; $70,$71=source address
         cpy #32
         bpl plotloop8x24_y0_2
 
-    rts
+    clc
+    jmp plot_buffer_loop_next
 
 ; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c
 ;
@@ -738,7 +739,8 @@ plot8x24_y1:            ; $70,$71=source address
         dex
         bpl plotloop8x24_y1_loop
 
-    rts
+    clc
+    jmp plot_buffer_loop_next
 
 plot16x16_y0:           ; $70,$71=source address
                         ; $72,$73=destination address
@@ -771,7 +773,7 @@ plot16x16_y0:           ; $70,$71=source address
         bpl plotloop16x16_y0_1
     clc
 
-    rts
+    jmp plot_buffer_loop_next
 
 ; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c 30 34 38 3c
 ;
@@ -881,7 +883,7 @@ plot16x16_y1:           ; $70,$71=source address
 
     plotloop16x16_y1_exit:
     clc
-    rts
+    jmp plot_buffer_loop_next
 
 plot8x8_y0:             ; $70,$71=source address
                         ; $72,$73=destination address
@@ -894,7 +896,7 @@ plot8x8_y0:             ; $70,$71=source address
         bpl plotloop8x8_y0_0
     clc
 
-    rts
+    jmp plot_buffer_loop_next
 
 ; Sprite data stored in memory: 00 04
 ;
@@ -957,7 +959,7 @@ plot8x8_y1:             ; $70,$71=source address
     plot8x8_y1_exit:
     clc
 
-    rts
+    jmp plot_buffer_loop_next
 
 
 check_key:      ; x=key code
@@ -1115,17 +1117,26 @@ plot_characters:
 
         ; Use the dy value to determine which plotting routine to use.
 
+        ldy #0
         lda $76
         and #1
         bne plot_characters_plot_8x24_1
 
-        jsr plot8x24_y0
-        jmp plot_characters_next
+        lda #<plot8x24_y0
+        sta ($84),y
+        iny
+        lda #>plot8x24_y0
+        sta ($84),y
+        jmp plot_characters_stored
 
         plot_characters_plot_8x24_1:
         clc
-        jsr plot8x24_y1
-        jmp plot_characters_next
+        lda #<plot8x24_y1
+        sta ($84),y
+        iny
+        lda #>plot8x24_y1
+        sta ($84),y
+        jmp plot_characters_stored
 
 
         plot_characters_loop_not_player:
@@ -1136,17 +1147,26 @@ plot_characters:
 
         ; Use the dy value to determine which plotting routine to use.
 
+        ldy #0
         lda $76
         and #1
         bne plot_characters_plot_8x8_1
 
-        jsr plot8x8_y0
-        jmp plot_characters_next
+        lda #<plot8x8_y0
+        sta ($84),y
+        iny
+        lda #>plot8x8_y0
+        sta ($84),y
+        jmp plot_characters_stored
 
         plot_characters_plot_8x8_1:
         clc
-        jsr plot8x8_y1
-        jmp plot_characters_next
+        lda #<plot8x8_y1
+        sta ($84),y
+        iny
+        lda #>plot8x8_y1
+        sta ($84),y
+        jmp plot_characters_stored
 
 
         plot_characters_loop_not_projectile:
@@ -1193,18 +1213,46 @@ plot_characters:
 
         ; Use the dy value to determine which plotting routine to use.
 
+        ldy #0
         lda $76
         and #1
         bne plot_characters_plot_16x16_1
 
-        jsr plot16x16_y0
-        jmp plot_characters_next
+        lda #<plot16x16_y0
+        sta ($84),y
+        iny
+        lda #>plot16x16_y0
+        sta ($84),y
+        jmp plot_characters_stored
 
         plot_characters_plot_16x16_1:
         clc
-        jsr plot16x16_y1
-        jmp plot_characters_next
+        lda #<plot16x16_y1
+        sta ($84),y
+        iny
+        lda #>plot16x16_y1
+        sta ($84),y
 
+
+        plot_characters_stored:
+
+        iny
+        lda $70
+        sta ($84),y
+        iny
+        lda $71
+        sta ($84),y
+        iny
+        lda $72
+        sta ($84),y
+        iny
+        lda $73
+        sta ($84),y
+
+        clc
+        lda $84
+        adc #12
+        sta $84
 
         plot_characters_loop_not_enemy:
 
@@ -1215,16 +1263,99 @@ plot_characters:
         lda $74
         adc #6
 
-        cmp #$3c
+        cmp #$24
         bpl plot_characters_exit
         sta $74
         jmp plot_characters_loop
 
     plot_characters_exit:
+    lda #255
+    ldy #0
+    sta ($84),y
     clc
     rts
 
-; Note that the room offsets reflect that the room is 
+reset_plot_buffer:
+    lda #$06    ; reset the index into the plot buffer
+    sta $84
+    lda #$47
+    sta $85
+    rts
+
+reset_unplot_buffer:
+    lda #$00    ; reset the index into the plot buffer
+    sta $84
+    lda #$47
+    sta $85
+    rts
+
+plot_buffer:
+
+    lda #$00
+    sta $84
+    lda #$47
+    sta $85
+
+    lda #6
+    sta $88
+
+    plot_buffer_loop:
+
+        ldy #0
+        lda ($84),y
+        cmp #255
+        beq plot_buffer_loop_skip
+
+        clc
+        sta $86
+        
+        iny
+        lda ($84),y
+        sta $87
+
+        iny
+        lda ($84),y
+        sta $70
+
+        iny
+        lda ($84),y
+        sta $71
+
+        iny
+        lda ($84),y
+        sta $72
+
+        iny
+        lda ($84),y
+        sta $73
+
+        jmp ($86)       ; returns to plot_buffer_loop_next
+
+        plot_buffer_loop_skip:
+
+        lda $88
+        cmp #12
+        beq plot_buffer_exit    ; both unplot and plot lists have terminated
+
+        lda #12
+        sta $88
+        lda $84
+        adc #6
+        sta $84
+        jmp plot_buffer_loop
+
+        plot_buffer_loop_next:
+        clc
+
+        lda $84
+        adc $88
+        sta $84
+        jmp plot_buffer_loop
+
+    plot_buffer_exit:
+    clc
+    rts
+
 room_row_offsets_low: .byte $9c,$a6,$b0,$ba,$c4,$ce,$d8,$e2,$ec,$f6
 
 animate_player_left:
@@ -1727,7 +1858,7 @@ move_characters:
         lda $74
         adc #6
 
-        cmp #$3c
+        cmp #$24
         bpl move_characters_exit
         sta $74
         jmp move_characters_loop
@@ -1747,7 +1878,7 @@ clear_characters:
         txa
         adc #6
         tax
-        cpx #$3c
+        cpx #$24
         bmi clear_character_loop
 
     rts
@@ -1976,20 +2107,37 @@ main:
             sta $79
             jsr plot_room
             jsr clear_characters
+
+            jsr reset_unplot_buffer
+            lda #255    ; terminate the unplot list by default because the
+            ldy #0      ; initial plotting of the buffer only plots characters
+            sta ($84),y
+            jsr reset_plot_buffer
             jsr plot_characters
+            jsr plot_buffer
 
             lda #63
             sta $33ff
 
             room_loop:
-                lda #19
-                jsr $fff4
+                lda #$00    ; reset the index into the plot buffer
+                sta $84
+                lda #$47
+                sta $85
+
+                jsr reset_unplot_buffer
                 jsr plot_characters ; unplot
                 jsr move_characters
                 jsr move_player
                 bcs after_room_loop
 
+                jsr reset_plot_buffer
                 jsr plot_characters ; plot
+
+                lda #19
+                jsr $fff4
+                jsr plot_buffer
+
                 ldx #157
                 jsr check_key
                 cpy #255
