@@ -1032,246 +1032,233 @@ enemy_direction_chars_high: .byte $37,$37,$37,$37,$38,$38,$38,$38
 emerge_explode_chars_low: .byte $00,$40,$80,$c0,$00,$40,$80,$c0
 emerge_explode_chars_high: .byte $41,$41,$41,$41,$42,$42,$42,$42
 
-plot_characters:
+unplot_character:       ; $74,$75=character address
 
-    lda #$00
-    sta $74
-    lda #$33
-    sta $75
+    lda $82
+    sta $78
+    lda $83
+    sta $79
+    jsr plot_character_sprite
+    lda $78
+    sta $82
+    rts
 
-    plot_characters_loop:
+plot_character:         ; $74,$75=character address
 
-        ldy #0
-        lda ($74),y
-        cmp #0
-        bne plot_characters_read_character
-        jmp plot_characters_next
+    lda $84
+    sta $78
+    lda $85
+    sta $79
+    jsr plot_character_sprite
+    lda $78
+    sta $84
+    rts
 
-        plot_characters_read_character:
-        clc
+plot_character_sprite:  ; $74,$75=character address
+                        ; $78,$79=plot buffer address
 
-        sta $77         ; temporarily store the object type
-
-        ; Use lookup tables to load the offsets into the sprite.
-
-        ; Direction
-        iny
-        lda ($74),y
-        sta $80         ; temporarily store the direction
-
-        ; y
-        iny
-        lda ($74),y
-        tax
-        lda screen_rows_low,x
-        sta $72
-        lda screen_rows_high,x
-        sta $73
-        clc
-
-        ; dy
-        iny
-        lda ($74),y
-        sta $76
-        tax
-        lda screen_subrows_low,x
-        adc $72
-        sta $72
-        lda screen_subrows_high,x
-        adc $73
-        sta $73
-        clc
-
-        ; x
-        iny
-        lda ($74),y
-        tax
-        lda screen_columns_low,x
-        adc $72
-        sta $72
-        lda screen_columns_high,x
-        adc $73
-        sta $73
-        clc
-
-        ; dx
-        iny
-        lda ($74),y
-        tax
-        lda screen_subcolumns_low,x
-        adc $72
-        sta $72
-        clc
-
-        lda $77
-        cmp #1
-        bne plot_characters_loop_not_player
-        
-        ; Plot 8x24 sprites (player)
-
-        ldx $80
-        lda player_direction_chars_low,x
-        sta $70
-        lda player_direction_chars_high,x
-        sta $71
-
-        ; Use the dy value to determine which plotting routine to use.
-
-        ldy #0
-        lda $76
-        and #1
-        bne plot_characters_plot_8x24_1
-
-        lda #<plot8x24_y0
-        sta ($84),y
-        iny
-        lda #>plot8x24_y0
-        sta ($84),y
-        jmp plot_characters_stored
-
-        plot_characters_plot_8x24_1:
-        clc
-        lda #<plot8x24_y1
-        sta ($84),y
-        iny
-        lda #>plot8x24_y1
-        sta ($84),y
-        jmp plot_characters_stored
-
-
-        plot_characters_loop_not_player:
-        cmp #2
-        bne plot_characters_loop_not_projectile
-
-        ; Plot 8x8 sprites (projectiles)
-
-        ; Use the dy value to determine which plotting routine to use.
-
-        ldy #0
-        lda $76
-        and #1
-        bne plot_characters_plot_8x8_1
-
-        lda #<plot8x8_y0
-        sta ($84),y
-        iny
-        lda #>plot8x8_y0
-        sta ($84),y
-        jmp plot_characters_stored
-
-        plot_characters_plot_8x8_1:
-        clc
-        lda #<plot8x8_y1
-        sta ($84),y
-        iny
-        lda #>plot8x8_y1
-        sta ($84),y
-        jmp plot_characters_stored
-
-
-        plot_characters_loop_not_projectile:
-        cmp #3
-        bne plot_characters_loop_not_explosion
-
-        ; Plot 16x16 sprites (emerging, explosions)
-
-        ; Select the sprites to use.
-
-        lda $80         ; remove the least significant bit, used to delay
-        lsr             ; the animation
-        and #7          ; only keep the bits required to find the correct sprite
-        tax
-        lda emerge_explode_chars_low,x
-        sta $70
-        lda emerge_explode_chars_high,x
-        sta $71
-
-        jmp plot_characters_16x16
-
-        plot_characters_loop_not_explosion:
-        cmp #4
-        bmi plot_characters_loop_not_enemy
-
-        ; Plot 16x16 sprites (enemies)
-
-        ; Select the set of sprites to use.
-
-        and #$38
-        lsr
-        lsr     ; bits 3,4,5 >> 2 -> bits 1,2,3
-        clc
-        sta $71 ; 0x00, 0x02, 0x04, 0x06, 0x08
-
-        ldx $80
-        lda enemy_direction_chars_low,x
-        sta $70
-        lda enemy_direction_chars_high,x
-        adc $71
-        sta $71
-
-        plot_characters_16x16:
-
-        ; Use the dy value to determine which plotting routine to use.
-
-        ldy #0
-        lda $76
-        and #1
-        bne plot_characters_plot_16x16_1
-
-        lda #<plot16x16_y0
-        sta ($84),y
-        iny
-        lda #>plot16x16_y0
-        sta ($84),y
-        jmp plot_characters_stored
-
-        plot_characters_plot_16x16_1:
-        clc
-        lda #<plot16x16_y1
-        sta ($84),y
-        iny
-        lda #>plot16x16_y1
-        sta ($84),y
-
-
-        plot_characters_stored:
-
-        iny
-        lda $70
-        sta ($84),y
-        iny
-        lda $71
-        sta ($84),y
-        iny
-        lda $72
-        sta ($84),y
-        iny
-        lda $73
-        sta ($84),y
-
-        clc
-        lda $84
-        adc #12
-        sta $84
-
-        plot_characters_loop_not_enemy:
-
-        plot_characters_next:
-        clc
-
-        ; Examine the next character.
-        lda $74
-        adc #6
-
-        cmp #$24
-        bpl plot_characters_exit
-        sta $74
-        jmp plot_characters_loop
-
-    plot_characters_exit:
-    lda #255
     ldy #0
-    sta ($84),y
+    lda ($74),y
+    cmp #0
+    bne plot_characters_read_character
+    jmp plot_characters_next
+
+    plot_characters_read_character:
+    clc
+
+    sta $77         ; temporarily store the object type
+
+    ; Use lookup tables to load the offsets into the sprite.
+
+    ; Direction
+    iny
+    lda ($74),y
+    sta $80         ; temporarily store the direction
+
+    ; y
+    iny
+    lda ($74),y
+    tax
+    lda screen_rows_low,x
+    sta $72
+    lda screen_rows_high,x
+    sta $73
+    clc
+
+    ; dy
+    iny
+    lda ($74),y
+    sta $76
+    tax
+    lda screen_subrows_low,x
+    adc $72
+    sta $72
+    lda screen_subrows_high,x
+    adc $73
+    sta $73
+    clc
+
+    ; x
+    iny
+    lda ($74),y
+    tax
+    lda screen_columns_low,x
+    adc $72
+    sta $72
+    lda screen_columns_high,x
+    adc $73
+    sta $73
+    clc
+
+    ; dx
+    iny
+    lda ($74),y
+    tax
+    lda screen_subcolumns_low,x
+    adc $72
+    sta $72
+    clc
+
+    lda $77
+    cmp #1
+    bne plot_characters_loop_not_player
+
+    ; Plot 8x24 sprites (player)
+
+    ldx $80
+    lda player_direction_chars_low,x
+    sta $70
+    lda player_direction_chars_high,x
+    sta $71
+
+    ; Use the dy value to determine which plotting routine to use.
+
+    ldy #0
+    lda $76
+    and #1
+    bne plot_characters_plot_8x24_1
+
+    lda #1
+    sta ($78),y
+    jmp plot_characters_stored
+
+    plot_characters_plot_8x24_1:
+    clc
+    lda #2
+    sta ($78),y
+    jmp plot_characters_stored
+
+
+    plot_characters_loop_not_player:
+    cmp #2
+    bne plot_characters_loop_not_projectile
+
+    ; Plot 8x8 sprites (projectiles)
+
+    ; Use the dy value to determine which plotting routine to use.
+
+    ldy #0
+    lda $76
+    and #1
+    bne plot_characters_plot_8x8_1
+
+    lda #3
+    sta ($78),y
+    jmp plot_characters_stored
+
+    plot_characters_plot_8x8_1:
+    clc
+    lda #4
+    sta ($78),y
+    jmp plot_characters_stored
+
+
+    plot_characters_loop_not_projectile:
+    cmp #3
+    bne plot_characters_loop_not_explosion
+
+    ; Plot 16x16 sprites (emerging, explosions)
+
+    ; Select the sprites to use.
+
+    lda $80         ; remove the least significant bit, used to delay
+    lsr             ; the animation
+    and #7          ; only keep the bits required to find the correct sprite
+    tax
+    lda emerge_explode_chars_low,x
+    sta $70
+    lda emerge_explode_chars_high,x
+    sta $71
+
+    jmp plot_characters_16x16
+
+    plot_characters_loop_not_explosion:
+    cmp #4
+    bmi plot_characters_loop_not_enemy
+
+    ; Plot 16x16 sprites (enemies)
+
+    ; Select the set of sprites to use.
+
+    and #$38
+    lsr
+    lsr     ; bits 3,4,5 >> 2 -> bits 1,2,3
+    clc
+    sta $71 ; 0x00, 0x02, 0x04, 0x06, 0x08
+
+    ldx $80
+    lda enemy_direction_chars_low,x
+    sta $70
+    lda enemy_direction_chars_high,x
+    adc $71
+    sta $71
+
+    plot_characters_16x16:
+
+    ; Use the dy value to determine which plotting routine to use.
+
+    ldy #0
+    lda $76
+    and #1
+    bne plot_characters_plot_16x16_1
+
+    lda #5
+    sta ($78),y
+    jmp plot_characters_stored
+
+    plot_characters_plot_16x16_1:
+    clc
+    lda #6
+    sta ($78),y
+
+
+    plot_characters_stored:
+
+    iny
+    lda $70
+    sta ($78),y
+    iny
+    lda $71
+    sta ($78),y
+    iny
+    lda $72
+    sta ($78),y
+    iny
+    lda $73
+    sta ($78),y
+
+    clc
+    lda $78
+    adc #12
+    sta $78
+
+    plot_characters_loop_not_enemy:
+
+    plot_characters_next:
+
+    lda #255    ; terminate this stream of entries in the plot buffer
+    ldy #0
+    sta ($78),y
     clc
     rts
 
@@ -1280,14 +1267,25 @@ reset_plot_buffer:
     sta $84
     lda #$47
     sta $85
+
+    lda #255    ; terminate the plot list
+    ldy #0
+    sta ($84),y
     rts
 
 reset_unplot_buffer:
     lda #$00    ; reset the index into the plot buffer
-    sta $84
+    sta $82
     lda #$47
-    sta $85
+    sta $83
+
+    lda #255    ; terminate the unplot list
+    ldy #0
+    sta ($82),y
     rts
+
+plot_buffer_types_low:  .byte <plot_buffer_loop_next, <plot8x24_y0, <plot8x24_y1, <plot8x8_y0, <plot8x8_y1, <plot16x16_y0, <plot16x16_y1
+plot_buffer_types_high: .byte >plot_buffer_loop_next, >plot8x24_y0, >plot8x24_y1, >plot8x8_y0, >plot8x8_y1, >plot16x16_y0, >plot16x16_y1
 
 plot_buffer:
 
@@ -1307,10 +1305,10 @@ plot_buffer:
         beq plot_buffer_loop_skip
 
         clc
+        tax
+        lda plot_buffer_types_low,x
         sta $86
-        
-        iny
-        lda ($84),y
+        lda plot_buffer_types_high,x
         sta $87
 
         iny
@@ -1366,6 +1364,8 @@ animate_player_left:
     and #1
     eor #1      ; toggle animation flag
     sta $3301   ; left (directional bits are 0)
+
+    jsr plot_character
     rts
 
 animate_player_right:
@@ -1377,6 +1377,8 @@ animate_player_right:
     eor #1      ; toggle animation flag
     ora #2      ; right
     sta $3301
+
+    jsr plot_character
     rts
 
 animate_player_up:
@@ -1388,6 +1390,8 @@ animate_player_up:
     eor #1      ; toggle animation flag
     ora #4      ; up
     sta $3301
+
+    jsr plot_character
     rts
 
 animate_player_down:
@@ -1399,9 +1403,16 @@ animate_player_down:
     eor #1      ; toggle animation flag
     ora #6      ; down
     sta $3301
+
+    jsr plot_character
     rts
 
 move_player:
+
+    lda #$00    ; set up the address of the player character
+    sta $74
+    lda #$33
+    sta $75
 
     ; Handle the left key.
 
@@ -1414,6 +1425,7 @@ move_player:
     cmp #0
     beq move_player_left_check_x
 
+    jsr unplot_character        ; unplot the player character
     dec $3305
     clc
     jmp animate_player_left ; optimise away the rts
@@ -1453,6 +1465,9 @@ move_player:
 
     move_player_allow_left:
     tya
+    sta $81                 ; temporary
+    jsr unplot_character    ; unplot the player character
+    lda $81
     sta $3304               ; store the new room x offset
     lda #3
     sta $3305               ; dx = 3
@@ -1467,14 +1482,17 @@ move_player:
     clc
 
     ; Set the player's position on the right of the screen.
+    
+    ; No need to unplot.
 
     lda #9      ; x = 9
     sta $3304
     lda #2      ; dx = 2
     sta $3305
 
+    jsr animate_player_left
     sec                     ; indicate to the calling routine that the player
-    jmp animate_player_left ; has left the room (optimising away the rts)
+    rts                     ; has left the room
 
     move_player_not_left_key:
 
@@ -1491,6 +1509,7 @@ move_player:
     cmp #3
     beq move_player_right_tile
 
+    jsr unplot_character        ; unplot the player character
     inc $3305
     clc
     jmp animate_player_right    ; optimise away the rts
@@ -1530,12 +1549,14 @@ move_player:
 
     move_player_allow_right:
 
+    jsr unplot_character        ; unplot the player character
     inc $3305                   ; update dx
     clc
     jmp animate_player_right    ; optimise away the rts
 
     move_player_right_tile:
 
+    jsr unplot_character    ; unplot the player character
     inc $3304               ; store the new room x offset
     lda #0
     sta $3305               ; dx = 0
@@ -1551,14 +1572,16 @@ move_player:
 
     ; Set the player's position on the left of the screen.
 
+    ; No need to unplot.
+
     lda #0      ; x = 0
     sta $3304
     lda #0      ; dx = 0
     sta $3305
 
+    jsr animate_player_right    
     sec                         ; indicate to the calling routine that the
-    jmp animate_player_right    ; player has left the room (optimising away the
-                                ; rts)
+    rts                         ; player has left the room
 
     move_player_not_right_key:
 
@@ -1573,6 +1596,7 @@ move_player:
     cmp #0
     beq move_player_up_check_y
 
+    jsr unplot_character        ; unplot the player character
     dec $3303
     clc
     jmp animate_player_up       ; optimise away the rts
@@ -1610,6 +1634,9 @@ move_player:
 
     move_player_allow_up:
     txa
+    sta $81                 ; temporary
+    jsr unplot_character    ; unplot the player character
+    lda $81
     sta $3302               ; store the new room y offset
     lda #5
     sta $3303               ; dy = 5
@@ -1625,13 +1652,16 @@ move_player:
 
     ; Set the player's position on the bottom of the screen.
 
+    ; No need to unplot.
+
     lda #9      ; y = 9
     sta $3302
     lda #0      ; dy = 0
     sta $3303
 
+    jsr animate_player_up
     sec                     ; indicate to the calling routine that the player
-    jmp animate_player_up   ; has left the room (optimising away the rts)
+    rts                     ; has left the room
 
     move_player_not_up_key:
 
@@ -1648,6 +1678,7 @@ move_player:
     cmp #5
     beq move_player_down_tile
 
+    jsr unplot_character        ; unplot the player character
     inc $3303                   ; 0 < dy < 5
     clc
     jmp animate_player_down    ; optimise away the rts
@@ -1685,12 +1716,14 @@ move_player:
 
     move_player_allow_down:
 
+    jsr unplot_character        ; unplot the player character
     inc $3303                   ; update dy
     clc
     jmp animate_player_down     ; optimise away the rts
 
     move_player_down_tile:
 
+    jsr unplot_character        ; unplot the player character
     inc $3302                   ; store the new room y offset
     lda #0
     sta $3303                   ; dy = 0
@@ -1706,14 +1739,16 @@ move_player:
 
     ; Set the player's position on the top of the screen.
 
+    ; No need to unplot.
+
     lda #0      ; y = 0
     sta $3302
     lda #0      ; dy = 0
     sta $3303
 
+    jsr animate_player_down
     sec                         ; indicate to the calling routine that the
-    jmp animate_player_down     ; player has left the room (optimising away the
-                                ; rts)
+    rts                         ; player has left the room
 
     move_player_not_down_key:
     clc
@@ -1740,11 +1775,115 @@ emerge_position:                ; returns A=position
     clc
     rts
 
+emerge_character:           ; $74,$75=character address
+
+    lda #63
+    sta $33ff
+
+    jsr emerge_position     ; obtain a y position
+    tax
+    jsr emerge_position     ; obtain an x position
+    sta $80                 ; temporary
+    tay
+
+    lda room_row_offsets_low,x
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y             ; load the tile
+
+    cmp #0
+    bne emerge_character_exit
+
+    ; There is a space in the room, so add an emerging enemy.
+
+    ldy #0
+    lda #3
+    sta ($74),y
+
+    jsr emerge_type         ; obtain an enemy type
+    iny
+    sta ($74),y
+
+    txa
+    iny
+    sta ($74),y             ; store the y position
+    lda #1
+    iny
+    sta ($74),y             ; store the dy offset
+
+    lda $80
+    iny
+    sta ($74),y             ; store the x position
+    lda #0
+    iny
+    sta ($74),y             ; store the dx offset
+
+    jsr plot_character
+
+    emerge_character_exit:
+    clc
+    rts
+
+emerge_explode:             ; $74,$75=character address
+
+    jsr unplot_character
+
+    ldy #1
+    lda ($74),y     ; direction/animation
+    tax
+    adc #1          ; update the counter
+    and #7          ; mask off everything else
+    sta $80         ; store the masked counter value
+    bne move_characters_explosion_not_finished
+
+    txa
+    and #8
+    bne move_characters_remove_character
+
+    ; For emerges, convert into an enemy.
+    txa
+    and #$70        ; only keep bits 4,5,6
+    lsr             ; bits 4,5,6 -> 3,4,5
+    ora #4          ; make this an enemy
+
+    ldy #0
+    sta ($74),y     ; update the type
+    iny
+    lda #0          ; prepare the direction and animation offset
+    sta ($74),y
+
+    jsr plot_character
+    jmp emerge_explode_exit
+
+    move_characters_remove_character:
+
+    ; For finished explosions, just write 0 into the character array.
+    lda #0
+    ldy #0
+    sta ($74),y
+    jmp emerge_explode_exit
+
+    move_characters_explosion_not_finished:
+    txa
+    and #$f8
+    ora $80
+
+    ldy #1
+    sta ($74),y
+
+    jsr plot_character
+
+    emerge_explode_exit:
+    clc
+    rts
+
+
 move_characters:
 
     dec $33ff
 
-    lda #$0c
+    lda #$0c            ; set the character address
     sta $74
     lda #$33
     sta $75
@@ -1761,48 +1900,7 @@ move_characters:
         cmp #0
         bne move_characters_next
 
-        lda #63
-        sta $33ff
-
-        jsr emerge_position     ; obtain a y position
-        tax
-        jsr emerge_position     ; obtain an x position
-        sta $80                 ; temporary
-        tay
-
-        lda room_row_offsets_low,x
-        sta $70
-        lda #$57
-        sta $71
-        lda ($70),y             ; load the tile
-
-        cmp #0
-        bne move_characters_next
-
-        ; There is a space in the room, so add an emerging enemy.
-
-        ldy #0
-        lda #3
-        sta ($74),y
-
-        jsr emerge_type         ; obtain an enemy type
-        iny
-        sta ($74),y
-
-        txa
-        iny
-        sta ($74),y             ; store the y position
-        lda #1
-        iny
-        sta ($74),y             ; store the dy offset
-
-        lda $80
-        iny
-        sta ($74),y             ; store the x position
-        lda #0
-        iny
-        sta ($74),y             ; store the dx offset
-
+        jsr emerge_character
         jmp move_characters_next
 
         move_characters_read_character:
@@ -1811,45 +1909,7 @@ move_characters:
         cmp #3
         bne move_characters_next
 
-        iny
-        lda ($74),y     ; direction/animation
-        tax
-        adc #1
-        and #7
-        sta $80
-        bne move_characters_explosion_not_finished
-
-        dey
-
-        txa
-        and #8
-        bne move_characters_remove_character
-
-        ; For emerges, convert into an enemy.
-        txa
-        and #$70        ; only keep bits 4,5,6
-        lsr             ; bits 4,5,6 -> 3,4,5
-        ora #4          ; make this an enemy
-
-        sta ($74),y     ; update the type
-        iny
-        lda #0          ; prepare the direction and animation offset
-
-        jmp move_characters_update_character
-
-        move_characters_remove_character:
-        
-        ; For explosions, just write 0 into the character array.
-        lda #0
-        jmp move_characters_update_character
-
-        move_characters_explosion_not_finished:
-        txa
-        and #$f8
-        ora $80
-
-        move_characters_update_character:
-        sta ($74),y
+        jsr emerge_explode
 
         move_characters_next:
         clc
@@ -1867,19 +1927,19 @@ move_characters:
     clc
     rts
 
-clear_characters:
+remove_characters:
 
     ; Clear the character table.
 
     ldx #6
-    clear_character_loop:
+    remove_characters_loop:
         lda #0
         sta $3300,x
         txa
         adc #6
         tax
         cpx #$24
-        bmi clear_character_loop
+        bmi remove_characters_loop
 
     rts
 
@@ -2005,84 +2065,6 @@ start_new_game:
     sta $3304
     lda #0      ; dx=0
     sta $3305
-
-;    lda #$3     ; explode/emerge
-;    sta $330c
-;    lda #0      ; emerge (first frame)
-;    sta $330d
-;    lda #3      ; y=3
-;    sta $330e
-;    lda #1      ; dy=1
-;    sta $330f
-;    lda #3      ; x=3
-;    sta $3310
-;    lda #0      ; dx=0
-;    sta $3311
-;
-;    lda #$4     ; enemy (0)
-;    sta $330c
-;    lda #0      ; left up (first frame)
-;    sta $330d
-;    lda #3      ; y=3
-;    sta $330e
-;    lda #1      ; dy=1
-;    sta $330f
-;    lda #3      ; x=3
-;    sta $3310
-;    lda #0      ; dx=0
-;    sta $3311
-;
-;    lda #$c     ; enemy (1)
-;    sta $3312
-;    lda #4      ; left down (first frame)
-;    sta $3313
-;    lda #3      ; y=3
-;    sta $3314
-;    lda #0      ; dy=0
-;    sta $3315
-;    lda #7      ; x=7
-;    sta $3316
-;    lda #0      ; dx=0
-;    sta $3317
-;
-;    lda #$14    ; enemy (2)
-;    sta $3318
-;    lda #2      ; right up (first frame)
-;    sta $3319
-;    lda #7      ; y=7
-;    sta $331a
-;    lda #0      ; dy=0
-;    sta $331b
-;    lda #3      ; x=3
-;    sta $331c
-;    lda #0      ; dx=0
-;    sta $331d
-;
-;    lda #$1c    ; enemy (3)
-;    sta $331e
-;    lda #2      ; right up (first frame)
-;    sta $331f
-;    lda #7      ; y=7
-;    sta $3320
-;    lda #0      ; dy=0
-;    sta $3321
-;    lda #3      ; x=3
-;    sta $3322
-;    lda #0      ; dx=0
-;    sta $3323
-;
-;    lda #$24    ; enemy (4)
-;    sta $3324
-;    lda #6      ; right down (first frame)
-;    sta $3325
-;    lda #7      ; y=7
-;    sta $3326
-;    lda #0      ; dy=0
-;    sta $3327
-;    lda #7      ; x=7
-;    sta $3328
-;    lda #0      ; dx=0
-;    sta $3329
     rts
 
 main:
@@ -2106,33 +2088,28 @@ main:
             lda $33f3
             sta $79
             jsr plot_room
-            jsr clear_characters
+            jsr remove_characters
 
             jsr reset_unplot_buffer
-            lda #255    ; terminate the unplot list by default because the
-            ldy #0      ; initial plotting of the buffer only plots characters
-            sta ($84),y
             jsr reset_plot_buffer
-            jsr plot_characters
+
+            lda #$00        ; plot the player
+            sta $74
+            lda #$33
+            sta $75
+            jsr plot_character
+
             jsr plot_buffer
 
             lda #63
             sta $33ff
 
             room_loop:
-                lda #$00    ; reset the index into the plot buffer
-                sta $84
-                lda #$47
-                sta $85
-
                 jsr reset_unplot_buffer
-                jsr plot_characters ; unplot
+                jsr reset_plot_buffer
                 jsr move_characters
                 jsr move_player
                 bcs after_room_loop
-
-                jsr reset_plot_buffer
-                jsr plot_characters ; plot
 
                 lda #19
                 jsr $fff4
