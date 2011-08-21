@@ -2301,7 +2301,7 @@ move_enemy:             ; $74,$75=character address
     ldy #3
     lda ($74),y         ; dy
     cmp #1
-    beq move_enemy_horizontally
+    beq move_enemy_toggle
     bpl move_enemy_upwards
 
     move_enemy_downwards:
