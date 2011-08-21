@@ -83,6 +83,7 @@ if __name__ == "__main__":
     # 33F9 projectile type
     # 33FA level
     # 33FB palette workspace (enough for one 5 byte palette entry)
+    #       33FD is also projectile counter when in a room
     #       33FE is also motion counter when in a room
     #       33FF is also enemy generation counter when in a room
     #
