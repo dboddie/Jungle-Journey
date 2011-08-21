@@ -2348,7 +2348,7 @@ move_enemy:             ; $74,$75=character address
 
     ldy #3
     lda ($74),y         ; dy
-    cmp #1
+    cmp $3303           ; player y
     beq move_enemy_horizontally
     bpl move_enemy_upwards
 
@@ -2862,6 +2862,8 @@ projectile_collide:
         lda ($74),y         ; dy                    ; 6 + y - py >= 2
         sec                                         ; y - py >= -4
         sbc $3309           ; dy - projectile dy
+        bpl projectile_collide_next
+
         cmp #252
         bmi projectile_check_collide_x
 
