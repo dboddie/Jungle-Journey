@@ -1772,21 +1772,27 @@ move_player:
     rts                         ; player has left the room
 
     move_player_not_down_key:
+    clc
+    rts
 
-    ; Handle the fire key.
+check_fire_key:
+
+    lda $33fe
+    and #15
+    bne check_fire_key_exit
 
     ldx #182            ; (Return)
     jsr check_key
     cpy #255
-    bne move_player_not_fire_key
+    bne check_fire_key_exit
 
     lda $3306
     cmp #0
-    bne move_player_not_fire_key
+    bne check_fire_key_exit
 
     jmp create_projectile   ; optimise away the rts
 
-    move_player_not_fire_key:
+    check_fire_key_exit:
     clc
     rts
 
@@ -2465,8 +2471,11 @@ move_projectile_left:
     lda #3
     sta $330b       ; dx = 3
 
-    move_projectile_left_exit:
     clc
+    rts
+
+    move_projectile_left_exit:
+    sec
     rts
 
 move_projectile_right:
@@ -2526,9 +2535,11 @@ move_projectile_right:
     inc $330a       ; x
     lda #0
     sta $330b       ; dx
+    clc
+    rts
 
     move_projectile_right_exit:
-    clc
+    sec
     rts
 
 move_projectile_up:
@@ -2577,8 +2588,11 @@ move_projectile_up:
     lda #5
     sta $3309               ; dy = 5
 
-    move_projectile_up_exit:
     clc
+    rts
+
+    move_projectile_up_exit:
+    sec
     rts
 
 move_projectile_down:
@@ -2635,9 +2649,11 @@ move_projectile_down:
     inc $3308                   ; store the new room y offset
     lda #0
     sta $3309                   ; dy = 0
+    clc
+    rts
 
     move_projectile_down_exit:
-    clc
+    sec
     rts
 
 move_projectile_animate:
@@ -2666,31 +2682,40 @@ move_projectile:
     bne move_projectile_not_left
 
     jsr move_projectile_left
-    jmp move_projectile_toggle
+    bcc move_projectile_toggle
+    bcs move_projectile_destroy
 
     move_projectile_not_left:
     cmp #$08
     bne move_projectile_not_right
 
     jsr move_projectile_right
-    jmp move_projectile_toggle
+    bcc move_projectile_toggle
+    bcs move_projectile_destroy
 
     move_projectile_not_right:
     cmp #$10
     bne move_projectile_not_up
 
     jsr move_projectile_up
-    jmp move_projectile_toggle
+    bcc move_projectile_toggle
+    bcs move_projectile_destroy
 
     move_projectile_not_up:
     cmp #$18
     bne move_projectile_toggle
 
     jsr move_projectile_down
+    bcs move_projectile_destroy
 
     move_projectile_toggle:
     jsr move_projectile_animate
     jmp plot_character          ; optimise away the rts
+
+    move_projectile_destroy:
+    clc
+    lda #0
+    sta $3306
 
     move_projectile_exit:
     clc
@@ -2949,6 +2974,7 @@ main:
                 jsr move_characters
                 jsr move_projectile
 
+                jsr check_fire_key
                 jsr move_player
                 bcs after_room_loop
 
