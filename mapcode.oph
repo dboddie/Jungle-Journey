@@ -1607,9 +1607,8 @@ move_player:
     cmp #0
     beq move_player_leave_room_up
 
-    sec
-    sbc #1                      ; y - 1
     tax                         ; use the y offset as an index
+    dex                         ; y - 1
     lda $3304                   ; load the x offset
     tay
     lda room_row_offsets_low,x  ; read the address of the row
@@ -1878,6 +1877,433 @@ emerge_explode:             ; $74,$75=character address
     clc
     rts
 
+animate_enemy_left:     ; $74,$75=character address
+
+    ; Set the direction and toggle the animation bit.
+
+    ldy #1
+    lda ($74),y
+    and #1
+    eor #1      ; toggle animation flag
+    sta ($74),y ; left (directional bits are 0)
+
+    jsr plot_character
+    rts
+
+move_enemy_left:        ; $74,$75=character address
+
+    ldy #5
+    lda ($74),y         ; read dx
+    cmp #0
+    beq move_enemy_left_check_x
+
+    sta $81                     ; temporary
+    jsr unplot_character        ; unplot the enemy character
+    dec $81
+    lda $81
+    ldy #5
+    sta ($74),y                 ; dx
+    clc
+    jmp animate_enemy_left      ; optimise away the rts
+
+    move_enemy_left_check_x:
+
+    ; Check the x offset.
+
+    ldy #4
+    lda ($74),y                 ; x
+    cmp #0
+    beq move_enemy_left_exit
+
+    sec
+    sbc #1                      ; x - 1
+    sta $81                     ; temporary
+    ldy #2
+    lda ($74),y                 ; load the y offset
+    tax                         ; as an index
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    ldy $81                     ; temporary (x - 1)
+    lda ($70),y                 ; load the tile to the left
+
+    cmp #0
+    bne move_enemy_left_exit
+
+    ldy #3
+    lda ($74),y                 ; dy
+    cmp #3
+    bmi move_enemy_allow_left
+
+    clc
+    lda $70                 ; dy > 2 so we need to check another tile
+    adc #10
+    sta $70
+    ldy $81                 ; temporary (x - 1)
+    lda ($70),y             ; load the tile below and to the left
+
+    cmp #0
+    bne move_enemy_left_exit
+
+    move_enemy_allow_left:
+    jsr unplot_character    ; unplot the enemy character
+    lda $81
+    ldy #4
+    sta ($74),y             ; store the new room x offset
+    lda #3
+    ldy #5
+    sta ($74),y             ; dx = 3
+    clc
+    jmp animate_enemy_left ; optimise away the rts
+
+    move_enemy_left_exit:
+    clc
+    rts
+
+animate_enemy_right:    ; $74,$75=character address
+
+    ; Set the direction and toggle the animation bit.
+
+    ldy #1
+    lda ($74),y
+    and #1      ; remove direction information (result is 0)
+    eor #1      ; toggle animation flag
+    ora #2      ; right
+    sta ($74),y
+
+    jsr plot_character
+    rts
+
+move_enemy_right:       ; $74,$75=character_address
+
+    ldy #5
+    lda ($74),y                 ; read dx
+    cmp #0
+    beq move_enemy_right_check_x
+    cmp #3
+    beq move_enemy_right_tile
+
+    sta $81                     ; temporary
+    jsr unplot_character        ; unplot the enemy character
+    inc $81                     ; 0 < dy < 5
+    lda $81
+    ldy #5
+    sta ($74),y
+    clc
+    jmp animate_enemy_right    ; optimise away the rts
+    
+    move_enemy_right_check_x:  ; Check the x offset.
+
+    ldy #4
+    lda ($74),y                 ; x
+    cmp #9
+    beq move_enemy_right_exit
+
+    clc
+    adc #1                      ; x + 1
+    sta $81                     ; temporary (x + 1)
+    ldy #2
+    lda ($74),y                 ; load the y offset
+    tax                         ; as an index
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    ldy $81                     ; temporary (x + 1)
+    lda ($70),y                 ; load the tile to the right
+
+    cmp #0
+    bne move_enemy_right_exit
+
+    ldy #3
+    lda ($74),y                 ; dy
+    cmp #3
+    bmi move_enemy_allow_right
+
+    clc                         ; dy > 2 so we need to check another tile
+    lda $70
+    adc #10
+    sta $70
+    ldy $81
+    lda ($70),y                 ; load the tile below and to the right
+
+    cmp #0
+    bne move_enemy_right_exit
+
+    move_enemy_allow_right:
+
+    jsr unplot_character        ; unplot the enemy character
+    ldy #5
+    lda ($74),y                 ; dx
+    adc #1
+    sta ($74),y                 ; update dx
+    clc
+    jmp animate_enemy_right    ; optimise away the rts
+
+    move_enemy_right_tile:
+
+    jsr unplot_character    ; unplot the enemy character
+    ldy #4
+    lda ($74),y             ; x
+    adc #1
+    sta ($74),y             ; store the new room x offset
+    lda #0
+    iny
+    sta ($74),y             ; dx = 0
+    clc
+    jmp animate_enemy_right ; optimise away the rts
+
+    move_enemy_right_exit:
+    clc
+    rts
+
+animate_enemy_up:   ; $74,$75=character address
+
+    ; Set the direction and toggle the animation bit.
+
+    ldy #1
+    lda ($74),y
+    and #1      ; remove direction information (result is 0)
+    eor #1      ; toggle animation flag
+    ora #4      ; up
+    sta ($74),y
+
+    jsr plot_character
+    rts
+
+move_enemy_up:      ; $74,$75=character address
+
+    ldy #3
+    lda ($74),y                 ; read dy
+    cmp #0
+    beq move_enemy_up_check_y
+
+    sta $81
+    jsr unplot_character        ; unplot the enemy character
+    dec $81
+    lda $81
+    ldy #3
+    sta ($74),y                 ; dy
+    clc
+    jmp animate_enemy_up        ; optimise away the rts
+    
+    move_enemy_up_check_y:
+
+    ; Check the y offset.
+
+    ldy #2
+    lda ($74),y                 ; y
+    cmp #0
+    beq move_enemy_up_exit
+
+    tax                         ; use the y offset as an index
+    dex                         ; y - 1
+    ldy #4
+    lda ($74),y                 ; load the x offset
+    sta $81                     ; temporary (x)
+    tay
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile above
+
+    cmp #0
+    bne move_enemy_up_exit
+
+    ldy #5
+    lda ($74),y                 ; dx
+    cmp #0
+    beq move_enemy_allow_up
+
+    clc                     ; dx != 0 so we need to check another tile
+    ldy $81
+    iny
+    lda ($70),y             ; load the tile above and to the right
+
+    cmp #0
+    bne move_enemy_up_exit
+
+    move_enemy_allow_up:
+    txa
+    sta $81                 ; temporary
+    jsr unplot_character    ; unplot the enemy character
+    lda $81
+    ldy #2
+    sta ($74),y             ; store the new room y offset
+    lda #5
+    iny
+    sta ($74),y             ; dy = 5
+    clc
+    jmp animate_enemy_up   ; optimise away the rts
+
+    move_enemy_up_exit:
+    clc
+    rts
+
+animate_enemy_down: ; $74,$75=character address
+
+    ; Set the direction and toggle the animation bit.
+
+    ldy #1
+    lda ($74),y
+    and #1      ; remove direction information (result is 0)
+    eor #1      ; toggle animation flag
+    ora #6      ; down
+    sta ($74),y
+
+    jsr plot_character
+    rts
+
+move_enemy_down:    ; $74,$75=character address    
+
+    ldy #3
+    lda ($74),y         ; dy
+    cmp #2
+    beq move_enemy_down_check_y
+    cmp #5
+    beq move_enemy_down_tile
+
+    sta $81                     ; temporary
+    jsr unplot_character        ; unplot the character
+    inc $81                     ; 0 < dy < 5
+    lda $81
+    ldy #3
+    sta ($74),y         ; dy
+    clc
+    jmp animate_enemy_down      ; optimise away the rts
+    
+    move_enemy_down_check_y:
+
+    ; Check the y offset.
+
+    ldy #2
+    lda ($74),y
+    cmp #9
+    beq move_enemy_down_exit
+
+    clc
+    adc #1                      ; y + 1
+    tax
+    ldy #4
+    lda ($74),y                 ; load the x offset
+    sta $81                     ; temporary
+    tay
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile below
+
+    cmp #0
+    bne move_enemy_down_exit
+
+    ldy #5
+    lda ($74),y                 ; dx
+    cmp #0
+    beq move_enemy_allow_down
+
+    clc                         ; dx != 0 so we need to check another tile
+    ldy $81                     ; x
+    iny
+    lda ($70),y                 ; load the tile below and to the right
+
+    cmp #0
+    bne move_enemy_down_exit
+
+    move_enemy_allow_down:
+
+    jsr unplot_character        ; unplot the character
+    ldy #3
+    lda ($74),y                 ; dy
+    adc #1
+    sta ($74),y                 ; update dy
+    clc
+    jmp animate_enemy_down      ; optimise away the rts
+
+    move_enemy_down_tile:
+
+    jsr unplot_character        ; unplot the character
+    ldy #2
+    lda ($74),y                 ; y
+    adc #1
+    sta ($74),y                 ; store the new room y offset
+    lda #0
+    iny
+    sta ($74),y                 ; dy = 0
+    clc
+    jmp animate_enemy_down      ; optimise away the rts
+
+    move_enemy_down_exit:
+    clc
+    rts
+
+move_enemy:             ; $74,$75=character address
+
+    ;and #16             ; A contains the object type
+    ;beq move_enemy_with_inbuilt_direction
+
+    ldy #2
+    lda ($74),y         ; y
+    cmp $3302           ; player y
+    beq move_enemy_horizontally
+    bpl move_enemy_upwards
+
+    ; Move the enemy downwards.
+    lda #4
+    jmp move_enemy_with_direction
+
+    move_enemy_upwards:
+    lda #3
+    jmp move_enemy_with_direction
+
+    move_enemy_horizontally:
+    ldy #4
+    lda ($74),y         ; x
+    cmp $3304           ; player x
+    beq move_enemy_exit
+    bpl move_enemy_leftwards
+
+    ; Move the enemy to the right.
+    lda #2
+    jmp move_enemy_with_direction
+
+    move_enemy_leftwards:
+    lda #1
+    jmp move_enemy_with_direction
+
+    move_enemy_with_inbuilt_direction:
+
+    ldy #1              ; direction/animation
+    lda ($74),y
+    and #6
+
+    move_enemy_with_direction:
+
+    cmp #1
+    bne move_enemy_not_left
+    jmp move_enemy_left     ; optimise away the rts
+
+    move_enemy_not_left:
+    cmp #2
+    bne move_enemy_not_right
+    jmp move_enemy_right    ; optimise away the rts
+
+    move_enemy_not_right:
+    cmp #3
+    bne move_enemy_not_up
+    jmp move_enemy_up       ; optimise away the rts
+
+    move_enemy_not_up:
+    cmp #4
+    bne move_enemy_exit
+    jmp move_enemy_down     ; optimise away the rts
+
+    move_enemy_exit:
+    clc
+    rts
+    
 
 move_characters:
 
@@ -1907,9 +2333,16 @@ move_characters:
         clc
 
         cmp #3
-        bne move_characters_next
+        bne move_characters_not_emerge_explode
 
         jsr emerge_explode
+        jmp move_characters_next
+
+        move_characters_not_emerge_explode:
+        cmp #4
+        bmi move_characters_next
+
+        jsr move_enemy
 
         move_characters_next:
         clc
