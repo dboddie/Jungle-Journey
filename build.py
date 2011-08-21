@@ -54,6 +54,8 @@ if __name__ == "__main__":
     #             4 and higher enemy - bits 3,4,5 are enemy type)
     #   n+1 counter/direction
     #       (player: bits 1,2 are direction, bit 0 is animation
+    #        projectile: bits 3,4 are direction, bits 1,2 are type,
+    #                    bit 0 is animation
     #        enemy:  bits 2,3 are direction, bits 1,0 are animation
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
     #                             bit 3 is type 0=emerge,1=explode,
@@ -77,7 +79,8 @@ if __name__ == "__main__":
     # 33F0 starting room (i, j)
     # 33F2 current room (i, j)
     # 33F4 lives
-    # 33F6 score (four bytes)
+    # 33F6 score (three bytes)
+    # 33F9 projectile type
     # 33FA level
     # 33FB palette workspace (enough for one 5 byte palette entry)
     #       33FE is also motion counter when in a room

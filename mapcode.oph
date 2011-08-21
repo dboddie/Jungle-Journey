@@ -887,10 +887,11 @@ plot16x16_y1:           ; $70,$71=source address
 
 plot8x8_y0:             ; $70,$71=source address
                         ; $72,$73=destination address
-    ldy #31
+    ldy #15
 
     plotloop8x8_y0_0:
         lda ($70),y
+        eor ($72),y
         sta ($72),y
         dey
         bpl plotloop8x8_y0_0
@@ -1032,6 +1033,8 @@ enemy_direction_chars_high: .byte $37,$37,$37,$37,$38,$38,$38,$38
 emerge_explode_chars_low: .byte $00,$40,$80,$c0,$00,$40,$80,$c0
 emerge_explode_chars_high: .byte $41,$41,$41,$41,$42,$42,$42,$42
 
+projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
+
 unplot_character:       ; $74,$75=character address
 
     lda $82
@@ -1154,6 +1157,14 @@ plot_character_sprite:  ; $74,$75=character address
     bne plot_characters_loop_not_projectile
 
     ; Plot 8x8 sprites (projectiles)
+
+    lda $80
+    and #7
+    tax
+    lda projectile_chars_low,x
+    sta $70
+    lda #$36
+    sta $71
 
     ; Use the dy value to determine which plotting routine to use.
 
@@ -1447,9 +1458,9 @@ move_player:
     cmp #0
     beq move_player_leave_room_left
 
-    sec
-    sbc #1                      ; x - 1
+    clc
     tay
+    dey                         ; x - 1
     lda $3302                   ; load the y offset
     tax                         ; as an index
     lda room_row_offsets_low,x  ; read the address of the row
@@ -1532,8 +1543,8 @@ move_player:
     beq move_player_leave_room_right
 
     clc
-    adc #1                      ; x + 1
     tay
+    iny                         ; x + 1
     lda $3302                   ; load the y offset
     tax                         ; as an index
     lda room_row_offsets_low,x  ; read the address of the row
@@ -1700,8 +1711,8 @@ move_player:
     beq move_player_leave_room_down
 
     clc
-    adc #1                      ; y + 1
     tax
+    inx                         ; y + 1
     lda $3304                   ; load the x offset
     tay
     lda room_row_offsets_low,x  ; read the address of the row
@@ -1761,6 +1772,69 @@ move_player:
     rts                         ; player has left the room
 
     move_player_not_down_key:
+
+    ; Handle the fire key.
+
+    ldx #182            ; (Return)
+    jsr check_key
+    cpy #255
+    bne move_player_not_fire_key
+
+    lda $3306
+    cmp #0
+    bne move_player_not_fire_key
+
+    jmp create_projectile   ; optimise away the rts
+
+    move_player_not_fire_key:
+    clc
+    rts
+
+create_projectile:
+
+    lda #2
+    sta $3306
+
+    lda $3301
+    and #$06        ; copy the direction information
+    asl
+    asl
+    ora $33f9       ; apply the projectile type
+    sta $3307
+
+    lda $3303       ; dy
+    cmp #4
+    bpl create_projectile_below
+
+    clc
+    adc #2
+    sta $3309       ; dy + 2
+    lda $3302       ; y
+    sta $3308
+    jmp create_projectile_continue
+
+    create_projectile_below:
+    sec
+    sbc #4
+    sta $3309       ; dy - 4
+    clc
+    lda $3302       ; y
+    adc #1
+    sta $3308
+
+    create_projectile_continue:
+    lda $3304       ; x
+    sta $330a
+
+    lda $3305       ; dx
+    sta $330b
+
+    lda #$06
+    sta $74
+    lda #$33
+    sta $75
+    jsr plot_character
+
     clc
     rts
 
@@ -2301,7 +2375,6 @@ move_enemy:             ; $74,$75=character address
     move_enemy_leftwards:
     lda #1
     sta $8e
-    ;jmp move_enemy_with_direction
 
     move_enemy_with_direction:
     clc
@@ -2344,7 +2417,284 @@ move_enemy:             ; $74,$75=character address
     move_enemy_exit:
     clc
     rts
+
+move_projectile_left:
+
+    lda $330b
+    cmp #0
+    beq move_projectile_left_check_x
+
+    dec $330b
+    clc
+    rts
+
+    move_projectile_left_check_x:
+
+    lda $330a
+    cmp #0
+    beq move_projectile_left_exit
+
+    tay
+    dey                         ; x - 1
+    ldx $3308                   ; y
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile to the left
+
+    cmp #0
+    bne move_projectile_left_exit
+
+    lda $3309                   ; dy
+    cmp #5
+    bmi move_projectile_allow_left
+
+    clc                         ; dy > 4 so we need to check another tile
+    lda $70
+    adc #10
+    sta $70
+    lda ($70),y                 ; load the tile below and to the left
+
+    cmp #0
+    bne move_projectile_left_exit
+
+    move_projectile_allow_left:
+
+    sty $330a       ; x
+    lda #3
+    sta $330b       ; dx = 3
+
+    move_projectile_left_exit:
+    clc
+    rts
+
+move_projectile_right:
+
+    ; Fire right.
+
+    lda $330b
+    cmp #2
+    beq move_projectile_right_check_x
+    cmp #3
+    beq move_projectile_right_tile
+
+    inc $330b
+    clc
+    rts
+
+    move_projectile_right_check_x:
+
+    lda $330a       ; x
+    cmp #9
+    beq move_projectile_right_exit
+
+    clc
+    tay
+    iny                         ; x + 1
+    ldx $3308                   ; y
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile to the right
+
+    cmp #0
+    bne move_projectile_right_exit
+
+    lda $3309                   ; dy
+    cmp #5
+    bmi move_projectile_allow_right
+
+    clc                         ; dy > 4 so we need to check another tile
+    lda $70
+    adc #10
+    sta $70
+    lda ($70),y                 ; load the tile below and to the right
+
+    cmp #0
+    bne move_projectile_right_exit
+
+    move_projectile_allow_right:
+
+    inc $330b       ; dx
+    clc
+    rts
+
+    move_projectile_right_tile:
+
+    inc $330a       ; x
+    lda #0
+    sta $330b       ; dx
+
+    move_projectile_right_exit:
+    clc
+    rts
+
+move_projectile_up:
+
+    lda $3309           ; read dy
+    cmp #0
+    beq move_projectile_up_check_y
+
+    dec $3309
+    clc
+    rts
     
+    move_projectile_up_check_y:     ; Check the y offset.
+
+    lda $3308
+    cmp #0
+    beq move_projectile_up_exit
+
+    tax                         ; use the y offset as an index
+    dex                         ; y - 1
+    lda $330a                   ; load the x offset
+    tay
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile above
+
+    cmp #0
+    bne move_projectile_up_exit
+
+    lda $330b                   ; dx
+    cmp #3
+    bmi move_projectile_allow_up
+
+    clc                     ; dx > 2 so we need to check another tile
+    iny
+    lda ($70),y             ; load the tile above and to the right
+
+    cmp #0
+    bne move_projectile_up_exit
+
+    move_projectile_allow_up:
+    txa
+    sta $3308               ; store the new room y offset
+    lda #5
+    sta $3309               ; dy = 5
+
+    move_projectile_up_exit:
+    clc
+    rts
+
+move_projectile_down:
+
+    lda $3309                   ; read dy
+    cmp #4
+    beq move_projectile_down_check_y
+    cmp #5
+    beq move_projectile_down_tile
+
+    inc $3309                   ; 0 < dy < 5
+    clc
+    rts
+    
+    move_projectile_down_check_y:  ; Check the y offset.
+
+    lda $3308
+    cmp #9
+    beq move_projectile_down_exit
+
+    clc
+    tax
+    inx                         ; y + 1
+    lda $330a                   ; load the x offset
+    tay
+    lda room_row_offsets_low,x  ; read the address of the row
+    sta $70
+    lda #$57
+    sta $71
+    lda ($70),y                 ; load the tile below
+
+    cmp #0
+    bne move_projectile_down_exit
+
+    lda $330b                   ; dx
+    cmp #3
+    bmi move_projectile_allow_down
+
+    clc                         ; dx > 2 so we need to check another tile
+    iny
+    lda ($70),y                 ; load the tile below and to the right
+
+    cmp #0
+    bne move_projectile_down_exit
+
+    move_projectile_allow_down:
+
+    inc $3309                   ; update dy
+    clc
+    rts
+
+    move_projectile_down_tile:
+
+    inc $3308                   ; store the new room y offset
+    lda #0
+    sta $3309                   ; dy = 0
+
+    move_projectile_down_exit:
+    clc
+    rts
+
+move_projectile_animate:
+
+    lda $3307
+    eor #1
+    sta $3307
+    rts
+
+move_projectile:
+
+    lda $3306
+    cmp #0
+    beq move_projectile_exit
+
+    lda #$06
+    sta $74
+    lda #$33
+    sta $75
+    jsr unplot_character
+
+    lda $3307
+    and #$18            ; direction
+
+    cmp #0
+    bne move_projectile_not_left
+
+    jsr move_projectile_left
+    jmp move_projectile_toggle
+
+    move_projectile_not_left:
+    cmp #$08
+    bne move_projectile_not_right
+
+    jsr move_projectile_right
+    jmp move_projectile_toggle
+
+    move_projectile_not_right:
+    cmp #$10
+    bne move_projectile_not_up
+
+    jsr move_projectile_up
+    jmp move_projectile_toggle
+
+    move_projectile_not_up:
+    cmp #$18
+    bne move_projectile_toggle
+
+    jsr move_projectile_down
+
+    move_projectile_toggle:
+    jsr move_projectile_animate
+    jmp plot_character          ; optimise away the rts
+
+    move_projectile_exit:
+    clc
+    rts
 
 move_characters:
 
@@ -2371,6 +2721,7 @@ move_characters:
         move_characters_read_character:
         clc
 
+        move_characters_not_projectile:
         cmp #3
         bne move_characters_not_emerge_explode
 
@@ -2522,6 +2873,10 @@ start_new_game:
     lda #0
     sta $33fa
 
+    ; Set the projectile type.
+    lda #0
+    sta $33f9
+
     ; Set starting room and current room.
 
     lda #5
@@ -2592,6 +2947,8 @@ main:
                 jsr reset_unplot_buffer
                 jsr reset_plot_buffer
                 jsr move_characters
+                jsr move_projectile
+
                 jsr move_player
                 bcs after_room_loop
 
