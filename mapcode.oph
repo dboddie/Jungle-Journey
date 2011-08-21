@@ -1207,7 +1207,8 @@ plot_character_sprite:  ; $74,$75=character address
     clc
     sta $71 ; 0x00, 0x02, 0x04, 0x06, 0x08
 
-    lda $80         ; remove the least significant bit, used to delay
+    lda $80
+    lsr             ; remove the least significant bits, used to delay
     lsr             ; the animation
     and #7          ; remove the top direction bit
     clc
@@ -1900,16 +1901,9 @@ animate_enemy_left:     ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    sta $81
-    adc #1
-    and #$07    ; keep animation bits
-    sta $8f
-    lda $81
-    and #$10    ; keep vertical direction bit
-    ora $8f
+    and #$2f    ; keep vertical direction bit and animation bits
     sta ($74),y ; left (horizontal directional bit is 0)
 
-    jsr plot_character
     rts
 
 move_enemy_left:        ; $74,$75=character address
@@ -1919,10 +1913,8 @@ move_enemy_left:        ; $74,$75=character address
     cmp #0
     beq move_enemy_left_check_x
 
-    sta $81                     ; temporary
-    jsr unplot_character        ; unplot the enemy character
-    dec $81
-    lda $81
+    sec
+    sbc #1
     ldy #5
     sta ($74),y                 ; dx
     clc
@@ -1969,7 +1961,6 @@ move_enemy_left:        ; $74,$75=character address
     bne move_enemy_left_exit
 
     move_enemy_allow_left:
-    jsr unplot_character    ; unplot the enemy character
     lda $81
     ldy #4
     sta ($74),y             ; store the new room x offset
@@ -1989,17 +1980,9 @@ animate_enemy_right:    ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    sta $81
-    adc #1
-    and #$07    ; keep animation bits
-    sta $8f
-    lda $81
-    and #$10    ; keep vertical direction bit
-    ora $8f
-    ora #8      ; right
+    ora #$10    ; right (keep vertical direction bit and animation bits)
     sta ($74),y
 
-    jsr plot_character
     rts
 
 move_enemy_right:       ; $74,$75=character_address
@@ -2011,13 +1994,10 @@ move_enemy_right:       ; $74,$75=character_address
     cmp #3
     beq move_enemy_right_tile
 
-    sta $81                     ; temporary
-    jsr unplot_character        ; unplot the enemy character
-    inc $81                     ; 0 < dy < 5
-    lda $81
+    clc
+    adc #1
     ldy #5
     sta ($74),y
-    clc
     jmp animate_enemy_right    ; optimise away the rts
     
     move_enemy_right_check_x:  ; Check the x offset.
@@ -2052,7 +2032,7 @@ move_enemy_right:       ; $74,$75=character_address
     lda $70
     adc #10
     sta $70
-    ldy $81
+    ldy $81                     ; temporary (x + 1)
     lda ($70),y                 ; load the tile below and to the right
 
     cmp #0
@@ -2060,7 +2040,6 @@ move_enemy_right:       ; $74,$75=character_address
 
     move_enemy_allow_right:
 
-    jsr unplot_character        ; unplot the enemy character
     ldy #5
     lda ($74),y                 ; dx
     adc #1
@@ -2069,8 +2048,8 @@ move_enemy_right:       ; $74,$75=character_address
     jmp animate_enemy_right    ; optimise away the rts
 
     move_enemy_right_tile:
+    clc
 
-    jsr unplot_character    ; unplot the enemy character
     ldy #4
     lda ($74),y             ; x
     adc #1
@@ -2091,16 +2070,9 @@ animate_enemy_up:   ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    sta $81
-    adc #1
-    and #$07    ; keep animation bits
-    sta $8f
-    lda $81
-    and #$08    ; keep horizontal direction bit
-    ora $8f
+    and #$1f    ; keep horizontal direction bit and animation bits
     sta ($74),y
 
-    jsr plot_character
     rts
 
 move_enemy_up:      ; $74,$75=character address
@@ -2110,10 +2082,8 @@ move_enemy_up:      ; $74,$75=character address
     cmp #0
     beq move_enemy_up_check_y
 
-    sta $81
-    jsr unplot_character        ; unplot the enemy character
-    dec $81
-    lda $81
+    sec
+    sbc #1
     ldy #3
     sta ($74),y                 ; dy
     clc
@@ -2158,9 +2128,6 @@ move_enemy_up:      ; $74,$75=character address
 
     move_enemy_allow_up:
     txa
-    sta $81                 ; temporary
-    jsr unplot_character    ; unplot the enemy character
-    lda $81
     ldy #2
     sta ($74),y             ; store the new room y offset
     lda #5
@@ -2179,17 +2146,10 @@ animate_enemy_down: ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    sta $81
-    adc #1
-    and #$07    ; keep animation bits
-    sta $8f
-    lda $81
-    and #$08    ; keep horizontal direction bit
-    ora $8f
-    ora #$10    ; down
+    and #$1f    ; keep horizontal direction bit and animation bits
+    ora #$20    ; down
     sta ($74),y
 
-    jsr plot_character
     rts
 
 move_enemy_down:    ; $74,$75=character address    
@@ -2201,10 +2161,7 @@ move_enemy_down:    ; $74,$75=character address
     cmp #5
     beq move_enemy_down_tile
 
-    sta $81                     ; temporary
-    jsr unplot_character        ; unplot the character
-    inc $81                     ; 0 < dy < 5
-    lda $81
+    adc #1
     ldy #3
     sta ($74),y         ; dy
     clc
@@ -2250,7 +2207,6 @@ move_enemy_down:    ; $74,$75=character address
 
     move_enemy_allow_down:
 
-    jsr unplot_character        ; unplot the character
     ldy #3
     lda ($74),y                 ; dy
     adc #1
@@ -2259,8 +2215,8 @@ move_enemy_down:    ; $74,$75=character address
     jmp animate_enemy_down      ; optimise away the rts
 
     move_enemy_down_tile:
+    clc
 
-    jsr unplot_character        ; unplot the character
     ldy #2
     lda ($74),y                 ; y
     adc #1
@@ -2277,32 +2233,34 @@ move_enemy_down:    ; $74,$75=character address
 
 move_enemy_animate:     ; $74,$75=character address
 
-    jsr unplot_character
     ldy #1
     lda ($74),y         ; direction/animation
     sta $81
     adc #1
-    and #$07            ; keep animation bits
+    and #$0f            ; keep animation bits
     sta $8f
     lda $81
-    and #$18            ; mask off the animation bits
+    and #$30            ; mask off the animation bits
     ora $8f
     sta ($74),y
-    jmp plot_character  ; optimise away the rts
+    rts
 
 move_enemy:             ; $74,$75=character address
 
     ldy #1
     lda ($74),y                 ; direction/animation
-    and #1
-    beq move_enemy_delay
+    and #3
+    cmp #3
+    beq move_enemy_now
+    
+    clc
+    jmp move_enemy_animate      ; optimise away the rts
 
-    lda ($74),y                 ; direction/animation
-    and #2
-    bne move_enemy_horizontally
-
-    ;and #16             ; A contains the object type
-    ;beq move_enemy_with_inbuilt_direction
+    move_enemy_now:
+    lda #0
+    sta $8d
+    lda #0
+    sta $8e
 
     ldy #2
     lda ($74),y         ; y
@@ -2313,16 +2271,18 @@ move_enemy:             ; $74,$75=character address
     ldy #3
     lda ($74),y         ; dy
     cmp #1
-    beq move_enemy_toggle
+    beq move_enemy_horizontally
     bpl move_enemy_upwards
 
     move_enemy_downwards:
-    lda #$10
-    jmp move_enemy_vertically_with_direction
+    lda #2
+    sta $8d
+    jmp move_enemy_horizontally
 
     move_enemy_upwards:
-    lda #$00
-    jmp move_enemy_vertically_with_direction
+    lda #1
+    sta $8d
+    ;jmp move_enemy_horizontally
 
     move_enemy_horizontally:
     ldy #4
@@ -2334,65 +2294,56 @@ move_enemy:             ; $74,$75=character address
     ldy #5
     lda ($74),y         ; dx
     cmp #0
-    beq move_enemy_toggle
+    beq move_enemy_with_direction
     bpl move_enemy_leftwards
 
     move_enemy_rightwards:
-    lda #$08
-    jmp move_enemy_horizontally_with_direction
+    lda #2
+    sta $8e
+    jmp move_enemy_with_direction
 
     move_enemy_leftwards:
-    lda #$00
-    jmp move_enemy_horizontally_with_direction
-
-    move_enemy_with_inbuilt_direction:
-
-    ldy #1              ; direction/animation
-    lda ($74),y
-    and #$18
+    lda #1
+    sta $8e
+    ;jmp move_enemy_with_direction
 
     move_enemy_with_direction:
+    clc
 
-    move_enemy_horizontally_with_direction:
+    jsr unplot_character
 
-    cmp #0
+    lda $8e
+    cmp #1
     bne move_enemy_not_left
     jsr move_enemy_left
-    bcs move_enemy_toggle
-    bcc move_enemy_exit
+    clc
+    jmp move_enemy_not_right
 
     move_enemy_not_left:
-    cmp #$08
-    bne move_enemy_toggle
+    lda $8e
+    cmp #2
+    bne move_enemy_not_right
     jsr move_enemy_right
-    bcs move_enemy_toggle
-    bcc move_enemy_exit
-
-    move_enemy_vertically_with_direction:
+    clc
 
     move_enemy_not_right:
-    cmp #0
+    lda $8d
+    cmp #1
     bne move_enemy_not_up
     jsr move_enemy_up
-    bcs move_enemy_toggle
-    bcc move_enemy_exit
+    clc
+    jmp move_enemy_toggle
 
     move_enemy_not_up:
-    cmp #$10
+    lda $8d
+    cmp #2
     bne move_enemy_toggle
     jsr move_enemy_down
-    bcs move_enemy_toggle
-    bcc move_enemy_exit
 
     move_enemy_toggle:
     clc
-    jmp move_enemy_animate
-
-    move_enemy_delay:
-    ldy #1
-    lda ($74),y
-    eor #1
-    sta ($74),y
+    jsr move_enemy_animate
+    jmp plot_character      ; optimise away the rts
 
     move_enemy_exit:
     clc
