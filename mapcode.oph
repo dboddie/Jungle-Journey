@@ -1209,6 +1209,7 @@ plot_character_sprite:  ; $74,$75=character address
 
     lda $80         ; remove the least significant bit, used to delay
     lsr             ; the animation
+    and #7          ; remove the top direction bit
     clc
     tax
     lda enemy_direction_chars_low,x
@@ -1887,9 +1888,14 @@ animate_enemy_left:     ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #2
-    eor #2      ; toggle animation flag
-    sta ($74),y ; left (directional bits are 0)
+    sta $81
+    adc #1
+    and #$07    ; keep animation bits
+    sta $8f
+    lda $81
+    and #$10    ; keep vertical direction bit
+    ora $8f
+    sta ($74),y ; left (horizontal directional bit is 0)
 
     jsr plot_character
     rts
@@ -1971,9 +1977,14 @@ animate_enemy_right:    ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #2      ; remove direction information (result is 0)
-    eor #2      ; toggle animation flag
-    ora #4      ; right
+    sta $81
+    adc #1
+    and #$07    ; keep animation bits
+    sta $8f
+    lda $81
+    and #$10    ; keep vertical direction bit
+    ora $8f
+    ora #8      ; right
     sta ($74),y
 
     jsr plot_character
@@ -2068,9 +2079,13 @@ animate_enemy_up:   ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #2      ; remove direction information (result is 0)
-    eor #2      ; toggle animation flag
-    ora #8      ; up
+    sta $81
+    adc #1
+    and #$07    ; keep animation bits
+    sta $8f
+    lda $81
+    and #$08    ; keep horizontal direction bit
+    ora $8f
     sta ($74),y
 
     jsr plot_character
@@ -2152,9 +2167,14 @@ animate_enemy_down: ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #2      ; remove direction information (result is 0)
-    eor #2      ; toggle animation flag
-    ora #12     ; down
+    sta $81
+    adc #1
+    and #$07    ; keep animation bits
+    sta $8f
+    lda $81
+    and #$08    ; keep horizontal direction bit
+    ora $8f
+    ora #$10    ; down
     sta ($74),y
 
     jsr plot_character
@@ -2248,8 +2268,13 @@ move_enemy_animate:     ; $74,$75=character address
     jsr unplot_character
     ldy #1
     lda ($74),y         ; direction/animation
-    and #$fe            ; mask off the delay bit
-    eor #2
+    sta $81
+    adc #1
+    and #$07            ; keep animation bits
+    sta $8f
+    lda $81
+    and #$18            ; mask off the animation bits
+    ora $8f
     sta ($74),y
     jmp plot_character  ; optimise away the rts
 
@@ -2270,39 +2295,53 @@ move_enemy:             ; $74,$75=character address
     ldy #2
     lda ($74),y         ; y
     cmp $3302           ; player y
+    bmi move_enemy_downwards
+    bne move_enemy_upwards
+
+    ldy #3
+    lda ($74),y         ; dy
+    cmp #1
     beq move_enemy_horizontally
     bpl move_enemy_upwards
 
-    ; Move the enemy downwards.
-    lda #12
-    jmp move_enemy_with_direction
+    move_enemy_downwards:
+    lda #$10
+    jmp move_enemy_vertically_with_direction
 
     move_enemy_upwards:
-    lda #8
-    jmp move_enemy_with_direction
+    lda #$00
+    jmp move_enemy_vertically_with_direction
 
     move_enemy_horizontally:
     ldy #4
     lda ($74),y         ; x
     cmp $3304           ; player x
+    bmi move_enemy_rightwards
+    bne move_enemy_leftwards
+
+    ldy #5
+    lda ($74),y         ; dx
+    cmp #0
     beq move_enemy_toggle
     bpl move_enemy_leftwards
 
-    ; Move the enemy to the right.
-    lda #4
-    jmp move_enemy_with_direction
+    move_enemy_rightwards:
+    lda #$08
+    jmp move_enemy_horizontally_with_direction
 
     move_enemy_leftwards:
-    lda #0
-    jmp move_enemy_with_direction
+    lda #$00
+    jmp move_enemy_horizontally_with_direction
 
     move_enemy_with_inbuilt_direction:
 
     ldy #1              ; direction/animation
     lda ($74),y
-    and #$0c
+    and #$18
 
     move_enemy_with_direction:
+
+    move_enemy_horizontally_with_direction:
 
     cmp #0
     bne move_enemy_not_left
@@ -2311,21 +2350,23 @@ move_enemy:             ; $74,$75=character address
     bcc move_enemy_exit
 
     move_enemy_not_left:
-    cmp #4
-    bne move_enemy_not_right
+    cmp #$08
+    bne move_enemy_toggle
     jsr move_enemy_right
     bcs move_enemy_toggle
     bcc move_enemy_exit
 
+    move_enemy_vertically_with_direction:
+
     move_enemy_not_right:
-    cmp #8
+    cmp #0
     bne move_enemy_not_up
     jsr move_enemy_up
     bcs move_enemy_toggle
     bcc move_enemy_exit
 
     move_enemy_not_up:
-    cmp #12
+    cmp #$10
     bne move_enemy_toggle
     jsr move_enemy_down
     bcs move_enemy_toggle

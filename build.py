@@ -54,8 +54,8 @@ if __name__ == "__main__":
     #             4 and higher enemy - bits 3,4,5 are enemy type)
     #   n+1 counter/direction (player: bits 1,2 are direction,
     #                                  bit 0 is animation
-    #                  enemy:  bits 2,3 are direction,
-    #                          bits 0,1 are animation with bit 0 a delay bit)
+    #                  enemy:  bits 3,4 are direction,
+    #                          bits 1,2 are animation, bit 0 is a delay bit)
     #  (emerging, explosion: bits 4,5,6 are enemy type for emerging,
     #                               bit 3 is type 0=emerge,1=explode,
     #                        bits 0,1,2 are animation with bit 0 a delay bit)
