@@ -1771,9 +1771,21 @@ emerge_type:                    ; returns A=type
     clc
     rts
 
-emerge_position:                ; returns A=position
+emerge_x_position:              ; returns A=position
     jsr unlimited_values
-    lda $7d
+    lda $3304
+    and #2
+    eor $7d
+    and #7
+    adc #1
+    clc
+    rts
+
+emerge_y_position:              ; returns A=position
+    jsr unlimited_values
+    lda $3302
+    and #2
+    eor $7d
     and #7
     adc #1
     clc
@@ -1784,9 +1796,9 @@ emerge_character:           ; $74,$75=character address
     lda #63
     sta $33ff
 
-    jsr emerge_position     ; obtain a y position
+    jsr emerge_y_position     ; obtain a y position
     tax
-    jsr emerge_position     ; obtain an x position
+    jsr emerge_x_position     ; obtain an x position
     sta $80                 ; temporary
     tay
 
