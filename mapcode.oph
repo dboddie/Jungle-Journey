@@ -1181,9 +1181,8 @@ plot_character_sprite:  ; $74,$75=character address
 
     ; Select the sprites to use.
 
-    lda $80         ; remove the least significant bit, used to delay
-    lsr             ; the animation
-    and #7          ; only keep the bits required to find the correct sprite
+    lda $80
+    and #3          ; only keep the bits required to find the correct sprite
     clc
     tax
     lda emerge_explode_chars_low,x
@@ -1208,10 +1207,7 @@ plot_character_sprite:  ; $74,$75=character address
     sta $71 ; 0x00, 0x02, 0x04, 0x06, 0x08
 
     lda $80
-    lsr             ; remove the least significant bits, used to delay
-    lsr             ; the animation
-    and #7          ; remove the top direction bit
-    clc
+    and #7          ; keep the animation bits
     tax
     lda enemy_direction_chars_low,x
     sta $70
@@ -1414,6 +1410,15 @@ animate_player_down:
     rts
 
 move_player:
+
+    lda $33fe
+    and #1
+    beq move_player_allowed
+
+    clc
+    rts
+
+    move_player_allowed:
 
     lda #$00    ; set up the address of the player character
     sta $74
@@ -1850,7 +1855,7 @@ emerge_explode:             ; $74,$75=character address
     lda ($74),y     ; direction/animation
     tax
     adc #1          ; update the counter
-    and #7          ; mask off everything else
+    and #3          ; mask off everything else
     sta $80         ; store the masked counter value
     bne move_characters_explosion_not_finished
 
@@ -1901,7 +1906,7 @@ animate_enemy_left:     ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #$2f    ; keep vertical direction bit and animation bits
+    and #$0b    ; keep vertical direction bit and animation bits
     sta ($74),y ; left (horizontal directional bit is 0)
 
     rts
@@ -1980,7 +1985,7 @@ animate_enemy_right:    ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    ora #$10    ; right (keep vertical direction bit and animation bits)
+    ora #$04    ; right (keep vertical direction bit and animation bits)
     sta ($74),y
 
     rts
@@ -2039,6 +2044,7 @@ move_enemy_right:       ; $74,$75=character_address
     bne move_enemy_right_exit
 
     move_enemy_allow_right:
+    clc
 
     ldy #5
     lda ($74),y                 ; dx
@@ -2070,7 +2076,7 @@ animate_enemy_up:   ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #$1f    ; keep horizontal direction bit and animation bits
+    and #$07    ; keep horizontal direction bit and animation bits
     sta ($74),y
 
     rts
@@ -2146,8 +2152,7 @@ animate_enemy_down: ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #$1f    ; keep horizontal direction bit and animation bits
-    ora #$20    ; down
+    ora #$08    ; down
     sta ($74),y
 
     rts
@@ -2206,6 +2211,7 @@ move_enemy_down:    ; $74,$75=character address
     bne move_enemy_down_exit
 
     move_enemy_allow_down:
+    clc
 
     ldy #3
     lda ($74),y                 ; dy
@@ -2237,26 +2243,16 @@ move_enemy_animate:     ; $74,$75=character address
     lda ($74),y         ; direction/animation
     sta $81
     adc #1
-    and #$0f            ; keep animation bits
+    and #$03            ; keep animation bits
     sta $8f
     lda $81
-    and #$30            ; mask off the animation bits
+    and #$0c            ; mask off the animation bits
     ora $8f
     sta ($74),y
     rts
 
 move_enemy:             ; $74,$75=character address
 
-    ldy #1
-    lda ($74),y                 ; direction/animation
-    and #3
-    cmp #3
-    beq move_enemy_now
-    
-    clc
-    jmp move_enemy_animate      ; optimise away the rts
-
-    move_enemy_now:
     lda #0
     sta $8d
     lda #0
@@ -2352,8 +2348,6 @@ move_enemy:             ; $74,$75=character address
 
 move_characters:
 
-    dec $33ff
-
     lda #$0c            ; set the character address
     sta $74
     lda #$33
@@ -2380,12 +2374,20 @@ move_characters:
         cmp #3
         bne move_characters_not_emerge_explode
 
+        lda $33fe           ; check motion counter
+        and #1
+        bne move_characters_next
+
         jsr emerge_explode
         jmp move_characters_next
 
         move_characters_not_emerge_explode:
         cmp #4
         bmi move_characters_next
+
+        lda $33fe           ; check motion counter
+        and #3
+        bne move_characters_next
 
         jsr move_enemy
 
@@ -2566,6 +2568,7 @@ main:
             lda $33f3
             sta $79
             jsr plot_room
+
             jsr remove_characters
 
             jsr reset_unplot_buffer
@@ -2579,7 +2582,10 @@ main:
 
             jsr plot_buffer
 
-            lda #63
+            lda #0         ; reset motion counter
+            sta $33fe
+
+            lda #63         ; reset generation counter
             sta $33ff
 
             room_loop:
@@ -2597,6 +2603,11 @@ main:
                 jsr check_key
                 cpy #255
                 beq exit
+                clc
+
+                dec $33ff   ; update generation counter
+
+                inc $33fe   ; update motion counter
                 clc
                 jmp room_loop
 
