@@ -1861,9 +1861,9 @@ emerge_type:                    ; returns A=type
 
 emerge_x_position:              ; returns A=position
     jsr unlimited_values
-    lda $3304
-    and #2
-    eor $7d
+    lda $7d
+    ora #2
+    eor $3304
     and #7
     adc #1
     clc
@@ -1871,9 +1871,9 @@ emerge_x_position:              ; returns A=position
 
 emerge_y_position:              ; returns A=position
     jsr unlimited_values
-    lda $3302
-    and #2
-    eor $7d
+    lda $7d
+    ora #2
+    eor $3302
     and #7
     adc #1
     clc
@@ -2844,8 +2844,9 @@ projectile_collide:
         ldy #3
         lda ($74),y         ; dy
         sec
-        sbc $3309           ; dy - projectile dy
-        bmi projectile_check_collide_y_equal_n
+        sbc $3309           ; dy - projectile dy    ; this appears to be
+        bmi projectile_check_collide_y_equal_n      ; required to deal with
+                                                    ; negative results
 
         cmp #2                                  ; y - py >= 2 (to miss)
         bmi projectile_check_collide_x
