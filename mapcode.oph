@@ -2791,6 +2791,9 @@ move_characters:
         jmp move_characters_loop
 
     move_characters_exit:
+
+    jsr player_collide
+
     clc
     rts
 
@@ -2893,9 +2896,15 @@ projectile_collide:
         jmp projectile_collide_next
 
         projectile_check_collide_x_equal:
+        ldy #5
+        lda ($74),y         ; dx
+        sec
+        sbc $330b           ; dx - projectile dx
+        bmi projectile_check_collide_destroy
+        cmp #2
+        bmi projectile_check_collide_destroy
 
-        ; A collision has occurred (enemies occupy the whole width of a tile).
-        jmp projectile_check_collide_destroy
+        jmp projectile_collide_next
 
         projectile_check_collide_x_greater:     ; X - px >= 2 (to miss)
         ldy #5                                  ; X = 4 + x  (coordinates)
@@ -2912,9 +2921,9 @@ projectile_collide:
         lda ($74),y         ; dx                ; 4 + px - x >= 4
         sec                                     ; x - px <= 0
         sbc $330b           ; dx - projectile dx
-        bmi projectile_collide_next
+        bpl projectile_check_collide_destroy
 
-        jmp projectile_check_collide_destroy
+        jmp projectile_collide_next
 
         projectile_collide_next:
         clc
@@ -2948,6 +2957,160 @@ projectile_collide:
     rts         ; should be destroyed
 
     projectile_collide_exit:
+    clc
+    rts
+
+player_collide:
+
+    lda #$0c            ; set the character address
+    sta $74
+    lda #$33
+    sta $75
+
+    player_collide_loop:
+
+        ldy #0
+        lda ($74),y         ; type
+        cmp #4
+        bpl player_collide_check
+
+        jmp player_collide_next
+
+        player_collide_check:
+
+        ldy #2
+        lda ($74),y         ; y
+        sec
+        sbc $3302           ; y - player y
+        beq player_check_collide_y_equal
+        cmp #1
+        beq player_check_collide_y_greater
+        cmp #255
+        beq player_check_collide_y_less
+
+        jmp player_collide_next
+
+        player_check_collide_y_equal:
+        ldy #3
+        lda ($74),y         ; dy
+        sec
+        sbc $3303           ; dy - player dy    ; this appears to be
+        bmi player_check_collide_y_equal_n      ; required to deal with
+                                                ; negative results
+
+        cmp #2                                  ; dy - dpy >= 6 (to miss)
+        bmi player_check_collide_x
+
+        player_check_collide_y_equal_n:
+        cmp #253                                ; dy - dpy <= -4 (to miss)
+        bpl player_check_collide_x
+
+        jmp player_collide_next
+
+        player_check_collide_y_greater:         ; DY - dpy >= 6 (to miss)
+        ldy #3                                  ; DY = 6 + dy  (coordinates)
+        lda ($74),y         ; dy                ; 6 + dy - dpy >= 6
+        sec                                     ; dy - py >= 0
+        sbc $3303           ; dy - player dy
+        bmi player_check_collide_x
+
+        jmp player_collide_next
+
+        player_check_collide_y_less:            ; DPY - dy >= 4 (to miss)
+        ldy #3                                  ; DPY = 6 + dpy
+        lda ($74),y         ; dy                ; 6 + dpy - dy >= 4
+        sec                                     ; dy - dpy <= 2
+        sbc $3303           ; dy - player dy
+        cmp #3
+        bpl player_check_collide_x
+
+        jmp player_collide_next
+
+        player_check_collide_x:
+        ldy #4
+        lda ($74),y         ; x
+        sec
+        sbc $3304           ; x - player x
+        beq player_check_collide_x_equal
+        cmp #1
+        beq player_check_collide_x_greater
+        cmp #255
+        beq player_check_collide_x_less
+
+        jmp player_collide_next
+
+        player_check_collide_x_equal:
+
+        ldy #5
+        lda ($74),y         ; dx
+        sec
+        sbc $330b           ; dx - player dx
+        bmi player_check_collide_x_equal_n
+
+        cmp #3
+        bmi player_check_collide_destroy
+
+        jmp player_collide_next
+
+        player_check_collide_x_equal_n:
+        jmp player_check_collide_destroy
+
+        player_check_collide_x_greater:         ; DX - dpx >= 2 (to miss)
+        ldy #5                                  ; DX = 4 + dx  (coordinates)
+        lda ($74),y         ; dx                ; 4 + dx - dpx >= 2
+        sec                                     ; dx - dpx >= -2
+        sbc $3305           ; dx - player dx
+        bcc player_check_collide_x_greater_n
+
+        jmp player_collide_next
+
+        player_check_collide_x_greater_n:
+        cmp #253
+        bpl player_collide_next
+
+        jmp player_check_collide_destroy
+
+        player_check_collide_x_less:            ; PX - x >= 4 (to miss)
+        ldy #5                                  ; PX = 4 + px
+        lda ($74),y         ; dx                ; 4 + px - x >= 4
+        sec                                     ; x - px <= 0
+        sbc $3305           ; dx - player dx
+        bpl player_check_collide_destroy
+
+        jmp player_collide_next
+
+        player_collide_next:
+        clc
+
+        ; Examine the next character.
+        lda $74
+        adc #6
+
+        cmp #$24
+        bpl player_collide_exit
+        sta $74
+        jmp player_collide_loop
+
+    player_check_collide_destroy:
+
+    ; Unplot the enemy and replace it with an explosion.
+
+    jsr unplot_character
+
+    lda #3      ; explosion
+    ldy #0
+    sta ($74),y
+
+    lda #8
+    ldy #1
+    sta ($74),y
+
+    jsr plot_character
+
+    sec         ; set the carry flag to inform the caller that the player
+    rts         ; should be destroyed
+
+    player_collide_exit:
     clc
     rts
 

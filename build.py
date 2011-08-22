@@ -142,10 +142,7 @@ if __name__ == "__main__":
     
     files.append(("LOADER", 0xffff0e00, 0xffff802b, t))
     
-    t = read_basic("TESTSPRITES")
-    t = t.replace("{plot0}", "%X" % addresses[-3]
-        ).replace("{key_input}", "%X" % addresses[-1]
-        ).replace("{plot1}", "%X" % addresses[-2])
+    t = read_basic("TESTINEQ")
     files.append(("TEST", 0xffff0e00, 0xffff802b, t))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)

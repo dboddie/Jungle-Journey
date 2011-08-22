@@ -1,0 +1,43 @@
+AUTO
+FOR T%=0 TO 2 STEP 2
+P%=&1900
+[OPT T%
+
+LDA &70
+SEC
+SBC #3
+BMI neg
+
+CMP #2
+BMI zero_one
+
+LDA #0
+STA &71
+RTS
+
+.zero_one
+LDA #1
+STA &71
+RTS
+
+.neg
+CMP #254
+BPL minus_two_plus
+
+LDA #2
+STA &71
+RTS
+
+.minus_two_plus
+LDA #3
+STA &71
+RTS
+
+]
+NEXT
+
+FOR A%=0 TO 6
+?&70=A%
+CALL &1900
+PRINT ?&70-3, ?&71
+NEXT
