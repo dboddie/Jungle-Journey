@@ -132,18 +132,11 @@ if __name__ == "__main__":
     
     files.append(("CODE", code_start, addresses[-1], code))
     
-    data = makesprites.read_sprites(makesprites.chars)
-    files.append(("CHARS", 0x3400, 0x3400, data))
-    
     data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5300, 0x5300, data))
     
-    t = read_basic("LOADER").replace("{addr}", "%X" % addresses[-4])
-    
-    files.append(("LOADER", 0xffff0e00, 0xffff802b, t))
-    
-    t = read_basic("TESTINEQ")
-    files.append(("TEST", 0xffff0e00, 0xffff802b, t))
+    data = makesprites.read_sprites(makesprites.chars)
+    files.append(("CHARS", 0x3400, 0x3400, data))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
