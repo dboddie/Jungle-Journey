@@ -2854,21 +2854,22 @@ projectile_collide:
         cmp #2                                  ; y - py >= 2 (to miss)
         bmi projectile_check_collide_x
 
+        jmp projectile_collide_next
+
         projectile_check_collide_y_equal_n:
         cmp #253                                ; y - py <= -4 (to miss)
         bpl projectile_check_collide_x
 
         jmp projectile_collide_next
 
-        projectile_check_collide_y_greater:         ; Y - py >= 2 (to miss)
-        ldy #3                                      ; Y = 6 + y  (coordinates)
-        lda ($74),y         ; dy                    ; 6 + y - py >= 2
-        sec                                         ; y - py >= -4
-        sbc $3309           ; dy - projectile dy
-        bpl projectile_collide_next
-
-        cmp #252
-        bmi projectile_check_collide_x
+        projectile_check_collide_y_greater:
+        lda $3309           ; projectile dy
+        cmp #5
+        bne projectile_collide_next
+        ldy #3
+        lda ($74),y         ; projectile dy - dy
+        cmp #0
+        beq projectile_check_collide_x              ; dpy = 5, dy = 0
 
         jmp projectile_collide_next
 
@@ -2900,30 +2901,28 @@ projectile_collide:
         lda ($74),y         ; dx
         sec
         sbc $330b           ; dx - projectile dx
-        bmi projectile_check_collide_destroy
         cmp #2
-        bmi projectile_check_collide_destroy
+        bpl projectile_collide_next
+        jmp projectile_check_collide_destroy
+
+        projectile_check_collide_x_greater:         ; X - px >= 2 (to miss)
+        ldy #5                                      ; X = 4 + x  (coordinates)
+        lda $330b           ; projectile dx         ; 4 + x - px >= 2
+        sec                                         ; x - px >= -2
+        sbc ($74),y         ; projectile dx - dx
+        cmp #3                                      ; px - x > 2 (to hit)
+        bpl projectile_check_collide_destroy
 
         jmp projectile_collide_next
-
-        projectile_check_collide_x_greater:     ; X - px >= 2 (to miss)
-        ldy #5                                  ; X = 4 + x  (coordinates)
-        lda ($74),y         ; dx                ; 4 + x - px >= 2
-        sec                                     ; x - px >= -2
-        sbc $330b           ; dx - projectile dx
-        cmp #254
-        bpl projectile_collide_next
-
-        jmp projectile_check_collide_destroy
 
         projectile_check_collide_x_less:        ; PX - x >= 4 (to miss)
         ldy #5                                  ; PX = 4 + px
         lda ($74),y         ; dx                ; 4 + px - x >= 4
         sec                                     ; x - px <= 0
         sbc $330b           ; dx - projectile dx
+        bmi projectile_collide_next
+        cmp #1                                  ; x - px >= 1 (to hit)
         bpl projectile_check_collide_destroy
-
-        jmp projectile_collide_next
 
         projectile_collide_next:
         clc
@@ -2998,11 +2997,10 @@ player_collide:
         bmi player_check_collide_y_equal_n      ; required to deal with
                                                 ; negative results
 
-        cmp #2                                  ; dy - dpy >= 6 (to miss)
-        bmi player_check_collide_x
+        jmp player_check_collide_x
 
-        player_check_collide_y_equal_n:
-        cmp #253                                ; dy - dpy <= -4 (to miss)
+        player_check_collide_y_equal_n:         ; dy - dpy <= -4 (to miss)
+        cmp #253                                ; dy - dpy > -3 (to hit)
         bpl player_check_collide_x
 
         jmp player_collide_next
@@ -3011,7 +3009,7 @@ player_collide:
         ldy #3                                  ; DY = 6 + dy  (coordinates)
         lda ($74),y         ; dy                ; 6 + dy - dpy >= 6
         sec                                     ; dy - py >= 0
-        sbc $3303           ; dy - player dy
+        sbc $3303           ; dy - player dy    ; dy - py < 0 (to hit)
         bmi player_check_collide_x
 
         jmp player_collide_next
@@ -3040,44 +3038,32 @@ player_collide:
         jmp player_collide_next
 
         player_check_collide_x_equal:
-
         ldy #5
         lda ($74),y         ; dx
         sec
-        sbc $330b           ; dx - player dx
-        bmi player_check_collide_x_equal_n
-
-        cmp #3
-        bmi player_check_collide_destroy
-
-        jmp player_collide_next
-
-        player_check_collide_x_equal_n:
-        jmp player_check_collide_destroy
-
-        player_check_collide_x_greater:         ; DX - dpx >= 2 (to miss)
-        ldy #5                                  ; DX = 4 + dx  (coordinates)
-        lda ($74),y         ; dx                ; 4 + dx - dpx >= 2
-        sec                                     ; dx - dpx >= -2
         sbc $3305           ; dx - player dx
-        bcc player_check_collide_x_greater_n
+        cmp #2                                  ; dx - dpx >= 2 (to miss)
+        bpl player_collide_next                 ; dx - dpx < 2 (to hit)
+        jmp player_check_collide_destroy
+
+        player_check_collide_x_greater:
+        ldy #5
+        lda $3305           ; player dx
+        sec
+        sbc ($74),y         ; player dx - dx
+        cmp #3                                  ; dpx - dx > 2 (to hit)
+        bpl player_check_collide_destroy
 
         jmp player_collide_next
-
-        player_check_collide_x_greater_n:
-        cmp #253
-        bpl player_collide_next
-
-        jmp player_check_collide_destroy
 
         player_check_collide_x_less:            ; PX - x >= 4 (to miss)
         ldy #5                                  ; PX = 4 + px
         lda ($74),y         ; dx                ; 4 + px - x >= 4
         sec                                     ; x - px <= 0
         sbc $3305           ; dx - player dx
+        bmi player_collide_next
+        cmp #1                                  ; x - px >= 1 (to hit)
         bpl player_check_collide_destroy
-
-        jmp player_collide_next
 
         player_collide_next:
         clc
