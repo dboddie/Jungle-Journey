@@ -6,7 +6,7 @@ P%=&1900
 LDA &70
 SEC
 SBC #3
-BMI neg
+BMI neg     ; BCC
 
 CMP #2
 BMI zero_one
