@@ -3003,6 +3003,17 @@ player_collide:
     lda #$33
     sta $75
 
+    ldx $3303                           ; player dy
+    lda player_collision_mask_above,x
+    sta $86
+    lda player_collision_mask_below,x
+    sta $88
+    ldx $3305                           ; player dx
+    lda player_collision_mask_left,x
+    sta $87
+    lda player_collision_mask_right,x
+    sta $89
+
     player_collide_loop:
 
         ldy #0
@@ -3029,14 +3040,11 @@ player_collide:
         player_check_collide_y_equal:
         ; The enemy is on the same tile as the player so look at the collision
         ; on their common tile.
-        ldx $3303                           ; player dy
-        lda player_collision_mask_below,x
-        sta $80
         ldy #3
         lda ($74),y                         ; dy
         tax
         lda enemy_collision_mask_above,x
-        and $80
+        and $88                             ; player mask below
         bne player_check_collide_x
 
         jmp player_collide_next
@@ -3044,14 +3052,11 @@ player_collide:
         player_check_collide_y_greater:
         ; The enemy is on the tile below the player so look at the collision on
         ; the enemy's tile.
-        ldx $3303                           ; player dy
-        lda player_collision_mask_above,x
-        sta $80
         ldy #3
         lda ($74),y                         ; dy
         tax
         lda enemy_collision_mask_above,x
-        and $80
+        and $86                             ; player mask above
         bne player_check_collide_x
 
         jmp player_collide_next
@@ -3059,14 +3064,11 @@ player_collide:
         player_check_collide_y_less:
         ; The enemy is on the tile above the player so look at the collision on
         ; the player's tile.
-        ldx $3303                           ; player dy
-        lda player_collision_mask_below,x
-        sta $80
         ldy #3
         lda ($74),y                         ; dy
         tax
         lda enemy_collision_mask_below,x
-        and $80
+        and $88                             ; player mask below
         bne player_check_collide_x
 
         jmp player_collide_next
@@ -3087,14 +3089,11 @@ player_collide:
         player_check_collide_x_equal:
         ; The enemy is on the same tile as the player so look at the collision
         ; on their common tile.
-        ldx $3305                           ; player dx
-        lda player_collision_mask_right,x
-        sta $80
         ldy #5
         lda ($74),y                         ; dx
         tax
         lda enemy_collision_mask_left,x
-        and $80
+        and $89                             ; player mask right
         bne player_check_collide_destroy
 
         jmp player_collide_next
@@ -3102,14 +3101,11 @@ player_collide:
         player_check_collide_x_greater:
         ; The enemy is the tile to the right of the player so look at the
         ; collision on the enemy's tile.
-        ldx $3305                           ; player dx
-        lda player_collision_mask_left,x
-        sta $80
         ldy #5
         lda ($74),y                         ; dx
         tax
         lda enemy_collision_mask_left,x
-        and $80
+        and $87                             ; player mask left
         bne player_check_collide_destroy
 
         jmp player_collide_next
@@ -3117,14 +3113,11 @@ player_collide:
         player_check_collide_x_less:
         ; The enemy is the tile to the left of the player so look at the
         ; collision on the player's tile.
-        ldx $3305                           ; player dx
-        lda player_collision_mask_right,x
-        sta $80
         ldy #5
         lda ($74),y                         ; dx
         tax
         lda enemy_collision_mask_right,x
-        and $80
+        and $89                             ; player mask right
         bne player_check_collide_destroy
 
         player_collide_next:
