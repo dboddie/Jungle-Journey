@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os, sys
 import UEFfile
-import makesprites
+from tools import makesprites
 
 version = "0.1"
 
