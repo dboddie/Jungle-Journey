@@ -170,30 +170,81 @@ def read_sprite(lines):
     
     # Read 8 rows at a time.
     for row in range(0, len(lines), 8):
-
+    
         # Read 4 columns at a time.
         for column in range(0, len(lines[0]), 4):
-
+        
             # Read the rows.
             for line in lines[row:row + 8]:
-
+            
                 shift = 3
                 byte = 0
                 for pixel in line[column:column + 4]:
-
+                
                     if pixel == "1":
                         byte = byte | (0x01 << shift)
                     elif pixel == "2":
                         byte = byte | (0x10 << shift)
                     elif pixel == "3":
                         byte = byte | (0x11 << shift)
-
+                    
                     shift -= 1
-
+                
                 data += chr(byte)
     
     return data
 
+def make_scanline_bytes(lines):
+
+    data = []
+    for line in lines:
+    
+        line_data = ""
+        # Read 4 columns at a time.
+        for column in range(0, len(lines[0]), 4):
+        
+            shift = 3
+            byte = 0
+            for pixel in line[column:column + 4]:
+            
+                if pixel == "1":
+                    byte = byte | (0x01 << shift)
+                elif pixel == "2":
+                    byte = byte | (0x10 << shift)
+                elif pixel == "3":
+                    byte = byte | (0x11 << shift)
+                
+                shift -= 1
+            
+            line_data += chr(byte)
+        
+        data.append(line_data)
+    
+    return data
+
+def compress(data):
+
+    output = []
+    current = None
+    length = 0
+    
+    for byte in data:
+    
+        if current != byte:
+            if length > 0:
+                output.append(current + chr(length))
+            current = byte
+            length = 1
+        else:
+            length += 1
+            if length == 255:
+                output.append(current + chr(length))
+                length = 0
+    
+    if length > 0:
+        output.append(current + chr(length))
+    
+    return "".join(output)
 
 def read_sprites(sprites):
 
