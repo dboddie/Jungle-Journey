@@ -2959,6 +2959,43 @@ projectile_collide:
     clc
     rts
 
+; The player collision masks use bits to represent where the player is in a
+; tile.
+
+; Player is above, enemy is below, checking the overlap in the lower tile.
+player_collision_mask_above: .byte $00, $20, $30, $38, $3c, $3e
+
+projectile_collision_mask_above: .byte $00, $00, $00, $00, $00, $20
+
+; Player and enemy share the same tile or player is on the tile below.
+player_collision_mask_below:  .byte $3f, $1f, $0f, $07, $03, $01
+
+projectile_collision_mask_below: .byte $30, $18, $0c, $06, $03, $01
+
+; Player is above or on the same tile, enemy is below, checking the overlap in
+; the lower tile.
+enemy_collision_mask_above:  .byte $3c, $1e, $0f, $07, $03, $01
+
+; Enemy is above, player is below, checking the overlap in the lower tile.
+enemy_collision_mask_below: .byte $00, $00, $00, $20, $30, $38
+
+; Player is to the left, enemy is to the right, checking the overlap in the
+; right hand tile.
+player_collision_mask_left:
+projectile_collision_mask_left: .byte $00, $00, $00, $08
+
+; Player and enemy share the same tile or player is on the tile to the right.
+player_collision_mask_right:
+projectile_collision_mask_right: .byte $0c, $06, $03, $01
+
+; Player is to the left, enemy is to the right or on the same tile, checking
+; the overlap in the right hand tile.
+enemy_collision_mask_left:  .byte $0f, $07, $03, $01
+
+; Enemy is to the left, player is to the right, checking the overlap in the
+; right hand tile.
+enemy_collision_mask_right: .byte $00, $08, $0c, $0e
+
 player_collide:
 
     lda #$0c            ; set the character address
@@ -2990,37 +3027,47 @@ player_collide:
         jmp player_collide_next
 
         player_check_collide_y_equal:
+        ; The enemy is on the same tile as the player so look at the collision
+        ; on their common tile.
+        ldx $3303                           ; player dy
+        lda player_collision_mask_below,x
+        sta $80
         ldy #3
-        lda ($74),y         ; dy
-        sec
-        sbc $3303           ; dy - player dy    ; this appears to be
-        bmi player_check_collide_y_equal_n      ; required to deal with
-                                                ; negative results
-
-        jmp player_check_collide_x
-
-        player_check_collide_y_equal_n:         ; dy - dpy <= -4 (to miss)
-        cmp #253                                ; dy - dpy > -3 (to hit)
-        bpl player_check_collide_x
+        lda ($74),y                         ; dy
+        tax
+        lda enemy_collision_mask_above,x
+        and $80
+        bne player_check_collide_x
 
         jmp player_collide_next
 
-        player_check_collide_y_greater:         ; DY - dpy >= 6 (to miss)
-        ldy #3                                  ; DY = 6 + dy  (coordinates)
-        lda ($74),y         ; dy                ; 6 + dy - dpy >= 6
-        sec                                     ; dy - py >= 0
-        sbc $3303           ; dy - player dy    ; dy - py < 0 (to hit)
-        bmi player_check_collide_x
+        player_check_collide_y_greater:
+        ; The enemy is on the tile below the player so look at the collision on
+        ; the enemy's tile.
+        ldx $3303                           ; player dy
+        lda player_collision_mask_above,x
+        sta $80
+        ldy #3
+        lda ($74),y                         ; dy
+        tax
+        lda enemy_collision_mask_above,x
+        and $80
+        bne player_check_collide_x
 
         jmp player_collide_next
 
-        player_check_collide_y_less:            ; DPY - dy >= 4 (to miss)
-        ldy #3                                  ; DPY = 6 + dpy
-        lda ($74),y         ; dy                ; 6 + dpy - dy >= 4
-        sec                                     ; dy - dpy <= 2
-        sbc $3303           ; dy - player dy
-        cmp #3
-        bpl player_check_collide_x
+        player_check_collide_y_less:
+        ; The enemy is on the tile above the player so look at the collision on
+        ; the player's tile.
+        ldx $3303                           ; player dy
+        lda player_collision_mask_below,x
+        sta $80
+        ldy #3
+        lda ($74),y                         ; dy
+        tax
+        lda enemy_collision_mask_below,x
+        and $80
+        bne player_check_collide_x
 
         jmp player_collide_next
 
@@ -3038,32 +3085,47 @@ player_collide:
         jmp player_collide_next
 
         player_check_collide_x_equal:
+        ; The enemy is on the same tile as the player so look at the collision
+        ; on their common tile.
+        ldx $3305                           ; player dx
+        lda player_collision_mask_right,x
+        sta $80
         ldy #5
-        lda ($74),y         ; dx
-        sec
-        sbc $3305           ; dx - player dx
-        cmp #2                                  ; dx - dpx >= 2 (to miss)
-        bpl player_collide_next                 ; dx - dpx < 2 (to hit)
-        jmp player_check_collide_destroy
-
-        player_check_collide_x_greater:
-        ldy #5
-        lda $3305           ; player dx
-        sec
-        sbc ($74),y         ; player dx - dx
-        cmp #3                                  ; dpx - dx > 2 (to hit)
-        bpl player_check_collide_destroy
+        lda ($74),y                         ; dx
+        tax
+        lda enemy_collision_mask_left,x
+        and $80
+        bne player_check_collide_destroy
 
         jmp player_collide_next
 
-        player_check_collide_x_less:            ; PX - x >= 4 (to miss)
-        ldy #5                                  ; PX = 4 + px
-        lda ($74),y         ; dx                ; 4 + px - x >= 4
-        sec                                     ; x - px <= 0
-        sbc $3305           ; dx - player dx
-        bmi player_collide_next
-        cmp #1                                  ; x - px >= 1 (to hit)
-        bpl player_check_collide_destroy
+        player_check_collide_x_greater:
+        ; The enemy is the tile to the right of the player so look at the
+        ; collision on the enemy's tile.
+        ldx $3305                           ; player dx
+        lda player_collision_mask_left,x
+        sta $80
+        ldy #5
+        lda ($74),y                         ; dx
+        tax
+        lda enemy_collision_mask_left,x
+        and $80
+        bne player_check_collide_destroy
+
+        jmp player_collide_next
+
+        player_check_collide_x_less:
+        ; The enemy is the tile to the left of the player so look at the
+        ; collision on the player's tile.
+        ldx $3305                           ; player dx
+        lda player_collision_mask_right,x
+        sta $80
+        ldy #5
+        lda ($74),y                         ; dx
+        tax
+        lda enemy_collision_mask_right,x
+        and $80
+        bne player_check_collide_destroy
 
         player_collide_next:
         clc
