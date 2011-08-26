@@ -24,6 +24,5 @@ impassable, overgrown by tangled and twisted vines.
 
 Sensing my presence, obscene creatures emerge from the darkness, hungry
 for prey. Only through skill and luck am I able to dispatch them back
-to their hateful lairs. Even though I know the journey from here will
-be long, the thought of vengeance drives me on as I search for the way
-back to civilisation.
+into the shadows. Even though I know I must journey deeper into this
+uncharted land to find the way home, the thought of vengeance drives me on.
