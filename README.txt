@@ -1,0 +1,29 @@
+Jungle Journey
+
+The last flames of the campfire fade to glowing embers and I am alone.
+My recent acquaintances, their packs and paraphernalia have gone, leaving
+me stranded deep in the heart of this jungle realm. Clouds momentarily
+sweep the cold face of the moon and I perceive the clicks, whistles and
+cries of creatures in the hot air that cloaks this place. Desperately, I
+try to stay my panic and remember those fragments of wilderness craft
+learned and unlearned many years ago.
+
+    Choose your weapon carefully,
+    Get ready for a fight.
+    The jungle can be dangerous
+    If you go there at night.
+    There's time to pick up treasure,
+    But no time to stop and stare.
+    If you don't find the hidden gate
+    You won't get out of there.
+
+Hopeless, I scramble to my feet, reaching for any weapon still left to me.
+Struggling through the dense undergrowth, I search for signs of a track or
+trail. At first glance, paths that seemed to lead to safety turn out to be
+impassable, overgrown by tangled and twisted vines.
+
+Sensing my presence, obscene creatures emerge from the darkness, hungry
+for prey. Only through skill and luck am I able to dispatch them back
+to their hateful lairs. Even though I know the journey from here will
+be long, the thought of vengeance drives me on as I search for the way
+back to civilisation.
