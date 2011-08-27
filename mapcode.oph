@@ -135,6 +135,14 @@ draw_right_line:
 
 make_room:          ; $78,$79=i,j
 
+    ; Fills the room array at 579c with values.
+    ; Tiles 0,1,2,3 are map tiles that will be shown by the plot_tile routine.
+    ; Other tiles are plotted separately:
+    ;   4 = exit
+    ;   5 = final exit
+    ;   6 = weapon (bits 3,4 are type)
+    ;   7 = treasure (bits 3,4 are type)
+
     ; Fill the room with empty space.
 
     ldx #100
@@ -155,7 +163,8 @@ make_room:          ; $78,$79=i,j
     lda #2
     sta $76
     jmp do_top_exit
-not_top_screen:
+
+    not_top_screen:
     clc
 
     lda $78
@@ -176,10 +185,10 @@ not_top_screen:
     lda #2
     sta $76         ; top exit
 
-do_top_exit:
+    do_top_exit:
     jsr draw_top_line
 
-; Determine if there is a left exit.
+    ; Determine if there is a left exit.
     lda #0
     sta $77
 
@@ -189,7 +198,8 @@ do_top_exit:
     lda #2
     sta $77
     jmp do_left_exit
-not_left_screen:
+
+    not_left_screen:
     clc
 
     lda $78
@@ -209,10 +219,10 @@ not_left_screen:
     lda #2
     sta $77         ; left exit
 
-do_left_exit:
+    do_left_exit:
     jsr draw_left_line
 
-; Determine if there is a right exit.
+    ; Determine if there is a right exit.
     lda #0
     sta $77
 
@@ -222,7 +232,8 @@ do_left_exit:
     lda #2
     sta $77
     jmp do_right_exit
-not_right_screen:
+
+    not_right_screen:
     clc
 
     lda $78
@@ -247,10 +258,10 @@ not_right_screen:
     lda #2
     sta $77         ; right exit
 
-do_right_exit:
+    do_right_exit:
     jsr draw_right_line
 
-; Determine if there is a bottom exit.
+    ; Determine if there is a bottom exit.
     lda #0
     sta $76
 
@@ -260,7 +271,8 @@ do_right_exit:
     lda #2
     sta $76
     jmp do_bottom_exit
-not_bottom_screen:
+
+    not_bottom_screen:
     clc
 
     lda $78
@@ -284,7 +296,7 @@ not_bottom_screen:
     lda #2
     sta $76         ; bottom exit
 
-do_bottom_exit:
+    do_bottom_exit:
     jsr draw_bottom_line
 
     ; Make sure that the starting, exit, key rooms are empty.
@@ -292,36 +304,46 @@ do_bottom_exit:
     ldx $33fa               ; level number
     lda start_rooms_y,x
     cmp $78
-    bne not_starting_room
+    bne make_room_not_starting_room
     lda start_rooms_x,x
     cmp $79
-    bne not_starting_room
+    bne make_room_not_starting_room
 
     rts
 
-    not_starting_room:
+    make_room_not_starting_room:
 
     lda exit_rooms_y,x
     cmp $78
-    bne not_exit_room
+    bne make_room_not_exit_room
     lda exit_rooms_x,x
     cmp $79
-    bne not_exit_room
+    bne make_room_not_exit_room
+
+    ; Add an exit to the room.
+    lda $78
+    eor $79
+    and #15
+    tax
+    lda exit_room_offsets,x
+    tax
+    lda #4
+    sta $579c,x
 
     rts
 
-    not_exit_room:
+    make_room_not_exit_room:
 
     lda key_rooms_y,x
     cmp $78
-    bne not_key_room
+    bne make_room_not_key_room
     lda key_rooms_x,x
     cmp $79
-    bne not_key_room
+    bne make_room_not_key_room
 
     rts
 
-    not_key_room:
+    make_room_not_key_room:
     clc
 
     ; Fill in the room details.
@@ -374,6 +396,41 @@ do_bottom_exit:
     make_room_loop1_exit:
     rts
 
+exit_room_offsets: .byte 35,66,63,56,34,44,64,33,36,55,65,53,45,46,54,43
+
+add_treasure:               ; $78,$79 = i,j
+
+    ldx $33fa               ; level number
+    lda key_rooms_y,x
+    cmp $78
+    bne add_treasure_not_key_room
+    lda key_rooms_x,x
+    cmp $79
+    bne add_treasure_not_key_room
+    
+    ; Add a key object to the room.
+    lda #4
+    sta $330c
+    lda #4      ; type
+    sta $330d
+    lda #4      ; y
+    sta $330e
+    lda #1      ; dy
+    sta $330f
+    lda #4      ; x
+    sta $3310
+    lda #0      ; dx
+    sta $3311
+
+    lda #$0c
+    sta $74
+    lda #$33
+    sta $75
+    jsr plot_character
+
+    add_treasure_not_key_room:
+    clc
+    rts
 
 plot:               ; $70,$71=source address
                     ; $72,$73=destination address
@@ -480,47 +537,60 @@ plot_blank:         ; $72,$73=destination address
     rts
 
 plot_tile:          ; $7b=tile number
+                    ;   1 = flowers/decoration
+                    ;   2 = trees/wall
+                    ;   3 = trees
+                    ;   4 = exit
                     ; $72,$73=screen position 
 
     lda $7b
     cmp #1
-    bne not_flowers
+    bne plot_tile_not_flowers
     lda #$00
     sta $70
     lda #$53
     sta $71
     jmp plot_not_blank
 
-not_flowers:
+    plot_tile_not_flowers:
     cmp #2
-    bne not_tree1
+    bne plot_tile_not_tree1
     lda #$60
     sta $70
     lda #$53
     sta $71
     jmp plot_not_blank
 
-not_tree1:
+    plot_tile_not_tree1:
     cmp #3
-    bne not_tree2
+    bne plot_tile_not_tree2
     lda #$c0
     sta $70
     lda #$53
     sta $71
     jmp plot_not_blank
 
-not_tree2:
+    plot_tile_not_tree2:
+    cmp #4
+    bne plot_tile_not_exit
+    lda #$00
+    sta $70
+    lda #$45
+    sta $71
+    jmp plot_not_blank
+
+    plot_tile_not_exit:
     clc
     jmp plot_blank      ; optimise away the rts
 
-plot_not_blank:
+    plot_not_blank:
     clc
     lda $33fa
-    and #3
+    and #3              ; change the tile set for later levels
     tax
-    plot_add_loop:
+    plot_not_blank_add_loop:
         cpx #0
-        beq after_plot_add_loop
+        beq plot_not_blank_after_add_loop
         clc
         lda $70
         adc #$20
@@ -529,9 +599,9 @@ plot_not_blank:
         adc #$01
         sta $71
         dex
-        jmp plot_add_loop
+        jmp plot_not_blank_add_loop
 
-after_plot_add_loop:
+    plot_not_blank_after_add_loop:
     clc
     jsr plot
     rts
@@ -1051,11 +1121,14 @@ screen_columns_low: .byte $00,$20,$40,$60,$80,$a0,$c0,$e0,$00,$20
 screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
 screen_subcolumns_low: .byte $00,$08,$10,$18
 
-enemy_direction_chars_low: .byte $00,$40,$80,$c0,$00,$40,$80,$c0
+enemy_direction_chars_low:  .byte $00,$40,$80,$c0,$00,$40,$80,$c0
 enemy_direction_chars_high: .byte $37,$37,$37,$37,$38,$38,$38,$38
 
-emerge_explode_chars_low: .byte $00,$40,$80,$c0,$00,$40,$80,$c0
+emerge_explode_chars_low:  .byte $00,$40,$80,$c0,$00,$40,$80,$c0
 emerge_explode_chars_high: .byte $41,$41,$41,$41,$42,$42,$42,$42
+
+item_chars_low:  .byte $00,$40,$80,$c0,$00,$40,$80,$c0
+item_chars_high: .byte $43,$43,$43,$43,$44,$44,$44,$44
 
 projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
 
@@ -1229,15 +1302,35 @@ plot_character_sprite:  ; $74,$75=character address
 
     plot_characters_loop_not_explosion:
     cmp #4
+    bne plot_characters_loop_not_item
+
+    ; Plot 16x16 sprites (items)
+
+    ; Select the sprites to use.
+
+    lda $80
+    and #7          ; only keep the bits required to find the correct sprite
+    clc
+    tax
+    lda item_chars_low,x
+    sta $70
+    lda item_chars_high,x
+    sta $71
+
+    jmp plot_characters_16x16
+
+    plot_characters_loop_not_item:
+    cmp #8
     bmi plot_characters_loop_not_enemy
 
     ; Plot 16x16 sprites (enemies)
 
     ; Select the set of sprites to use.
 
-    and #$38
+    and #$70
     lsr
-    lsr     ; bits 3,4,5 >> 2 -> bits 1,2,3
+    lsr
+    lsr     ; bits 4,5,6 >> 3 -> bits 1,2,3
     clc
     sta $71 ; 0x00, 0x02, 0x04, 0x06, 0x08
 
@@ -1267,7 +1360,6 @@ plot_character_sprite:  ; $74,$75=character address
     clc
     lda #6
     sta ($78),y
-
 
     plot_characters_stored:
 
@@ -1491,8 +1583,13 @@ move_player:
     sta $70
     lda #$57
     sta $71
-    lda ($70),y             ; load the tile to the left
+    lda ($70),y                 ; load the tile to the left
 
+    cmp #4                      ; check for the exit
+    bne move_player_not_left_exit
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_left_exit:
     cmp #0
     bne move_player_not_left_key
 
@@ -1577,6 +1674,11 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile to the right
 
+    cmp #4                      ; check for the exit
+    bne move_player_not_right_exit
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_right_exit:
     cmp #0
     bne move_player_not_right_key
 
@@ -1663,6 +1765,11 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile above
 
+    cmp #4                      ; check for the exit
+    bne move_player_not_up_exit
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_up_exit:
     cmp #0
     bne move_player_not_up_key
 
@@ -1745,6 +1852,11 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile below
 
+    cmp #4                      ; check for the exit
+    bne move_player_not_down_exit
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_down_exit:
     cmp #0
     bne move_player_not_down_key
 
@@ -1796,6 +1908,21 @@ move_player:
     rts                         ; player has left the room
 
     move_player_not_down_key:
+    clc
+    rts
+
+try_to_exit_level:
+    lda $33f0
+    and #1
+    beq try_to_exit_level_exit
+
+    lda $33f0                   ; set the exit flag
+    ora #128
+    sta $33f0
+    sec                         ; indicate that the player is leaving the room
+    rts
+
+    try_to_exit_level_exit:
     clc
     rts
 
@@ -1973,8 +2100,7 @@ emerge_explode:             ; $74,$75=character address
     ; For emerges, convert into an enemy.
     txa
     and #$70        ; only keep bits 4,5,6
-    lsr             ; bits 4,5,6 -> 3,4,5
-    ora #4          ; make this an enemy
+    ora #8          ; make this an enemy
 
     ldy #0
     sta ($74),y     ; update the type
@@ -2750,7 +2876,29 @@ move_projectile:
 
     move_projectile_destroy:
     clc
-    lda #0
+
+    ldy #0
+    lda ($74),y ; type
+    cmp #8
+    bmi move_projectile_no_enemy_collision
+
+    ; Unplot the enemy and replace it with an explosion.
+
+    jsr unplot_character
+
+    lda #3      ; explosion
+    ldy #0
+    sta ($74),y
+
+    lda #8
+    ldy #1
+    sta ($74),y
+
+    jsr plot_character
+
+    move_projectile_no_enemy_collision:
+
+    lda #0                      ; remove the projectile from the character list
     sta $3306
 
     move_projectile_exit:
@@ -2794,7 +2942,7 @@ move_characters:
         jmp move_characters_next
 
         move_characters_not_emerge_explode:
-        cmp #4
+        cmp #8
         bmi move_characters_next
 
         lda $33fe           ; check motion counter
@@ -2811,15 +2959,47 @@ move_characters:
         adc #6
 
         cmp #$24
-        bpl move_characters_exit
+        bpl move_characters_endloop
         sta $74
         jmp move_characters_loop
 
-    move_characters_exit:
+    move_characters_endloop:
+
+    ; Check collisions with the player.
 
     jsr player_collide
-
+    bcc move_characters_exit
     clc
+
+    ldy #0
+    lda ($74),y ; type
+    cmp #8
+    bpl move_character_destroy_enemy
+
+    ; Unplot the item.
+    jsr unplot_character
+
+    lda #0      ; remove the item from the character list
+    sta ($74),y
+    rts
+
+    move_character_destroy_enemy:
+    
+    ; Unplot the enemy and replace it with an explosion.
+
+    jsr unplot_character
+
+    lda #3      ; explosion
+    ldy #0
+    sta ($74),y
+
+    lda #8
+    ldy #1
+    sta ($74),y
+
+    jsr plot_character
+
+    move_characters_exit:
     rts
 
 remove_characters:
@@ -2893,7 +3073,7 @@ player_collide:
     lda player_collision_mask_right,x
     sta $89
 
-    jmp collide
+    jmp collide ; optimise away the rts
 
 projectile_collide:
 
@@ -2913,7 +3093,7 @@ projectile_collide:
     lda projectile_collision_mask_right,x
     sta $89
 
-    jmp collide
+    jmp collide ; optimise away the rts
 
 collide:
 
@@ -3042,20 +3222,6 @@ collide:
 
     check_collide_destroy:
 
-    ; Unplot the enemy and replace it with an explosion.
-
-    jsr unplot_character
-
-    lda #3      ; explosion
-    ldy #0
-    sta ($74),y
-
-    lda #8
-    ldy #1
-    sta ($74),y
-
-    jsr plot_character
-
     sec         ; set the carry flag to inform the caller that the
     rts         ; player/projectile should be destroyed
 
@@ -3159,9 +3325,9 @@ seeds:         .byte 100, 26, 33
 start_rooms_x: .byte 5,   0,  10
 start_rooms_y: .byte 5,   9,  0
 exit_rooms_x:  .byte 7,   10, 2
-exit_rooms_y:  .byte 0,   4,  10
-key_rooms_x:   .byte 1,   9,  10
-key_rooms_y:   .byte 0,   0,  6
+exit_rooms_y:  .byte 5,   4,  10
+key_rooms_x:   .byte 4,   9,  10
+key_rooms_y:   .byte 5,   0,  6
 
 start_new_game:
 
@@ -3174,11 +3340,20 @@ start_new_game:
     lda #0
     sta $33f9
 
+    rts
+
+start_level:
+
+    ; Clear the item/player flags.
+    lda #0
+    sta $33f0
+
     ; Set current room.
 
-    lda start_rooms_y
+    ldx $33fa
+    lda start_rooms_y,x
     sta $33f2
-    lda start_rooms_x
+    lda start_rooms_x,x
     sta $33f3
 
     ; Set the player position.
@@ -3212,72 +3387,86 @@ main:
 
         jsr start_new_game
 
-        game_loop:
-            lda $33f2
-            sta $78
-            lda $33f3
-            sta $79
-            jsr plot_room
+        level_loop:
+            jsr start_level
 
-            jsr remove_characters
+            game_loop:
 
-            jsr reset_unplot_buffer
-            jsr reset_plot_buffer
+                jsr remove_characters
 
-            lda #$00        ; plot the player
-            sta $74
-            lda #$33
-            sta $75
-            jsr plot_character
-
-            jsr plot_buffer
-
-            lda #0         ; reset projectile counter
-            sta $33fd
-
-            lda #0         ; reset motion counter
-            sta $33fe
-
-            lda #63         ; reset generation counter
-            sta $33ff
-
-            room_loop:
                 jsr reset_unplot_buffer
                 jsr reset_plot_buffer
-                jsr move_characters
-                jsr move_projectile
 
-                jsr check_fire_key
-                jsr move_player
-                bcs after_room_loop
+                lda $33f2       ; current room (y)
+                sta $78
+                lda $33f3       ; current room (x)
+                sta $79
+                jsr plot_room
+                jsr add_treasure
 
-                lda #19
-                jsr $fff4
+                lda #$00        ; plot the player
+                sta $74
+                lda #$33
+                sta $75
+                jsr plot_character
+
                 jsr plot_buffer
 
-                ldx #157
-                jsr check_key
-                cpy #255
-                beq exit
+                lda #0         ; reset projectile counter
+                sta $33fd
+
+                lda #0         ; reset motion counter
+                sta $33fe
+
+                lda #63         ; reset generation counter
+                sta $33ff
+
+                room_loop:
+                    jsr reset_unplot_buffer
+                    jsr reset_plot_buffer
+                    jsr move_characters
+                    jsr move_projectile
+
+                    jsr check_fire_key
+                    jsr move_player
+                    bcs after_room_loop
+
+                    lda #19
+                    jsr $fff4
+                    jsr plot_buffer
+
+                    ldx #157
+                    jsr check_key
+                    cpy #255
+                    beq exit
+                    clc
+
+                    lda $33fd
+                    cmp #0
+                    beq room_loop_no_update_projectile_counter
+
+                    dec $33fd
+
+                    room_loop_no_update_projectile_counter:
+
+                    dec $33ff   ; update generation counter
+
+                    inc $33fe   ; update motion counter
+                    clc
+                    jmp room_loop
+
+                after_room_loop:
                 clc
 
-                lda $33fd
-                cmp #0
-                beq room_loop_no_update_projectile_counter
+                lda $33f0
+                and #128
+                bne exit_level
 
-                dec $33fd
+                jmp game_loop
 
-                room_loop_no_update_projectile_counter:
-
-                dec $33ff   ; update generation counter
-
-                inc $33fe   ; update motion counter
-                clc
-                jmp room_loop
-
-        after_room_loop:
-            clc
-            jmp game_loop
+            exit_level:
+            inc $33fa
+            jmp level_loop
 
         jmp main_loop
 
