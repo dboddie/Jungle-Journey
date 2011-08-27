@@ -76,7 +76,7 @@ if __name__ == "__main__":
     #   n+3 y room offset
     #   n+4 x room offset
     #
-    # 33F0 starting room (i, j)
+    # 33F0
     # 33F2 current room (i, j)
     # 33F4 lives
     # 33F6 score (three bytes)
