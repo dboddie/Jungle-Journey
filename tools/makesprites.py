@@ -155,12 +155,12 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
          # exit
-         read_xpm("images/exit1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/exit2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/exit1.xpm", [("+", "0"), (".", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/exit2.xpm", [("+", "0"), (".", "1"), ("#", "2"), ("@", "3")]),
 
-         # placeholder final exit
-         read_xpm("images/exit1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/exit2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         # final exit
+         read_xpm("images/finalexitl.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
+         read_xpm("images/finalexitr.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          ]
 
 

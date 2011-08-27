@@ -54,7 +54,7 @@ if __name__ == "__main__":
     #             4 and higher enemy - bits 3,4,5 are enemy type)
     #   n+1 counter/direction
     #       (player: bits 1,2 are direction, bit 0 is animation
-    #        projectile: bits 3,4 are direction, bits 1,2 are type,
+    #        projectile: bits 4,5 are direction, bits 1,2,3 are type,
     #                    bit 0 is animation
     #        enemy:  bits 2,3 are direction, bits 1,0 are animation
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
@@ -97,12 +97,12 @@ if __name__ == "__main__":
     #           4 * 0x40 (enemy demise)
     #           4 * 0x40 (weapons)
     #           4 * 0x40 (treasure)
-    #           2 * 0x40 (exit)
-    #           2 * 0x40 (final exit)
+    #           2 * 0x60 (exit)
+    #           2 * 0x60 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 2*0x40 + 2*0x40 + 0x3400
+    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 2*0x60 + 2*0x60 + 0x3400
     #
-    # 4600 space
+    # 4680 space
     # 4700 plot buffer (alternate unplot/plot entries terminating in 255)
     #   n       type
     #   n+1,n+2 source address

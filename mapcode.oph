@@ -536,7 +536,7 @@ after_plot_add_loop:
     jsr plot
     rts
 
-plot_room:          ; $78,$79 = i,j (from $33f0,$33f1)
+plot_room:          ; $78,$79 = i,j (from $33f2,$33f3)
     jsr blank_screen
 
     lda $33f2
@@ -1831,6 +1831,7 @@ create_projectile:
     and #$06        ; copy the direction information
     asl
     asl
+    asl
     ora $33f9       ; apply the projectile type
     sta $3307
 
@@ -2702,7 +2703,7 @@ move_projectile:
     jsr unplot_character
 
     lda $3307
-    and #$18            ; direction
+    and #$30            ; direction
 
     cmp #0
     bne move_projectile_not_left
@@ -2712,7 +2713,7 @@ move_projectile:
     bcs move_projectile_destroy
 
     move_projectile_not_left:
-    cmp #$08
+    cmp #$10
     bne move_projectile_not_right
 
     jsr move_projectile_right
@@ -2720,7 +2721,7 @@ move_projectile:
     bcs move_projectile_destroy
 
     move_projectile_not_right:
-    cmp #$10
+    cmp #$20
     bne move_projectile_not_up
 
     jsr move_projectile_up
@@ -2728,7 +2729,7 @@ move_projectile:
     bcs move_projectile_destroy
 
     move_projectile_not_up:
-    cmp #$18
+    cmp #$30
     bne move_projectile_toggle
 
     jsr move_projectile_down
@@ -3227,8 +3228,8 @@ sprites_block: .byte <sprites_file_name, >sprites_file_name
 chars_block: .byte <chars_file_name, >chars_file_name
                .byte $00, $34, 0, 0
                .byte $00, $34, 0, 0
-               .byte $00, $12, 0, 0
-               .byte $00, $46, 0, 0
+               .byte $80, $12, 0, 0
+               .byte $80, $46, 0, 0
 
 init:
     lda #255
@@ -3290,13 +3291,11 @@ start_new_game:
     lda #0
     sta $33f9
 
-    ; Set starting room and current room.
+    ; Set current room.
 
-    lda #5
-    sta $33f0
+    lda start_rooms_y
     sta $33f2
-    lda #5
-    sta $33f1
+    lda start_rooms_x
     sta $33f3
 
     ; Set the player position.
