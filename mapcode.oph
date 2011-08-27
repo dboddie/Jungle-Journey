@@ -287,18 +287,41 @@ not_bottom_screen:
 do_bottom_exit:
     jsr draw_bottom_line
 
-    ; Make sure that the starting room is empty.
+    ; Make sure that the starting, exit, key rooms are empty.
 
-    lda $78
-    cmp $33f0
+    ldx $33fa               ; level number
+    lda start_rooms_y,x
+    cmp $78
     bne not_starting_room
-    lda $79
-    cmp $33f1
+    lda start_rooms_x,x
+    cmp $79
     bne not_starting_room
 
     rts
 
     not_starting_room:
+
+    lda exit_rooms_y,x
+    cmp $78
+    bne not_exit_room
+    lda exit_rooms_x,x
+    cmp $79
+    bne not_exit_room
+
+    rts
+
+    not_exit_room:
+
+    lda key_rooms_y,x
+    cmp $78
+    bne not_key_room
+    lda key_rooms_x,x
+    cmp $79
+    bne not_key_room
+
+    rts
+
+    not_key_room:
     clc
 
     ; Fill in the room details.
@@ -307,7 +330,8 @@ do_bottom_exit:
     adc $79
     sta $7c
     sec
-    lda #100
+    ldx $33fa
+    lda seeds,x
     sbc $78
     sec
     sbc $7e
@@ -3246,6 +3270,14 @@ init:
     jsr set_palette
 
     rts
+
+seeds:         .byte 100, 26, 33
+start_rooms_x: .byte 5,   0,  10
+start_rooms_y: .byte 5,   9,  0
+exit_rooms_x:  .byte 7,   10, 2
+exit_rooms_y:  .byte 0,   4,  10
+key_rooms_x:   .byte 1,   9,  10
+key_rooms_y:   .byte 0,   0,  6
 
 start_new_game:
 
