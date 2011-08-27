@@ -2838,152 +2838,6 @@ remove_characters:
 
     rts
 
-projectile_collide:
-
-    lda #$0c            ; set the character address
-    sta $74
-    lda #$33
-    sta $75
-
-    projectile_collide_loop:
-
-        ldy #0
-        lda ($74),y         ; type
-        cmp #4
-        bpl projectile_collide_check
-
-        jmp projectile_collide_next
-
-        projectile_collide_check:
-
-        ldy #2
-        lda ($74),y         ; y
-        sec
-        sbc $3308           ; y - projectile y
-        beq projectile_check_collide_y_equal
-        cmp #1
-        beq projectile_check_collide_y_greater
-        cmp #255
-        beq projectile_check_collide_y_less
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_y_equal:
-        ldy #3
-        lda ($74),y         ; dy
-        sec
-        sbc $3309           ; dy - projectile dy    ; this appears to be
-        bmi projectile_check_collide_y_equal_n      ; required to deal with
-                                                    ; negative results
-
-        cmp #2                                  ; y - py >= 2 (to miss)
-        bmi projectile_check_collide_x
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_y_equal_n:
-        cmp #253                                ; y - py <= -4 (to miss)
-        bpl projectile_check_collide_x
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_y_greater:
-        lda $3309           ; projectile dy
-        cmp #5
-        bne projectile_collide_next
-        ldy #3
-        lda ($74),y         ; projectile dy - dy
-        cmp #0
-        beq projectile_check_collide_x              ; dpy = 5, dy = 0
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_y_less:            ; PY - y >= 4 (to miss)
-        ldy #3                                      ; PY = 6 + py
-        lda ($74),y         ; dy                    ; 6 + py - y >= 4
-        sec                                         ; y - py <= 2
-        sbc $3309           ; dy - projectile dy
-        cmp #3
-        bpl projectile_check_collide_x
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_x:
-        ldy #4
-        lda ($74),y         ; x
-        sec
-        sbc $330a           ; x - projectile x
-        beq projectile_check_collide_x_equal
-        cmp #1
-        beq projectile_check_collide_x_greater
-        cmp #255
-        beq projectile_check_collide_x_less
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_x_equal:
-        ldy #5
-        lda ($74),y         ; dx
-        sec
-        sbc $330b           ; dx - projectile dx
-        cmp #2
-        bpl projectile_collide_next
-        jmp projectile_check_collide_destroy
-
-        projectile_check_collide_x_greater:         ; X - px >= 2 (to miss)
-        ldy #5                                      ; X = 4 + x  (coordinates)
-        lda $330b           ; projectile dx         ; 4 + x - px >= 2
-        sec                                         ; x - px >= -2
-        sbc ($74),y         ; projectile dx - dx
-        cmp #3                                      ; px - x > 2 (to hit)
-        bpl projectile_check_collide_destroy
-
-        jmp projectile_collide_next
-
-        projectile_check_collide_x_less:        ; PX - x >= 4 (to miss)
-        ldy #5                                  ; PX = 4 + px
-        lda ($74),y         ; dx                ; 4 + px - x >= 4
-        sec                                     ; x - px <= 0
-        sbc $330b           ; dx - projectile dx
-        bmi projectile_collide_next
-        cmp #1                                  ; x - px >= 1 (to hit)
-        bpl projectile_check_collide_destroy
-
-        projectile_collide_next:
-        clc
-
-        ; Examine the next character.
-        lda $74
-        adc #6
-
-        cmp #$24
-        bpl projectile_collide_exit
-        sta $74
-        jmp projectile_collide_loop
-
-    projectile_check_collide_destroy:
-
-    ; Unplot the enemy and replace it with an explosion.
-
-    jsr unplot_character
-
-    lda #3      ; explosion
-    ldy #0
-    sta ($74),y
-
-    lda #8
-    ldy #1
-    sta ($74),y
-
-    jsr plot_character
-
-    sec         ; set the carry flag to inform the caller that the projectile
-    rts         ; should be destroyed
-
-    projectile_collide_exit:
-    clc
-    rts
-
 ; The player collision masks use bits to represent where the player is in a
 ; tile.
 
@@ -3023,10 +2877,10 @@ enemy_collision_mask_right: .byte $00, $08, $0c, $0e
 
 player_collide:
 
-    lda #$0c            ; set the character address
-    sta $74
-    lda #$33
-    sta $75
+    lda $3302                           ; player y
+    sta $8a
+    lda $3304                           ; player x
+    sta $8b
 
     ldx $3303                           ; player dy
     lda player_collision_mask_above,x
@@ -3039,113 +2893,142 @@ player_collide:
     lda player_collision_mask_right,x
     sta $89
 
-    player_collide_loop:
+    jmp collide
+
+projectile_collide:
+
+    lda $3308                           ; projectile y
+    sta $8a
+    lda $330a                           ; projectile x
+    sta $8b
+
+    ldx $3309                           ; projectile dy
+    lda projectile_collision_mask_above,x
+    sta $86
+    lda projectile_collision_mask_below,x
+    sta $88
+    ldx $330b                           ; projectile dx
+    lda projectile_collision_mask_left,x
+    sta $87
+    lda projectile_collision_mask_right,x
+    sta $89
+
+    jmp collide
+
+collide:
+
+    lda #$0c            ; set the character address
+    sta $74
+    lda #$33
+    sta $75
+
+    collide_loop:
 
         ldy #0
         lda ($74),y         ; type
         cmp #4
-        bpl player_collide_check
+        bpl collide_check
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_collide_check:
+        collide_check:
 
         ldy #2
         lda ($74),y         ; y
         sec
-        sbc $3302           ; y - player y
-        beq player_check_collide_y_equal
+        sbc $8a             ; y - player/projectile y
+        beq check_collide_y_equal
         cmp #1
-        beq player_check_collide_y_greater
+        beq check_collide_y_greater
         cmp #255
-        beq player_check_collide_y_less
+        beq check_collide_y_less
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_y_equal:
-        ; The enemy is on the same tile as the player so look at the collision
-        ; on their common tile.
+        check_collide_y_equal:
+        ; The enemy is on the same tile as the player/projectile so look at the
+        ; collision on their common tile.
         ldy #3
         lda ($74),y                         ; dy
         tax
         lda enemy_collision_mask_above,x
-        and $88                             ; player mask below
-        bne player_check_collide_x
+        and $88                             ; player/projectile mask below
+        bne check_collide_x
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_y_greater:
-        ; The enemy is on the tile below the player so look at the collision on
-        ; the enemy's tile.
+        check_collide_y_greater:
+        ; The enemy is on the tile below the player/projectile so look at the
+        ; collision on the enemy's tile.
         ldy #3
         lda ($74),y                         ; dy
         tax
         lda enemy_collision_mask_above,x
         and $86                             ; player mask above
-        bne player_check_collide_x
+        bne check_collide_x
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_y_less:
-        ; The enemy is on the tile above the player so look at the collision on
-        ; the player's tile.
+        check_collide_y_less:
+        ; The enemy is on the tile above the player/projectile so look at the
+        ; collision on the player's tile.
         ldy #3
         lda ($74),y                         ; dy
         tax
         lda enemy_collision_mask_below,x
         and $88                             ; player mask below
-        bne player_check_collide_x
+        bne check_collide_x
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_x:
+        check_collide_x:
         ldy #4
         lda ($74),y         ; x
         sec
-        sbc $3304           ; x - player x
-        beq player_check_collide_x_equal
+        sbc $8b             ; x - player/projectile x
+        beq check_collide_x_equal
         cmp #1
-        beq player_check_collide_x_greater
+        beq check_collide_x_greater
         cmp #255
-        beq player_check_collide_x_less
+        beq check_collide_x_less
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_x_equal:
-        ; The enemy is on the same tile as the player so look at the collision
-        ; on their common tile.
+        check_collide_x_equal:
+        ; The enemy is on the same tile as the player/projectile so look at the
+        ; collision on their common tile.
         ldy #5
         lda ($74),y                         ; dx
         tax
         lda enemy_collision_mask_left,x
         and $89                             ; player mask right
-        bne player_check_collide_destroy
+        bne check_collide_destroy
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_x_greater:
-        ; The enemy is the tile to the right of the player so look at the
-        ; collision on the enemy's tile.
+        check_collide_x_greater:
+        ; The enemy is the tile to the right of the player/projectile so look
+        ; at the collision on the enemy's tile.
         ldy #5
         lda ($74),y                         ; dx
         tax
         lda enemy_collision_mask_left,x
         and $87                             ; player mask left
-        bne player_check_collide_destroy
+        bne check_collide_destroy
 
-        jmp player_collide_next
+        jmp collide_next
 
-        player_check_collide_x_less:
-        ; The enemy is the tile to the left of the player so look at the
-        ; collision on the player's tile.
+        check_collide_x_less:
+        ; The enemy is the tile to the left of the player/projectile so look at
+        ; the collision on the player's tile.
         ldy #5
         lda ($74),y                         ; dx
         tax
         lda enemy_collision_mask_right,x
         and $89                             ; player mask right
-        bne player_check_collide_destroy
+        bne check_collide_destroy
 
-        player_collide_next:
+        collide_next:
         clc
 
         ; Examine the next character.
@@ -3153,11 +3036,11 @@ player_collide:
         adc #6
 
         cmp #$24
-        bpl player_collide_exit
+        bpl collide_exit
         sta $74
-        jmp player_collide_loop
+        jmp collide_loop
 
-    player_check_collide_destroy:
+    check_collide_destroy:
 
     ; Unplot the enemy and replace it with an explosion.
 
@@ -3173,10 +3056,10 @@ player_collide:
 
     jsr plot_character
 
-    sec         ; set the carry flag to inform the caller that the player
-    rts         ; should be destroyed
+    sec         ; set the carry flag to inform the caller that the
+    rts         ; player/projectile should be destroyed
 
-    player_collide_exit:
+    collide_exit:
     clc
     rts
 
