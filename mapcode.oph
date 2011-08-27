@@ -1037,28 +1037,28 @@ projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
 
 unplot_character:       ; $74,$75=character address
 
-    lda $82
+    lda $82             ; store the unplot buffer address in $78,$79
     sta $78
     lda $83
     sta $79
     jsr plot_character_sprite
     lda $78
-    sta $82
+    sta $82             ; update the latest space in the unplot buffer
     rts
 
 plot_character:         ; $74,$75=character address
 
-    lda $84
+    lda $84             ; store the plot buffer address in $78,$79
     sta $78
     lda $85
     sta $79
     jsr plot_character_sprite
     lda $78
-    sta $84
+    sta $84             ; update the latest space in the plot buffer
     rts
 
 plot_character_sprite:  ; $74,$75=character address
-                        ; $78,$79=plot buffer address
+                        ; $78,$79=unplot/plot buffer address
 
     ldy #0
     lda ($74),y
