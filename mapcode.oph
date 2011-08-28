@@ -16,6 +16,18 @@
 .org $1900
 jmp main
 
+seeds:         .byte 100, 26, 33
+start_rooms_x: .byte 5,   0,  10
+start_rooms_y: .byte 5,   9,  0
+exit_rooms_x:  .byte 7,   10, 2
+exit_rooms_y:  .byte 0,   4,  10
+
+; These values need to be kept in sync - the room numbers must match their
+; positions in the room array.
+key_rooms_x:   .byte 1,   9,  10
+key_rooms_y:   .byte 0,   0,  6
+key_rooms:     .byte 1, 9, 76
+
 unlimited_values:   ; $7c,$7d=first,second
                     ; Add $7c and $7d, store the result in $7d and the original
                     ; $7d value in $7c, returning the sum in the accumulator.
@@ -3235,7 +3247,7 @@ reduce_strength:    ; $70=strength to remove
     ora #$40
     sta $33f0
 
-    lda #127        ; reset the delay counter
+    lda #64         ; reset the delay counter
     sta $33f5
 
     lda #$00        ; unplot the player
@@ -3589,6 +3601,12 @@ init:
         dex
         bpl cursor_loop
 
+    rts
+
+title_vdu_bytes: .byte 12, 31,0,27, 17,2, "Press SPACE to play"
+
+show_title:
+
     lda #2
     sta $70
     lda #2
@@ -3600,20 +3618,39 @@ init:
     lda #3
     sta $71
     jsr set_palette
+
+    ldx #0
+    write_title_text_loop:
+        lda title_vdu_bytes,x
+        jsr $ffee
+        inx
+        cpx #25
+        bmi write_title_text_loop
 
     rts
 
-seeds:         .byte 100, 26, 33
-start_rooms_x: .byte 5,   0,  10
-start_rooms_y: .byte 5,   9,  0
-exit_rooms_x:  .byte 7,   10, 2
-exit_rooms_y:  .byte 0,   4,  10
+game_over_vdu_bytes: .byte 31,4,14, 17,2, "The journey", 31,6,15, "is over"
 
-; These values need to be kept in sync - the room numbers must match their
-; positions in the room array.
-key_rooms_x:   .byte 1,   9,  10
-key_rooms_y:   .byte 0,   0,  6
-key_rooms:     .byte 1, 9, 76
+show_game_over:
+
+    ldx #0
+    write_game_over_text_loop:
+        lda game_over_vdu_bytes,x
+        jsr $ffee
+        inx
+        cpx #26
+        bmi write_game_over_text_loop
+
+    lda #192
+    sta $33f5
+    show_game_over_delay_loop:
+
+        lda #19
+        jsr $fff4
+        dec $33f5
+        bne show_game_over_delay_loop
+
+    rts
 
 status_vdu_bytes: .byte 31,1,0, 17,3, "Score", 31,11,0, 17,2, "Strength"
 ; TAB(1,0), COLOUR 3, TAB(12,0), COLOUR 2
@@ -3623,6 +3660,10 @@ start_new_game:
     ; Clear the screen.
     lda #12
     jsr $ffee
+
+    ; Blank the screen now because it will be blanked before the room is shown
+    ; and otherwise the text will show briefly.
+    jsr blank_screen
 
     ; Write the status text.
     ldx #0
@@ -3720,6 +3761,8 @@ main:
 
     main_loop:
 
+        jsr show_title
+
         main_wait_loop:
             lda #129
             ldx #157
@@ -3813,7 +3856,7 @@ main:
                     jsr $fff4
                     jsr plot_buffer
 
-                    ldx #157
+                    ldx #243
                     jsr check_key
                     cpy #255
                     beq exit
@@ -3851,7 +3894,7 @@ main:
             jmp level_loop
 
             game_over:
-            jmp exit
+            jsr show_game_over
 
         jmp main_loop
 
