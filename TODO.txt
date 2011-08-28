@@ -1,7 +1,7 @@
 To Do
 
-Make enemies emerge a reasonable distance from the player.
 Add exits.
+Make enemies emerge a reasonable distance from the player.
 Create a key sprite.
 Add keys and implement next level behaviour.
 Add projectile explosion animation.

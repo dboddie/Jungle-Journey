@@ -396,39 +396,94 @@ make_room:          ; $78,$79=i,j
     make_room_loop1_exit:
     rts
 
-exit_room_offsets: .byte 35,66,63,56,34,44,64,33,36,55,65,53,45,46,54,43
+exit_room_offsets:  .byte 35,66,63,56,34,44,64,33,36,55,65,53,45,46,54,43
+treasure_x:         .byte 3, 2, 4, 8, 2, 5, 4, 1, 3, 8, 6, 5, 7, 1, 7, 6
+treasure_y:         .byte 1, 3, 7, 7, 2, 3, 6, 1, 4, 6, 8, 5, 5, 4, 8, 2
+
+eleven_times_table: .byte 0, 11, 22, 33, 44, 55, 66, 77, 88, 99, 110
 
 add_treasure:               ; $78,$79 = i,j
 
-    ldx $33fa               ; level number
-    lda key_rooms_y,x
-    cmp $78
-    bne add_treasure_not_key_room
-    lda key_rooms_x,x
-    cmp $79
-    bne add_treasure_not_key_room
-    
-    ; Add a key object to the room.
-    lda #4
-    sta $330c
-    lda #4      ; type
-    sta $330d
-    lda #4      ; y
-    sta $330e
-    lda #1      ; dy
-    sta $330f
-    lda #4      ; x
-    sta $3310
-    lda #0      ; dx
-    sta $3311
+    lda $78
+    tax
+    lda eleven_times_table,x
+    adc $79
+    tax
 
-    lda #$0c
-    sta $74
-    lda #$33
-    sta $75
-    jsr plot_character
+    lda $5100,x
+    cmp #0
+    beq add_treasure_exit
 
-    add_treasure_not_key_room:
+    sec
+    sbc #1
+    sta $330d           ; store weapon/treasure type
+    clc
+
+    lda $78
+    eor $79
+    and #15
+    sta $70
+
+    lda #15
+    sta $8c
+    ldy #0
+    add_treasure_loop:
+
+        clc
+
+        ldx $70
+        lda treasure_y,x    ; y
+        sta $8d
+        tax
+        lda room_row_offsets_low,x
+        sta $80
+
+        ldx $70
+        lda treasure_x,x    ; x
+        sta $8e
+        adc $80
+        sta $80
+
+        lda #$57
+        adc #0
+        sta $81
+        clc
+
+        lda ($80),y         ; tile
+        cmp #0
+        bne add_treasure_loop_next
+
+        lda #4              ; type (weapon/treasure)
+        sta $330c
+        lda $8d             ; y
+        sta $330e
+        lda #1              ; dy
+        sta $330f
+        lda $8e             ; x
+        sta $3310
+        lda #0              ; dx
+        sta $3311
+
+        lda #$0c
+        sta $74
+        lda #$33
+        sta $75
+        jmp plot_character  ; optimise away the rts
+
+        add_treasure_loop_next:
+        lda $70
+        cmp #0
+        bne add_treasure_loop_next2
+
+        lda #15
+        sta $70
+
+        add_treasure_loop_next2:
+        dec $70
+        dec $8c
+        bpl add_treasure_loop
+
+    add_treasure_exit:
     clc
     rts
 
@@ -1394,7 +1449,7 @@ plot_character_sprite:  ; $74,$75=character address
 reset_plot_buffer:
     lda #$06    ; reset the index into the plot buffer
     sta $84
-    lda #$47
+    lda #$52
     sta $85
 
     lda #255    ; terminate the plot list
@@ -1405,7 +1460,7 @@ reset_plot_buffer:
 reset_unplot_buffer:
     lda #$00    ; reset the index into the plot buffer
     sta $82
-    lda #$47
+    lda #$52
     sta $83
 
     lda #255    ; terminate the unplot list
@@ -1420,7 +1475,7 @@ plot_buffer:
 
     lda #$00
     sta $84
-    lda #$47
+    lda #$52
     sta $85
 
     lda #6
@@ -2979,6 +3034,14 @@ move_characters:
     ; Unplot the item.
     jsr unplot_character
 
+    ; Remove it from the item table.
+    ldx $33f2
+    lda eleven_times_table,x
+    adc $33f3
+    tax
+    lda #0
+    sta $5100,x
+
     lda #0      ; remove the item from the character list
     sta ($74),y
     rts
@@ -3325,9 +3388,11 @@ seeds:         .byte 100, 26, 33
 start_rooms_x: .byte 5,   0,  10
 start_rooms_y: .byte 5,   9,  0
 exit_rooms_x:  .byte 7,   10, 2
-exit_rooms_y:  .byte 5,   4,  10
-key_rooms_x:   .byte 4,   9,  10
-key_rooms_y:   .byte 5,   0,  6
+exit_rooms_y:  .byte 0,   4,  10
+key_rooms_x:   .byte 1,   9,  10
+key_rooms_y:   .byte 0,   0,  6
+
+key_rooms:     .byte 1, 9, 76
 
 start_new_game:
 
@@ -3370,6 +3435,42 @@ start_level:
     sta $3304
     lda #0      ; dx=0
     sta $3305
+
+    ; Fill the treasure table with objects.
+    lda $33fa   ; level
+    tax
+    lda key_rooms,x
+    sta $80
+    
+    lda $33fa   ; level
+    and #31
+    sta $7c
+    lda #10
+    sta $7d
+
+    ldx #121
+    start_level_add_treasure_loop:
+
+        cpx $80                 ; check for the key room
+        bne start_level_add_treasure_item
+
+        lda #5                  ; the value is type + 1
+        sta $5100,x
+        jmp start_level_add_treasure_next
+
+        start_level_add_treasure_item:
+        jsr unlimited_values
+        and #7                  ; restrict the value returned
+        adc #1
+        cmp #5                  ; do not allow keys to be added as normal items
+        beq start_level_add_treasure_next
+
+        sta $5100,x             ; add the item to the table
+
+        start_level_add_treasure_next:
+        dex
+        bpl start_level_add_treasure_loop
+
     rts
 
 main:

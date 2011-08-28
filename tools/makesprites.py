@@ -143,19 +143,19 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/emerge1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
 
          # placeholder weapons
-         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/weapon1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/weapon1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/weapon1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/weapon1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
          # placeholder treasure
-         read_xpm("images/birdlu1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdlu2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdru1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/birdru2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/key.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
          # exit
-         read_xpm("images/exit1.xpm", [("+", "0"), (".", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/exit1.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
          read_xpm("images/exit2.xpm", [("+", "0"), (".", "1"), ("#", "2"), ("@", "3")]),
 
          # final exit
