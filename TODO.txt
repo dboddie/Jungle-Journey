@@ -1,7 +1,9 @@
 To Do
 
-Add exits.
+Ensure that the tile sets for each level look good and that the exit sprites
+used are always the same.
 Make enemies emerge a reasonable distance from the player.
-Create a key sprite.
-Add keys and implement next level behaviour.
+Add more treasure and weapon sprites.
+Adjust the distribution of items to make weapons less common.
 Add projectile explosion animation.
+Add decoration to start, key and exit rooms.

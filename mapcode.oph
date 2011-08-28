@@ -1968,11 +1968,11 @@ move_player:
 
 try_to_exit_level:
     lda $33f0
-    and #1
+    and #$01
     beq try_to_exit_level_exit
 
     lda $33f0                   ; set the exit flag
-    ora #128
+    ora #$80
     sta $33f0
     sec                         ; indicate that the player is leaving the room
     rts
@@ -3043,7 +3043,19 @@ move_characters:
     sta $5100,x
 
     lda #0      ; remove the item from the character list
+    ldy #0
     sta ($74),y
+
+    iny
+    lda ($74),y ; check the item type
+    cmp #4
+    bne move_characters_exit
+
+    ; Key - update the item/player flags byte.
+    lda $33f0
+    ora #$01
+    sta $33f0
+
     rts
 
     move_character_destroy_enemy:
@@ -3063,6 +3075,7 @@ move_characters:
     jsr plot_character
 
     move_characters_exit:
+    clc
     rts
 
 remove_characters:
@@ -3389,9 +3402,11 @@ start_rooms_x: .byte 5,   0,  10
 start_rooms_y: .byte 5,   9,  0
 exit_rooms_x:  .byte 7,   10, 2
 exit_rooms_y:  .byte 0,   4,  10
+
+; These values need to be kept in sync - the room numbers must match their
+; positions in the room array.
 key_rooms_x:   .byte 1,   9,  10
 key_rooms_y:   .byte 0,   0,  6
-
 key_rooms:     .byte 1, 9, 76
 
 start_new_game:
@@ -3560,7 +3575,7 @@ main:
                 clc
 
                 lda $33f0
-                and #128
+                and #$80
                 bne exit_level
 
                 jmp game_loop
