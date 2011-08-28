@@ -61,7 +61,8 @@ if __name__ == "__main__":
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
     #                             bit 3 is type 0=emerge,1=explode,
     #                             bits 0,1 are animation
-    #        item: bits 0,1 are type, bit 2 is weapon/treasure)
+    #        item: bits 0,1 are type, bit 2 is weapon/treasure
+    #              0-3 weapons, 4 key, 5-8 treasure)
     #   n+2 y room offset (0-10)
     #   n+3 dy (0-5)
     #   n+4 x room offset (0-10)
@@ -87,16 +88,15 @@ if __name__ == "__main__":
     #       4 * 2 * 0x30 (player movement)
     #           4 * 0x30 (player demise)
     #       4 * 2 * 0x10 (projectile)
-    #           4 * 0x10 (projectile explode)
-    #   5 * 4 * 2 * 0x40 (enemies)          3700
+    #   5 * 4 * 2 * 0x40 (enemies)          36C0
     #           4 * 0x40 (enemy appear)
     #           4 * 0x40 (enemy demise)
-    #           4 * 0x40 (weapons)          4300
-    #           4 * 0x40 (treasure)
+    #           4 * 0x40 (weapons)          42C0
+    #           5 * 0x40 (treasure)
     #           2 * 0x60 (exit)             4500
     #           2 * 0x60 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 2*0x60 + 2*0x60 + 0x3400
+    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3400
     #
     # 4680 space
     # 5100 objects/treasure table (121 entries)

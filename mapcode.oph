@@ -628,11 +628,11 @@ plot_tile:          ; $7b=tile number
     plot_tile_not_tree2:
     cmp #4
     bne plot_tile_not_exit
-    lda #$00
+    lda #$c0
     sta $70
     lda #$45
     sta $71
-    jmp plot_not_blank
+    jmp plot_not_blank_after_add_loop   ; don't adjust the tile for later levels
 
     plot_tile_not_exit:
     clc
@@ -721,8 +721,8 @@ end_rows:
     lda $78
     eor $79
     and #3
-    asl
-    adc #1
+    tax
+    lda room_palettes,x
     sta $71
     jsr set_palette
 
@@ -736,7 +736,7 @@ end_rows:
     jsr set_palette
     rts
 
-
+room_palettes: .byte 1, 6, 5, 7
 
 plot8x24_y0:            ; $70,$71=source address
                         ; $72,$73=destination address
@@ -1176,14 +1176,14 @@ screen_columns_low: .byte $00,$20,$40,$60,$80,$a0,$c0,$e0,$00,$20
 screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
 screen_subcolumns_low: .byte $00,$08,$10,$18
 
-enemy_direction_chars_low:  .byte $00,$40,$80,$c0,$00,$40,$80,$c0
-enemy_direction_chars_high: .byte $37,$37,$37,$37,$38,$38,$38,$38
+enemy_direction_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
+enemy_direction_chars_high: .byte $36,$37,$37,$37,$37,$38,$38,$38
 
-emerge_explode_chars_low:  .byte $00,$40,$80,$c0,$00,$40,$80,$c0
-emerge_explode_chars_high: .byte $41,$41,$41,$41,$42,$42,$42,$42
+emerge_explode_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$00,$00
+emerge_explode_chars_high: .byte $40,$41,$41,$41,$41,$42,$42,$42
 
-item_chars_low:  .byte $00,$40,$80,$c0,$00,$40,$80,$c0
-item_chars_high: .byte $43,$43,$43,$43,$44,$44,$44,$44
+item_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80,$c0
+item_chars_high: .byte $42,$43,$43,$43,$43,$44,$44,$44,$44
 
 projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
 
@@ -3047,15 +3047,36 @@ move_characters:
     sta ($74),y
 
     iny
-    lda ($74),y ; check the item type
+    lda ($74),y         ; get the item type
+
+    tax                 ; temporarily store A in X and increase the score
+    lda item_scores,x
+    jsr add_score
+    txa
+
+    ; Check the item type.
+    cmp #5
+    bmi move_characters_not_treasure
+
+    rts
+
+    move_characters_not_treasure:
     cmp #4
-    bne move_characters_exit
+    bmi move_characters_not_key
 
     ; Key - update the item/player flags byte.
     lda $33f0
     ora #$01
     sta $33f0
+    clc
+    rts
 
+    move_characters_not_key:
+
+    ; Update the player's weapon.
+    asl
+    sta $33f9
+    clc
     rts
 
     move_character_destroy_enemy:
@@ -3075,6 +3096,22 @@ move_characters:
     jsr plot_character
 
     move_characters_exit:
+    clc
+    rts
+
+item_scores: .byte 10,10,10,10, 50,100,150,200,250
+
+add_score:      ; $70=score to add
+
+    lda $33f6
+    adc $70
+    sta $33f6
+    lda $33f7
+    adc #0
+    sta $33f7
+    lda $33f8
+    adc #0
+    sta $33f8
     clc
     rts
 
@@ -3409,7 +3446,23 @@ key_rooms_x:   .byte 1,   9,  10
 key_rooms_y:   .byte 0,   0,  6
 key_rooms:     .byte 1, 9, 76
 
+status_vdu_bytes: .byte 31,1,0, 17,3, "Score", 31,11,0, 17,2, "Strength"
+; TAB(1,0), COLOUR 3, TAB(12,0), COLOUR 2
+
 start_new_game:
+
+    ; Clear the screen.
+    lda #12
+    jsr $ffee
+
+    ; Write the status text.
+    ldx #0
+    write_status_text_loop:
+        lda status_vdu_bytes,x
+        jsr $ffee
+        inx
+        cpx #23
+        bmi write_status_text_loop
 
     ; Set level.
 
