@@ -73,9 +73,10 @@ if __name__ == "__main__":
     #   new characters are added after these
     #
     # 3324 space
-    # 33F0 item/player flags
+    # 33F0 item/player flags (128=leave level, 64=player demise, 1=has key)
     # 33F2 current room (i, j)
     # 33F4 lives (strength)
+    # 33F5 delay counter
     # 33F6 score (three bytes)
     # 33F9 projectile type
     # 33FA level
@@ -143,7 +144,7 @@ if __name__ == "__main__":
                 addresses.append(code_start + i + 1)
         i += 1
     
-    files.append(("CODE", code_start, addresses[-1], code))
+    files.append(("CODE", code_start, code_start, code))
     
     data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5300, 0x5300, data))

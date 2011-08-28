@@ -14,6 +14,8 @@
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 .org $1900
+jmp main
+
 unlimited_values:   ; $7c,$7d=first,second
                     ; Add $7c and $7d, store the result in $7d and the original
                     ; $7d value in $7c, returning the sum in the accumulator.
@@ -1164,8 +1166,8 @@ not_fire_key:
     lda #0
     rts
 
-player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50
-player_direction_chars_high: .byte $34,$34,$34,$34,$34,$34,$35,$35
+player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50, $80,$b0,$e0,$10
+player_direction_chars_high: .byte $34,$34,$34,$34,$34,$34,$35,$35, $35,$35,$35,$36
 
 screen_rows_low: .byte $80,$40,$00,$c0,$80,$40,$00,$c0,$80,$40
 screen_rows_high: .byte $5a,$5e,$62,$65,$69,$6d,$71,$74,$78,$7c
@@ -2979,6 +2981,10 @@ move_characters:
         cmp #0
         bne move_characters_next
 
+        lda $33f0           ; player demise - no more enemies
+        and #$40
+        bne move_characters_next
+
         jsr emerge_character
         jmp move_characters_next
 
@@ -2990,7 +2996,7 @@ move_characters:
         bne move_characters_not_emerge_explode
 
         lda $33fe           ; check motion counter
-        and #1
+        and #3
         bne move_characters_next
 
         jsr emerge_explode
@@ -3002,6 +3008,10 @@ move_characters:
 
         lda $33fe           ; check motion counter
         and #3
+        bne move_characters_next
+
+        lda $33f0           ; player demise - no enemy motion
+        and #$40
         bne move_characters_next
 
         jsr move_enemy
@@ -3058,6 +3068,7 @@ move_characters:
     cmp #5
     bmi move_characters_not_treasure
 
+    clc
     rts
 
     move_characters_not_treasure:
@@ -3095,6 +3106,12 @@ move_characters:
 
     jsr plot_character
 
+    ; Reduce the player's strength.
+
+    lda #1
+    sta $70
+    jmp reduce_strength ; optimise away the rts
+
     move_characters_exit:
     clc
     rts
@@ -3112,6 +3129,158 @@ add_score:      ; $70=score to add
     lda $33f8
     adc #0
     sta $33f8
+    clc
+    rts
+
+strength_units: .byte $00,$88,$cc,$ee
+
+add_strength:   ; $70=strength to add
+
+    ldx $70
+
+    ; Divide the initial strength by 4 to determine which half character to
+    ; start plotting at, and multiply by 8 to get the address. The net result
+    ; is to mask off the bottom two bits and shift left once.
+    lda $33f4
+    and #$fc
+    asl
+    tay
+
+    lda $33f4
+    adc $70
+    cmp #65
+    bmi add_strength_update
+
+    lda #64
+
+    add_strength_update:
+    clc
+    sta $33f4
+
+    lda #$f3    ; the start of the strength bar
+    sta $70
+    lda #$59
+    sta $71
+
+    add_strength_loop:
+
+        cpx #4
+        bmi add_strength_loop_extra
+
+        clc
+        lda #$ff
+        sta ($70),y
+
+        tya
+        adc #8
+        tay
+
+        txa
+        sec
+        sbc #4
+        clc
+        tax
+
+        cmp #4
+        bpl add_strength_loop
+
+    add_strength_loop_extra:
+
+    ; For any remaining units in excess of the multiples of four units, plot
+    ; the appropriate byte.
+
+    lda strength_units,x
+    sta ($70),y
+
+    clc
+    rts
+
+reduce_strength:    ; $70=strength to remove
+
+    lda $33f4
+    tax
+    sec
+    sbc $70
+    bpl reduce_strength_update
+
+    lda #0
+
+    reduce_strength_update:
+    clc
+    sta $33f4
+
+    ; Divide the final strength by 4 to determine which half character to
+    ; plot, and multiply by 8 to get the address. The net result is to mask off
+    ; the bottom two bits and shift left once.
+    and #$fc
+    asl
+    tay
+
+    lda #$f3    ; the start of the strength bar
+    sta $70
+    lda #$59
+    sta $71
+
+    lda $33f4
+    and #3
+    tax
+    lda strength_units,x
+    sta ($70),y
+
+    lda $33f4
+    cmp #0
+    bne reduce_strength_exit
+
+    lda $33f0       ; the player ran out of strength
+    ora #$40
+    sta $33f0
+
+    lda #127        ; reset the delay counter
+    sta $33f5
+
+    lda #$00        ; unplot the player
+    sta $74
+    lda #$33
+    sta $75
+
+    jsr unplot_character
+
+    lda #8          ; change the player's direction to the demise animation
+    sta $3301
+
+    jsr plot_character
+
+    lda #$0c
+    sta $74
+
+    reduce_strength_destroy_enemies_loop:
+
+        ldy #0
+        lda ($74),y
+        cmp #8
+        bmi reduce_strength_not_enemy
+
+        jsr unplot_character
+
+        lda #3          ; emerge/explosion
+        ldy #0
+        sta ($74),y
+
+        iny
+        lda #8          ; explosion
+        sta ($74),y
+
+        jsr plot_character
+
+        reduce_strength_not_enemy:
+        clc
+        lda $74
+        adc #6
+        sta $74
+        cmp #$24
+        bmi reduce_strength_destroy_enemies_loop
+
+    reduce_strength_exit:
     clc
     rts
 
@@ -3481,6 +3650,11 @@ start_level:
     lda #0
     sta $33f0
 
+    ; Set the player's strength.
+    lda #64
+    sta $70
+    jsr add_strength
+
     ; Set current room.
 
     ldx $33fa
@@ -3593,12 +3767,47 @@ main:
                 room_loop:
                     jsr reset_unplot_buffer
                     jsr reset_plot_buffer
+
                     jsr move_characters
+
                     jsr move_projectile
+
+                    lda $33f0
+                    and #$40
+                    beq room_loop_player_move
+                    clc
+
+                    dec $33f5           ; leave the loop when the delay
+                    beq after_room_loop ; counter is about to reset
+
+                    lda $3301           ; leave the loop when the player
+                    cmp #11             ; animation has finished
+                    beq room_loop_after_player_move
+                    clc
+
+                    lda $33fe
+                    and #7
+                    bne room_loop_after_player_move
+
+                    lda #$00
+                    sta $74
+                    lda #$33
+                    sta $75
+
+                    jsr unplot_character
+
+                    inc $3301
+                    jsr plot_character
+                    jmp room_loop_after_player_move
+
+                    room_loop_player_move:
 
                     jsr check_fire_key
                     jsr move_player
-                    bcs after_room_loop
+                    bcs after_room_loop     ; check if we are leaving the level
+
+                    room_loop_after_player_move:
+                    clc
 
                     lda #19
                     jsr $fff4
@@ -3631,11 +3840,18 @@ main:
                 and #$80
                 bne exit_level
 
+                lda $33f0
+                and #$40
+                bne game_over
+
                 jmp game_loop
 
             exit_level:
             inc $33fa
             jmp level_loop
+
+            game_over:
+            jmp exit
 
         jmp main_loop
 
