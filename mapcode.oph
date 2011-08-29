@@ -662,7 +662,7 @@ plot_tile:          ; $7b=tile number
     plot_tile_not_tree2:
     cmp #4
     bne plot_tile_not_exit
-    lda #$c0
+    lda #$00
     sta $70
     lda #$45
     sta $71
