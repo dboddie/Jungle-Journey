@@ -2101,23 +2101,53 @@ emerge_type:                    ; returns A=type
     rts
 
 emerge_x_position:              ; returns A=position
+
     jsr unlimited_values
-    lda $7d
-    ora #2
-    eor $3304
-    and #7
-    adc #1
-    clc
-    rts
+    lda $3304
+    jmp emerge_position_common
 
 emerge_y_position:              ; returns A=position
+
     jsr unlimited_values
+    lda $3302
+    ; run on into the next routine
+
+emerge_position_common:
+
+    cmp #3
+    bpl emerge_position_common_not_first_area
+
     lda $7d
-    ora #2
-    eor $3302
-    and #7
-    adc #1
+    and #3
+    adc #5
+    rts
+
+    emerge_position_common_not_first_area:
+    cmp #7
+    bpl emerge_position_common_third_area
+
+    lda $7d
+    and #1
+    bne emerge_position_common_lower_second_area
+
+    lda $7d
+    and #3
+    rts
+
+    emerge_position_common_lower_second_area:
     clc
+
+    lda $7d
+    and #1
+    adc #6
+    rts
+
+    emerge_position_common_third_area:
+    clc
+
+    lda $7d
+    and #3
+    adc #1
     rts
 
 emerge_character:           ; $74,$75=character address
@@ -2748,7 +2778,8 @@ move_projectile_left:
     cmp #8
     bpl move_projectile_left_exit
 
-    ora #$28
+    ldx $3309       ; dy
+    ora boomerang_horizontal,x
     sta $3307
     clc
     rts                     ; exit without moving or registering a collision
@@ -2784,6 +2815,8 @@ move_projectile_left:
     sec
     rts
 
+boomerang_horizontal: .byte $28, $28, $28, $38, $38, $38
+
 move_projectile_right:
 
     ; Fire right.
@@ -2802,8 +2835,10 @@ move_projectile_right:
 
     lda $330a       ; x
     cmp #9
-    beq move_projectile_right_exit
+    bne move_projectile_right_not_edge
+    jmp move_projectile_right_exit
 
+    move_projectile_right_not_edge:
     clc
     tay
     iny                         ; x + 1
@@ -2857,7 +2892,11 @@ move_projectile_right:
 
     lda $3307
     and #$0f
-    ora #$30
+    cmp #8
+    bpl move_projectile_right_exit
+
+    ldx $3309       ; dy
+    ora boomerang_horizontal,x
     sta $3307
     clc
     rts                     ; exit without moving or registering a collision
@@ -2955,7 +2994,11 @@ move_projectile_up:
 
     lda $3307
     and #$0f
-    ora #$10
+    cmp #8
+    bpl move_projectile_up_exit
+
+    ldx $330b       ; dx
+    ora boomerang_vertical,x
     sta $3307
     clc
     rts                     ; exit without moving or registering a collision
@@ -2990,6 +3033,8 @@ move_projectile_up:
     move_projectile_up_exit:
     sec
     rts
+
+boomerang_vertical: .byte $08, $08, $18, $18
 
 move_projectile_down:
 
@@ -3061,6 +3106,11 @@ move_projectile_down:
 
     lda $3307
     and #$0f
+    cmp #8
+    bpl move_projectile_down_exit
+
+    ldx $330b       ; dx
+    ora boomerang_vertical,x
     sta $3307
     clc
     rts                     ; exit without moving or registering a collision
