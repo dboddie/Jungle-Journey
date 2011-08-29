@@ -3406,8 +3406,6 @@ strength_units: .byte $00,$88,$cc,$ee
 
 add_strength:   ; $70=strength to add
 
-    ldx $70
-
     ; Divide the initial strength by 4 to determine which half character to
     ; start plotting at, and multiply by 8 to get the address. The net result
     ; is to mask off the bottom two bits and shift left once.
@@ -3422,10 +3420,16 @@ add_strength:   ; $70=strength to add
     bmi add_strength_update
 
     lda #64
+    sec
+    sbc $33f4
+    sta $70
+    lda #64
 
     add_strength_update:
     clc
     sta $33f4
+
+    ldx $70
 
     lda #$f3    ; the start of the strength bar
     sta $70
@@ -4012,6 +4016,7 @@ start_level:
         dex
         bpl start_level_add_treasure_loop
 
+    clc
     rts
 
 main:
@@ -4032,6 +4037,7 @@ main:
         jsr start_new_game
 
         level_loop:
+
             jsr start_level
 
             game_loop:

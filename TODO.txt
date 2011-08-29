@@ -1,6 +1,5 @@
 To Do
 
-Ensure that all buffers are cleared when a new level starts.
 Add support for score.
 Ensure that the tile sets for each level look good and that the exit sprites
 used are always the same.
