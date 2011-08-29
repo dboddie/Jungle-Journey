@@ -553,6 +553,26 @@ plot:               ; $70,$71=source address
     
     rts
 
+
+
+plot_blank_xy:      ; X=y, Y=x
+
+    lda screen_rows_low,x
+    sta $72
+    lda screen_rows_high,x
+    sta $73
+
+    tya
+    tax
+    lda screen_columns_low,x
+    adc $72
+    sta $72
+    lda screen_columns_high,x
+    adc $73
+    sta $73
+    clc
+    ; run on into plot_blank
+
 plot_blank:         ; $72,$73=destination address
 
     ldy #$1f
@@ -2646,6 +2666,22 @@ move_enemy:             ; $74,$75=character address
     clc
     rts
 
+create_explosion:           ; X=y, Y=x
+
+    lda #3
+    sta $3324
+    lda #8
+    sta $3325
+    txa
+    sta $3326
+    lda #1
+    sta $3327
+    tya
+    sta $3328
+    lda #0
+    sta $3329
+    rts
+
 move_projectile_left:
 
     lda $330b
@@ -2672,7 +2708,7 @@ move_projectile_left:
     lda ($70),y                 ; load the tile to the left
 
     cmp #0
-    bne move_projectile_left_exit
+    bne move_projectile_left_wall
 
     lda $3309                   ; dy
     cmp #5
@@ -2685,7 +2721,7 @@ move_projectile_left:
     lda ($70),y                 ; load the tile below and to the left
 
     cmp #0
-    bne move_projectile_left_exit
+    bne move_projectile_left_wall
 
     move_projectile_allow_left:
 
@@ -2695,6 +2731,54 @@ move_projectile_left:
 
     clc
     rts
+
+    move_projectile_left_wall:  ; the projectile hit a wall
+    clc
+
+    lda $3307                   ; type 2 can pass through walls
+    and #$06
+    cmp #4
+    beq move_projectile_allow_left
+
+    cmp #2
+    bne move_projectile_left_not_boomerang
+
+    lda $3307
+    and #$0f
+    cmp #8
+    bpl move_projectile_left_exit
+
+    ora #$28
+    sta $3307
+    clc
+    rts                     ; exit without moving or registering a collision
+
+    move_projectile_left_not_boomerang:
+
+    cmp #6                          ; type 3 can destroy certain walls
+    bne move_projectile_left_exit
+
+    lda $3309                       ; dy
+    cmp #5
+    beq move_projectile_left_exit   ; shots must be lined up
+    
+    lda ($70),y                 ; load the tile to the left
+    cmp #1                      ; decoration can be destroyed
+    bne move_projectile_left_exit
+    clc
+
+    lda #0
+    sta ($70),y
+    
+    ; X=y, Y=x
+    jsr create_explosion
+    jsr plot_blank_xy           ; corrupted X
+
+    lda #$24
+    sta $74
+    lda #$33
+    sta $75
+    jsr plot_character
 
     move_projectile_left_exit:
     sec
@@ -2731,7 +2815,7 @@ move_projectile_right:
     lda ($70),y                 ; load the tile to the right
 
     cmp #0
-    bne move_projectile_right_exit
+    bne move_projectile_right_wall
 
     lda $3309                   ; dy
     cmp #5
@@ -2744,7 +2828,7 @@ move_projectile_right:
     lda ($70),y                 ; load the tile below and to the right
 
     cmp #0
-    bne move_projectile_right_exit
+    bne move_projectile_right_wall
 
     move_projectile_allow_right:
 
@@ -2759,6 +2843,51 @@ move_projectile_right:
     sta $330b       ; dx
     clc
     rts
+
+    move_projectile_right_wall:  ; the projectile hit a wall
+    clc
+
+    lda $3307                   ; type 2 can pass through walls
+    and #$06
+    cmp #4
+    beq move_projectile_allow_right
+
+    cmp #2
+    bne move_projectile_right_not_boomerang
+
+    lda $3307
+    and #$0f
+    ora #$30
+    sta $3307
+    clc
+    rts                     ; exit without moving or registering a collision
+
+    move_projectile_right_not_boomerang:
+
+    cmp #6                      ; type 3 can destroy certain walls
+    bne move_projectile_right_exit
+
+    lda $3309                   ; dy
+    cmp #5
+    beq move_projectile_right_exit  ; shots must be lined up
+    
+    lda ($70),y                 ; load the tile to the right
+    cmp #1                      ; decoration can be destroyed
+    bne move_projectile_right_exit
+    clc
+
+    lda #0
+    sta ($70),y
+    
+    ; X=y, Y=x
+    jsr create_explosion
+    jsr plot_blank_xy           ; corrupted X
+
+    lda #$24
+    sta $74
+    lda #$33
+    sta $75
+    jsr plot_character
 
     move_projectile_right_exit:
     sec
@@ -2791,7 +2920,7 @@ move_projectile_up:
     lda ($70),y                 ; load the tile above
 
     cmp #0
-    bne move_projectile_up_exit
+    bne move_projectile_up_wall
 
     lda $330b                   ; dx
     cmp #3
@@ -2802,7 +2931,7 @@ move_projectile_up:
     lda ($70),y             ; load the tile above and to the right
 
     cmp #0
-    bne move_projectile_up_exit
+    bne move_projectile_up_wall
 
     move_projectile_allow_up:
     txa
@@ -2812,6 +2941,51 @@ move_projectile_up:
 
     clc
     rts
+
+    move_projectile_up_wall:    ; the projectile hit a wall
+    clc
+
+    lda $3307                   ; type 2 can pass through walls
+    and #$06
+    cmp #4
+    beq move_projectile_allow_up
+
+    cmp #2
+    bne move_projectile_up_not_boomerang
+
+    lda $3307
+    and #$0f
+    ora #$10
+    sta $3307
+    clc
+    rts                     ; exit without moving or registering a collision
+
+    move_projectile_up_not_boomerang:
+
+    cmp #6                      ; type 3 can destroy certain walls
+    bne move_projectile_up_exit
+
+    lda $330b                   ; dx
+    cmp #3
+    bpl move_projectile_up_exit ; shots must be lined up
+    
+    lda ($70),y                 ; load the tile above
+    cmp #1                      ; decoration can be destroyed
+    bne move_projectile_up_exit
+    clc
+
+    lda #0
+    sta ($70),y
+    
+    ; X=y, Y=x
+    jsr create_explosion
+    jsr plot_blank_xy           ; corrupted X
+
+    lda #$24
+    sta $74
+    lda #$33
+    sta $75
+    jsr plot_character
 
     move_projectile_up_exit:
     sec
@@ -2847,7 +3021,7 @@ move_projectile_down:
     lda ($70),y                 ; load the tile below
 
     cmp #0
-    bne move_projectile_down_exit
+    bne move_projectile_down_wall
 
     lda $330b                   ; dx
     cmp #3
@@ -2858,7 +3032,7 @@ move_projectile_down:
     lda ($70),y                 ; load the tile below and to the right
 
     cmp #0
-    bne move_projectile_down_exit
+    bne move_projectile_down_wall
 
     move_projectile_allow_down:
 
@@ -2873,6 +3047,50 @@ move_projectile_down:
     sta $3309                   ; dy = 0
     clc
     rts
+
+    move_projectile_down_wall:  ; the projectile hit a wall
+    clc
+
+    lda $3307                   ; type 2 can pass through walls
+    and #$06
+    cmp #4
+    beq move_projectile_allow_down
+
+    cmp #2
+    bne move_projectile_down_not_boomerang
+
+    lda $3307
+    and #$0f
+    sta $3307
+    clc
+    rts                     ; exit without moving or registering a collision
+
+    move_projectile_down_not_boomerang:
+
+    cmp #6                      ; type 3 can destroy certain walls
+    bne move_projectile_down_exit
+
+    lda $330b                   ; dx
+    cmp #3
+    bpl move_projectile_down_exit   ; shots must be lined up
+    
+    lda ($70),y                 ; load the tile below
+    cmp #1                      ; decoration can be destroyed
+    bne move_projectile_down_exit
+    clc
+
+    lda #0
+    sta ($70),y
+    
+    ; X=y, Y=x
+    jsr create_explosion
+    jsr plot_blank_xy           ; corrupted X
+
+    lda #$24
+    sta $74
+    lda #$33
+    sta $75
+    jsr plot_character
 
     move_projectile_down_exit:
     sec
@@ -2889,7 +3107,11 @@ move_projectile:
 
     lda $3306
     cmp #0
-    beq move_projectile_exit
+    bne move_projectile_move
+    jmp move_projectile_exit
+
+    move_projectile_move:
+    clc
 
     lda #$06
     sta $74
@@ -2967,6 +3189,38 @@ move_projectile:
 
     move_projectile_no_enemy_collision:
 
+    lda $3307       ; type 2 projectiles pass through everything
+    and #$06
+    cmp #4
+    bne move_projectile_remove_projectile
+
+    ; Ideally, we would have recorded if the projectile left the screen so
+    ; that we don't perform these checks again here, but it would just add
+    ; overhead to the normal movement routines for the other weapons.
+
+    lda $3308       ; y
+    cmp #0
+    beq move_projectile_remove_projectile
+    cmp #9
+    beq move_projectile_remove_projectile
+
+    lda $330a       ; x
+    cmp #0
+    beq move_projectile_remove_projectile
+    cmp #9
+    beq move_projectile_remove_projectile
+
+    clc
+    lda #$06
+    sta $74
+    lda #$33
+    sta $75
+
+    jsr plot_character
+    jmp move_projectile_exit
+
+    move_projectile_remove_projectile:
+
     lda #0                      ; remove the projectile from the character list
     sta $3306
 
@@ -2987,6 +3241,10 @@ move_characters:
         lda ($74),y
         cmp #0
         bne move_characters_read_character
+
+        lda $74
+        cmp #$24
+        bpl move_characters_read_character
 
         ; See if it is time to generate a new enemy.
         lda $33ff
@@ -3035,7 +3293,7 @@ move_characters:
         lda $74
         adc #6
 
-        cmp #$24
+        cmp #$2a
         bpl move_characters_endloop
         sta $74
         jmp move_characters_loop
@@ -3307,7 +3565,7 @@ remove_characters:
         txa
         adc #6
         tax
-        cpx #$24
+        cpx #$2a
         bmi remove_characters_loop
 
     rts
@@ -3856,7 +4114,7 @@ main:
                     jsr $fff4
                     jsr plot_buffer
 
-                    ldx #243
+                    ldx #143
                     jsr check_key
                     cpy #255
                     beq exit

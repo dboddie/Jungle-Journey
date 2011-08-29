@@ -49,13 +49,13 @@ if __name__ == "__main__":
     # Memory map
     # 1900 CODE
     # 1x00 space
-    # 3300 character table (0x24/6 = 6 entries)
+    # 3300 character table (0x24/6 = 6 entries + 1 special entry)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 item,
     #             8 and higher enemy - bits 4,5,6 are enemy type)
     #   n+1 counter/direction
     #       (player: bits 1,2 are direction, bit 0 is animation
-    #        projectile: bits 4,5 are direction, bits 1,2,3 are type,
+    #        projectile: bits 4,5 are direction, bits 1,2 are type,
     #                    bit 0 is animation
     #        enemy:  bits 2,3 are direction, bits 1,0 are animation
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     #   second character is always the player's weapon
     #   new characters are added after these
     #
-    # 3324 space
+    # 332A space
     # 33F0 item/player flags (128=leave level, 64=player demise, 1=has key)
     # 33F2 current room (i, j)
     # 33F4 lives (strength)
