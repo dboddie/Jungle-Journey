@@ -61,7 +61,7 @@ if __name__ == "__main__":
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
     #                             bit 3 is type 0=emerge,1=explode,
     #                             bits 0,1 are animation
-    #        item: bits 0,1 are type, bit 2 is weapon/treasure
+    #        item: bits 0,1,2,3 are type, bit 2 is weapon/treasure
     #              0-3 weapons, 4 key, 5-8 treasure)
     #   n+2 y room offset (0-10)
     #   n+3 dy (0-5)
@@ -125,9 +125,9 @@ if __name__ == "__main__":
     #   ; 2 tree/wall
     #   ; 3 tree/wall
     #   ; 4 exit
-    #   ; 5 final exit
-    #   ; 6 weapon (bits 3,4 are type)
-    #   ; 7 treasure (bits 3,4 are type)
+    #   ; 5 final exit (left)
+    #   ; 6 final exit (right)
+    #
     # 5800 screen memory
     
     files = []

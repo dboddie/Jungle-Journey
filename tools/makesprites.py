@@ -144,9 +144,9 @@ chars = [read_xpm("images/left1.xpm"),
          # placeholder treasure
          read_xpm("images/key.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
-         read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
+         read_xpm("images/statue.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/jewel.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")]),
+         read_xpm("images/health.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")]),
 
          # exit
          read_xpm("images/exit1.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),

@@ -1398,7 +1398,7 @@ plot_character_sprite:  ; $74,$75=character address
     ; Select the sprites to use.
 
     lda $80
-    and #7          ; only keep the bits required to find the correct sprite
+    and #$0f        ; only keep the bits required to find the correct sprite
     clc
     tax
     lda item_chars_low,x
@@ -3223,6 +3223,16 @@ move_projectile:
     cmp #8
     bmi move_projectile_no_enemy_collision
 
+    and #$70            ; increase the player's score
+    lsr
+    lsr
+    lsr
+    lsr
+    tax
+    lda enemy_scores,x
+    sta $70
+    jsr add_score
+
     ; Unplot the enemy and replace it with an explosion.
 
     jsr unplot_character
@@ -3277,6 +3287,8 @@ move_projectile:
     move_projectile_exit:
     clc
     rts
+
+enemy_scores: .byte 2, 4, 6, 8, 10
 
 move_characters:
 
@@ -3379,15 +3391,28 @@ move_characters:
     iny
     lda ($74),y         ; get the item type
 
-    tax                 ; temporarily store A in X and increase the score
+    sta $8d             ; temporarily store A and increase the score
+    tax
     lda item_scores,x
+    sta $70
     jsr add_score
-    txa
+    lda $8d
 
     ; Check the item type.
+    cmp #8
+    bmi move_characters_not_health
+
+    lda #12
+    sta $70
+    jsr add_strength
+    clc
+    rts
+
+    move_characters_not_health:
     cmp #5
     bmi move_characters_not_treasure
 
+    ; Do nothing here. We have already increased the player's score.
     clc
     rts
 
@@ -3436,10 +3461,13 @@ move_characters:
     clc
     rts
 
-item_scores: .byte 10,10,10,10, 50,100,150,200,250
+item_scores:     .byte $1,$4,$9,$16, $50,$20,$5,$10,$40
+score_vdu_bytes: .byte 1,1,31   ; reversed
+score_digits:    .byte "0123456789"
 
 add_score:      ; $70=score to add
 
+    sed
     lda $33f6
     adc $70
     sta $33f6
@@ -3449,6 +3477,43 @@ add_score:      ; $70=score to add
     lda $33f8
     adc #0
     sta $33f8
+    cld
+
+write_score:
+
+    ldx #2
+    write_score_vdu_bytes:
+        lda score_vdu_bytes,x
+        jsr $ffee
+        dex
+        bpl write_score_vdu_bytes
+
+    lda #$f6
+    sta $70
+    lda #$33
+    sta $71
+
+    ldy #2
+    write_score_loop:
+
+        lda ($70),y
+        lsr
+        lsr
+        lsr
+        lsr
+        tax
+        lda score_digits,x
+        jsr $ffee
+
+        lda ($70),y
+        and #$0f
+        tax
+        lda score_digits,x
+        jsr $ffee
+
+        dey
+        bpl write_score_loop
+
     clc
     rts
 
@@ -3462,6 +3527,7 @@ add_strength:   ; $70=strength to add
     lda $33f4
     and #$fc
     asl
+    clc
     tay
 
     lda $33f4
@@ -3964,8 +4030,8 @@ show_game_over:
 
     rts
 
-status_vdu_bytes: .byte 31,1,0, 17,3, "Score", 31,11,0, 17,2, "Strength"
-; TAB(1,0), COLOUR 3, TAB(12,0), COLOUR 2
+status_vdu_bytes: .byte 31,2,0, 17,3, "Score", 31,11,0, 17,2, "Strength", 17,1
+; TAB(1,0), COLOUR 3, "Score", TAB(12,0), COLOUR 2, "Strength", COLOUR 1
 
 start_new_game:
 
@@ -3983,13 +4049,24 @@ start_new_game:
         lda status_vdu_bytes,x
         jsr $ffee
         inx
-        cpx #23
+        cpx #25
         bmi write_status_text_loop
 
-    ; Set level.
-
+    ; Set the level.
     lda #0
     sta $33fa
+
+    ; Set the score.
+    lda #0
+    sta $33f6
+    sta $33f7
+    sta $33f8
+    jsr write_score
+
+    ; Set the player's strength.
+    lda #64
+    sta $70
+    jsr add_strength
 
     ; Set the projectile type.
     lda #0
@@ -4003,8 +4080,8 @@ start_level:
     lda #0
     sta $33f0
 
-    ; Set the player's strength.
-    lda #64
+    ; Add to the player's strength.
+    lda #20
     sta $70
     jsr add_strength
 
@@ -4038,31 +4115,76 @@ start_level:
     sta $80
     
     lda $33fa   ; level
+    adc #11
     and #31
     sta $7c
+    clc
     lda #10
     sta $7d
+
+    lda $33fa   ; create an upper limit on the weapon type found in this level
+    adc #2
+    sta $8d
+    clc
 
     ldx #121
     start_level_add_treasure_loop:
 
-        cpx $80                 ; check for the key room
+        cpx $80                         ; check for the key room
         bne start_level_add_treasure_item
 
-        lda #5                  ; the value is type + 1
-        sta $5100,x
-        jmp start_level_add_treasure_next
+        lda #5                          ; the value to store is type + 1
+        jmp start_level_add_treasure_store
 
         start_level_add_treasure_item:
+        clc
         jsr unlimited_values
-        and #7                  ; restrict the value returned
-        adc #1
-        cmp #5                  ; do not allow keys to be added as normal items
-        beq start_level_add_treasure_next
+        and #$0f
+        cmp #15
+        bcs start_level_add_treasure_none
 
+        cmp #9                          ; only allow values 0-8
+        bcc start_level_add_treasure_ok
+
+        sec
+        sbc #4
+        clc
+
+        cmp #9
+        bcc start_level_add_treasure_ok
+
+        sec
+        sbc #4
+        clc
+
+        start_level_add_treasure_ok:
+        cmp #5                          ; check for values 5-8
+        bcs start_level_add_treasure
+
+        cmp #4                  ; do not allow keys to be added as normal items
+        beq start_level_add_treasure_none
+
+        cmp $8d                     ; only add weapons with types that equal the
+        bcs start_level_add_treasure_none ; level number or exceed it by one
+
+        clc
+        adc #1                  ; store values 0-8 as values 1-9
+        jmp start_level_add_treasure_store
+
+        start_level_add_treasure:
+        clc
+
+        adc #1                  ; store values 0-8 as values 1-9
+        jmp start_level_add_treasure_store
+
+        start_level_add_treasure_none:
+        clc
+        lda #0                  ; do not put treasure in this room
+
+        start_level_add_treasure_store:
+        clc
         sta $5100,x             ; add the item to the table
 
-        start_level_add_treasure_next:
         dex
         bpl start_level_add_treasure_loop
 
