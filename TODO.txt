@@ -1,10 +1,7 @@
 To Do
 
-Add support for score.
 Ensure that the tile sets for each level look good and that the exit sprites
 used are always the same.
-Add more treasure and weapon sprites.
-Adjust the distribution of items to make weapons less common.
 Add decoration to start, key and exit rooms.
 Show an open exit if the player has a key.
 Add a screen to show between levels.

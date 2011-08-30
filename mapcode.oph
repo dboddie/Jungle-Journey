@@ -16,17 +16,20 @@
 .org $1900
 jmp main
 
-seeds:         .byte 100, 26, 33
-start_rooms_x: .byte 5,   0,  10
-start_rooms_y: .byte 5,   9,  0
-exit_rooms_x:  .byte 7,   10, 2
-exit_rooms_y:  .byte 0,   4,  10
+seeds:         .byte 100, 239, 33   ; $ef, $b7, $90, $d6, $89
+start_rooms_x: .byte 5,   3,  10
+start_rooms_y: .byte 5,   8,  0
+exit_rooms_x:  .byte 7,   9,  2
+exit_rooms_y:  .byte 0,   0,  10
 
 ; These values need to be kept in sync - the room numbers must match their
 ; positions in the room array.
-key_rooms_x:   .byte 1,   9,  10
-key_rooms_y:   .byte 0,   0,  6
-key_rooms:     .byte 1, 9, 76
+key_rooms_x:   .byte 1,   5,  10
+key_rooms_y:   .byte 0,   2,   6
+key_rooms:     .byte 1,  27,  76    ; ky*11 + kx
+
+treasure_table:  .byte 6, 5, 7, 1, 1, 5, 2, 7, 6, 2, 1, 7, 1, 7, 8, 7
+treasure_table_: .byte 0, 7, 6, 7, 7, 7, 5, 0, 6, 3, 7, 7, 5, 7, 5, 0
 
 unlimited_values:   ; $7c,$7d=first,second
                     ; Add $7c and $7d, store the result in $7d and the original
@@ -425,6 +428,9 @@ add_treasure:               ; $78,$79 = i,j
     tax
 
     lda $5100,x
+    ora #$80
+    sta $5100,x         ; set the top bit (room visited)
+    and #$7f            ; mask off the top bit to obtain the item number + 1
     cmp #0
     beq add_treasure_exit
 
@@ -435,6 +441,7 @@ add_treasure:               ; $78,$79 = i,j
 
     lda $78
     eor $79
+    adc $330d
     and #15
     sta $70
 
@@ -4114,23 +4121,32 @@ start_level:
     lda key_rooms,x
     sta $80
     
-    lda $33fa   ; level
-    adc #11
+    ldx $33fa   ; level
+    lda seeds,x
+    adc #1
     and #31
     sta $7c
     clc
-    lda #10
+    lda seeds,x
+    adc #2
+    and #31
     sta $7d
+    clc
 
     lda $33fa   ; create an upper limit on the weapon type found in this level
     adc #2
     sta $8d
     clc
 
-    ldx #121
+    lda #$00
+    sta $8e
+    lda #$51
+    sta $8f
+
+    ldy #0
     start_level_add_treasure_loop:
 
-        cpx $80                         ; check for the key room
+        cpy $80                         ; check for the key room
         bne start_level_add_treasure_item
 
         lda #5                          ; the value to store is type + 1
@@ -4140,41 +4156,34 @@ start_level:
         clc
         jsr unlimited_values
         and #$0f
-        cmp #15
-        bcs start_level_add_treasure_none
-
-        cmp #9                          ; only allow values 0-8
-        bcc start_level_add_treasure_ok
-
-        sec
-        sbc #4
-        clc
-
-        cmp #9
-        bcc start_level_add_treasure_ok
-
-        sec
-        sbc #4
-        clc
-
-        start_level_add_treasure_ok:
-        cmp #5                          ; check for values 5-8
-        bcs start_level_add_treasure
-
-        cmp #4                  ; do not allow keys to be added as normal items
+        cmp #0
         beq start_level_add_treasure_none
 
-        cmp $8d                     ; only add weapons with types that equal the
-        bcs start_level_add_treasure_none ; level number or exceed it by one
+        clc
+        sta $8c
+        tya
+        adc $8c
+        and #31
+        clc
+        tax
+        lda treasure_table,x
+
+        cmp #4
+        bmi start_level_add_treasure_weapon
 
         clc
-        adc #1                  ; store values 0-8 as values 1-9
+        adc #1
         jmp start_level_add_treasure_store
 
-        start_level_add_treasure:
-        clc
+        start_level_add_treasure_weapon:
 
-        adc #1                  ; store values 0-8 as values 1-9
+        ; Only add weapons with types that equal the level number or exceed it
+        ; by one.
+        cmp $8d                     
+        bcs start_level_add_treasure_none
+
+        clc
+        adc #1                              ; store values 0-8 as values 1-9
         jmp start_level_add_treasure_store
 
         start_level_add_treasure_none:
@@ -4183,10 +4192,11 @@ start_level:
 
         start_level_add_treasure_store:
         clc
-        sta $5100,x             ; add the item to the table
+        sta ($8e),y             ; add the item to the table
 
-        dex
-        bpl start_level_add_treasure_loop
+        iny
+        cpy #121
+        bmi start_level_add_treasure_loop
 
     clc
     rts

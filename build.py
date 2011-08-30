@@ -102,8 +102,6 @@ if __name__ == "__main__":
     # 4680 space
     # 5100 objects/treasure table (121 entries)
     #   n   type
-    #   n+1 i map offset
-    #   n+2 j map offset
     #
     # 51F2 space
     # 5200 plot buffer (alternate unplot/plot entries terminating in 255)
