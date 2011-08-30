@@ -344,9 +344,18 @@ make_room:          ; $78,$79=i,j
     tax
     lda exit_room_offsets,x
     tax
+    lda $33f0
+    and #1
+    beq exit_not_open
+
+    lda #5
+    sta $579c,x
+    rts
+
+    exit_not_open:
+    clc
     lda #4
     sta $579c,x
-
     rts
 
     make_room_not_exit_room:
@@ -632,54 +641,38 @@ plot_blank:         ; $72,$73=destination address
     
     rts
 
+tile_addresses_low:  .byte $00, $60, $c0, $00, $60, $c0, $20
+tile_addresses_high: .byte $53, $53, $53, $45, $45, $45, $46
+
 plot_tile:          ; $7b=tile number
                     ;   1 = flowers/decoration
                     ;   2 = trees/wall
                     ;   3 = trees
                     ;   4 = exit
+                    ;   5 = open exit
+                    ;   6 = final exit (left)
+                    ;   7 = final exit (right)
                     ; $72,$73=screen position 
 
     lda $7b
-    cmp #1
-    bne plot_tile_not_flowers
-    lda #$00
-    sta $70
-    lda #$53
-    sta $71
-    jmp plot_not_blank
-
-    plot_tile_not_flowers:
-    cmp #2
-    bne plot_tile_not_tree1
-    lda #$60
-    sta $70
-    lda #$53
-    sta $71
-    jmp plot_not_blank
-
-    plot_tile_not_tree1:
-    cmp #3
-    bne plot_tile_not_tree2
-    lda #$c0
-    sta $70
-    lda #$53
-    sta $71
-    jmp plot_not_blank
-
-    plot_tile_not_tree2:
-    cmp #4
-    bne plot_tile_not_exit
-    lda #$00
-    sta $70
-    lda #$45
-    sta $71
-    jmp plot_not_blank_after_add_loop   ; don't adjust the tile for later levels
-
-    plot_tile_not_exit:
+    cmp #0
+    bne plot_tile_sprite
     clc
     jmp plot_blank      ; optimise away the rts
 
-    plot_not_blank:
+    plot_tile_sprite:
+    clc
+    tax
+    dex
+    lda tile_addresses_low,x
+    sta $70
+    lda tile_addresses_high,x
+    sta $71
+
+    lda $7b
+    cmp #4
+    bpl plot_not_blank_after_add_loop   ; don't adjust the tile for later levels
+    
     clc
     lda $33fa
     and #3              ; change the tile set for later levels
@@ -1681,8 +1674,8 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile to the left
 
-    cmp #4                      ; check for the exit
-    bne move_player_not_left_exit
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_left_exit
     jmp try_to_exit_level       ; optimise away the rts
 
     move_player_not_left_exit:
@@ -1770,8 +1763,8 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile to the right
 
-    cmp #4                      ; check for the exit
-    bne move_player_not_right_exit
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_right_exit
     jmp try_to_exit_level       ; optimise away the rts
 
     move_player_not_right_exit:
@@ -1861,8 +1854,8 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile above
 
-    cmp #4                      ; check for the exit
-    bne move_player_not_up_exit
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_up_exit
     jmp try_to_exit_level       ; optimise away the rts
 
     move_player_not_up_exit:
@@ -1948,8 +1941,8 @@ move_player:
     sta $71
     lda ($70),y                 ; load the tile below
 
-    cmp #4                      ; check for the exit
-    bne move_player_not_down_exit
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_down_exit
     jmp try_to_exit_level       ; optimise away the rts
 
     move_player_not_down_exit:
@@ -2008,18 +2001,11 @@ move_player:
     rts
 
 try_to_exit_level:
-    lda $33f0
-    and #$01
-    beq try_to_exit_level_exit
 
     lda $33f0                   ; set the exit flag
     ora #$80
     sta $33f0
     sec                         ; indicate that the player is leaving the room
-    rts
-
-    try_to_exit_level_exit:
-    clc
     rts
 
 check_fire_key:
