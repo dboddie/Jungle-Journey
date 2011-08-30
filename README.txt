@@ -20,7 +20,14 @@ learned and unlearned many years ago.
 Hopeless, I scramble to my feet, reaching for any weapon still left to me.
 Struggling through the dense undergrowth, I search for signs of a track or
 trail. At first glance, paths that seemed to lead to safety turn out to be
-impassable, overgrown by tangled and twisted vines.
+impassable, overgrown by tangled and twisted vines. I remember the words of
+an old teacher:
+
+ "Do not be tempted to use fire to make your way.
+  Many a traveller has strayed from the path, using fire to blaze a trail,
+  only to reach a dead end. Trying to return, they find that the jungle
+  has grown back. Those who are desperate enough will even seek out
+  forgotten routes when the way home is in sight."
 
 Sensing my presence, obscene creatures emerge from the darkness, hungry
 for prey. Only through skill and luck am I able to dispatch them back
