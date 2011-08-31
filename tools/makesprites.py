@@ -123,7 +123,7 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/birdrd3.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/birdrd4.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
 
-         # placeholder enemy appear
+         # Enemy emerge
          read_xpm("images/emerge1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
          read_xpm("images/emerge2.xpm", [(".", "0"), ("+", "1"), ("#", "3"), ("@", "2")]),
          read_xpm("images/emerge3.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
@@ -135,13 +135,13 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/emerge2.xpm", [(".", "0"), ("+", "1"), ("#", "3"), ("@", "2")]),
          read_xpm("images/emerge1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
 
-         # placeholder weapons
+         # Weapons
          read_xpm("images/weapon1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/weapon2.xpm", [(".", "0"), ("@", "1"), ("+", "2")]),
          read_xpm("images/weapon3.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          read_xpm("images/weapon4.xpm", [(".", "0"), ("@", "1"), ("+", "3")]),
 
-         # placeholder treasure
+         # Treasure
          read_xpm("images/key.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/statue.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),

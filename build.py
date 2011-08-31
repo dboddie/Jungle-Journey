@@ -49,7 +49,7 @@ if __name__ == "__main__":
     # Memory map
     # 1900 CODE
     # 1x00 space
-    # 3300 character table (0x24/6 = 6 entries + 1 special entry)
+    # 3D00 character table (0x24/6 = 6 entries + 1 special entry)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 item,
     #             8 and higher enemy - bits 4,5,6 are enemy type)
@@ -72,20 +72,20 @@ if __name__ == "__main__":
     #   second character is always the player's weapon
     #   new characters are added after these
     #
-    # 332A space
-    # 33F0 item/player flags (128=leave level, 64=player demise, 1=has key)
-    # 33F2 current room (i, j)
-    # 33F4 lives (strength)
-    # 33F5 delay counter
-    # 33F6 score (three bytes)
-    # 33F9 projectile type
-    # 33FA level
-    # 33FB palette workspace (enough for one 5 byte palette entry)
-    #       33FD is also projectile counter when in a room
-    #       33FE is also motion counter when in a room
-    #       33FF is also enemy generation counter when in a room
+    # 3D2A space
+    # 3DF0 item/player flags (128=leave level, 64=player demise, 1=has key)
+    # 3DF2 current room (i, j)
+    # 3DF4 lives (strength)
+    # 3DF5 delay counter
+    # 3DF6 score (three bytes)
+    # 3DF9 projectile type
+    # 3DFA level
+    # 3DFB palette workspace (enough for one 5 byte palette entry)
+    #       3DFD is also projectile counter when in a room
+    #       3DFE is also motion counter when in a room
+    #       3DFF is also enemy generation counter when in a room
     #
-    # 3400 CHARS (character sprites)
+    # 3E00 CHARS (character sprites)
     #       4 * 2 * 0x30 (player movement)
     #           4 * 0x30 (player demise)
     #       4 * 2 * 0x10 (projectile)
@@ -97,9 +97,9 @@ if __name__ == "__main__":
     #           2 * 0x60 (exit)             4500
     #           2 * 0x60 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 4*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3400
+    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3400
     #
-    # 4680 space
+    # 5080 space
     # 5100 objects/treasure table (121 entries)
     #   n   type
     #

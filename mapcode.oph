@@ -318,7 +318,7 @@ make_room:          ; $78,$79=i,j
 
     ; Make sure that the starting, exit, key rooms are empty.
 
-    ldx $33fa               ; level number
+    ldx $3dfa               ; level number
     lda start_rooms_y,x
     cmp $78
     bne make_room_not_starting_room
@@ -344,7 +344,7 @@ make_room:          ; $78,$79=i,j
     tax
     lda exit_room_offsets,x
     tax
-    lda $33f0
+    lda $3df0
     and #1
     beq exit_not_open
 
@@ -378,7 +378,7 @@ make_room:          ; $78,$79=i,j
     adc $79
     sta $7c
     sec
-    ldx $33fa
+    ldx $3dfa
     lda seeds,x
     sbc $78
     sec
@@ -445,12 +445,12 @@ add_treasure:               ; $78,$79 = i,j
 
     sec
     sbc #1
-    sta $330d           ; store weapon/treasure type
+    sta $3d0d           ; store weapon/treasure type
     clc
 
     lda $78
     eor $79
-    adc $330d
+    adc $3d0d
     and #15
     sta $70
 
@@ -484,19 +484,19 @@ add_treasure:               ; $78,$79 = i,j
         bne add_treasure_loop_next
 
         lda #4              ; type (weapon/treasure)
-        sta $330c
+        sta $3d0c
         lda $8d             ; y
-        sta $330e
+        sta $3d0e
         lda #1              ; dy
-        sta $330f
+        sta $3d0f
         lda $8e             ; x
-        sta $3310
+        sta $3d10
         lda #0              ; dx
-        sta $3311
+        sta $3d11
 
         lda #$0c
         sta $74
-        lda #$33
+        lda #$3d
         sta $75
         jmp plot_character  ; optimise away the rts
 
@@ -642,7 +642,7 @@ plot_blank:         ; $72,$73=destination address
     rts
 
 tile_addresses_low:  .byte $00, $60, $c0, $00, $60, $c0, $20
-tile_addresses_high: .byte $53, $53, $53, $45, $45, $45, $46
+tile_addresses_high: .byte $53, $53, $53, $4f, $4f, $4f, $50
 
 plot_tile:          ; $7b=tile number
                     ;   1 = flowers/decoration
@@ -674,7 +674,7 @@ plot_tile:          ; $7b=tile number
     bpl plot_not_blank_after_add_loop   ; don't adjust the tile for later levels
     
     clc
-    lda $33fa
+    lda $3dfa
     and #3              ; change the tile set for later levels
     tax
     plot_not_blank_add_loop:
@@ -695,12 +695,12 @@ plot_tile:          ; $7b=tile number
     jsr plot
     rts
 
-plot_room:          ; $78,$79 = i,j (from $33f2,$33f3)
+plot_room:          ; $78,$79 = i,j (from $3df2,$3df3)
     jsr blank_screen
 
-    lda $33f2
+    lda $3df2
     sta $78
-    lda $33f3
+    lda $3df3
     sta $79
 
     lda #$80
@@ -1199,7 +1199,7 @@ not_fire_key:
     rts
 
 player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50, $80,$b0,$e0,$10
-player_direction_chars_high: .byte $34,$34,$34,$34,$34,$34,$35,$35, $35,$35,$35,$36
+player_direction_chars_high: .byte $3e,$3e,$3e,$3e,$3e,$3e,$3f,$3f, $3f,$3f,$3f,$40
 
 screen_rows_low: .byte $80,$40,$00,$c0,$80,$40,$00,$c0,$80,$40
 screen_rows_high: .byte $5a,$5e,$62,$65,$69,$6d,$71,$74,$78,$7c
@@ -1211,13 +1211,13 @@ screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
 screen_subcolumns_low: .byte $00,$08,$10,$18
 
 enemy_direction_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
-enemy_direction_chars_high: .byte $36,$37,$37,$37,$37,$38,$38,$38
+enemy_direction_chars_high: .byte $40,$41,$41,$41,$41,$42,$42,$42
 
 emerge_explode_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$00,$00
-emerge_explode_chars_high: .byte $40,$41,$41,$41,$41,$42,$42,$42
+emerge_explode_chars_high: .byte $4a,$4b,$4b,$4b,$4b,$4c,$4c,$4c
 
 item_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80,$c0
-item_chars_high: .byte $42,$43,$43,$43,$43,$44,$44,$44,$44
+item_chars_high: .byte $4c,$4d,$4d,$4d,$4d,$4e,$4e,$4e,$4e
 
 projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
 
@@ -1349,7 +1349,7 @@ plot_character_sprite:  ; $74,$75=character address
     tax
     lda projectile_chars_low,x
     sta $70
-    lda #$36
+    lda #$40
     sta $71
 
     ; Use the dy value to determine which plotting routine to use.
@@ -1578,10 +1578,10 @@ animate_player_left:
 
     ; Set the direction and toggle the animation bit.
 
-    lda $3301
+    lda $3d01
     and #1
     eor #1      ; toggle animation flag
-    sta $3301   ; left (directional bits are 0)
+    sta $3d01   ; left (directional bits are 0)
 
     jsr plot_character
     rts
@@ -1590,11 +1590,11 @@ animate_player_right:
 
     ; Set the direction and toggle the animation bit.
 
-    lda $3301
+    lda $3d01
     and #1      ; remove direction information (result is 0)
     eor #1      ; toggle animation flag
     ora #2      ; right
-    sta $3301
+    sta $3d01
 
     jsr plot_character
     rts
@@ -1603,11 +1603,11 @@ animate_player_up:
 
     ; Set the direction and toggle the animation bit.
 
-    lda $3301
+    lda $3d01
     and #1      ; remove direction information (result is 0)
     eor #1      ; toggle animation flag
     ora #4      ; up
-    sta $3301
+    sta $3d01
 
     jsr plot_character
     rts
@@ -1616,18 +1616,18 @@ animate_player_down:
 
     ; Set the direction and toggle the animation bit.
 
-    lda $3301
+    lda $3d01
     and #1      ; remove direction information (result is 0)
     eor #1      ; toggle animation flag
     ora #6      ; down
-    sta $3301
+    sta $3d01
 
     jsr plot_character
     rts
 
 move_player:
 
-    lda $33fe
+    lda $3dfe
     and #1
     beq move_player_allowed
 
@@ -1638,7 +1638,7 @@ move_player:
 
     lda #$00    ; set up the address of the player character
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
 
     ; Handle the left key.
@@ -1648,25 +1648,25 @@ move_player:
     cpy #255
     bne move_player_not_left_key
 
-    lda $3305           ; read dx
+    lda $3d05           ; read dx
     cmp #0
     beq move_player_left_check_x
 
     jsr unplot_character        ; unplot the player character
-    dec $3305
+    dec $3d05
     clc
     jmp animate_player_left ; optimise away the rts
     
     move_player_left_check_x:   ; Check the x offset.
 
-    lda $3304
+    lda $3d04
     cmp #0
     beq move_player_leave_room_left
 
     clc
     tay
     dey                         ; x - 1
-    lda $3302                   ; load the y offset
+    lda $3d02                   ; load the y offset
     tax                         ; as an index
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -1682,7 +1682,7 @@ move_player:
     cmp #0
     bne move_player_not_left_key
 
-    lda $3303               ; dy
+    lda $3d03               ; dy
     cmp #0
     beq move_player_allow_left
 
@@ -1700,17 +1700,17 @@ move_player:
     sta $81                 ; temporary
     jsr unplot_character    ; unplot the player character
     lda $81
-    sta $3304               ; store the new room x offset
+    sta $3d04               ; store the new room x offset
     lda #3
-    sta $3305               ; dx = 3
+    sta $3d05               ; dx = 3
     clc
     jmp animate_player_left ; optimise away the rts
 
     move_player_leave_room_left:
     sec
-    lda $33f3
+    lda $3df3
     sbc #1
-    sta $33f3
+    sta $3df3
     clc
 
     ; Set the player's position on the right of the screen.
@@ -1718,9 +1718,9 @@ move_player:
     ; No need to unplot.
 
     lda #9      ; x = 9
-    sta $3304
+    sta $3d04
     lda #2      ; dx = 2
-    sta $3305
+    sta $3d05
 
     jsr animate_player_left
     sec                     ; indicate to the calling routine that the player
@@ -1735,27 +1735,27 @@ move_player:
     cpy #255
     bne move_player_not_right_key
 
-    lda $3305                   ; read dx
+    lda $3d05                   ; read dx
     cmp #2
     beq move_player_right_check_x
     cmp #3
     beq move_player_right_tile
 
     jsr unplot_character        ; unplot the player character
-    inc $3305
+    inc $3d05
     clc
     jmp animate_player_right    ; optimise away the rts
     
     move_player_right_check_x:  ; Check the x offset.
 
-    lda $3304
+    lda $3d04
     cmp #9
     beq move_player_leave_room_right
 
     clc
     tay
     iny                         ; x + 1
-    lda $3302                   ; load the y offset
+    lda $3d02                   ; load the y offset
     tax                         ; as an index
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -1771,7 +1771,7 @@ move_player:
     cmp #0
     bne move_player_not_right_key
 
-    lda $3303                   ; dy
+    lda $3d03                   ; dy
     cmp #0
     beq move_player_allow_right
 
@@ -1787,24 +1787,24 @@ move_player:
     move_player_allow_right:
 
     jsr unplot_character        ; unplot the player character
-    inc $3305                   ; update dx
+    inc $3d05                   ; update dx
     clc
     jmp animate_player_right    ; optimise away the rts
 
     move_player_right_tile:
 
     jsr unplot_character    ; unplot the player character
-    inc $3304               ; store the new room x offset
+    inc $3d04               ; store the new room x offset
     lda #0
-    sta $3305               ; dx = 0
+    sta $3d05               ; dx = 0
     clc
     jmp animate_player_right ; optimise away the rts
 
     move_player_leave_room_right:
     clc
-    lda $33f3
+    lda $3df3
     adc #1
-    sta $33f3
+    sta $3df3
     clc
 
     ; Set the player's position on the left of the screen.
@@ -1812,9 +1812,9 @@ move_player:
     ; No need to unplot.
 
     lda #0      ; x = 0
-    sta $3304
+    sta $3d04
     lda #0      ; dx = 0
-    sta $3305
+    sta $3d05
 
     jsr animate_player_right    
     sec                         ; indicate to the calling routine that the
@@ -1829,24 +1829,24 @@ move_player:
     cpy #255
     bne move_player_not_up_key
 
-    lda $3303           ; read dy
+    lda $3d03           ; read dy
     cmp #0
     beq move_player_up_check_y
 
     jsr unplot_character        ; unplot the player character
-    dec $3303
+    dec $3d03
     clc
     jmp animate_player_up       ; optimise away the rts
     
     move_player_up_check_y:     ; Check the y offset.
 
-    lda $3302
+    lda $3d02
     cmp #0
     beq move_player_leave_room_up
 
     tax                         ; use the y offset as an index
     dex                         ; y - 1
-    lda $3304                   ; load the x offset
+    lda $3d04                   ; load the x offset
     tay
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -1862,7 +1862,7 @@ move_player:
     cmp #0
     bne move_player_not_up_key
 
-    lda $3305                   ; dx
+    lda $3d05                   ; dx
     cmp #3
     bmi move_player_allow_up
 
@@ -1878,17 +1878,17 @@ move_player:
     sta $81                 ; temporary
     jsr unplot_character    ; unplot the player character
     lda $81
-    sta $3302               ; store the new room y offset
+    sta $3d02               ; store the new room y offset
     lda #5
-    sta $3303               ; dy = 5
+    sta $3d03               ; dy = 5
     clc
     jmp animate_player_up   ; optimise away the rts
 
     move_player_leave_room_up:
     sec
-    lda $33f2
+    lda $3df2
     sbc #1
-    sta $33f2
+    sta $3df2
     clc
 
     ; Set the player's position on the bottom of the screen.
@@ -1896,9 +1896,9 @@ move_player:
     ; No need to unplot.
 
     lda #9      ; y = 9
-    sta $3302
+    sta $3d02
     lda #0      ; dy = 0
-    sta $3303
+    sta $3d03
 
     jsr animate_player_up
     sec                     ; indicate to the calling routine that the player
@@ -1913,27 +1913,27 @@ move_player:
     cpy #255
     bne move_player_not_down_key
 
-    lda $3303                   ; read dy
+    lda $3d03                   ; read dy
     cmp #0
     beq move_player_down_check_y
     cmp #5
     beq move_player_down_tile
 
     jsr unplot_character        ; unplot the player character
-    inc $3303                   ; 0 < dy < 5
+    inc $3d03                   ; 0 < dy < 5
     clc
     jmp animate_player_down    ; optimise away the rts
     
     move_player_down_check_y:  ; Check the y offset.
 
-    lda $3302
+    lda $3d02
     cmp #9
     beq move_player_leave_room_down
 
     clc
     tax
     inx                         ; y + 1
-    lda $3304                   ; load the x offset
+    lda $3d04                   ; load the x offset
     tay
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -1949,7 +1949,7 @@ move_player:
     cmp #0
     bne move_player_not_down_key
 
-    lda $3305                   ; dx
+    lda $3d05                   ; dx
     cmp #3
     bmi move_player_allow_down
 
@@ -1963,24 +1963,24 @@ move_player:
     move_player_allow_down:
 
     jsr unplot_character        ; unplot the player character
-    inc $3303                   ; update dy
+    inc $3d03                   ; update dy
     clc
     jmp animate_player_down     ; optimise away the rts
 
     move_player_down_tile:
 
     jsr unplot_character        ; unplot the player character
-    inc $3302                   ; store the new room y offset
+    inc $3d02                   ; store the new room y offset
     lda #0
-    sta $3303                   ; dy = 0
+    sta $3d03                   ; dy = 0
     clc
     jmp animate_player_down     ; optimise away the rts
 
     move_player_leave_room_down:
     clc
-    lda $33f2
+    lda $3df2
     adc #1
-    sta $33f2
+    sta $3df2
     clc
 
     ; Set the player's position on the top of the screen.
@@ -1988,9 +1988,9 @@ move_player:
     ; No need to unplot.
 
     lda #0      ; y = 0
-    sta $3302
+    sta $3d02
     lda #0      ; dy = 0
-    sta $3303
+    sta $3d03
 
     jsr animate_player_down
     sec                         ; indicate to the calling routine that the
@@ -2002,15 +2002,15 @@ move_player:
 
 try_to_exit_level:
 
-    lda $33f0                   ; set the exit flag
+    lda $3df0                   ; set the exit flag
     ora #$80
-    sta $33f0
+    sta $3df0
     sec                         ; indicate that the player is leaving the room
     rts
 
 check_fire_key:
 
-    lda $33fd
+    lda $3dfd
     bne check_fire_key_exit
 
     ldx #182            ; (Return)
@@ -2018,12 +2018,12 @@ check_fire_key:
     cpy #255
     bne check_fire_key_exit
 
-    lda $3306
+    lda $3d06
     cmp #0
     bne check_fire_key_exit
 
     lda #15
-    sta $33fd
+    sta $3dfd
 
     jmp create_projectile   ; optimise away the rts
 
@@ -2034,46 +2034,46 @@ check_fire_key:
 create_projectile:
 
     lda #2
-    sta $3306
+    sta $3d06
 
-    lda $3301
+    lda $3d01
     and #$06        ; copy the direction information
     asl
     asl
     asl
-    ora $33f9       ; apply the projectile type
-    sta $3307
+    ora $3df9       ; apply the projectile type
+    sta $3d07
 
-    lda $3303       ; dy
+    lda $3d03       ; dy
     cmp #4
     bpl create_projectile_below
 
     clc
     adc #2
-    sta $3309       ; dy + 2
-    lda $3302       ; y
-    sta $3308
+    sta $3d09       ; dy + 2
+    lda $3d02       ; y
+    sta $3d08
     jmp create_projectile_continue
 
     create_projectile_below:
     sec
     sbc #4
-    sta $3309       ; dy - 4
+    sta $3d09       ; dy - 4
     clc
-    lda $3302       ; y
+    lda $3d02       ; y
     adc #1
-    sta $3308
+    sta $3d08
 
     create_projectile_continue:
-    lda $3304       ; x
-    sta $330a
+    lda $3d04       ; x
+    sta $3d0a
 
-    lda $3305       ; dx
-    sta $330b
+    lda $3d05       ; dx
+    sta $3d0b
 
     lda #$06
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jsr plot_character
 
@@ -2096,13 +2096,13 @@ emerge_type:                    ; returns A=type
 emerge_x_position:              ; returns A=position
 
     jsr unlimited_values
-    lda $3304
+    lda $3d04
     jmp emerge_position_common
 
 emerge_y_position:              ; returns A=position
 
     jsr unlimited_values
-    lda $3302
+    lda $3d02
     ; run on into the next routine
 
 emerge_position_common:
@@ -2145,7 +2145,7 @@ emerge_position_common:
 emerge_character:           ; $74,$75=character address
 
     lda #63
-    sta $33ff
+    sta $3dff
 
     jsr emerge_y_position     ; obtain a y position
     tax
@@ -2604,13 +2604,13 @@ move_enemy:             ; $74,$75=character address
 
     ldy #2
     lda ($74),y         ; y
-    cmp $3302           ; player y
+    cmp $3d02           ; player y
     bmi move_enemy_downwards
     bne move_enemy_upwards
 
     ldy #3
     lda ($74),y         ; dy
-    cmp $3303           ; player y
+    cmp $3d03           ; player y
     beq move_enemy_horizontally
     bpl move_enemy_upwards
 
@@ -2627,7 +2627,7 @@ move_enemy:             ; $74,$75=character address
     move_enemy_horizontally:
     ldy #4
     lda ($74),y         ; x
-    cmp $3304           ; player x
+    cmp $3d04           ; player x
     bmi move_enemy_rightwards
     bne move_enemy_leftwards
 
@@ -2691,38 +2691,38 @@ move_enemy:             ; $74,$75=character address
 create_explosion:           ; X=y, Y=x
 
     lda #3
-    sta $3324
+    sta $3d24
     lda #8
-    sta $3325
+    sta $3d25
     txa
-    sta $3326
+    sta $3d26
     lda #1
-    sta $3327
+    sta $3d27
     tya
-    sta $3328
+    sta $3d28
     lda #0
-    sta $3329
+    sta $3d29
     rts
 
 move_projectile_left:
 
-    lda $330b
+    lda $3d0b
     cmp #0
     beq move_projectile_left_check_x
 
-    dec $330b
+    dec $3d0b
     clc
     rts
 
     move_projectile_left_check_x:
 
-    lda $330a
+    lda $3d0a
     cmp #0
     beq move_projectile_left_exit
 
     tay
     dey                         ; x - 1
-    ldx $3308                   ; y
+    ldx $3d08                   ; y
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
     lda #$57
@@ -2732,7 +2732,7 @@ move_projectile_left:
     cmp #0
     bne move_projectile_left_wall
 
-    lda $3309                   ; dy
+    lda $3d09                   ; dy
     cmp #5
     bmi move_projectile_allow_left
 
@@ -2747,9 +2747,9 @@ move_projectile_left:
 
     move_projectile_allow_left:
 
-    sty $330a       ; x
+    sty $3d0a       ; x
     lda #3
-    sta $330b       ; dx = 3
+    sta $3d0b       ; dx = 3
 
     clc
     rts
@@ -2757,7 +2757,7 @@ move_projectile_left:
     move_projectile_left_wall:  ; the projectile hit a wall
     clc
 
-    lda $3307                   ; type 2 can pass through walls
+    lda $3d07                   ; type 2 can pass through walls
     and #$06
     cmp #4
     beq move_projectile_allow_left
@@ -2765,14 +2765,14 @@ move_projectile_left:
     cmp #2
     bne move_projectile_left_not_boomerang
 
-    lda $3307
+    lda $3d07
     and #$0f
     cmp #8
     bpl move_projectile_left_exit
 
-    ldx $3309       ; dy
+    ldx $3d09       ; dy
     ora boomerang_horizontal,x
-    sta $3307
+    sta $3d07
     clc
     rts                     ; exit without moving or registering a collision
 
@@ -2781,7 +2781,7 @@ move_projectile_left:
     cmp #6                          ; type 3 can destroy certain walls
     bne move_projectile_left_exit
 
-    lda $3309                       ; dy
+    lda $3d09                       ; dy
     cmp #5
     beq move_projectile_left_exit   ; shots must be lined up
     
@@ -2799,7 +2799,7 @@ move_projectile_left:
 
     lda #$24
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jsr plot_character
 
@@ -2813,19 +2813,19 @@ move_projectile_right:
 
     ; Fire right.
 
-    lda $330b
+    lda $3d0b
     cmp #2
     beq move_projectile_right_check_x
     cmp #3
     beq move_projectile_right_tile
 
-    inc $330b
+    inc $3d0b
     clc
     rts
 
     move_projectile_right_check_x:
 
-    lda $330a       ; x
+    lda $3d0a       ; x
     cmp #9
     bne move_projectile_right_not_edge
     jmp move_projectile_right_exit
@@ -2834,7 +2834,7 @@ move_projectile_right:
     clc
     tay
     iny                         ; x + 1
-    ldx $3308                   ; y
+    ldx $3d08                   ; y
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
     lda #$57
@@ -2844,7 +2844,7 @@ move_projectile_right:
     cmp #0
     bne move_projectile_right_wall
 
-    lda $3309                   ; dy
+    lda $3d09                   ; dy
     cmp #5
     bmi move_projectile_allow_right
 
@@ -2859,22 +2859,22 @@ move_projectile_right:
 
     move_projectile_allow_right:
 
-    inc $330b       ; dx
+    inc $3d0b       ; dx
     clc
     rts
 
     move_projectile_right_tile:
 
-    inc $330a       ; x
+    inc $3d0a       ; x
     lda #0
-    sta $330b       ; dx
+    sta $3d0b       ; dx
     clc
     rts
 
     move_projectile_right_wall:  ; the projectile hit a wall
     clc
 
-    lda $3307                   ; type 2 can pass through walls
+    lda $3d07                   ; type 2 can pass through walls
     and #$06
     cmp #4
     beq move_projectile_allow_right
@@ -2882,14 +2882,14 @@ move_projectile_right:
     cmp #2
     bne move_projectile_right_not_boomerang
 
-    lda $3307
+    lda $3d07
     and #$0f
     cmp #8
     bpl move_projectile_right_exit
 
-    ldx $3309       ; dy
+    ldx $3d09       ; dy
     ora boomerang_horizontal,x
-    sta $3307
+    sta $3d07
     clc
     rts                     ; exit without moving or registering a collision
 
@@ -2898,7 +2898,7 @@ move_projectile_right:
     cmp #6                      ; type 3 can destroy certain walls
     bne move_projectile_right_exit
 
-    lda $3309                   ; dy
+    lda $3d09                   ; dy
     cmp #5
     beq move_projectile_right_exit  ; shots must be lined up
     
@@ -2916,7 +2916,7 @@ move_projectile_right:
 
     lda #$24
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jsr plot_character
 
@@ -2926,23 +2926,23 @@ move_projectile_right:
 
 move_projectile_up:
 
-    lda $3309           ; read dy
+    lda $3d09           ; read dy
     cmp #0
     beq move_projectile_up_check_y
 
-    dec $3309
+    dec $3d09
     clc
     rts
     
     move_projectile_up_check_y:     ; Check the y offset.
 
-    lda $3308
+    lda $3d08
     cmp #0
     beq move_projectile_up_exit
 
     tax                         ; use the y offset as an index
     dex                         ; y - 1
-    lda $330a                   ; load the x offset
+    lda $3d0a                   ; load the x offset
     tay
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -2953,7 +2953,7 @@ move_projectile_up:
     cmp #0
     bne move_projectile_up_wall
 
-    lda $330b                   ; dx
+    lda $3d0b                   ; dx
     cmp #3
     bmi move_projectile_allow_up
 
@@ -2966,9 +2966,9 @@ move_projectile_up:
 
     move_projectile_allow_up:
     txa
-    sta $3308               ; store the new room y offset
+    sta $3d08               ; store the new room y offset
     lda #5
-    sta $3309               ; dy = 5
+    sta $3d09               ; dy = 5
 
     clc
     rts
@@ -2976,7 +2976,7 @@ move_projectile_up:
     move_projectile_up_wall:    ; the projectile hit a wall
     clc
 
-    lda $3307                   ; type 2 can pass through walls
+    lda $3d07                   ; type 2 can pass through walls
     and #$06
     cmp #4
     beq move_projectile_allow_up
@@ -2984,14 +2984,14 @@ move_projectile_up:
     cmp #2
     bne move_projectile_up_not_boomerang
 
-    lda $3307
+    lda $3d07
     and #$0f
     cmp #8
     bpl move_projectile_up_exit
 
-    ldx $330b       ; dx
+    ldx $3d0b       ; dx
     ora boomerang_vertical,x
-    sta $3307
+    sta $3d07
     clc
     rts                     ; exit without moving or registering a collision
 
@@ -3000,7 +3000,7 @@ move_projectile_up:
     cmp #6                      ; type 3 can destroy certain walls
     bne move_projectile_up_exit
 
-    lda $330b                   ; dx
+    lda $3d0b                   ; dx
     cmp #3
     bpl move_projectile_up_exit ; shots must be lined up
     
@@ -3018,7 +3018,7 @@ move_projectile_up:
 
     lda #$24
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jsr plot_character
 
@@ -3030,26 +3030,26 @@ boomerang_vertical: .byte $08, $08, $18, $18
 
 move_projectile_down:
 
-    lda $3309                   ; read dy
+    lda $3d09                   ; read dy
     cmp #4
     beq move_projectile_down_check_y
     cmp #5
     beq move_projectile_down_tile
 
-    inc $3309                   ; 0 < dy < 5
+    inc $3d09                   ; 0 < dy < 5
     clc
     rts
     
     move_projectile_down_check_y:  ; Check the y offset.
 
-    lda $3308
+    lda $3d08
     cmp #9
     beq move_projectile_down_exit
 
     clc
     tax
     inx                         ; y + 1
-    lda $330a                   ; load the x offset
+    lda $3d0a                   ; load the x offset
     tay
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
@@ -3060,7 +3060,7 @@ move_projectile_down:
     cmp #0
     bne move_projectile_down_wall
 
-    lda $330b                   ; dx
+    lda $3d0b                   ; dx
     cmp #3
     bmi move_projectile_allow_down
 
@@ -3073,22 +3073,22 @@ move_projectile_down:
 
     move_projectile_allow_down:
 
-    inc $3309                   ; update dy
+    inc $3d09                   ; update dy
     clc
     rts
 
     move_projectile_down_tile:
 
-    inc $3308                   ; store the new room y offset
+    inc $3d08                   ; store the new room y offset
     lda #0
-    sta $3309                   ; dy = 0
+    sta $3d09                   ; dy = 0
     clc
     rts
 
     move_projectile_down_wall:  ; the projectile hit a wall
     clc
 
-    lda $3307                   ; type 2 can pass through walls
+    lda $3d07                   ; type 2 can pass through walls
     and #$06
     cmp #4
     beq move_projectile_allow_down
@@ -3096,14 +3096,14 @@ move_projectile_down:
     cmp #2
     bne move_projectile_down_not_boomerang
 
-    lda $3307
+    lda $3d07
     and #$0f
     cmp #8
     bpl move_projectile_down_exit
 
-    ldx $330b       ; dx
+    ldx $3d0b       ; dx
     ora boomerang_vertical,x
-    sta $3307
+    sta $3d07
     clc
     rts                     ; exit without moving or registering a collision
 
@@ -3112,7 +3112,7 @@ move_projectile_down:
     cmp #6                      ; type 3 can destroy certain walls
     bne move_projectile_down_exit
 
-    lda $330b                   ; dx
+    lda $3d0b                   ; dx
     cmp #3
     bpl move_projectile_down_exit   ; shots must be lined up
     
@@ -3130,7 +3130,7 @@ move_projectile_down:
 
     lda #$24
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jsr plot_character
 
@@ -3140,14 +3140,14 @@ move_projectile_down:
 
 move_projectile_animate:
 
-    lda $3307
+    lda $3d07
     eor #1
-    sta $3307
+    sta $3d07
     rts
 
 move_projectile:
 
-    lda $3306
+    lda $3d06
     cmp #0
     bne move_projectile_move
     jmp move_projectile_exit
@@ -3157,11 +3157,11 @@ move_projectile:
 
     lda #$06
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jsr unplot_character
 
-    lda $3307
+    lda $3d07
     and #$30            ; direction
 
     cmp #0
@@ -3203,7 +3203,7 @@ move_projectile:
 
     lda #$06
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
     jmp plot_character          ; optimise away the rts
 
@@ -3241,7 +3241,7 @@ move_projectile:
 
     move_projectile_no_enemy_collision:
 
-    lda $3307       ; type 2 projectiles pass through everything
+    lda $3d07       ; type 2 projectiles pass through everything
     and #$06
     cmp #4
     bne move_projectile_remove_projectile
@@ -3250,13 +3250,13 @@ move_projectile:
     ; that we don't perform these checks again here, but it would just add
     ; overhead to the normal movement routines for the other weapons.
 
-    lda $3308       ; y
+    lda $3d08       ; y
     cmp #0
     beq move_projectile_remove_projectile
     cmp #9
     beq move_projectile_remove_projectile
 
-    lda $330a       ; x
+    lda $3d0a       ; x
     cmp #0
     beq move_projectile_remove_projectile
     cmp #9
@@ -3265,7 +3265,7 @@ move_projectile:
     clc
     lda #$06
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
 
     jsr plot_character
@@ -3274,7 +3274,7 @@ move_projectile:
     move_projectile_remove_projectile:
 
     lda #0                      ; remove the projectile from the character list
-    sta $3306
+    sta $3d06
 
     move_projectile_exit:
     clc
@@ -3286,7 +3286,7 @@ move_characters:
 
     lda #$0c            ; set the character address
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
 
     move_characters_loop:
@@ -3301,11 +3301,11 @@ move_characters:
         bpl move_characters_read_character
 
         ; See if it is time to generate a new enemy.
-        lda $33ff
+        lda $3dff
         cmp #0
         bne move_characters_next
 
-        lda $33f0           ; player demise - no more enemies
+        lda $3df0           ; player demise - no more enemies
         and #$40
         bne move_characters_next
 
@@ -3319,7 +3319,7 @@ move_characters:
         cmp #3
         bne move_characters_not_emerge_explode
 
-        lda $33fe           ; check motion counter
+        lda $3dfe           ; check motion counter
         and #3
         bne move_characters_next
 
@@ -3330,11 +3330,11 @@ move_characters:
         cmp #8
         bmi move_characters_next
 
-        lda $33fe           ; check motion counter
+        lda $3dfe           ; check motion counter
         and #3
         bne move_characters_next
 
-        lda $33f0           ; player demise - no enemy motion
+        lda $3df0           ; player demise - no enemy motion
         and #$40
         bne move_characters_next
 
@@ -3369,9 +3369,9 @@ move_characters:
     jsr unplot_character
 
     ; Remove it from the item table.
-    ldx $33f2
+    ldx $3df2
     lda eleven_times_table,x
-    adc $33f3
+    adc $3df3
     tax
     lda #0
     sta $5100,x
@@ -3413,9 +3413,9 @@ move_characters:
     bmi move_characters_not_key
 
     ; Key - update the item/player flags byte.
-    lda $33f0
+    lda $3df0
     ora #$01
-    sta $33f0
+    sta $3df0
     clc
     rts
 
@@ -3423,7 +3423,7 @@ move_characters:
 
     ; Update the player's weapon.
     asl
-    sta $33f9
+    sta $3df9
     clc
     rts
 
@@ -3460,15 +3460,15 @@ score_digits:    .byte "0123456789"
 add_score:      ; $70=score to add
 
     sed
-    lda $33f6
+    lda $3df6
     adc $70
-    sta $33f6
-    lda $33f7
+    sta $3df6
+    lda $3df7
     adc #0
-    sta $33f7
-    lda $33f8
+    sta $3df7
+    lda $3df8
     adc #0
-    sta $33f8
+    sta $3df8
     cld
 
 write_score:
@@ -3482,7 +3482,7 @@ write_score:
 
     lda #$f6
     sta $70
-    lda #$33
+    lda #$3d
     sta $71
 
     ldy #2
@@ -3516,26 +3516,26 @@ add_strength:   ; $70=strength to add
     ; Divide the initial strength by 4 to determine which half character to
     ; start plotting at, and multiply by 8 to get the address. The net result
     ; is to mask off the bottom two bits and shift left once.
-    lda $33f4
+    lda $3df4
     and #$fc
     asl
     clc
     tay
 
-    lda $33f4
+    lda $3df4
     adc $70
     cmp #65
     bmi add_strength_update
 
     lda #64
     sec
-    sbc $33f4
+    sbc $3df4
     sta $70
     lda #64
 
     add_strength_update:
     clc
-    sta $33f4
+    sta $3df4
 
     ldx $70
 
@@ -3579,7 +3579,7 @@ add_strength:   ; $70=strength to add
 
 reduce_strength:    ; $70=strength to remove
 
-    lda $33f4
+    lda $3df4
     tax
     sec
     sbc $70
@@ -3589,7 +3589,7 @@ reduce_strength:    ; $70=strength to remove
 
     reduce_strength_update:
     clc
-    sta $33f4
+    sta $3df4
 
     ; Divide the final strength by 4 to determine which half character to
     ; plot, and multiply by 8 to get the address. The net result is to mask off
@@ -3603,32 +3603,32 @@ reduce_strength:    ; $70=strength to remove
     lda #$59
     sta $71
 
-    lda $33f4
+    lda $3df4
     and #3
     tax
     lda strength_units,x
     sta ($70),y
 
-    lda $33f4
+    lda $3df4
     cmp #0
     bne reduce_strength_exit
 
-    lda $33f0       ; the player ran out of strength
+    lda $3df0       ; the player ran out of strength
     ora #$40
-    sta $33f0
+    sta $3df0
 
     lda #64         ; reset the delay counter
-    sta $33f5
+    sta $3df5
 
     lda #$00        ; unplot the player
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
 
     jsr unplot_character
 
     lda #8          ; change the player's direction to the demise animation
-    sta $3301
+    sta $3d01
 
     jsr plot_character
 
@@ -3673,7 +3673,7 @@ remove_characters:
     ldx #6
     remove_characters_loop:
         lda #0
-        sta $3300,x
+        sta $3d00,x
         txa
         adc #6
         tax
@@ -3721,17 +3721,17 @@ enemy_collision_mask_right: .byte $00, $08, $0c, $0e
 
 player_collide:
 
-    lda $3302                           ; player y
+    lda $3d02                           ; player y
     sta $8a
-    lda $3304                           ; player x
+    lda $3d04                           ; player x
     sta $8b
 
-    ldx $3303                           ; player dy
+    ldx $3d03                           ; player dy
     lda player_collision_mask_above,x
     sta $86
     lda player_collision_mask_below,x
     sta $88
-    ldx $3305                           ; player dx
+    ldx $3d05                           ; player dx
     lda player_collision_mask_left,x
     sta $87
     lda player_collision_mask_right,x
@@ -3741,17 +3741,17 @@ player_collide:
 
 projectile_collide:
 
-    lda $3308                           ; projectile y
+    lda $3d08                           ; projectile y
     sta $8a
-    lda $330a                           ; projectile x
+    lda $3d0a                           ; projectile x
     sta $8b
 
-    ldx $3309                           ; projectile dy
+    ldx $3d09                           ; projectile dy
     lda projectile_collision_mask_above,x
     sta $86
     lda projectile_collision_mask_below,x
     sta $88
-    ldx $330b                           ; projectile dx
+    ldx $3d0b                           ; projectile dx
     lda projectile_collision_mask_left,x
     sta $87
     lda projectile_collision_mask_right,x
@@ -3763,7 +3763,7 @@ collide:
 
     lda #$0c            ; set the character address
     sta $74
-    lda #$33
+    lda #$3d
     sta $75
 
     collide_loop:
@@ -3897,17 +3897,17 @@ set_palette:
                     ; $70=logical colour
                     ; $71=physical colour
     lda $70
-    sta $33fb
+    sta $3dfb
     lda $71
-    sta $33fc
+    sta $3dfc
     lda #0
-    sta $33fd
-    sta $33fe
-    sta $33ff
+    sta $3dfd
+    sta $3dfe
+    sta $3dff
 
     lda #$c         
     ldx #$fb
-    ldy #$33
+    ldy #$3d
     jsr $fff1
     rts
 
@@ -3939,10 +3939,10 @@ sprites_block: .byte <sprites_file_name, >sprites_file_name
                .byte $60, $56, 0, 0
 
 chars_block: .byte <chars_file_name, >chars_file_name
-               .byte $00, $34, 0, 0
-               .byte $00, $34, 0, 0
+               .byte $00, $3e, 0, 0
+               .byte $00, $3e, 0, 0
                .byte $80, $12, 0, 0
-               .byte $80, $46, 0, 0
+               .byte $80, $50, 0, 0
 
 init:
     lda #255
@@ -4012,12 +4012,12 @@ show_game_over:
         bmi write_game_over_text_loop
 
     lda #192
-    sta $33f5
+    sta $3df5
     show_game_over_delay_loop:
 
         lda #19
         jsr $fff4
-        dec $33f5
+        dec $3df5
         bne show_game_over_delay_loop
 
     rts
@@ -4046,13 +4046,13 @@ start_new_game:
 
     ; Set the level.
     lda #0
-    sta $33fa
+    sta $3dfa
 
     ; Set the score.
     lda #0
-    sta $33f6
-    sta $33f7
-    sta $33f8
+    sta $3df6
+    sta $3df7
+    sta $3df8
     jsr write_score
 
     ; Set the player's strength.
@@ -4062,7 +4062,7 @@ start_new_game:
 
     ; Set the projectile type.
     lda #0
-    sta $33f9
+    sta $3df9
 
     rts
 
@@ -4070,7 +4070,7 @@ start_level:
 
     ; Clear the item/player flags.
     lda #0
-    sta $33f0
+    sta $3df0
 
     ; Add to the player's strength.
     lda #20
@@ -4079,34 +4079,34 @@ start_level:
 
     ; Set current room.
 
-    ldx $33fa
+    ldx $3dfa
     lda start_rooms_y,x
-    sta $33f2
+    sta $3df2
     lda start_rooms_x,x
-    sta $33f3
+    sta $3df3
 
     ; Set the player position.
 
     lda #1      ; player
-    sta $3300
+    sta $3d00
     lda #6      ; down (first frame)
-    sta $3301
+    sta $3d01
     lda #5      ; y=5
-    sta $3302
+    sta $3d02
     lda #0      ; dy=0
-    sta $3303
+    sta $3d03
     lda #5      ; x=5
-    sta $3304
+    sta $3d04
     lda #0      ; dx=0
-    sta $3305
+    sta $3d05
 
     ; Fill the treasure table with objects.
-    lda $33fa   ; level
+    lda $3dfa   ; level
     tax
     lda key_rooms,x
     sta $80
     
-    ldx $33fa   ; level
+    ldx $3dfa   ; level
     lda seeds,x
     adc #1
     and #31
@@ -4118,7 +4118,7 @@ start_level:
     sta $7d
     clc
 
-    lda $33fa   ; create an upper limit on the weapon type found in this level
+    lda $3dfa   ; create an upper limit on the weapon type found in this level
     adc #2
     sta $8d
     clc
@@ -4214,29 +4214,29 @@ main:
                 jsr reset_unplot_buffer
                 jsr reset_plot_buffer
 
-                lda $33f2       ; current room (y)
+                lda $3df2       ; current room (y)
                 sta $78
-                lda $33f3       ; current room (x)
+                lda $3df3       ; current room (x)
                 sta $79
                 jsr plot_room
                 jsr add_treasure
 
                 lda #$00        ; plot the player
                 sta $74
-                lda #$33
+                lda #$3d
                 sta $75
                 jsr plot_character
 
                 jsr plot_buffer
 
                 lda #0         ; reset projectile counter
-                sta $33fd
+                sta $3dfd
 
                 lda #0         ; reset motion counter
-                sta $33fe
+                sta $3dfe
 
                 lda #63         ; reset generation counter
-                sta $33ff
+                sta $3dff
 
                 room_loop:
                     jsr reset_unplot_buffer
@@ -4246,31 +4246,31 @@ main:
 
                     jsr move_projectile
 
-                    lda $33f0
+                    lda $3df0
                     and #$40
                     beq room_loop_player_move
                     clc
 
-                    dec $33f5           ; leave the loop when the delay
+                    dec $3df5           ; leave the loop when the delay
                     beq after_room_loop ; counter is about to reset
 
-                    lda $3301           ; leave the loop when the player
+                    lda $3d01           ; leave the loop when the player
                     cmp #11             ; animation has finished
                     beq room_loop_after_player_move
                     clc
 
-                    lda $33fe
+                    lda $3dfe
                     and #7
                     bne room_loop_after_player_move
 
                     lda #$00
                     sta $74
-                    lda #$33
+                    lda #$3d
                     sta $75
 
                     jsr unplot_character
 
-                    inc $3301
+                    inc $3d01
                     jsr plot_character
                     jmp room_loop_after_player_move
 
@@ -4293,35 +4293,35 @@ main:
                     beq exit
                     clc
 
-                    lda $33fd
+                    lda $3dfd
                     cmp #0
                     beq room_loop_no_update_projectile_counter
 
-                    dec $33fd
+                    dec $3dfd
 
                     room_loop_no_update_projectile_counter:
 
-                    dec $33ff   ; update generation counter
+                    dec $3dff   ; update generation counter
 
-                    inc $33fe   ; update motion counter
+                    inc $3dfe   ; update motion counter
                     clc
                     jmp room_loop
 
                 after_room_loop:
                 clc
 
-                lda $33f0
+                lda $3df0
                 and #$80
                 bne exit_level
 
-                lda $33f0
+                lda $3df0
                 and #$40
                 bne game_over
 
                 jmp game_loop
 
             exit_level:
-            inc $33fa
+            inc $3dfa
             jmp level_loop
 
             game_over:
