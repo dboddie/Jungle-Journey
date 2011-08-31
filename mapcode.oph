@@ -2083,13 +2083,27 @@ create_projectile:
 emerge_type:                    ; returns A=type
     jsr unlimited_values
     lda $7d
-    and #$70
-    cmp #$40
-    bmi exit_emerge_type
+    and #7
+    cmp $3df1               ; only allow the appropriate enemies for this level
+    bpl emerge_type_default
+
+    cmp #4
+    bmi emerge_type_exit
 
     lda #$40
+    clc
+    rts
 
-    exit_emerge_type:
+    emerge_type_default:
+    sec
+    sbc $3df1
+    clc
+
+    emerge_type_exit:
+    asl
+    asl
+    asl
+    asl
     clc
     rts
 
@@ -4120,7 +4134,7 @@ start_level:
 
     lda $3dfa   ; create an upper limit on the weapon type found in this level
     adc #2
-    sta $8d
+    sta $3df1
     clc
 
     lda #$00
@@ -4164,7 +4178,7 @@ start_level:
 
         ; Only add weapons with types that equal the level number or exceed it
         ; by one.
-        cmp $8d                     
+        cmp $3df1                     
         bcs start_level_add_treasure_none
 
         clc
@@ -4246,7 +4260,7 @@ main:
 
                     jsr move_projectile
 
-                    lda $3df0
+                    lda $3df0   ; is player out of strength?
                     and #$40
                     beq room_loop_player_move
                     clc
