@@ -133,7 +133,7 @@ if __name__ == "__main__":
     
     system("ophis mapcode.oph CODE")
     code = open("CODE").read()
-    code_start = 0x1900
+    code_start = 0x1f00
     
     addresses = []
     i = 0
