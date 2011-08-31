@@ -2111,8 +2111,8 @@ emerge_position_common:
     bpl emerge_position_common_not_first_area
 
     lda $7d
-    and #3
-    adc #5
+    and #7
+    adc #2
     rts
 
     emerge_position_common_not_first_area:
@@ -2131,7 +2131,7 @@ emerge_position_common:
     clc
 
     lda $7d
-    and #1
+    and #3
     adc #6
     rts
 
@@ -2139,8 +2139,7 @@ emerge_position_common:
     clc
 
     lda $7d
-    and #3
-    adc #1
+    and #7
     rts
 
 emerge_character:           ; $74,$75=character address

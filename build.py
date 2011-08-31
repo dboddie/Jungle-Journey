@@ -118,13 +118,14 @@ if __name__ == "__main__":
     #        1 * 0x60 (tree))
     # 5780 space
     # 579C room data (generated)
-    #   ; 0 blank
-    #   ; 1 flowers/decoration
-    #   ; 2 tree/wall
-    #   ; 3 tree/wall
-    #   ; 4 exit
-    #   ; 5 final exit (left)
-    #   ; 6 final exit (right)
+    #   0 blank
+    #   1 flowers/decoration
+    #   2 tree/wall
+    #   3 tree/wall
+    #   4 exit
+    #   5 open exit
+    #   6 final exit (left)
+    #   7 final exit (right)
     #
     # 5800 screen memory
     
