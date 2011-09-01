@@ -1,7 +1,6 @@
 To Do
 
+Ensure that the player can exit, even when not lined up with the open exit tile.
 Ensure that the tile sets for each level look good and that the exit sprites
 used are always the same.
-Add decoration to start, key and exit rooms.
-Show an open exit if the player has a key.
 Add a screen to show between levels.
