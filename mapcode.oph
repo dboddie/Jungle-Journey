@@ -16,11 +16,11 @@
 .org $1f00
 jmp main
 
-seeds:         .byte 100, 239, 33   ; $ef, $b7, $90, $d6, $89
-start_rooms_x: .byte 5,   3,  10
-start_rooms_y: .byte 5,   8,  0
-exit_rooms_x:  .byte 7,   9,  2
-exit_rooms_y:  .byte 0,   0,  10
+seeds:         .byte 100, 239, 183   ; $ef, $b7, $90, $d6, $89
+start_rooms_x: .byte 5,   3,   5
+start_rooms_y: .byte 5,   8,   1
+exit_rooms_x:  .byte 7,   9,   3
+exit_rooms_y:  .byte 0,   0,   9
 
 ; These values need to be kept in sync - the room numbers must match their
 ; positions in the room array.
@@ -326,7 +326,9 @@ make_room:          ; $78,$79=i,j
     cmp $79
     bne make_room_not_starting_room
 
-    rts
+    lda #3
+    sta $70
+    jmp add_room_decoration ; optimise away the rts
 
     make_room_not_starting_room:
 
@@ -350,7 +352,9 @@ make_room:          ; $78,$79=i,j
 
     lda #5
     sta $579c,x
-    rts
+    lda #3
+    sta $70
+    jmp add_room_decoration ; optimise away the rts
 
     exit_not_open:
     clc
@@ -367,7 +371,9 @@ make_room:          ; $78,$79=i,j
     cmp $79
     bne make_room_not_key_room
 
-    rts
+    lda #1
+    sta $70
+    jmp add_room_decoration ; optimise away the rts
 
     make_room_not_key_room:
     clc
@@ -420,6 +426,28 @@ make_room:          ; $78,$79=i,j
         jmp make_room_loop1
     
     make_room_loop1_exit:
+    rts
+
+decoration_offsets: .byte 11,18,81,88
+
+add_room_decoration:
+
+    lda #$9c
+    sta $8e
+    lda #$57
+    sta $8f
+    
+    ldx #3
+    add_room_decoration_loop:
+
+        lda decoration_offsets,x
+        tay
+        lda $70
+        sta ($8e),y
+        dex
+        bpl add_room_decoration_loop
+    
+    clc
     rts
 
 exit_room_offsets:  .byte 35,66,63,56,34,44,64,33,36,55,65,53,45,46,54,43
@@ -2084,17 +2112,17 @@ emerge_type:                    ; returns A=type
     jsr unlimited_values
     lda $7d
     and #7
-    cmp $3df1               ; only allow the appropriate enemies for this level
-    bpl emerge_type_default
-
     cmp #4
+    bmi emerge_type_ok
+
+    sec
+    sbc #4
+    clc
+
+    emerge_type_ok:
+    cmp $3df1               ; only allow the appropriate enemies for this level
     bmi emerge_type_exit
 
-    lda #$40
-    clc
-    rts
-
-    emerge_type_default:
     sec
     sbc $3df1
     clc
@@ -2126,7 +2154,15 @@ emerge_position_common:
 
     lda $7d
     and #7
-    adc #2
+    cmp #6
+    bpl emerge_position_common_first_area_truncate
+
+    adc #4
+    rts
+
+    emerge_position_common_first_area_truncate:
+    clc
+    lda #8
     rts
 
     emerge_position_common_not_first_area:
@@ -2134,11 +2170,13 @@ emerge_position_common:
     bpl emerge_position_common_third_area
 
     lda $7d
-    and #1
-    bne emerge_position_common_lower_second_area
+    cmp #5
+    bmi emerge_position_common_lower_second_area
 
+    clc
     lda $7d
     and #3
+    adc #6
     rts
 
     emerge_position_common_lower_second_area:
@@ -2146,7 +2184,6 @@ emerge_position_common:
 
     lda $7d
     and #3
-    adc #6
     rts
 
     emerge_position_common_third_area:
@@ -2154,6 +2191,14 @@ emerge_position_common:
 
     lda $7d
     and #7
+    cmp #6
+    bpl emerge_position_common_third_area_truncate
+
+    rts
+
+    emerge_position_common_third_area_truncate:
+    clc
+    lda #5
     rts
 
 emerge_character:           ; $74,$75=character address
@@ -2161,21 +2206,31 @@ emerge_character:           ; $74,$75=character address
     lda #63
     sta $3dff
 
-    jsr emerge_y_position     ; obtain a y position
-    tax
-    jsr emerge_x_position     ; obtain an x position
-    sta $80                 ; temporary
-    tay
+    lda #3      ; try three tiles to find a space
+    sta $81
+    emerge_character_loop:
 
-    lda room_row_offsets_low,x
-    sta $70
-    lda #$57
-    sta $71
-    lda ($70),y             ; load the tile
+        jsr emerge_y_position     ; obtain a y position
+        tax
+        jsr emerge_x_position     ; obtain an x position
+        sta $80                 ; temporary
+        tay
 
-    cmp #0
+        lda room_row_offsets_low,x
+        sta $70
+        lda #$57
+        sta $71
+        lda ($70),y             ; load the tile
+
+        cmp #0
+        beq emerge_character_space_found
+
+        dec $81
+        bpl emerge_character_loop
+
     bne emerge_character_exit
 
+    emerge_character_space_found:
     ; There is a space in the room, so add an emerging enemy.
 
     ldy #0
@@ -3987,7 +4042,7 @@ init:
 
     rts
 
-title_vdu_bytes: .byte 12, 31,0,27, 17,2, "Press SPACE to play"
+title_vdu_bytes: .byte 12, 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
 
 show_title:
 
@@ -4008,7 +4063,7 @@ show_title:
         lda title_vdu_bytes,x
         jsr $ffee
         inx
-        cpx #25
+        cpx #27
         bmi write_title_text_loop
 
     rts
