@@ -2844,8 +2844,10 @@ move_projectile_left:
 
     lda $3d0a
     cmp #0
-    beq move_projectile_left_exit
+    bne move_projectile_left_in_room
+    jmp move_projectile_left_exit
 
+    move_projectile_left_in_room:
     tay
     dey                         ; x - 1
     ldx $3d08                   ; y
@@ -2928,6 +2930,9 @@ move_projectile_left:
     lda #$3d
     sta $75
     jsr plot_character
+
+    lda #15                     ; prevent the player from firing a new
+    sta $3dfd                   ; projectile until the explosion has finished
 
     move_projectile_left_exit:
     sec
@@ -3046,6 +3051,9 @@ move_projectile_right:
     sta $75
     jsr plot_character
 
+    lda #15                     ; prevent the player from firing a new
+    sta $3dfd                   ; projectile until the explosion has finished
+
     move_projectile_right_exit:
     sec
     rts
@@ -3148,6 +3156,9 @@ move_projectile_up:
     sta $75
     jsr plot_character
 
+    lda #15                     ; prevent the player from firing a new
+    sta $3dfd                   ; projectile until the explosion has finished
+
     move_projectile_up_exit:
     sec
     rts
@@ -3170,8 +3181,10 @@ move_projectile_down:
 
     lda $3d08
     cmp #9
-    beq move_projectile_down_exit
+    bne move_projectile_down_in_room
+    jmp move_projectile_down_exit
 
+    move_projectile_down_in_room:
     clc
     tax
     inx                         ; y + 1
@@ -3259,6 +3272,9 @@ move_projectile_down:
     lda #$3d
     sta $75
     jsr plot_character
+
+    lda #15                     ; prevent the player from firing a new
+    sta $3dfd                   ; projectile until the explosion has finished
 
     move_projectile_down_exit:
     sec
