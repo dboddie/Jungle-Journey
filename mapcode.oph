@@ -1703,10 +1703,10 @@ move_player:
     lda ($70),y                 ; load the tile to the left
 
     cmp #5                      ; check for the open exit or final exit
-    bmi move_player_not_left_exit
+    bmi move_player_not_left_exit1
     jmp try_to_exit_level       ; optimise away the rts
 
-    move_player_not_left_exit:
+    move_player_not_left_exit1:
     cmp #0
     bne move_player_not_left_key
 
@@ -1720,6 +1720,11 @@ move_player:
     sta $70
     lda ($70),y             ; load the tile below and to the left
 
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_left_exit2
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_left_exit2:
     cmp #0
     bne move_player_not_left_key
 
@@ -1761,8 +1766,10 @@ move_player:
     ldx #189            ; (X)
     jsr check_key
     cpy #255
-    bne move_player_not_right_key
+    beq move_player_right_key
+    jmp move_player_not_right_key
 
+    move_player_right_key:
     lda $3d05                   ; read dx
     cmp #2
     beq move_player_right_check_x
@@ -1792,10 +1799,10 @@ move_player:
     lda ($70),y                 ; load the tile to the right
 
     cmp #5                      ; check for the open exit or final exit
-    bmi move_player_not_right_exit
+    bmi move_player_not_right_exit1
     jmp try_to_exit_level       ; optimise away the rts
 
-    move_player_not_right_exit:
+    move_player_not_right_exit1:
     cmp #0
     bne move_player_not_right_key
 
@@ -1809,6 +1816,11 @@ move_player:
     sta $70
     lda ($70),y                 ; load the tile below and to the right
 
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_right_exit2
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_right_exit2:
     cmp #0
     bne move_player_not_right_key
 
@@ -1883,10 +1895,10 @@ move_player:
     lda ($70),y                 ; load the tile above
 
     cmp #5                      ; check for the open exit or final exit
-    bmi move_player_not_up_exit
+    bmi move_player_not_up_exit1
     jmp try_to_exit_level       ; optimise away the rts
 
-    move_player_not_up_exit:
+    move_player_not_up_exit1:
     cmp #0
     bne move_player_not_up_key
 
@@ -1898,6 +1910,11 @@ move_player:
     iny
     lda ($70),y             ; load the tile above and to the right
 
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_up_exit2
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_up_exit2:
     cmp #0
     bne move_player_not_up_key
 
@@ -1939,8 +1956,10 @@ move_player:
     ldx #151            ; (/)
     jsr check_key
     cpy #255
-    bne move_player_not_down_key
+    beq move_player_down_key
+    jmp move_player_not_down_key
 
+    move_player_down_key:
     lda $3d03                   ; read dy
     cmp #0
     beq move_player_down_check_y
@@ -1970,10 +1989,10 @@ move_player:
     lda ($70),y                 ; load the tile below
 
     cmp #5                      ; check for the open exit or final exit
-    bmi move_player_not_down_exit
+    bmi move_player_not_down_exit1
     jmp try_to_exit_level       ; optimise away the rts
 
-    move_player_not_down_exit:
+    move_player_not_down_exit1:
     cmp #0
     bne move_player_not_down_key
 
@@ -1985,6 +2004,11 @@ move_player:
     iny
     lda ($70),y                 ; load the tile below and to the right
 
+    cmp #5                      ; check for the open exit or final exit
+    bmi move_player_not_down_exit2
+    jmp try_to_exit_level       ; optimise away the rts
+
+    move_player_not_down_exit2:
     cmp #0
     bne move_player_not_down_key
 
