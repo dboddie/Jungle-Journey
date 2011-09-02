@@ -48,9 +48,9 @@ tiles = [read_xpm("images/flowers.xpm", [(".", "0"), ("@", "1"), ("+", "2")]),
          read_xpm("images/flowers2.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          read_xpm("images/leaf6.xpm", [(".", "0"), ("+", "2")]),
          read_xpm("images/leaf4.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/bricks.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/wall1.xpm"),
-         read_xpm("images/wall2.xpm")]
+         read_xpm("images/flowers3.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")]),
+         read_xpm("images/leaf5.xpm"),
+         read_xpm("images/leaf3.xpm")]
 
 chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/left2.xpm"),

@@ -1,6 +1,8 @@
 To Do
 
-Ensure that the player can exit, even when not lined up with the open exit tile.
-Ensure that the tile sets for each level look good and that the exit sprites
-used are always the same.
+Fix drawing of the player's strength when it increases.
+Handle the case where the two pieces are destroyed in quick succession,
+leaving an explosion sprite plotted for the first piece.
 Add a screen to show between levels.
+Add sounds.
+Nice to have: make projectiles start next to the player, not on top of him.
