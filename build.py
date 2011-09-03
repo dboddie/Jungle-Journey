@@ -73,8 +73,9 @@ if __name__ == "__main__":
     #   new characters are added after these
     #
     # 3D2A space
-    # 3DF0 item/player flags (128=leave level, bits 4,5,6=enemy limit,
-    #                         2=player demise, 1=has key)
+    # 3DF0 item/player flags (128=leave level, 64=player demise,
+    #                         bits 4,5,6=enemy limit, 2=complete game,
+    #                         1=has key)
     # 3DF1 weapon/enemy limit (the highest weapon/enemy possible on a level)
     # 3DF2 current room (i, j)
     # 3DF4 lives (strength)

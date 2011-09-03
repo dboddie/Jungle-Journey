@@ -764,12 +764,15 @@ plot_room:          ; $78,$79 = i,j (from $3df2,$3df3)
     lda $3df3
     sta $79
 
+    jsr make_room
+    ; Run on into the next piece of code.
+
+plot_room_tiles:
+
     lda #$80
     sta $72
     lda #$5a
     sta $73         ; $72,$73 = screen position
-
-    jsr make_room
 
     lda #0
     sta $7a
@@ -2087,8 +2090,18 @@ move_player:
 
 try_to_exit_level:
 
-    lda $3df0                   ; set the exit flag
+    cmp #6
+    bmi just_exit_level
+
+    lda $3df0                   ; set the complete game flag
+    ora #$02
+    jmp try_to_exit_level_exit
+
+    just_exit_level:
+    lda $3df0                   ; set the exit level flag
     ora #$80
+
+    try_to_exit_level_exit:
     sta $3df0
     sec                         ; indicate that the player is leaving the room
     rts
@@ -3515,8 +3528,8 @@ move_characters:
     lda eleven_times_table,x
     adc $3df3
     tax
-    lda #0
-    sta $5100,x
+    lda #$80    ; store a value with the top bit set instead of zero because we
+    sta $5100,x ; have visited this room if we can collect the object within it
 
     lda #0      ; remove the item from the character list
     ldy #0
@@ -3536,7 +3549,7 @@ move_characters:
     cmp #8
     bmi move_characters_not_health
 
-    lda #12
+    lda #20
     sta $70
     jsr add_strength
     clc
@@ -4219,6 +4232,255 @@ show_game_over:
 
     rts
 
+end_of_level_bytes1:  .byte 31,1,3, 17,3, "Exploration bonus", 31,11,5, "x 5"
+end_of_level_bytes2:  .byte 31,0,28, 17,2, "My journey continues"
+
+show_end_of_level_screen:
+
+    ; Draw a decorative room.
+    ldx #99
+    end_of_level_clear_room_loop:
+
+        lda #0
+        sta $579c,x
+        dex
+        bpl end_of_level_clear_room_loop
+
+    ldx #5
+    end_of_level_h_walls_loop:
+
+        lda #3
+        sta $57b2,x
+        sta $57e4,x
+        dex
+        bpl end_of_level_h_walls_loop
+
+    ldx #30
+    end_of_level_v_walls_loop:
+
+        lda #3
+        sta $57bc,x
+        sta $57c1,x
+        txa
+        sec
+        sbc #10
+        tax
+        bpl end_of_level_v_walls_loop
+
+    jsr plot_room_tiles
+
+    ldx #0
+    end_of_level_text_loop1:
+
+        lda end_of_level_bytes1,x
+        jsr $ffee
+        inx
+        cpx #28
+        bne end_of_level_text_loop1
+
+    ; Count the number of rooms explored.
+    ldx #0
+    lda #0
+    ldy #0
+    sta $8d
+    sta $8e
+    end_of_level_room_count_loop:
+
+        lda $5100,x
+        and #$80
+        beq end_of_level_room_count_loop_next
+
+        sed
+        lda $8d
+        adc #1
+        sta $8d
+        lda $8e
+        adc #0
+        sta $8e
+        cld
+        clc
+
+        end_of_level_room_count_loop_next:
+        inx
+        cpx #121
+        bne end_of_level_room_count_loop
+
+    ; Position the player so that we can perform an animation.
+    lda #6      ; down (first frame)
+    sta $3d01
+    lda #4      ; y=4
+    sta $3d02
+    lda #3      ; dy=3
+    sta $3d03
+    lda #4      ; x=4
+    sta $3d04
+    lda #3      ; dx=3
+    sta $3d05
+
+    jsr remove_characters
+
+    jsr reset_unplot_buffer
+    jsr reset_plot_buffer
+
+    lda #$00        ; plot the player
+    sta $74
+    lda #$3d
+    sta $75
+    jsr plot_character
+
+    jsr plot_buffer
+
+    lda $8d
+    sta $70
+    lda $8e
+    sta $71
+    jsr write_bonus
+
+    lda #0      ; reset motion counter
+    sta $3dfe
+
+    show_end_of_level_bonus_loop:
+
+        lda #19
+        jsr $fff4
+
+        clc
+        lda $3dfe
+        and #15
+        bne end_of_level_no_animation
+
+        ; Animate the player.
+
+        jsr reset_unplot_buffer
+        jsr reset_plot_buffer
+
+        ; $74,$75 should be unchanged
+        jsr unplot_character
+
+        lda $3d01
+        eor #1
+        sta $3d01
+        jsr plot_character
+
+        jsr plot_buffer
+
+        end_of_level_no_animation:
+        clc
+        lda $3dfe
+        and #3
+        bne end_of_level_no_countdown
+
+        ; Transfer the bonus to the score.
+
+        sed
+        sec
+        lda $8d
+        sbc #1
+        sta $8d
+        sta $70
+        lda $8e
+        sbc #0
+        sta $8e
+        sta $71
+        cld
+        clc
+
+        jsr write_bonus
+
+        lda #5
+        sta $70
+        jsr add_score
+
+        end_of_level_no_countdown:
+        inc $3dfe   ; update motion counter
+        clc
+
+        lda $8d
+        cmp #0
+        bne show_end_of_level_bonus_loop
+
+        lda $8e
+        cmp #0
+        bne show_end_of_level_bonus_loop
+
+    lda #64    ; initialise delay counter
+    sta $3df5
+
+    show_end_of_level_delay_loop1:
+
+        lda #19
+        jsr $fff4
+
+        dec $3df5
+        bne show_end_of_level_delay_loop1
+
+    ldx #0
+    end_of_level_text_loop2:
+
+        lda end_of_level_bytes2,x
+        jsr $ffee
+        inx
+        cpx #25
+        bne end_of_level_text_loop2
+
+    lda #192    ; initialise delay counter
+    sta $3df5
+
+    show_end_of_level_delay_loop2:
+
+        lda #19
+        jsr $fff4
+
+        dec $3df5
+        bne show_end_of_level_delay_loop2
+
+    rts
+
+level_bonus_vdu_bytes: .byte 5,6,31, 1,17  ; reversed
+
+write_bonus:        ; $70,$71=value
+                    ; $72,$73=address of VDU codes
+
+    ldx #4
+    write_bonus_vdu_bytes:
+
+        lda level_bonus_vdu_bytes,x
+        jsr $ffee
+        dex
+        bpl write_bonus_vdu_bytes
+
+    ldy #1
+    write_bonus_loop:
+
+        tya
+        tax         ; temporary
+
+        lda $70,x
+        sta $80
+        lsr
+        lsr
+        lsr
+        lsr
+        tax
+        lda score_digits,x
+        jsr $ffee
+
+        lda $80
+        and #$0f
+        tax
+        lda score_digits,x
+        jsr $ffee
+
+        dey
+        bpl write_bonus_loop
+
+    clc
+    rts
+
+show_complete_game:
+
+    rts
+
 status_vdu_bytes: .byte 31,2,0, 17,3, "Score", 31,11,0, 17,2, "Strength", 17,1
 ; TAB(1,0), COLOUR 3, "Score", TAB(12,0), COLOUR 2, "Strength", COLOUR 1
 
@@ -4269,11 +4531,6 @@ start_level:
     lda #0
     sta $3df0
 
-    ; Add to the player's strength.
-    lda #20
-    sta $70
-    jsr add_strength
-
     ; Set current room.
 
     ldx $3dfa
@@ -4288,13 +4545,13 @@ start_level:
     sta $3d00
     lda #6      ; down (first frame)
     sta $3d01
-    lda #5      ; y=5
+    lda #4      ; y=4
     sta $3d02
-    lda #0      ; dy=0
+    lda #3      ; dy=3
     sta $3d03
-    lda #5      ; x=5
+    lda #4      ; x=4
     sta $3d04
-    lda #0      ; dx=0
+    lda #3      ; dx=3
     sta $3d05
 
     ; Fill the treasure table with objects.
@@ -4507,14 +4764,26 @@ main:
                 and #$40
                 bne game_over
 
+                lda $3df0
+                and #$02
+                bne complete_game
+
                 jmp game_loop
 
             exit_level:
+
+            jsr show_end_of_level_screen
+
             inc $3dfa
             jmp level_loop
 
             game_over:
             jsr show_game_over
+            jmp main_loop
+
+            complete_game:
+            jsr show_complete_game
+            jmp main_loop
 
         jmp main_loop
 

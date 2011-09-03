@@ -1,8 +1,8 @@
 To Do
 
 Finish the title screen.
-Add a screen to show between levels.
 Add a completion screen.
+Make one of the enemies have different movement.
 Improve the fire, explosion and player sprites.
 Add sounds.
 Nice to have: make projectiles start next to the player, not on top of him.
