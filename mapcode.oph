@@ -3651,7 +3651,7 @@ write_score:
     clc
     rts
 
-strength_units: .byte $00,$88,$cc,$ee
+strength_units:          .byte $00,$88,$cc,$ee
 
 add_strength:   ; $70=strength to add
 
@@ -3660,6 +3660,7 @@ add_strength:   ; $70=strength to add
     ; is to mask off the bottom two bits and shift left once.
     lda $3df4
     and #$fc
+    sta $71     ; strength rounded down to a multiple of four units
     asl
     clc
     tay
@@ -3670,30 +3671,30 @@ add_strength:   ; $70=strength to add
     bmi add_strength_update
 
     lda #64
-    sec
-    sbc $3df4
-    sta $70
-    lda #64
 
     add_strength_update:
     clc
-    sta $3df4
+    sta $3df4   ; the final strength
 
-    ldx $70
+    sec
+    sbc $71
+    clc
+    tax         ; the number of units to add between the rounded original
+                ; strength and the final strength
 
     lda #$f3    ; the start of the strength bar
-    sta $70
+    sta $72
     lda #$59
-    sta $71
+    sta $73
+
+    cpx #4
+    bmi add_strength_loop_extra
 
     add_strength_loop:
 
-        cpx #4
-        bmi add_strength_loop_extra
-
         clc
         lda #$ff
-        sta ($70),y
+        sta ($72),y
 
         tya
         adc #8
@@ -3709,13 +3710,19 @@ add_strength:   ; $70=strength to add
         bpl add_strength_loop
 
     add_strength_loop_extra:
+    cpx #0
+    beq add_strength_exit
 
     ; For any remaining units in excess of the multiples of four units, plot
     ; the appropriate byte.
+    lda $3df4
+    and #3
+    tax
 
     lda strength_units,x
     sta ($70),y
 
+    add_strength_exit:
     clc
     rts
 
@@ -4115,7 +4122,10 @@ init:
 
     rts
 
-title_vdu_bytes: .byte 12, 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
+title_vdu_bytes:    .byte 12, 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
+title_vdu_bytes1:   .byte 17,3, 31,1,30, "     (c) 2011     "
+title_vdu_bytes2:   .byte 17,3, 31,1,30, "   David Boddie"
+title_vdu_bytes3:   .byte 17,1, 31,1,30, "for Retro Software"
 
 show_title:
 
@@ -4138,6 +4148,51 @@ show_title:
         inx
         cpx #27
         bmi write_title_text_loop
+
+    lda #0
+    sta $72
+
+    show_title_wait_loop:
+
+        lda #150
+        sta $3df5
+
+        lda $72
+        tax
+        ldy #22
+        show_title_wait_message_loop:
+
+            lda title_vdu_bytes1, x
+            jsr $ffee
+            inx
+            dey
+            bpl show_title_wait_message_loop
+
+        cpx #69
+        beq show_title_wait_reset_offset
+
+        txa
+        sta $72
+        jmp show_title_wait_inner_loop
+
+        show_title_wait_reset_offset:
+        lda #0
+        sta $72
+
+        show_title_wait_inner_loop:
+        lda #19
+        jsr $fff4
+
+        dec $3df5
+        beq show_title_wait_loop
+
+        show_title_wait_loop_no_update:
+        lda #129
+        ldx #157
+        ldy #255
+        jsr $fff4
+        cpy #255
+        bne show_title_wait_inner_loop
 
     rts
 
@@ -4334,14 +4389,6 @@ main:
     main_loop:
 
         jsr show_title
-
-        main_wait_loop:
-            lda #129
-            ldx #157
-            ldy #255
-            jsr $fff4
-            cpy #255
-            bne main_wait_loop
 
         jsr start_new_game
 
