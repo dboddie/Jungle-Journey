@@ -1,8 +1,8 @@
 To Do
 
-Fix drawing of the player's strength when it increases.
-Handle the case where the two pieces are destroyed in quick succession,
-leaving an explosion sprite plotted for the first piece.
+Finish the title screen.
 Add a screen to show between levels.
+Add a completion screen.
+Improve the fire, explosion and player sprites.
 Add sounds.
 Nice to have: make projectiles start next to the player, not on top of him.

@@ -47,8 +47,8 @@ if __name__ == "__main__":
     out_uef_file = sys.argv[1]
     
     # Memory map
-    # 1900 CODE
-    # 1x00 space
+    # 1F00 CODE
+    # 3?00 space
     # 3D00 character table (0x24/6 = 6 entries + 1 special entry)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 item,
