@@ -3394,6 +3394,10 @@ move_projectile:
 
     jsr plot_character
 
+    ; Play a sound.
+    ldx #0
+    jsr play_sound
+
     move_projectile_no_enemy_collision:
 
     lda $3d07       ; type 2 projectiles pass through everything
@@ -3512,7 +3516,10 @@ move_characters:
     ; Check collisions with the player.
 
     jsr player_collide
-    bcc move_characters_exit
+    bcs move_characters_collisions
+    jmp move_characters_exit
+
+    move_characters_collisions:
     clc
 
     ldy #0
@@ -3553,13 +3560,19 @@ move_characters:
     sta $70
     jsr add_strength
     clc
+
+    ldx #2
+    jsr play_sound
+
     rts
 
     move_characters_not_health:
     cmp #5
     bmi move_characters_not_treasure
 
-    ; Do nothing here. We have already increased the player's score.
+    ldx #2
+    jsr play_sound
+
     clc
     rts
 
@@ -3572,6 +3585,10 @@ move_characters:
     ora #$01
     sta $3df0
     clc
+
+    ldx #3
+    jsr play_sound
+
     rts
 
     move_characters_not_key:
@@ -3580,6 +3597,10 @@ move_characters:
     asl
     sta $3df9
     clc
+
+    ldx #2
+    jsr play_sound
+
     rts
 
     move_character_destroy_enemy:
@@ -3599,6 +3620,9 @@ move_characters:
     jsr plot_character
 
     ; Reduce the player's strength.
+
+    ldx #1
+    jsr play_sound
 
     lda #1
     sta $70
@@ -4091,8 +4115,148 @@ blank_screen:
     jsr set_palette
     rts
 
+sounds_low:  .byte <explosion_sound, <damage_sound, <item_sound, <key_sound
+sounds_high: .byte >explosion_sound, >damage_sound, >item_sound, >key_sound
+
+explosion_sound: .byte 1,0, 1,0, 60,0, 2,0
+damage_sound:    .byte 1,0, 2,0, 40,0, 4,0
+item_sound:      .byte 1,0, 3,0, 80,0, 8,0
+key_sound:       .byte 1,0, 3,0, 150,0, 8,0
+
+play_sound:     ; X=sound number
+
+    lda sounds_high,x
+    tay
+    lda sounds_low,x
+    tax
+    lda #7
+    jsr $fff1
+
+    rts
+
+copy_title:
+
+    ldx #7
+    ldy #127
+
+    copy_title_loop1:
+
+        copy_title_loop2:
+
+            lda ($70),y
+            sta ($72),y
+            dey
+            cpy #255
+            bne copy_title_loop2
+
+        dec $71
+        dec $73
+        dex
+        bpl copy_title_loop1
+
+    rts
+
+copy_title_down:
+
+    lda #$80
+    sta $70
+    lda #$61
+    sta $71
+
+    lda #$80
+    sta $72
+    lda #$1e
+    sta $73
+
+    jmp copy_title  ; optimise away the rts
+
+copy_title_up:
+
+    lda #$80
+    sta $70
+    lda #$1e
+    sta $71
+
+    lda #$80
+    sta $72
+    lda #$61
+    sta $73
+
+    jmp copy_title  ; optimise away the rts
+
+move_completed_screen_down:
+
+    lda #$00
+    sta $70
+    lda #$62
+    sta $71
+
+    lda #$00
+    sta $72
+    lda #$10
+    sta $73
+
+    move_completed_screen_loop:
+
+        ldy #1
+        lda ($70),y
+        asl
+        asl
+        asl
+        asl
+        dey
+        ora ($70),y
+        sta ($72),y
+
+        lda #0
+        sta ($70),y
+        iny
+        sta ($70),y
+
+        clc
+        lda $70
+        adc #2
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+        
+        lda $72
+        adc #1
+        sta $72
+        lda $73
+        adc #0
+        sta $73
+        clc
+
+        lda $72
+        cmp #$80
+        bne move_completed_screen_loop
+
+        lda $73
+        cmp #$17
+        bne move_completed_screen_loop
+
+    rts
+
+copy_completed_screen_up:
+
+    lda #$00
+    sta $70
+    lda #$17
+    sta $71
+
+    lda #$00
+    sta $72
+    lda #$69
+    sta $73
+
+    jmp copy_title  ; optimise away the rts
+
 sprites_file_name: .byte "SPRITES", 13
 chars_file_name: .byte "CHARS", 13
+title_file_name: .byte "TITLE", 13
 
 sprites_block: .byte <sprites_file_name, >sprites_file_name
                .byte 0, $53, 0, 0
@@ -4106,17 +4270,16 @@ chars_block: .byte <chars_file_name, >chars_file_name
                .byte $80, $12, 0, 0
                .byte $80, $50, 0, 0
 
+title_block: .byte <title_file_name, >title_file_name
+               .byte $80, $5a, 0, 0
+               .byte $80, $5a, 0, 0
+               .byte $80, $16, 0, 0
+               .byte $00, $71, 0, 0
+
+init_load_window_vdu_bytes: .byte 28,0,29,19,24
+init_clear_window_vdu_bytes: .byte 28,0,31,19,0
+
 init:
-    lda #255
-    ldx #<sprites_block
-    ldy #>sprites_block
-    jsr $ffdd
-
-    lda #255
-    ldx #<chars_block
-    ldy #>chars_block
-    jsr $ffdd
-
     lda #22         ; MODE 5
     jsr $ffee
     lda #5
@@ -4133,26 +4296,127 @@ init:
         dex
         bpl cursor_loop
 
+    jsr set_hidden_palette
+
+    ldx #0
+    init_load_window_loop:
+
+        lda init_load_window_vdu_bytes,x
+        jsr $ffee
+        inx
+        cpx #5
+        bne init_load_window_loop
+
+    lda #255
+    ldx #<title_block
+    ldy #>title_block
+    jsr $ffdd
+
+    lda #255
+    ldx #<sprites_block
+    ldy #>sprites_block
+    jsr $ffdd
+
+    lda #255
+    ldx #<chars_block
+    ldy #>chars_block
+    jsr $ffdd
+
+    ; Copy the title screen to a lower address in memory.
+    jsr copy_title_down
+
+    ; Move the completed screen down in memory, decoding it.
+    jsr move_completed_screen_down
+
+    lda #12     ; clear the text window
+    jsr $ffee
+
+    lda #26     ; unset the text window
+    jsr $ffee
+
+    ; Define ENVELOPEs.
+    lda #0
+    sta $70
+    define_envelopes_loop:
+
+        lda $70
+        tax
+        lda envelopes_high,x
+        tay
+        lda envelopes_low,x
+        tax
+        lda #8
+        jsr $fff1
+
+        inc $70
+        lda $70
+        cmp #1
+        bne define_envelopes_loop
+
     rts
 
-title_vdu_bytes:    .byte 12, 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
-title_vdu_bytes1:   .byte 17,3, 31,1,30, "     (c) 2011     "
-title_vdu_bytes2:   .byte 17,3, 31,1,30, "   David Boddie"
+envelopes_low:  .byte <explosion_envelope, <damage_envelope, <item_envelope
+envelopes_high: .byte >explosion_envelope, >damage_envelope, >item_envelope
+
+explosion_envelope: .byte 1,1,252,0,0,10,0,0,126,0,0,130,126,126
+damage_envelope:    .byte 2,4,8,0,248,2,0,2,126,0,0,130,126,126
+item_envelope:      .byte 3,2,2,254,1,4,4,2,126,0,0,130,126,126
+
+title_vdu_bytes:    .byte 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
+title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"
+title_vdu_bytes2:   .byte 17,3, 31,1,30, "   David Boddie   "
 title_vdu_bytes3:   .byte 17,1, 31,1,30, "for Retro Software"
+title_vdu_bytes4:   .byte 17,3, 31,1,30, "GNU GPL 3 or later"
+
+set_standard_palette:
+
+    lda #1
+    sta $70
+    lda #1
+    sta $71
+    jsr set_palette
+
+    jmp set_core_palette    ; optimise away the rts
+
+set_complete_palette:
+
+    lda #1
+    sta $70
+    lda #4
+    sta $71
+    jsr set_palette
+
+    jmp set_core_palette    ; optimise away the rts
+
+set_hidden_palette:
+
+    lda #1
+    sta $70
+    lda #0
+    sta $71
+    jsr set_palette
+
+    ; Run on into the next routine.
+
+set_core_palette:
+
+    lda #2
+    sta $70
+    lda #2
+    sta $71
+    jsr set_palette
+
+    lda #3
+    sta $70
+    lda #3
+    sta $71
+    jsr set_palette
+
+    rts
 
 show_title:
 
-    lda #2
-    sta $70
-    lda #2
-    sta $71
-    jsr set_palette
-
-    lda #3
-    sta $70
-    lda #3
-    sta $71
-    jsr set_palette
+    jsr set_standard_palette
 
     ldx #0
     write_title_text_loop:
@@ -4161,6 +4425,9 @@ show_title:
         inx
         cpx #27
         bmi write_title_text_loop
+
+    ; Show the title.
+    jsr copy_title_up
 
     lda #0
     sta $72
@@ -4175,13 +4442,13 @@ show_title:
         ldy #22
         show_title_wait_message_loop:
 
-            lda title_vdu_bytes1, x
+            lda title_vdu_bytes1,x
             jsr $ffee
             inx
             dey
             bpl show_title_wait_message_loop
 
-        cpx #69
+        cpx #92
         beq show_title_wait_reset_offset
 
         txa
@@ -4200,10 +4467,8 @@ show_title:
         beq show_title_wait_loop
 
         show_title_wait_loop_no_update:
-        lda #129
         ldx #157
-        ldy #255
-        jsr $fff4
+        jsr check_key
         cpy #255
         bne show_title_wait_inner_loop
 
@@ -4423,6 +4688,10 @@ show_end_of_level_screen:
         cpx #25
         bne end_of_level_text_loop2
 
+    lda $3dfa
+    cmp #3
+    bpl show_end_of_level_screen_exit
+
     lda #192    ; initialise delay counter
     sta $3df5
 
@@ -4434,6 +4703,7 @@ show_end_of_level_screen:
         dec $3df5
         bne show_end_of_level_delay_loop2
 
+    show_end_of_level_screen_exit:
     rts
 
 level_bonus_vdu_bytes: .byte 5,6,31, 1,17  ; reversed
@@ -4477,7 +4747,52 @@ write_bonus:        ; $70,$71=value
     clc
     rts
 
+complete_game_vdu_bytes1: .byte 12
+complete_game_vdu_bytes2: .byte 17,3, 31,2,20, "Congratulations!"
+complete_game_vdu_bytes3: .byte 17,2, 31,1,22, "Now journey onward"
+complete_game_vdu_bytes4: .byte 17,2, 31,1,24, "to a new adventure"
+complete_game_vdu_bytes5: .byte 17,1, 31,4,27, "Press SPACE", 31,7,28, "to exit"
+
 show_complete_game:
+
+    ldx #0
+    show_complete_game_vdu_loop:
+
+        lda complete_game_vdu_bytes1,x
+        jsr $ffee
+        inx
+        cpx #68
+        bne show_complete_game_vdu_loop
+
+    jsr copy_completed_screen_up
+
+    jsr set_complete_palette
+
+    lda #255
+    sta $3df5
+
+    show_complete_game_delay_loop:
+
+        lda #19
+        jsr $fff4
+
+        dec $3df5
+        bne show_complete_game_no_message
+
+        ldx #0
+        show_complete_game_message_loop:
+
+            lda complete_game_vdu_bytes5,x
+            jsr $ffee
+            inx
+            cpx #26
+            bne show_complete_game_message_loop
+
+        show_complete_game_no_message:
+        ldx #157
+        jsr check_key
+        cpy #255
+        bne show_complete_game_delay_loop
 
     rts
 
@@ -4504,7 +4819,7 @@ start_new_game:
         bmi write_status_text_loop
 
     ; Set the level.
-    lda #0
+    lda #3
     sta $3dfa
 
     ; Set the score.
@@ -4779,11 +5094,16 @@ main:
 
             game_over:
             jsr show_game_over
-            jmp main_loop
+            jmp main_loop_play_again
 
             complete_game:
+            jsr show_end_of_level_screen
             jsr show_complete_game
-            jmp main_loop
+            jmp main_loop_play_again
+
+        main_loop_play_again:
+        lda #12
+        jsr $ffee
 
         jmp main_loop
 

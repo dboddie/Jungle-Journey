@@ -157,6 +157,9 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/finalexitr.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          ]
 
+title = read_xpm("images/title-screen.xpm")
+
+completed = read_xpm("images/complete-screen.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")])
 
 def read_sprite(lines):
 
@@ -248,3 +251,13 @@ def read_sprites(sprites):
         data += read_sprite(lines)
     
     return data
+
+def encode(data):
+
+    new_data = ""
+    for c in data:
+    
+        i = ord(c)
+        new_data += chr(i & 0x0f) + chr((i & 0xf0) >> 4)
+    
+    return new_data

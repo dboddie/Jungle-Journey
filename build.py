@@ -47,6 +47,7 @@ if __name__ == "__main__":
     out_uef_file = sys.argv[1]
     
     # Memory map
+    # 1780 title screen
     # 1F00 CODE
     # 3?00 space
     # 3D00 character table (0x24/6 = 6 entries + 1 special entry)
@@ -154,8 +155,15 @@ if __name__ == "__main__":
     data = makesprites.read_sprites(makesprites.chars)
     files.append(("CHARS", 0x3400, 0x3400, data))
 
+    data = makesprites.read_sprites([makesprites.title])
+    data += makesprites.encode(makesprites.read_sprites([makesprites.completed]))
+    files.append(("TITLE", 0x5A80, 0x5A80, data))
+
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
+    
+    # Insert a gap at the start of the tape.
+    #u.chunks.append((0x112, "\x01\x00\x00\x00"))
     u.import_files(0, files)
     
     # Write the new UEF file.
