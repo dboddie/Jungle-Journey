@@ -551,17 +551,15 @@ add_treasure:               ; $78,$79 = i,j
         jmp plot_character  ; optimise away the rts
 
         add_treasure_loop_next:
-        lda $70
-        cmp #0
-        bne add_treasure_loop_next2
+        dec $8c
+        bmi add_treasure_exit
+
+        dec $70
+        bpl add_treasure_loop
 
         lda #15
         sta $70
-
-        add_treasure_loop_next2:
-        dec $70
-        dec $8c
-        bpl add_treasure_loop
+        jmp add_treasure_loop
 
     add_treasure_exit:
     clc
