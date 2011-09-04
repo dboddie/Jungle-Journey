@@ -1217,52 +1217,6 @@ check_key:      ; x=key code
     jsr $fff4
     rts
 
-key_input:              ; returns A=0 (no key), 1 (left), 2 (right), 3 (up)
-                        ;           4 (down), 5 (fire)
-
-    ldx #158            ; -98 (Z)
-    jsr check_key
-    cpy #255
-    bne not_left_key
-    lda #1
-    rts
-
-not_left_key:
-    ldx #189            ; -67 (X)
-    jsr check_key
-    cpy #255
-    bne not_right_key
-    lda #2
-    rts
-
-not_right_key:
-    ldx #183            ; -73 (:)
-    jsr check_key
-    cpy #255
-    bne not_up_key
-    lda #3
-    rts
-
-not_up_key:
-    ldx #151            ; -105 (/)
-    jsr check_key
-    cpy #255
-    bne not_down_key
-    lda #4
-    rts
-
-not_down_key:
-    ldx #182            ; -74 (Return)
-    jsr check_key
-    cpy #255
-    bne not_fire_key
-    lda #5
-    rts
-
-not_fire_key:
-    lda #0
-    rts
-
 player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50, $80,$b0,$e0,$10
 player_direction_chars_high: .byte $3e,$3e,$3e,$3e,$3e,$3e,$3f,$3f, $3f,$3f,$3f,$40
 
