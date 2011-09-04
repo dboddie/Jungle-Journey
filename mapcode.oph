@@ -4262,7 +4262,6 @@ title_block: .byte <title_file_name, >title_file_name
                .byte $00, $71, 0, 0
 
 init_load_window_vdu_bytes: .byte 28,0,29,19,24
-init_clear_window_vdu_bytes: .byte 28,0,31,19,0
 
 init:
     lda #22         ; MODE 5
