@@ -1913,8 +1913,7 @@ move_player:
 
     tax                         ; use the y offset as an index
     dex                         ; y - 1
-    lda $3d04                   ; load the x offset
-    tay
+    ldy $3d04                   ; load the x offset
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
     lda #$57
@@ -2007,8 +2006,7 @@ move_player:
     clc
     tax
     inx                         ; y + 1
-    lda $3d04                   ; load the x offset
-    tay
+    ldy $3d04                   ; load the x offset
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
     lda #$57
@@ -3080,8 +3078,7 @@ move_projectile_up:
 
     tax                         ; use the y offset as an index
     dex                         ; y - 1
-    lda $3d0a                   ; load the x offset
-    tay
+    ldy $3d0a                   ; load the x offset
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
     lda #$57
@@ -3192,8 +3189,7 @@ move_projectile_down:
     clc
     tax
     inx                         ; y + 1
-    lda $3d0a                   ; load the x offset
-    tay
+    ldy $3d0a                   ; load the x offset
     lda room_row_offsets_low,x  ; read the address of the row
     sta $70
     lda #$57
@@ -3365,9 +3361,7 @@ move_projectile:
     lsr
     lsr
     lsr
-    lsr
-    tax
-    lda enemy_scores,x
+    adc #2
     sta $70
     jsr add_score
 
@@ -3429,8 +3423,6 @@ move_projectile:
     move_projectile_exit:
     clc
     rts
-
-enemy_scores: .byte 2, 4, 6, 8, 10
 
 move_characters:
 
@@ -4332,8 +4324,7 @@ init:
     sta $70
     define_envelopes_loop:
 
-        lda $70
-        tax
+        ldx $70
         lda envelopes_high,x
         tay
         lda envelopes_low,x
@@ -4528,8 +4519,7 @@ show_title:
         lda #150
         sta $3df5
 
-        lda $72
-        tax
+        ldx $72
         ldy #22
         show_title_wait_message_loop:
 
@@ -4949,8 +4939,7 @@ start_level:
     jsr reset_player_position
 
     ; Fill the treasure table with objects.
-    lda $3dfa   ; level
-    tax
+    ldx $3dfa   ; level
     lda key_rooms,x
     sta $80
     
