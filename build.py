@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # 1000 completion screen
     # 1780 title screen
     # 1F00 CODE
-    # 3?00 space
+    # 3??0 space
     # 3D00 character table (0x24/6 = 6 entries + 1 special entry)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 item,
@@ -137,30 +137,26 @@ if __name__ == "__main__":
     
     files = []
     
-    system("ophis mapcode.oph CODE")
-    code = open("CODE").read()
-    code_start = 0x1f00
+    system("ophis loader.oph JUNGLE")
+    code = open("JUNGLE").read()
+    code_start = 0x5100
+    files.append(("JUNGLE", code_start, code_start, code))
     
-    addresses = []
-    i = 0
-    while i < len(code):
-        if ord(code[i]) == 0x60:
-            if i + 1 < len(code):
-                addresses.append(code_start + i + 1)
-        i += 1
-    
-    files.append(("CODE", code_start, code_start, code))
-    
+    data = makesprites.read_sprites([makesprites.title])
+    data += makesprites.encode(makesprites.read_sprites([makesprites.completed]))
+    files.append(("TITLE", 0x5A80, 0x5A80, data))
+
     data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5300, 0x5300, data))
     
     data = makesprites.read_sprites(makesprites.chars)
     files.append(("CHARS", 0x3400, 0x3400, data))
 
-    data = makesprites.read_sprites([makesprites.title])
-    data += makesprites.encode(makesprites.read_sprites([makesprites.completed]))
-    files.append(("TITLE", 0x5A80, 0x5A80, data))
-
+    system("ophis mapcode.oph CODE")
+    code = open("CODE").read()
+    code_start = 0x1f00
+    files.append(("CODE", code_start, code_start, code))
+    
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
     

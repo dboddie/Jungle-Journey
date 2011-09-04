@@ -4239,73 +4239,7 @@ copy_completed_screen_up:
 
     jmp copy_title  ; optimise away the rts
 
-sprites_file_name: .byte "SPRITES", 13
-chars_file_name: .byte "CHARS", 13
-title_file_name: .byte "TITLE", 13
-
-sprites_block: .byte <sprites_file_name, >sprites_file_name
-               .byte 0, $53, 0, 0
-               .byte 0, $53, 0, 0
-               .byte $60, $03, 0, 0
-               .byte $60, $56, 0, 0
-
-chars_block: .byte <chars_file_name, >chars_file_name
-               .byte $00, $3e, 0, 0
-               .byte $00, $3e, 0, 0
-               .byte $80, $12, 0, 0
-               .byte $80, $50, 0, 0
-
-title_block: .byte <title_file_name, >title_file_name
-               .byte $80, $5a, 0, 0
-               .byte $80, $5a, 0, 0
-               .byte $80, $16, 0, 0
-               .byte $00, $71, 0, 0
-
-init_load_window_vdu_bytes: .byte 28,0,29,19,24
-
 init:
-    lda #22         ; MODE 5
-    jsr $ffee
-    lda #5
-    jsr $ffee
-
-    lda #23         ; disable flashing cursor
-    jsr $ffee
-    lda #1
-    jsr $ffee
-    ldx #7
-    cursor_loop:
-        lda #0
-        jsr $ffee
-        dex
-        bpl cursor_loop
-
-    jsr set_hidden_palette
-
-    ldx #0
-    init_load_window_loop:
-
-        lda init_load_window_vdu_bytes,x
-        jsr $ffee
-        inx
-        cpx #5
-        bne init_load_window_loop
-
-    lda #255
-    ldx #<title_block
-    ldy #>title_block
-    jsr $ffdd
-
-    lda #255
-    ldx #<sprites_block
-    ldy #>sprites_block
-    jsr $ffdd
-
-    lda #255
-    ldx #<chars_block
-    ldy #>chars_block
-    jsr $ffdd
-
     ; Copy the title screen to a lower address in memory.
     jsr copy_title_down
 
@@ -4317,24 +4251,6 @@ init:
 
     lda #26     ; unset the text window
     jsr $ffee
-
-    ; Define ENVELOPEs.
-    lda #0
-    sta $70
-    define_envelopes_loop:
-
-        ldx $70
-        lda envelopes_high,x
-        tay
-        lda envelopes_low,x
-        tax
-        lda #8
-        jsr $fff1
-
-        inc $70
-        lda $70
-        cmp #1
-        bne define_envelopes_loop
 
     ; Define the default high scores.
     ldy #0
@@ -4381,13 +4297,6 @@ init:
     rts
 
 high_score_default_name: .byte "- David -"
-
-envelopes_low:  .byte <explosion_envelope, <damage_envelope, <item_envelope
-envelopes_high: .byte >explosion_envelope, >damage_envelope, >item_envelope
-
-explosion_envelope: .byte 1,1,252,0,0,10,0,0,126,0,0,130,126,126
-damage_envelope:    .byte 2,4,8,0,248,2,0,2,126,0,0,130,126,126
-item_envelope:      .byte 3,2,2,254,1,4,4,2,126,0,0,130,126,126
 
 title_vdu_bytes:    .byte 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
 title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"
