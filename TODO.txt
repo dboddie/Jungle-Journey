@@ -1,8 +1,15 @@
 To Do
 
-Finish the title screen.
-Add a completion screen.
-Make one of the enemies have different movement.
+Check and fix object generation.
+Implement high score input.
 Improve the fire, explosion and player sprites.
 Add sounds.
 Nice to have: make projectiles start next to the player, not on top of him.
+Nice to have: make one of the enemies have different movement.
+Nice to have: make the boomerang turn before hitting a wall.
+
+Things to look out for
+
+Score text disappearing - probably caused by incorrect colour setting
+between levels.
+Strength level increasing unexpectedly.

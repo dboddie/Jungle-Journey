@@ -4639,7 +4639,6 @@ show_end_of_level_screen:
     ; Count the number of rooms explored.
     ldx #0
     lda #0
-    ldy #0
     sta $8d
     sta $8e
     end_of_level_room_count_loop:
@@ -4664,17 +4663,7 @@ show_end_of_level_screen:
         bne end_of_level_room_count_loop
 
     ; Position the player so that we can perform an animation.
-    lda #6      ; down (first frame)
-    sta $3d01
-    lda #4      ; y=4
-    sta $3d02
-    lda #3      ; dy=3
-    sta $3d03
-    lda #4      ; x=4
-    sta $3d04
-    lda #3      ; dx=3
-    sta $3d05
-
+    jsr reset_player_position
     jsr remove_characters
 
     jsr reset_unplot_buffer
@@ -4902,19 +4891,6 @@ start_new_game:
     lda #12
     jsr $ffee
 
-    ; Blank the screen now because it will be blanked before the room is shown
-    ; and otherwise the text will show briefly.
-    jsr blank_screen
-
-    ; Write the status text.
-    ldx #0
-    write_status_text_loop:
-        lda status_vdu_bytes,x
-        jsr $ffee
-        inx
-        cpx #25
-        bmi write_status_text_loop
-
     ; Set the level.
     lda #0
     sta $3dfa
@@ -4925,7 +4901,9 @@ start_new_game:
     sta $3df7
     sta $3df8
 
-    jsr write_score
+    ; Blank the screen now because it will be blanked before the room is shown
+    ; and otherwise the strength bar will show briefly.
+    jsr blank_screen
 
     ; Set the player's strength.
     lda #64
@@ -4935,6 +4913,23 @@ start_new_game:
     ; Set the projectile type.
     lda #0
     sta $3df9
+
+    rts
+
+reset_player_position:
+
+    lda #1      ; player
+    sta $3d00
+    lda #6      ; down (first frame)
+    sta $3d01
+    lda #4      ; y=4
+    sta $3d02
+    lda #3      ; dy=3
+    sta $3d03
+    lda #4      ; x=4
+    sta $3d04
+    lda #3      ; dx=3
+    sta $3d05
 
     rts
 
@@ -4952,20 +4947,9 @@ start_level:
     lda start_rooms_x,x
     sta $3df3
 
-    ; Set the player position.
+    ; Set the player's position.
 
-    lda #1      ; player
-    sta $3d00
-    lda #6      ; down (first frame)
-    sta $3d01
-    lda #4      ; y=4
-    sta $3d02
-    lda #3      ; dy=3
-    sta $3d03
-    lda #4      ; x=4
-    sta $3d04
-    lda #3      ; dx=3
-    sta $3d05
+    jsr reset_player_position
 
     ; Fill the treasure table with objects.
     lda $3dfa   ; level
@@ -5049,6 +5033,17 @@ start_level:
         iny
         cpy #121
         bmi start_level_add_treasure_loop
+
+    ; Write the status text.
+    ldx #0
+    write_status_text_loop:
+        lda status_vdu_bytes,x
+        jsr $ffee
+        inx
+        cpx #25
+        bmi write_status_text_loop
+
+    jsr write_score
 
     clc
     rts
