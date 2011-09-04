@@ -1,7 +1,7 @@
 To Do
 
-Check and fix object generation.
 Implement high score input.
+Convert all emerging enemies to explosions at game over time.
 Improve the fire, explosion and player sprites.
 Add sounds.
 Nice to have: make projectiles start next to the player, not on top of him.

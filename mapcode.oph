@@ -69,7 +69,7 @@ next_value:         ; no argument
 
 ; Room filling routines, writing to 0x579c to 0x57ff.
 
-draw_top_line:
+draw_top_line:      ; $76=tile number for exit/wall
     ldx #9
     lda #2
 
@@ -87,7 +87,7 @@ draw_top_line:
     clc
     rts
 
-draw_left_line:
+draw_left_line:     ; $77=tile number for exit/wall
     ldx #90
     draw_left_line_loop0:
         lda #2
@@ -110,7 +110,7 @@ draw_left_line:
     clc
     rts
 
-draw_bottom_line:
+draw_bottom_line:       ; $76=tile number for exit/wall
     ldx #9
     lda #2
     draw_bottom_line_loop0:
@@ -127,7 +127,7 @@ draw_bottom_line:
     clc
     rts
 
-draw_right_line:
+draw_right_line:        ; $77=tile number for exit/wall
     ldx #99
     draw_right_line_loop0:
         lda #2
@@ -150,6 +150,17 @@ draw_right_line:
     clc
     rts
 
+make_empty_room:
+
+    ldx #99
+    make_empty_room_loop:
+        lda #0
+        sta $579c,x
+        dex
+        bpl make_empty_room_loop
+    
+    rts
+
 make_room:          ; $78,$79=i,j
 
     ; Fills the room array at 579c with values.
@@ -162,12 +173,7 @@ make_room:          ; $78,$79=i,j
 
     ; Fill the room with empty space.
 
-    ldx #100
-    make_empty_room_loop:
-        lda #0
-        sta $579c,x
-        dex
-        bpl make_empty_room_loop
+    jsr make_empty_room
 
     ; Determine if there is a top exit.
 
@@ -812,6 +818,10 @@ plot_room_tiles:
         jmp row_loop
     
 end_rows:
+    rts
+
+set_room_palette:   ; $78=i; $79=j
+
     lda #1
     sta $70
     lda $78
@@ -4467,7 +4477,7 @@ wait_for_vsync:
     lda #19
     jmp $fff4   ; optimise away the rts
 
-game_over_vdu_bytes: .byte 31,4,14, 17,2, "The journey", 31,6,15, "is over"
+game_over_vdu_bytes: .byte 31,4,15, 17,2, "The journey", 31,7,16, "is over"
 
 show_game_over:
 
@@ -4495,13 +4505,8 @@ end_of_level_bytes2:  .byte 31,0,28, 17,2, "My journey continues"
 show_end_of_level_screen:
 
     ; Draw a decorative room.
-    ldx #99
-    end_of_level_clear_room_loop:
 
-        lda #0
-        sta $579c,x
-        dex
-        bpl end_of_level_clear_room_loop
+    jsr make_empty_room
 
     ldx #5
     end_of_level_h_walls_loop:
@@ -4525,6 +4530,7 @@ show_end_of_level_screen:
         bpl end_of_level_v_walls_loop
 
     jsr plot_room_tiles
+    jsr set_standard_palette
 
     ldx #0
     end_of_level_text_loop1:
@@ -4562,19 +4568,7 @@ show_end_of_level_screen:
         bne end_of_level_room_count_loop
 
     ; Position the player so that we can perform an animation.
-    jsr reset_player_position
-    jsr remove_characters
-
-    jsr reset_unplot_buffer
-    jsr reset_plot_buffer
-
-    lda #$00        ; plot the player
-    sta $74
-    lda #$3d
-    sta $75
-    jsr plot_character
-
-    jsr plot_buffer
+    jsr position_player_set_up_plotting
 
     lda $8d
     sta $70
@@ -4725,11 +4719,28 @@ write_bonus:        ; $70,$71=value
     clc
     rts
 
+position_player_set_up_plotting:
+
+    jsr reset_player_position
+    jsr remove_characters
+
+    jsr reset_unplot_buffer
+    jsr reset_plot_buffer
+
+    lda #$00        ; plot the player
+    sta $74
+    lda #$3d
+    sta $75
+    jsr plot_character
+
+    jsr plot_buffer
+    rts
+
 complete_game_vdu_bytes1: .byte 12
 complete_game_vdu_bytes2: .byte 17,3, 31,2,20, "Congratulations!"
 complete_game_vdu_bytes3: .byte 17,2, 31,1,22, "Now journey onward"
 complete_game_vdu_bytes4: .byte 17,2, 31,1,24, "to a new adventure"
-complete_game_vdu_bytes5: .byte 17,1, 31,4,27, "Press SPACE", 31,7,28, "to exit"
+complete_game_vdu_bytes5: .byte 17,1, 31,4,27, "Press SPACE"
 
 show_complete_game:
 
@@ -4762,7 +4773,7 @@ show_complete_game:
             lda complete_game_vdu_bytes5,x
             jsr $ffee
             inx
-            cpx #26
+            cpx #16
             bne show_complete_game_message_loop
 
         show_complete_game_no_message:
@@ -4774,6 +4785,228 @@ show_complete_game:
     rts
 
 check_high_scores:
+
+    ; Start at the bottom of the table, moving scores down as necessary, and
+    ; write in the current score at the appropriate place.
+
+    lda #$f6    ; current score
+    sta $70
+    lda #$3d
+    sta $71
+
+    lda #$80
+    sta $72
+    lda #$50
+    sta $73
+
+    check_high_scores_loop:
+
+        ldy #2
+        check_high_scores_digits_loop:
+
+            lda ($72),y
+            cmp ($70),y     ; existing score less than current score?
+            bmi check_high_scores_move_down
+            beq check_high_scores_digits_next   ; keep checking digits if equal
+            jmp check_high_scores_next
+
+            check_high_scores_digits_next:
+            dey
+            bpl check_high_scores_digits_loop
+
+        check_high_scores_next:
+        clc
+        lda $72
+        adc #12
+        sta $72
+        cmp #$e0
+        bne check_high_scores_loop
+
+    ; The player's score didn't make it into the high score table.
+    rts
+
+check_high_scores_move_down:    ; $70,$71=pointer to current score
+                                ; $72,$73=pointer to old score
+
+    ; The current score exceeded the existing entry. Make a note of the
+    ; position in the high score table, insert the player's score, and take
+    ; the old score
+
+    lda $72     ; Record the position in the high score table of the
+    sta $8d     ; player's score.
+    lda $73
+    sta $8e
+
+    lda #$e0
+    sta $74
+    lda #$50
+    sta $75
+
+    ldy #0
+    insert_blank_player_name_loop:
+
+        cpy #3
+        bpl insert_blank_player_name_score_only
+
+        lda ($70),y
+        jmp insert_blank_player_name_store
+
+        insert_blank_player_name_score_only:
+        lda #32
+
+        insert_blank_player_name_store:
+        sta ($74),y
+        iny
+        cpy #12
+        bne insert_blank_player_name_loop
+
+    check_high_scores_move_down_loop:
+
+        ldy #0
+        check_high_scores_copy_score_and_name:
+
+            lda ($72),y ; swap the current score with the score in the table
+            tax
+            lda ($74),y
+            sta ($72),y
+            txa
+            sta ($74),y
+            iny
+            cpy #12
+            bne check_high_scores_copy_score_and_name
+
+        clc
+        lda $72
+        adc #12
+        sta $72
+        cmp #$e0
+        bne check_high_scores_move_down_loop
+
+    ; Draw a decorative room.
+
+    jsr set_hidden_palette
+
+    jsr make_empty_room
+
+    lda #3
+    sta $76
+    sta $77
+    jsr draw_top_line
+    jsr draw_bottom_line
+    jsr draw_left_line
+
+    lda #0
+    sta $77
+    jsr draw_right_line
+
+    jsr plot_room_tiles
+
+    ; Add text characters to the room.
+
+    lda #5
+    jsr $ffee
+
+    lda #160        ; x (low)
+    sta $70
+    lda #0          ; x (high)
+    sta $71
+
+    lda #$40        ; y (low)
+    sta $72
+    lda #$03        ; y (high)
+    sta $73
+
+    lda #65
+    sta $74
+
+    plot_text_characters_loop:
+
+        lda #25
+        jsr $ffee
+        lda #4
+        jsr $ffee
+
+        ldx #0
+        move_xy_loop:
+
+            lda $70,x
+            jsr $ffee
+            inx
+            cpx #5
+            bne move_xy_loop
+
+        cmp #90
+        bpl plot_text_characters_endloop
+
+        inc $74
+
+        lda $70
+        adc #128
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+
+        cmp #$04
+        bne plot_text_characters_loop
+        lda $70
+        cmp #$20
+        bne plot_text_characters_loop
+
+        lda #160
+        sta $70
+        lda #0
+        sta $71
+
+        lda $72
+        sec
+        sbc #192
+        sta $72
+        lda $73
+        sbc #0
+        sta $73
+        clc
+
+        jmp plot_text_characters_loop
+
+    plot_text_characters_endloop:
+    clc
+
+    ; Put the player in the centre of the room.
+    jsr position_player_set_up_plotting
+
+    lda #0          ; reset motion counter
+    sta $3dfe
+
+    lda #0          ; not on a character
+    sta $3dfd
+
+    lda #0          ; reset the level number so that the correct tiles are used
+    sta $3dfa
+
+    jsr set_standard_palette
+
+    high_score_entry_loop:
+
+        jsr reset_unplot_buffer
+        jsr reset_plot_buffer
+
+        jsr move_player
+        bcs high_score_entry_after_loop ; check if the player leaves the room
+
+        lda #19
+        jsr $fff4
+        jsr plot_buffer
+
+        jmp high_score_entry_loop
+
+    high_score_entry_after_loop:
+    clc
+
+    lda #12
+    jsr $ffee
+    jsr set_hidden_palette
 
     rts
 
@@ -4793,7 +5026,9 @@ start_new_game:
     ; Set the score.
     lda #0
     sta $3df6
+    lda #$02
     sta $3df7
+    lda #0
     sta $3df8
 
     ; Blank the screen now because it will be blanked before the room is shown
@@ -4801,7 +5036,7 @@ start_new_game:
     jsr blank_screen
 
     ; Set the player's strength.
-    lda #64
+    lda #4
     sta $70
     jsr add_strength
 
@@ -4967,6 +5202,7 @@ main:
                 lda $3df3       ; current room (x)
                 sta $79
                 jsr plot_room
+                jsr set_room_palette
                 jsr add_treasure
 
                 lda #$00        ; plot the player
@@ -4977,10 +5213,10 @@ main:
 
                 jsr plot_buffer
 
-                lda #0         ; reset projectile counter
+                lda #0          ; reset projectile counter
                 sta $3dfd
 
-                lda #0         ; reset motion counter
+                lda #0          ; reset motion counter
                 sta $3dfe
 
                 lda #63         ; reset generation counter
