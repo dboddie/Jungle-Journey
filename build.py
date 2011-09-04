@@ -47,6 +47,7 @@ if __name__ == "__main__":
     out_uef_file = sys.argv[1]
     
     # Memory map
+    # 1000 completion screen
     # 1780 title screen
     # 1F00 CODE
     # 3?00 space
@@ -103,7 +104,8 @@ if __name__ == "__main__":
     #
     # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3400
     #
-    # 5080 space
+    # 5080 high scores
+    #   n   3 bytes score + 9 bytes ASCII
     # 5100 objects/treasure table (121 entries)
     #   n   type
     #

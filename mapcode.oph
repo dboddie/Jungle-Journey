@@ -824,14 +824,7 @@ end_rows:
     sta $71
     jsr set_palette
 
-    lda #2
-    sta $70
-    sta $71
-    jsr set_palette
-    lda #3
-    sta $70
-    sta $71
-    jsr set_palette
+    jsr set_core_palette
     rts
 
 room_palettes: .byte 1, 6, 5, 7
@@ -3652,6 +3645,11 @@ add_score:      ; $70=score to add
 
 write_score:
 
+    lda #$f6
+    sta $70
+    lda #$3d
+    sta $71
+
     ldx #2
     write_score_vdu_bytes:
         lda score_vdu_bytes,x
@@ -3659,10 +3657,7 @@ write_score:
         dex
         bpl write_score_vdu_bytes
 
-    lda #$f6
-    sta $70
-    lda #$3d
-    sta $71
+write_score_digits:     ; $70,$71=address of score bytes
 
     ldy #2
     write_score_loop:
@@ -4134,6 +4129,20 @@ play_sound:     ; X=sound number
 
     rts
 
+copy_title_down:
+
+    lda #$80
+    sta $70
+    lda #$61
+    sta $71
+
+    lda #$80
+    sta $72
+    lda #$1e
+    sta $73
+
+    ; Run on into the following routine.
+
 copy_title:
 
     ldx #7
@@ -4155,20 +4164,6 @@ copy_title:
         bpl copy_title_loop1
 
     rts
-
-copy_title_down:
-
-    lda #$80
-    sta $70
-    lda #$61
-    sta $71
-
-    lda #$80
-    sta $72
-    lda #$1e
-    sta $73
-
-    jmp copy_title  ; optimise away the rts
 
 copy_title_up:
 
@@ -4353,7 +4348,51 @@ init:
         cmp #1
         bne define_envelopes_loop
 
+    ; Define the default high scores.
+    ldy #0
+    lda #$80
+    sta $70
+    lda #$50
+    sta $71
+    lda #$16
+    sta $72
+
+    init_define_high_scores_loop:
+
+        lda #0
+        sta ($70),y
+        iny
+        lda $72
+        sta ($70),y
+        iny
+        lda #0
+        sta ($70),y
+
+        iny
+        ldx #0
+        init_define_high_score_name_loop:
+
+            lda high_score_default_name,x
+            sta ($70),y
+            iny
+            inx
+            cpx #9
+            bne init_define_high_score_name_loop
+
+        sed
+        lda $72
+        sec
+        sbc #2
+        sta $72
+        cld
+        clc
+
+        cpy #96
+        bne init_define_high_scores_loop
+
     rts
+
+high_score_default_name: .byte "- David -"
 
 envelopes_low:  .byte <explosion_envelope, <damage_envelope, <item_envelope
 envelopes_high: .byte >explosion_envelope, >damage_envelope, >item_envelope
@@ -4428,6 +4467,60 @@ show_title:
 
     ; Show the title.
     jsr copy_title_up
+
+    ; Show the high scores.
+
+    lda #17
+    jsr $ffee
+    lda #3
+    jsr $ffee
+
+    lda #$80
+    sta $70
+    lda #$50
+    sta $71
+
+    lda #8
+    sta $80
+
+    show_title_high_scores_loop:
+
+        lda #31
+        jsr $ffee
+        lda #2
+        jsr $ffee
+        lda $80
+        adc #2
+        sta $80
+        clc
+        jsr $ffee
+
+        jsr write_score_digits
+
+        lda #32
+        jsr $ffee
+
+        ldx #8
+        ldy #3
+        show_title_high_scores_vdu_loop2:
+
+            lda ($70),y
+            cmp #32
+            bmi ignore_char
+            cmp #123
+            bpl ignore_char
+            jsr $ffee
+
+            ignore_char:
+            iny
+            dex
+            bpl show_title_high_scores_vdu_loop2
+
+        lda $70
+        adc #12
+        sta $70
+        cmp #$e0
+        bne show_title_high_scores_loop
 
     lda #0
     sta $72
@@ -4796,6 +4889,10 @@ show_complete_game:
 
     rts
 
+check_high_scores:
+
+    rts
+
 status_vdu_bytes: .byte 31,2,0, 17,3, "Score", 31,11,0, 17,2, "Strength", 17,1
 ; TAB(1,0), COLOUR 3, "Score", TAB(12,0), COLOUR 2, "Strength", COLOUR 1
 
@@ -4819,7 +4916,7 @@ start_new_game:
         bmi write_status_text_loop
 
     ; Set the level.
-    lda #3
+    lda #0
     sta $3dfa
 
     ; Set the score.
@@ -4827,6 +4924,7 @@ start_new_game:
     sta $3df6
     sta $3df7
     sta $3df8
+
     jsr write_score
 
     ; Set the player's strength.
@@ -5104,6 +5202,9 @@ main:
         main_loop_play_again:
         lda #12
         jsr $ffee
+
+        ; Check the score against the high scores.
+        jsr check_high_scores
 
         jmp main_loop
 
