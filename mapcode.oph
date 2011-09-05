@@ -4216,8 +4216,7 @@ init:
     ; Move the completed screen down in memory, decoding it.
     jsr move_completed_screen_down
 
-    lda #12     ; clear the text window
-    jsr $ffee
+    jsr cls     ; clear the text window
 
     lda #26     ; unset the text window
     jsr $ffee
@@ -4437,7 +4436,7 @@ wait_for_vsync:
     lda #19
     jmp $fff4   ; optimise away the rts
 
-game_over_vdu_bytes: .byte 31,4,15, 17,2, "The journey", 31,7,17, "is over"
+game_over_vdu_bytes: .byte 31,4,15, 17,2, "The journey", 31,9,17, "is over"
 
 show_game_over:
 
@@ -4875,51 +4874,41 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     lda #65
     sta $72
 
-    ldx #5
-    ldy #0
+    ldx #3
     plot_text_characters_loop:
 
-        cpy #14
-        beq skip_space
-        cpy #15
-        beq skip_space
-
         jsr print_xy
-        inc $72
 
-        skip_space:
-        clc
-
-        plot_text_characters_next1:
-        lda $71
-        adc #4
-        sta $71
-
-        dex
-        bpl plot_text_characters_next2
-
-        lda #6
-        sta $71
         lda $70
-        adc #3
+        adc #4
         sta $70
 
-        ldx #5
+        dex
+        bpl plot_text_characters_next
 
-        plot_text_characters_next2:
+        lda #3
+        sta $70
+        lda $71
+        adc #3
+        sta $71
 
-        iny
+        ldx #3
+
+        plot_text_characters_next:
+
+        inc $72
         lda $72
         cmp #91
         bne plot_text_characters_loop
 
+    lda #11
+    sta $70
     lda #95         ; _ representing a space
     sta $72
     jsr print_xy
 
-    lda $71
-    adc #4
-    sta $71
+    lda #15
+    sta $70
     lda #60         ; < representing delete
     sta $72
     jsr print_xy
@@ -4949,29 +4938,21 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         jsr move_player
         bcs high_score_entry_after_loop ; check if the player leaves the room
 
-        lda $3302       ; y
-        asl
-        and #7
-        cmp $3303       ; dy
+        lda $3303       ; dy
+        cmp #0
         bne high_score_entry_not_aligned
+
+        lda $3302       ; y
+        cmp #8
+        bpl high_score_entry_not_aligned
+
+        adc $3304       ; x
+        and #1
+        beq high_score_entry_not_aligned
 
         lda $3305       ; dx
-        tax
-        and #1
+        cmp #2
         bne high_score_entry_not_aligned
-        txa
-        adc $3304       ; x
-
-        cmp #3
-        beq high_score_entry_aligned
-        cmp #6
-        beq high_score_entry_aligned
-        cmp #9
-        bne high_score_entry_not_aligned
-
-        high_score_entry_aligned:
-
-        
 
         ; The player is aligned with a letter.
 
@@ -4985,10 +4966,14 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     high_score_entry_after_loop:
     clc
 
-    lda #12
-    jsr $ffee
+    jsr cls
     jsr set_hidden_palette
 
+    rts
+
+cls:
+    lda #12
+    jsr $ffee
     rts
 
 print_xy:
@@ -5009,8 +4994,7 @@ status_vdu_bytes: .byte 31,2,0, 17,3, "Score", 31,11,0, 17,2, "Strength", 17,1
 start_new_game:
 
     ; Clear the screen.
-    lda #12
-    jsr $ffee
+    jsr cls
 
     ; Set the level.
     lda #0
@@ -5318,8 +5302,7 @@ main:
             jmp main_loop_play_again
 
         main_loop_play_again:
-        lda #12
-        jsr $ffee
+        jsr cls
 
         ; Check the score against the high scores.
         jsr check_high_scores
