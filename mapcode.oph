@@ -792,9 +792,7 @@ plot_room_tiles:
             sta $7b
             jsr plot_tile
 
-            lda $7a
-            adc #1
-            sta $7a
+            inc $7a
             lda $76
             sec
             sbc #1
@@ -1833,9 +1831,7 @@ move_player:
 
     move_player_leave_room_right:
     clc
-    lda $3df3
-    adc #1
-    sta $3df3
+    inc $3df3
     clc
 
     ; Set the player's position on the left of the screen.
@@ -2018,10 +2014,7 @@ move_player:
     jmp animate_player_down     ; optimise away the rts
 
     move_player_leave_room_down:
-    clc
-    lda $3df2
-    adc #1
-    sta $3df2
+    inc $3df2
     clc
 
     ; Set the player's position on the top of the screen.
@@ -3788,8 +3781,22 @@ reduce_strength:    ; $70=strength to remove
         sta ($74),y
 
         jsr plot_character
+        jmp reduce_strength_not_emerging_enemy
 
         reduce_strength_not_enemy:
+        cmp #3
+        bne reduce_strength_not_emerging_enemy
+
+        jsr unplot_character
+
+        iny             ; whether emerging or exploding, ensure that the enemy
+        lda ($74),y     ; is now exploding
+        ora #8
+        sta ($74),y
+
+        jsr plot_character
+
+        reduce_strength_not_emerging_enemy:
         clc
         lda $74
         adc #6
@@ -4028,6 +4035,23 @@ collide:
     clc
     rts
 
+blank_screen:
+    lda #1
+    sta $70
+    lda #0
+    sta $71
+    jsr set_palette
+    lda #2
+    sta $70
+    lda #0
+    sta $71
+    jsr set_palette
+    lda #3
+    sta $70
+    lda #0
+    sta $71
+    ; Run on into set_palette.
+
 set_palette:
                     ; $70=logical colour
                     ; $71=physical colour
@@ -4044,24 +4068,6 @@ set_palette:
     ldx #$fb
     ldy #$3d
     jsr $fff1
-    rts
-
-blank_screen:
-    lda #1
-    sta $70
-    lda #0
-    sta $71
-    jsr set_palette
-    lda #2
-    sta $70
-    lda #0
-    sta $71
-    jsr set_palette
-    lda #3
-    sta $70
-    lda #0
-    sta $71
-    jsr set_palette
     rts
 
 sounds_low:  .byte <explosion_sound, <damage_sound, <item_sound, <key_sound
@@ -4431,7 +4437,7 @@ wait_for_vsync:
     lda #19
     jmp $fff4   ; optimise away the rts
 
-game_over_vdu_bytes: .byte 31,4,15, 17,2, "The journey", 31,7,16, "is over"
+game_over_vdu_bytes: .byte 31,4,15, 17,2, "The journey", 31,7,17, "is over"
 
 show_game_over:
 
@@ -4856,76 +4862,67 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     jsr plot_room_tiles
 
     ; Add text characters to the room.
-
-    lda #5
+    lda #17
+    jsr $ffee
+    lda #3
     jsr $ffee
 
-    lda #160        ; x (low)
+    lda #3          ; x
     sta $70
-    lda #0          ; x (high)
+    lda #6          ; y
     sta $71
 
-    lda #$40        ; y (low)
-    sta $72
-    lda #$03        ; y (high)
-    sta $73
-
     lda #65
-    sta $74
+    sta $72
 
+    ldx #5
+    ldy #0
     plot_text_characters_loop:
 
-        lda #25
-        jsr $ffee
-        lda #4
-        jsr $ffee
+        cpy #14
+        beq skip_space
+        cpy #15
+        beq skip_space
 
-        ldx #0
-        move_xy_loop:
+        jsr print_xy
+        inc $72
 
-            lda $70,x
-            jsr $ffee
-            inx
-            cpx #5
-            bne move_xy_loop
+        skip_space:
+        clc
 
-        cmp #90
-        bpl plot_text_characters_endloop
-
-        inc $74
-
-        lda $70
-        adc #128
-        sta $70
+        plot_text_characters_next1:
         lda $71
-        adc #0
+        adc #4
         sta $71
-        clc
 
-        cmp #$04
-        bne plot_text_characters_loop
+        dex
+        bpl plot_text_characters_next2
+
+        lda #6
+        sta $71
         lda $70
-        cmp #$20
+        adc #3
+        sta $70
+
+        ldx #5
+
+        plot_text_characters_next2:
+
+        iny
+        lda $72
+        cmp #91
         bne plot_text_characters_loop
 
-        lda #160
-        sta $70
-        lda #0
-        sta $71
+    lda #95         ; _ representing a space
+    sta $72
+    jsr print_xy
 
-        lda $72
-        sec
-        sbc #192
-        sta $72
-        lda $73
-        sbc #0
-        sta $73
-        clc
-
-        jmp plot_text_characters_loop
-
-    plot_text_characters_endloop:
-    clc
+    lda $71
+    adc #4
+    sta $71
+    lda #60         ; < representing delete
+    sta $72
+    jsr print_xy
 
     ; Put the player in the centre of the room.
     jsr position_player_set_up_plotting
@@ -4939,6 +4936,9 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     lda #0          ; reset the level number so that the correct tiles are used
     sta $3dfa
 
+    lda #3          ; cursor position in the high score entry held in $8d,$8e
+    sta $8f
+
     jsr set_standard_palette
 
     high_score_entry_loop:
@@ -4949,8 +4949,35 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         jsr move_player
         bcs high_score_entry_after_loop ; check if the player leaves the room
 
-        lda #19
-        jsr $fff4
+        lda $3302       ; y
+        asl
+        and #7
+        cmp $3303       ; dy
+        bne high_score_entry_not_aligned
+
+        lda $3305       ; dx
+        tax
+        and #1
+        bne high_score_entry_not_aligned
+        txa
+        adc $3304       ; x
+
+        cmp #3
+        beq high_score_entry_aligned
+        cmp #6
+        beq high_score_entry_aligned
+        cmp #9
+        bne high_score_entry_not_aligned
+
+        high_score_entry_aligned:
+
+        
+
+        ; The player is aligned with a letter.
+
+        high_score_entry_not_aligned:
+
+        jsr wait_for_vsync
         jsr plot_buffer
 
         jmp high_score_entry_loop
@@ -4962,6 +4989,18 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     jsr $ffee
     jsr set_hidden_palette
 
+    rts
+
+print_xy:
+
+    lda #31
+    jsr $ffee
+    lda $70
+    jsr $ffee
+    lda $71
+    jsr $ffee
+    lda $72
+    jsr $ffee
     rts
 
 status_vdu_bytes: .byte 31,2,0, 17,3, "Score", 31,11,0, 17,2, "Strength", 17,1
