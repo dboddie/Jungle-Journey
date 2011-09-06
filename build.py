@@ -50,31 +50,7 @@ if __name__ == "__main__":
     # 1000 completion screen
     # 1780 title screen
     # 1F00 CODE
-    # 3??0 space
-    # 3D00 character table (0x24/6 = 6 entries + 1 special entry)
-    #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
-    #             4 item,
-    #             8 and higher enemy - bits 4,5,6 are enemy type)
-    #   n+1 counter/direction
-    #       (player: bits 1,2 are direction, bit 0 is animation
-    #        projectile: bits 4,5 are direction, bits 1,2 are type,
-    #                    bit 0 is animation
-    #        enemy:  bits 2,3 are direction, bits 1,0 are animation
-    #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
-    #                             bit 3 is type 0=emerge,1=explode,
-    #                             bits 0,1 are animation
-    #        item: bits 0,1,2,3 are type, bit 2 is weapon/treasure
-    #              0-3 weapons, 4 key, 5-8 treasure)
-    #   n+2 y room offset (0-10)
-    #   n+3 dy (0-5)
-    #   n+4 x room offset (0-10)
-    #   n+5 dx (0-3)
     #
-    #   first character is always the player
-    #   second character is always the player's weapon
-    #   new characters are added after these
-    #
-    # 3D2A space
     # 3DF0 item/player flags (128=leave level, 64=player demise,
     #                         bits 4,5,6=enemy limit, 2=complete game,
     #                         1=has key)
@@ -102,7 +78,7 @@ if __name__ == "__main__":
     #           2 * 0x60 (exit)             4500
     #           2 * 0x60 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3400
+    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3e00
     #
     # 5080 high scores (8 * 12 = 0xe0)
     #   n   3 bytes score + 9 bytes ASCII
@@ -110,7 +86,30 @@ if __name__ == "__main__":
     # 5100 objects/treasure table (121 entries)
     #   n   type
     #
-    # 51F2 space
+    # 5179 space
+    # 5180 character table (0x24/6 = 6 entries + 1 special entry)
+    #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
+    #             4 item,
+    #             8 and higher enemy - bits 4,5,6 are enemy type)
+    #   n+1 counter/direction
+    #       (player: bits 1,2 are direction, bit 0 is animation
+    #        projectile: bits 4,5 are direction, bits 1,2 are type,
+    #                    bit 0 is animation
+    #        enemy:  bits 2,3 are direction, bits 1,0 are animation
+    #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
+    #                             bit 3 is type 0=emerge,1=explode,
+    #                             bits 0,1 are animation
+    #        item: bits 0,1,2,3 are type, bit 2 is weapon/treasure
+    #              0-3 weapons, 4 key, 5-8 treasure)
+    #   n+2 y room offset (0-10)
+    #   n+3 dy (0-5)
+    #   n+4 x room offset (0-10)
+    #   n+5 dx (0-3)
+    #
+    #   first character is always the player
+    #   second character is always the player's weapon
+    #   new characters are added after these
+    #
     # 5200 plot buffer (alternate unplot/plot entries terminating in 255)
     #   n       type
     #   n+1,n+2 source address

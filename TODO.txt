@@ -4,12 +4,13 @@ Implement high score input.
 Convert all emerging enemies to explosions at game over time.
 Improve the fire, explosion and player sprites.
 Add sounds.
-Nice to have: make projectiles start next to the player, not on top of him.
+Nice to have: analogue joystick support.
 Nice to have: make one of the enemies have different movement.
 Nice to have: make the boomerang turn before hitting a wall.
+Nice to have: make projectiles start next to the player, not on top of him.
 
 Things to look out for
 
-Score text disappearing - probably caused by incorrect colour setting
-between levels.
 Strength level increasing unexpectedly.
+A high score not causing the high score screen to be activated.
+Flickering and jerky player motion at the top of the screen.
