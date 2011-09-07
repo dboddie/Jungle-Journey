@@ -4264,7 +4264,7 @@ init:
 
     rts
 
-high_score_default_name: .byte "- David -"
+high_score_default_name: .byte "RETRO    "
 
 title_vdu_bytes:    .byte 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
 title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"
@@ -4432,7 +4432,7 @@ wait_for_vsync:
     lda #19
     jmp $fff4   ; optimise away the rts
 
-game_over_vdu_bytes: .byte 31,4,15, 17,2, "The journey", 31,9,17, "is over"
+game_over_vdu_bytes: .byte 28,4,17,15,15, 12, 26, 31,4,15, 17,2, "The journey", 31,9,17, "is over"
 
 show_game_over:
 
@@ -4441,7 +4441,7 @@ show_game_over:
         lda game_over_vdu_bytes,x
         jsr $ffee
         inx
-        cpx #26
+        cpx #33
         bmi write_game_over_text_loop
 
     lda #192
@@ -4933,7 +4933,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         lda high_score_vdu_bytes,x
         jsr $ffee
         inx
-        cpx #12
+        cpx #33
         bne high_score_vdu_loop
 
     high_score_entry_loop:
@@ -4962,9 +4962,9 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
         lda $5184       ; x
         tax
-        and #1
-        beq high_score_entry_not_aligned
         cmp #9
+        beq high_score_entry_not_aligned
+        and #1
         beq high_score_entry_not_aligned
 
         lda $5183       ; dy
@@ -5069,7 +5069,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
     rts
 
-high_score_vdu_bytes: .byte 17,2, 31,5,27, ">", 31,15,27, "<", 17,1
+high_score_vdu_bytes: .byte 17,1, 31,2,3, "Enter your name!", 17,3, 31,5,30, ">", 31,15,30, "<", 17,1
 
 cls:
     lda #12
@@ -5090,7 +5090,7 @@ print_high_score_character:  ; A=ASCII code
     lda $8f
     adc #3
     sta $70         ; store the x position of the character
-    lda #27
+    lda #30
     sta $71
     ; Run on into the next routine.
 
@@ -5131,6 +5131,8 @@ start_new_game:
     jsr blank_screen
 
     ; Set the player's strength.
+    lda #0
+    sta $3df4
     lda #64
     sta $70
     jsr add_strength

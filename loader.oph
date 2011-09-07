@@ -94,8 +94,8 @@ title_block: .byte <title_file_name, >title_file_name
 code_block: .byte <code_file_name, >code_file_name
                .byte $00, $1f, 0, 0
                .byte $00, $1f, 0, 0
-               .byte $69, $1e, 0, 0
-               .byte $69, $3d, 0, 0
+               .byte $8a, $1e, 0, 0
+               .byte $8a, $3d, 0, 0
 
 init_load_window_vdu_bytes: .byte 28,0,29,19,24
 

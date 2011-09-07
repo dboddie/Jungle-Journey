@@ -117,7 +117,8 @@ if __name__ == "__main__":
     #
     #   5200 and every 12 bytes is unplot entries
     #   5206 and every 12 bytes is plot entries
-    #   
+    #
+    # 52C0 space (assuming 8 unplot and 8 plot operations)
     # 5300 SPRITES (map)
     #   3 * (1 * 0x60 (flowers)
     #        1 * 0x60 (tree)
