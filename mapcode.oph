@@ -569,6 +569,101 @@ add_treasure:               ; $78,$79 = i,j
     clc
     rts
 
+create_enemy_positions:
+
+    lda #31     ; counter
+    sta $7e
+
+    lda #1      ; x
+    sta $70
+
+    lda #1      ; y
+    sta $71
+
+    lda #$a7
+    sta $72
+    lda #$57
+    sta $73
+
+    ldx #15     ; offset into position areas
+    ldy #0
+
+    create_enemy_positions_loop:
+
+        jsr unlimited_values
+        and #7
+        sta $80     ; store temporarily
+
+        lda $72
+        adc $80
+        sta $72     ; update the offset into the room data
+        clc
+
+        lda $70
+        adc $80     ; update x
+        cmp #10
+        bpl create_enemy_positions_next_row
+
+        sta $70     ; store x
+        jmp create_enemy_positions_check_tile
+
+        create_enemy_positions_next_row:
+
+        sec
+        sbc #10
+        sta $70     ; store the x position on the next row
+        clc
+
+        lda $71
+        adc #1      ; update the y position
+        cmp #10
+        bpl create_enemy_positions_to_top
+
+        sta $71     ; store the y position for the next row
+        jmp create_enemy_positions_check_tile
+
+        create_enemy_positions_to_top:
+
+        lda #1      ; reset the x, y and offset values
+        sta $70
+        sta $71
+        lda #$a7
+        sta $72
+
+        create_enemy_positions_check_tile:
+
+        lda ($72),y
+        cmp #0
+        bne create_enemy_positions_next
+
+        lda $70
+        sta $0fe0,x                     ; store the x value
+
+        lda $71
+        sta $0ff0,x                     ; store the y value
+
+        dex
+        bmi create_enemy_positions_exit
+
+        create_enemy_positions_next:
+        clc
+        dec $7e
+        bpl create_enemy_positions_loop
+
+    ; The position areas were not filled. Write invalid values into the
+    ; first area for the emerge routine to find.
+
+    lda #0
+    create_enemy_positions_fill_loop:
+
+        sta $0fe0,x
+        dex
+        bpl create_enemy_positions_fill_loop
+
+    create_enemy_positions_exit:
+    clc
+    rts
+
 plot:               ; $70,$71=source address
                     ; $72,$73=destination address
     ldy #$1f
@@ -2149,103 +2244,23 @@ emerge_type:                    ; returns A=type
     clc
     rts
 
-emerge_x_position:              ; returns A=position
-
-    jsr unlimited_values
-    lda $5184
-    jmp emerge_position_common
-
-emerge_y_position:              ; returns A=position
-
-    jsr unlimited_values
-    lda $5182
-    ; run on into the next routine
-
-emerge_position_common:
-
-    cmp #3
-    bpl emerge_position_common_not_first_area
-
-    lda $7d
-    and #7
-    cmp #6
-    bpl emerge_position_common_first_area_truncate
-
-    adc #4
-    rts
-
-    emerge_position_common_first_area_truncate:
-    clc
-    lda #8
-    rts
-
-    emerge_position_common_not_first_area:
-    cmp #7
-    bpl emerge_position_common_third_area
-
-    lda $7d
-    cmp #5
-    bmi emerge_position_common_lower_second_area
-
-    clc
-    lda $7d
-    and #3
-    adc #6
-    rts
-
-    emerge_position_common_lower_second_area:
-    clc
-
-    lda $7d
-    and #3
-    rts
-
-    emerge_position_common_third_area:
-    clc
-
-    lda $7d
-    and #7
-    cmp #6
-    bpl emerge_position_common_third_area_truncate
-
-    rts
-
-    emerge_position_common_third_area_truncate:
-    clc
-    lda #5
-    rts
-
 emerge_character:           ; $74,$75=character address
 
     lda #63
     sta $3dff
 
-    lda #3      ; try three tiles to find a space
-    sta $81
-    emerge_character_loop:
+    jsr unlimited_values
+    and #$0f
+    tax
+    lda $0fe0,x
+    cmp #0                  ; check for an invalid value and exit if found
+    beq emerge_character_exit
 
-        jsr emerge_y_position   ; obtain a y position
-        tax
-        jsr emerge_x_position   ; obtain an x position
-        sta $80                 ; temporary
-        tay
+    sta $80                 ; temporary
+    lda $0ff0,x
+    tax
 
-        lda room_row_offsets_low,x
-        sta $70
-        lda #$57
-        sta $71
-        lda ($70),y             ; load the tile
-
-        cmp #0
-        beq emerge_character_space_found
-
-        dec $81
-        bpl emerge_character_loop
-
-    bne emerge_character_exit
-
-    emerge_character_space_found:
-    ; There is a space in the room, so add an emerging enemy.
+    ; Add an emerging enemy.
 
     ldy #0
     lda #3
@@ -3379,6 +3394,38 @@ move_projectile:
     clc
     rts
 
+emerge_characters:
+
+    lda #$8c            ; set the character address
+    sta $74
+    lda #$51
+    sta $75
+
+    emerge_characters_loop:
+
+        ldy #0
+        lda ($74),y
+        cmp #0
+        bne emerge_characters_next
+
+        jmp emerge_character    ; optimise away the rts
+
+        emerge_characters_next:
+        clc
+
+        ; Examine the next character.
+        lda $74
+        adc #6
+
+        cmp #$a4
+        bpl emerge_characters_exit
+        sta $74
+        jmp emerge_characters_loop
+
+    emerge_characters_exit:
+    clc
+    rts
+
 move_characters:
 
     lda #$8c            ; set the character address
@@ -3390,35 +3437,8 @@ move_characters:
 
         ldy #0
         lda ($74),y
-        cmp #0
-        bne move_characters_read_character
-
-        lda $74
-        cmp #$a4
-        bpl move_characters_read_character
-
-        ; See if it is time to generate a new enemy.
-        lda $3dff
-        cmp #0
-        bne move_characters_next
-
-        lda $3df0           ; player demise - no more enemies
-        and #$40
-        bne move_characters_next
-
-        jsr emerge_character
-        jmp move_characters_next
-
-        move_characters_read_character:
-        clc
-
-        move_characters_not_projectile:
         cmp #3
         bne move_characters_not_emerge_explode
-
-        lda $3dfe           ; check motion counter
-        and #3
-        bne move_characters_next
 
         jsr emerge_explode
         jmp move_characters_next
@@ -3426,14 +3446,6 @@ move_characters:
         move_characters_not_emerge_explode:
         cmp #8
         bmi move_characters_next
-
-        lda $3dfe           ; check motion counter
-        and #3
-        bne move_characters_next
-
-        lda $3df0           ; player demise - no enemy motion
-        and #$40
-        bne move_characters_next
 
         jsr move_enemy
 
@@ -5299,6 +5311,7 @@ main:
                 sta $79
                 jsr plot_room
                 jsr set_room_palette
+                jsr create_enemy_positions
                 jsr add_treasure
 
                 jsr plot_the_player
@@ -5315,8 +5328,6 @@ main:
                 room_loop:
                     jsr reset_unplot_buffer
                     jsr reset_plot_buffer
-
-                    jsr move_characters
 
                     jsr move_projectile
 
@@ -5349,6 +5360,22 @@ main:
                     jmp room_loop_after_player_move
 
                     room_loop_player_move:
+
+                    ; See if it is time to generate a new enemy.
+                    lda $3dff
+                    cmp #0
+                    bne no_emerge_characters
+                    jsr emerge_characters
+
+                    no_emerge_characters:
+
+                    lda $3dfe           ; check motion counter
+                    and #3
+                    bne no_move_characters
+                    jsr move_characters
+
+                    no_move_characters:
+                    clc
 
                     jsr check_fire_key
                     jsr move_player

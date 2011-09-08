@@ -47,6 +47,8 @@ if __name__ == "__main__":
     out_uef_file = sys.argv[1]
     
     # Memory map
+    # 0FE0 enemy x locations in the current room
+    # 0FF0 enemy x locations in the current room
     # 1000 completion screen
     # 1780 title screen
     # 1F00 CODE
