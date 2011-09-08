@@ -1,7 +1,11 @@
 To Do
 
-Implement high score input.
-Convert all emerging enemies to explosions at game over time.
+Optimise routines, particularly enemy generation and plotting.
+    Test the extent to which the unplot/plot buffer is filled.
+    consider making some enemies pause, or add different movement behaviour for
+    some of them.
+Move at least one secret item on the final level and introduce room scenery
+in the final room.
 Improve the fire, explosion and player sprites.
 Add sounds.
 Nice to have: analogue joystick support.

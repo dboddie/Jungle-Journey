@@ -19,14 +19,14 @@ jmp main
 seeds:         .byte 100, 239, 183, 144   ; $ef, $b7, $90, $d6, $89
 start_rooms_x: .byte 5,   3,   5,   10
 start_rooms_y: .byte 5,   8,   1,   8
-exit_rooms_x:  .byte 7,   9,   3,   3
-exit_rooms_y:  .byte 0,   0,   9,   4
+exit_rooms_x:  .byte 7,   9,   3,   0
+exit_rooms_y:  .byte 0,   0,   9,   10
 
 ; These values need to be kept in sync - the room numbers must match their
 ; positions in the room array.
-key_rooms_x:   .byte 1,   5,  10,   3
-key_rooms_y:   .byte 0,   2,   6,   5
-key_rooms:     .byte 1,  27,  76,  58  ; ky*11 + kx
+key_rooms_x:   .byte 1,   5,  10,   1
+key_rooms_y:   .byte 0,   2,   6,   4
+key_rooms:     .byte 1,  27,  76,  45  ; ky*11 + kx
 
 treasure_table:  .byte 6, 5, 7, 1, 1, 5, 2, 7, 6, 2, 1, 7, 1, 7, 8, 7
 treasure_table_: .byte 0, 7, 6, 7, 7, 7, 5, 0, 6, 3, 7, 7, 5, 7, 5, 0
@@ -340,7 +340,6 @@ make_room:          ; $78,$79=i,j
     sta $57a0
     lda #7
     sta $57a1
-    rts
 
     make_room_no_final_exit:
 
