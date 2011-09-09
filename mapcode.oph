@@ -3426,6 +3426,8 @@ emerge_characters:
     clc
     rts
 
+enemy_slots: .byte 0, 6, 12, 18
+
 move_characters:
 
     lda #$8c            ; set the character address
@@ -3433,8 +3435,15 @@ move_characters:
     lda #$51
     sta $75
 
-    move_characters_loop:
+    lda $3dfe           ; read a value from 0 to 3 from the motion counter
+    and #3
+    tax
+    lda enemy_slots,x   ; look up the corresponding slot in the character list
+    adc $74
+    sta $74             ; update the character address
 
+    move_characters_loop:
+    
         ldy #0
         lda ($74),y
         cmp #3
@@ -3452,16 +3461,17 @@ move_characters:
         move_characters_next:
         clc
 
-        ; Examine the next character.
-        lda $74
-        adc #6
+        lda $74                     ; for the last enemy, check the next slot
+        cmp #$9e                    ; for the presence of an explosion
+        bne move_characters_endloop
+        clc
 
-        cmp #$aa
-        bpl move_characters_endloop
+        adc #6
         sta $74
         jmp move_characters_loop
 
     move_characters_endloop:
+    clc
 
     ; Check collisions with the player.
 
@@ -5329,6 +5339,7 @@ main:
                     jsr reset_unplot_buffer
                     jsr reset_plot_buffer
 
+                    jsr move_characters
                     jsr move_projectile
 
                     lda $3df0   ; is player out of strength?
@@ -5368,13 +5379,6 @@ main:
                     jsr emerge_characters
 
                     no_emerge_characters:
-
-                    lda $3dfe           ; check motion counter
-                    and #3
-                    bne no_move_characters
-                    jsr move_characters
-
-                    no_move_characters:
                     clc
 
                     jsr check_fire_key
