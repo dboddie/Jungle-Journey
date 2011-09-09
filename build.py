@@ -146,7 +146,10 @@ if __name__ == "__main__":
     files.append(("JUNGLE", code_start, code_start, code))
     
     data = makesprites.read_sprites([makesprites.title])
-    data += makesprites.encode(makesprites.read_sprites([makesprites.completed]))
+    completed = makesprites.encode(makesprites.read_sprite(makesprites.completed))
+    overlay = makesprites.read_sprite(makesprites.overlay)
+    combined = makesprites.combine(completed, overlay)
+    data += combined
     files.append(("TITLE", 0x5A80, 0x5A80, data))
 
     data = makesprites.read_sprites(makesprites.tiles)
@@ -164,7 +167,7 @@ if __name__ == "__main__":
     u.minor = 6
     
     # Insert a gap at the start of the tape.
-    #u.chunks.append((0x112, "\x01\x00\x00\x00"))
+    u.chunks.append((0x110, "\xdc\x05"))
     u.import_files(0, files)
     
     # Write the new UEF file.

@@ -28,7 +28,7 @@ def read_xpm(path, symbols = None):
     strings = strings[-height:]
     
     if not symbols:
-        symbols = [(".", 0), ("+", 2), ("@", 3)]
+        symbols = [(".", 0), ("#", "1"), ("+", 2), ("@", 3)]
     
     data = []
     
@@ -160,6 +160,7 @@ chars = [read_xpm("images/left1.xpm"),
 title = read_xpm("images/title-screen.xpm")
 
 completed = read_xpm("images/complete-screen.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")])
+overlay = read_xpm("images/overlay.xpm", [(" ", "0"), (".", "2")])
 
 def read_sprite(lines):
 
@@ -261,3 +262,14 @@ def encode(data):
         new_data += chr(i & 0x0f) + chr((i & 0xf0) >> 4)
     
     return new_data
+
+def combine(encoded, overlay):
+
+    combined = ""
+    offset = 0
+    while offset < len(overlay):
+        combined += chr(ord(encoded[offset]) | ord(overlay[offset]))
+        offset += 1
+    
+    combined += encoded[offset:]
+    return combined
