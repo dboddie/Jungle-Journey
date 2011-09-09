@@ -4095,8 +4095,8 @@ sounds_high: .byte >explosion_sound, >damage_sound, >item_sound, >key_sound
 
 explosion_sound: .byte 1,0, 1,0, 60,0, 2,0
 damage_sound:    .byte 1,0, 2,0, 40,0, 4,0
-item_sound:      .byte 1,0, 3,0, 80,0, 8,0
-key_sound:       .byte 1,0, 3,0, 150,0, 8,0
+item_sound:      .byte 1,0, 3,0, 32,0, 3,0
+key_sound:       .byte 1,0, 4,0, 50,0, 5,0
 
 play_sound:     ; X=sound number
 
@@ -4247,9 +4247,10 @@ init:
     sta $70
     lda #$50
     sta $71
-    lda #$08
+    lda #$16
     sta $72
 
+    ldx #0
     init_define_high_scores_loop:
 
         lda #0
@@ -4262,20 +4263,24 @@ init:
         sta ($70),y
 
         iny
-        ldx #0
         init_define_high_score_name_loop:
 
-            lda high_score_default_name,x
+            lda high_score_default_name1,x
             sta ($70),y
             iny
             inx
             cpx #9
+            beq init_define_high_scores_next
+            cpx #18
             bne init_define_high_score_name_loop
+
+        ldx #0
+        init_define_high_scores_next:
 
         sed
         lda $72
         sec
-        sbc #1
+        sbc #2
         sta $72
         cld
         clc
@@ -4285,7 +4290,8 @@ init:
 
     rts
 
-high_score_default_name: .byte "RETRO    "
+high_score_default_name1: .byte "RETRO    "
+high_score_default_name2: .byte " SOFTWARE"
 
 title_vdu_bytes:    .byte 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
 title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"

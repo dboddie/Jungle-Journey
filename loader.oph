@@ -34,7 +34,7 @@ init:
 
         inc $70
         lda $70
-        cmp #1
+        cmp #4
         bne define_envelopes_loop
 
     ldx #0
@@ -94,8 +94,8 @@ title_block: .byte <title_file_name, >title_file_name
 code_block: .byte <code_file_name, >code_file_name
                .byte $00, $1f, 0, 0
                .byte $00, $1f, 0, 0
-               .byte $8a, $1e, 0, 0
-               .byte $8a, $3d, 0, 0
+               .byte $b3, $1e, 0, 0
+               .byte $b3, $3d, 0, 0
 
 init_load_window_vdu_bytes: .byte 28,0,29,19,24
 
@@ -143,9 +143,10 @@ set_palette:
     jsr $fff1
     rts
 
-envelopes_low:  .byte <explosion_envelope, <damage_envelope, <item_envelope
-envelopes_high: .byte >explosion_envelope, >damage_envelope, >item_envelope
+envelopes_low:  .byte <explosion_envelope, <damage_envelope, <item_envelope, <key_envelope
+envelopes_high: .byte >explosion_envelope, >damage_envelope, >item_envelope, >key_envelope
 
 explosion_envelope: .byte 1,1,252,0,0,10,0,0,126,0,0,130,126,126
 damage_envelope:    .byte 2,4,8,0,248,2,0,2,126,0,0,130,126,126
-item_envelope:      .byte 3,2,2,254,1,4,4,2,126,0,0,130,126,126
+item_envelope:      .byte 3,2,8,4,2,10,10,10,126,0,0,130,126,126
+key_envelope:       .byte 4,2,4,40,0,8,1,3,126,0,0,130,126,126
