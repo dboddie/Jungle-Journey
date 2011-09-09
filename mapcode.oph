@@ -3719,7 +3719,7 @@ add_strength:   ; $70=strength to add
     tax
 
     lda strength_units,x
-    sta ($70),y
+    sta ($72),y
 
     add_strength_exit:
     clc
