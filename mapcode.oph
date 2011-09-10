@@ -2903,6 +2903,9 @@ move_projectile_left:
     sta $75
     jsr plot_character
 
+    ldx #0
+    jsr play_sound
+
     lda #15                     ; prevent the player from firing a new
     sta $3dfd                   ; projectile until the explosion has finished
 
@@ -3023,6 +3026,9 @@ move_projectile_right:
     sta $75
     jsr plot_character
 
+    ldx #0
+    jsr play_sound
+
     lda #15                     ; prevent the player from firing a new
     sta $3dfd                   ; projectile until the explosion has finished
 
@@ -3044,8 +3050,10 @@ move_projectile_up:
 
     lda $5188
     cmp #0
-    beq move_projectile_up_exit
+    bne move_projectile_up_not_edge
+    jmp move_projectile_up_exit
 
+    move_projectile_up_not_edge:
     tax                         ; use the y offset as an index
     dex                         ; y - 1
     ldy $518a                   ; load the x offset
@@ -3126,6 +3134,9 @@ move_projectile_up:
     lda #$51
     sta $75
     jsr plot_character
+
+    ldx #0
+    jsr play_sound
 
     lda #15                     ; prevent the player from firing a new
     sta $3dfd                   ; projectile until the explosion has finished
@@ -3242,6 +3253,9 @@ move_projectile_down:
     lda #$51
     sta $75
     jsr plot_character
+
+    ldx #0
+    jsr play_sound
 
     lda #15                     ; prevent the player from firing a new
     sta $3dfd                   ; projectile until the explosion has finished
