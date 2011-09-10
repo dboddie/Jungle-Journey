@@ -129,11 +129,11 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/emerge3.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
          read_xpm("images/emerge4.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
 
-         # placeholder enemy demise
-         read_xpm("images/emerge4.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
-         read_xpm("images/emerge3.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
-         read_xpm("images/emerge2.xpm", [(".", "0"), ("+", "1"), ("#", "3"), ("@", "2")]),
-         read_xpm("images/emerge1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         # Enemy demise
+         read_xpm("images/explode1.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/explode2.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/explode3.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/explode4.xpm", [(".", "0"), ("+", "1"), ("#", "2"), ("@", "3")]),
 
          # Weapons
          read_xpm("images/weapon1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
@@ -146,11 +146,11 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/chest.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/statue.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
          read_xpm("images/jewel.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")]),
-         read_xpm("images/health.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")]),
+         read_xpm("images/health.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
 
          # exit
          read_xpm("images/exit1.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
-         read_xpm("images/exit2.xpm", [("+", "0"), (".", "1"), ("#", "2"), ("@", "3")]),
+         read_xpm("images/exit2.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
 
          # final exit
          read_xpm("images/finalexitl.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
@@ -160,7 +160,7 @@ chars = [read_xpm("images/left1.xpm"),
 title = read_xpm("images/title-screen.xpm")
 
 completed = read_xpm("images/complete-screen.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")])
-overlay = read_xpm("images/overlay.xpm", [(" ", "0"), (".", "2")])
+overlay = read_xpm("images/overlay.xpm", [(".", "0"), ("+", "2")])
 
 def read_sprite(lines):
 
