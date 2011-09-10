@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # 1780 title screen
     # 1F00 CODE
     #
-    # 3E00 CHARS (character sprites)
+    # 3F00 CHARS (character sprites)
     #       4 * 2 * 0x30 (player movement)
     #           4 * 0x30 (player demise)
     #       4 * 2 * 0x10 (projectile)
@@ -65,16 +65,16 @@ if __name__ == "__main__":
     #           2 * 0x60 (exit)             4500
     #           2 * 0x60 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3e00
+    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3f00
     #
-    # 5080 high scores (8 * 12 = 0xe0)
+    # 5180 high scores (8 * 12 = 0xe0)
     #   n   3 bytes score + 9 bytes ASCII
     #
-    # 5100 objects/treasure table (121 entries)
+    # 5200 objects/treasure table (121 entries)
     #   n   type
     #
-    # 5179 space
-    # 5180 character table (0x24/6 = 6 entries + 1 special entry)
+    # 5279 space
+    # 5280 character table (0x24/6 = 6 entries + 1 special entry)
     #   n   type (0 missing, 1 player, 2 projectile, 3 explosion,
     #             4 item,
     #             8 and higher enemy - bits 4,5,6 are enemy type)
@@ -97,19 +97,22 @@ if __name__ == "__main__":
     #   second character is always the player's weapon
     #   new characters are added after these
     #
-    # 5200 plot buffer (alternate unplot/plot entries terminating in 255)
+    # 5300 plot buffer (alternate unplot/plot entries terminating in 255)
     #   n       type
     #   n+1,n+2 source address
     #   n+3,n+4 destination address
     #
-    #   5200 and every 12 bytes is unplot entries
-    #   5206 and every 12 bytes is plot entries
+    #   5300 and every 12 bytes is unplot entries
+    #   5306 and every 12 bytes is plot entries
     #
-    # 52C0 space (assuming 8 unplot and 8 plot operations)
-    # 5300 SPRITES (map)
+    # 53C0 space (assuming 8 unplot and 8 plot operations)
+    #
+    # 5400 SPRITES (map)
     #   3 * (1 * 0x60 (flowers)
     #        1 * 0x60 (tree)
     #        1 * 0x60 (tree))
+    #
+    # 5760 space
     #
     # 5780 item/player flags (128=leave level, 64=player demise,
     #                         bits 4,5,6=enemy limit, 2=complete game,
@@ -142,7 +145,7 @@ if __name__ == "__main__":
     
     system("ophis loader.oph JUNGLE")
     code = open("JUNGLE").read()
-    code_start = 0x5100
+    code_start = 0x5200
     files.append(("JUNGLE", code_start, code_start, code))
     
     data = makesprites.read_sprites([makesprites.title])
@@ -153,10 +156,10 @@ if __name__ == "__main__":
     files.append(("TITLE", 0x5A80, 0x5A80, data))
 
     data = makesprites.read_sprites(makesprites.tiles)
-    files.append(("SPRITES", 0x5300, 0x5300, data))
+    files.append(("SPRITES", 0x5400, 0x5400, data))
     
     data = makesprites.read_sprites(makesprites.chars)
-    files.append(("CHARS", 0x3400, 0x3400, data))
+    files.append(("CHARS", 0x3f00, 0x3f00, data))
 
     system("ophis mapcode.oph CODE")
     code = open("CODE").read()

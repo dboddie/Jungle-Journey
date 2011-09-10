@@ -1,4 +1,4 @@
-.org $5100
+.org $5200
 
 init:
     lda #22         ; MODE 5
@@ -74,16 +74,16 @@ title_file_name: .byte "TITLE", 13
 code_file_name: .byte "CODE", 13
 
 sprites_block: .byte <sprites_file_name, >sprites_file_name
-               .byte 0, $53, 0, 0
-               .byte 0, $53, 0, 0
+               .byte 0, $54, 0, 0
+               .byte 0, $54, 0, 0
                .byte $60, $03, 0, 0
-               .byte $60, $56, 0, 0
+               .byte $60, $57, 0, 0
 
 chars_block: .byte <chars_file_name, >chars_file_name
-               .byte $00, $3e, 0, 0
-               .byte $00, $3e, 0, 0
+               .byte $00, $3f, 0, 0
+               .byte $00, $3f, 0, 0
                .byte $80, $12, 0, 0
-               .byte $80, $50, 0, 0
+               .byte $80, $51, 0, 0
 
 title_block: .byte <title_file_name, >title_file_name
                .byte $80, $5a, 0, 0
