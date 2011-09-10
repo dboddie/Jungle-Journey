@@ -324,7 +324,7 @@ make_room:          ; $78,$79=i,j
 
     ; Add the final exit.
 
-    lda $3dfa
+    lda $578a
     cmp #3
     bmi make_room_no_final_exit
 
@@ -345,7 +345,7 @@ make_room:          ; $78,$79=i,j
 
     ; Make sure that the starting, exit, key rooms are empty.
 
-    ldx $3dfa               ; level number
+    ldx $578a               ; level number
     lda start_rooms_y,x
     cmp $78
     bne make_room_not_starting_room
@@ -373,7 +373,7 @@ make_room:          ; $78,$79=i,j
     tax
     lda exit_room_offsets,x
     tax
-    lda $3df0
+    lda $5780
     and #1
     beq exit_not_open
 
@@ -411,7 +411,7 @@ make_room:          ; $78,$79=i,j
     adc $79
     sta $7c
     sec
-    ldx $3dfa
+    ldx $578a
     lda seeds,x
     sbc $78
     sec
@@ -821,7 +821,7 @@ plot_tile:          ; $7b=tile number
     bpl plot_not_blank_after_add_loop   ; don't adjust the tile for later levels
     
     clc
-    lda $3dfa
+    lda $578a
     and #3              ; change the tile set for later levels
     tax
 
@@ -853,12 +853,12 @@ plot_tile:          ; $7b=tile number
     jsr plot
     rts
 
-plot_room:          ; $78,$79 = i,j (from $3df2,$3df3)
+plot_room:          ; $78,$79 = i,j (from $5782,$5783)
     jsr blank_screen
 
-    lda $3df2
+    lda $5782
     sta $78
-    lda $3df3
+    lda $5783
     sta $79
 
     jsr make_room
@@ -1737,7 +1737,7 @@ animate_player_down:
 
 move_player:
 
-    lda $3dfe
+    lda $578e
     and #1
     beq move_player_allowed
 
@@ -1823,9 +1823,9 @@ move_player:
 
     move_player_leave_room_left:
     sec
-    lda $3df3
+    lda $5783
     sbc #1
-    sta $3df3
+    sta $5783
     clc
 
     ; Set the player's position on the right of the screen.
@@ -1924,7 +1924,7 @@ move_player:
 
     move_player_leave_room_right:
     clc
-    inc $3df3
+    inc $5783
     clc
 
     ; Set the player's position on the left of the screen.
@@ -2010,9 +2010,9 @@ move_player:
 
     move_player_leave_room_up:
     sec
-    lda $3df2
+    lda $5782
     sbc #1
-    sta $3df2
+    sta $5782
     clc
 
     ; Set the player's position on the bottom of the screen.
@@ -2107,7 +2107,7 @@ move_player:
     jmp animate_player_down     ; optimise away the rts
 
     move_player_leave_room_down:
-    inc $3df2
+    inc $5782
     clc
 
     ; Set the player's position on the top of the screen.
@@ -2132,22 +2132,22 @@ try_to_exit_level:
     cmp #6
     bmi just_exit_level
 
-    lda $3df0                   ; set the complete game flag
+    lda $5780                   ; set the complete game flag
     ora #$02
     jmp try_to_exit_level_exit
 
     just_exit_level:
-    lda $3df0                   ; set the exit level flag
+    lda $5780                   ; set the exit level flag
     ora #$80
 
     try_to_exit_level_exit:
-    sta $3df0
+    sta $5780
     sec                         ; indicate that the player is leaving the room
     rts
 
 check_fire_key:
 
-    lda $3dfd
+    lda $578d
     bne check_fire_key_exit
 
     ldx #182            ; (Return)
@@ -2160,7 +2160,7 @@ check_fire_key:
     bne check_fire_key_exit
 
     lda #15
-    sta $3dfd
+    sta $578d
 
     jmp create_projectile   ; optimise away the rts
 
@@ -2178,7 +2178,7 @@ create_projectile:
     asl
     asl
     asl
-    ora $3df9       ; apply the projectile type
+    ora $5789       ; apply the projectile type
     sta $5187
 
     lda $5183       ; dy
@@ -2229,11 +2229,11 @@ emerge_type:                    ; returns A=type
     clc
 
     emerge_type_ok:
-    cmp $3df1               ; only allow the appropriate enemies for this level
+    cmp $5781               ; only allow the appropriate enemies for this level
     bmi emerge_type_exit
 
     sec
-    sbc $3df1
+    sbc $5781
     clc
 
     emerge_type_exit:
@@ -2247,7 +2247,7 @@ emerge_type:                    ; returns A=type
 emerge_character:           ; $74,$75=character address
 
     lda #63
-    sta $3dff
+    sta $578f
 
     jsr unlimited_values
     and #$0f
@@ -2907,7 +2907,7 @@ move_projectile_left:
     jsr play_sound
 
     lda #15                     ; prevent the player from firing a new
-    sta $3dfd                   ; projectile until the explosion has finished
+    sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_left_exit:
     sec
@@ -3030,7 +3030,7 @@ move_projectile_right:
     jsr play_sound
 
     lda #15                     ; prevent the player from firing a new
-    sta $3dfd                   ; projectile until the explosion has finished
+    sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_right_exit:
     sec
@@ -3139,7 +3139,7 @@ move_projectile_up:
     jsr play_sound
 
     lda #15                     ; prevent the player from firing a new
-    sta $3dfd                   ; projectile until the explosion has finished
+    sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_up_exit:
     sec
@@ -3258,7 +3258,7 @@ move_projectile_down:
     jsr play_sound
 
     lda #15                     ; prevent the player from firing a new
-    sta $3dfd                   ; projectile until the explosion has finished
+    sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_down_exit:
     sec
@@ -3449,7 +3449,7 @@ move_characters:
     lda #$51
     sta $75
 
-    lda $3dfe           ; read a value from 0 to 3 from the motion counter
+    lda $578e           ; read a value from 0 to 3 from the motion counter
     and #3
     tax
     lda enemy_slots,x   ; look up the corresponding slot in the character list
@@ -3505,9 +3505,9 @@ move_characters:
     jsr unplot_character
 
     ; Remove it from the item table.
-    ldx $3df2
+    ldx $5782
     lda eleven_times_table,x
-    adc $3df3
+    adc $5783
     tax
     lda #$80    ; store a value with the top bit set instead of zero because we
     sta $5100,x ; have visited this room if we can collect the object within it
@@ -3555,9 +3555,9 @@ move_characters:
     bmi move_characters_not_key
 
     ; Key - update the item/player flags byte.
-    lda $3df0
+    lda $5780
     ora #$01
-    sta $3df0
+    sta $5780
     clc
 
     ldx #3
@@ -3569,7 +3569,7 @@ move_characters:
 
     ; Update the player's weapon.
     asl
-    sta $3df9
+    sta $5789
     clc
 
     ldx #2
@@ -3613,22 +3613,22 @@ score_digits:    .byte "0123456789"
 add_score:      ; $70=score to add
 
     sed
-    lda $3df6
+    lda $5786
     adc $70
-    sta $3df6
-    lda $3df7
+    sta $5786
+    lda $5787
     adc #0
-    sta $3df7
-    lda $3df8
+    sta $5787
+    lda $5788
     adc #0
-    sta $3df8
+    sta $5788
     cld
 
 write_score:
 
-    lda #$f6
+    lda #$86
     sta $70
-    lda #$3d
+    lda #$57
     sta $71
 
     ldx #2
@@ -3671,14 +3671,14 @@ add_strength:   ; $70=strength to add
     ; Divide the initial strength by 4 to determine which half character to
     ; start plotting at, and multiply by 8 to get the address. The net result
     ; is to mask off the bottom two bits and shift left once.
-    lda $3df4
+    lda $5784
     and #$fc
     sta $71     ; strength rounded down to a multiple of four units
     asl
     clc
     tay
 
-    lda $3df4
+    lda $5784
     adc $70
     cmp #65
     bmi add_strength_update
@@ -3687,7 +3687,7 @@ add_strength:   ; $70=strength to add
 
     add_strength_update:
     clc
-    sta $3df4   ; the final strength
+    sta $5784   ; the final strength
 
     sec
     sbc $71
@@ -3728,7 +3728,7 @@ add_strength:   ; $70=strength to add
 
     ; For any remaining units in excess of the multiples of four units, plot
     ; the appropriate byte.
-    lda $3df4
+    lda $5784
     and #3
     tax
 
@@ -3741,7 +3741,7 @@ add_strength:   ; $70=strength to add
 
 reduce_strength:    ; $70=strength to remove
 
-    lda $3df4
+    lda $5784
     tax
     sec
     sbc $70
@@ -3751,7 +3751,7 @@ reduce_strength:    ; $70=strength to remove
 
     reduce_strength_update:
     clc
-    sta $3df4
+    sta $5784
 
     ; Divide the final strength by 4 to determine which half character to
     ; plot, and multiply by 8 to get the address. The net result is to mask off
@@ -3765,22 +3765,22 @@ reduce_strength:    ; $70=strength to remove
     lda #$59
     sta $71
 
-    lda $3df4
+    lda $5784
     and #3
     tax
     lda strength_units,x
     sta ($70),y
 
-    lda $3df4
+    lda $5784
     cmp #0
     bne reduce_strength_exit
 
-    lda $3df0       ; the player ran out of strength
+    lda $5780       ; the player ran out of strength
     ora #$40
-    sta $3df0
+    sta $5780
 
     lda #64         ; reset the delay counter
-    sta $3df5
+    sta $5785
 
     lda #$80        ; unplot the player
     sta $74
@@ -4090,17 +4090,17 @@ set_palette:
                     ; $70=logical colour
                     ; $71=physical colour
     lda $70
-    sta $3dfb
+    sta $578b
     lda $71
-    sta $3dfc
+    sta $578c
     lda #0
-    sta $3dfd
-    sta $3dfe
-    sta $3dff
+    sta $578d
+    sta $578e
+    sta $578f
 
     lda #$c         
-    ldx #$fb
-    ldy #$3d
+    ldx #$8b
+    ldy #$57
     jsr $fff1
     rts
 
@@ -4435,7 +4435,7 @@ show_title:
     show_title_wait_loop:
 
         lda #150
-        sta $3df5
+        sta $5785
 
         ldx $72
         ldy #22
@@ -4461,7 +4461,7 @@ show_title:
         show_title_wait_inner_loop:
         jsr wait_for_vsync
 
-        dec $3df5
+        dec $5785
         beq show_title_wait_loop
 
         show_title_wait_loop_no_update:
@@ -4490,11 +4490,11 @@ show_game_over:
         bmi write_game_over_text_loop
 
     lda #192
-    sta $3df5
+    sta $5785
     show_game_over_delay_loop:
 
         jsr wait_for_vsync
-        dec $3df5
+        dec $5785
         bne show_game_over_delay_loop
 
     rts
@@ -4577,14 +4577,14 @@ show_end_of_level_screen:
     jsr write_bonus
 
     lda #0      ; reset motion counter
-    sta $3dfe
+    sta $578e
 
     show_end_of_level_bonus_loop:
 
         jsr wait_for_vsync
 
         clc
-        lda $3dfe
+        lda $578e
         and #15
         bne end_of_level_no_animation
 
@@ -4605,7 +4605,7 @@ show_end_of_level_screen:
 
         end_of_level_no_animation:
         clc
-        lda $3dfe
+        lda $578e
         and #3
         bne end_of_level_no_countdown
 
@@ -4631,7 +4631,7 @@ show_end_of_level_screen:
         jsr add_score
 
         end_of_level_no_countdown:
-        inc $3dfe   ; update motion counter
+        inc $578e   ; update motion counter
         clc
 
         lda $8d
@@ -4643,13 +4643,13 @@ show_end_of_level_screen:
         bne show_end_of_level_bonus_loop
 
     lda #64    ; initialise delay counter
-    sta $3df5
+    sta $5785
 
     show_end_of_level_delay_loop1:
 
         jsr wait_for_vsync
 
-        dec $3df5
+        dec $5785
         bne show_end_of_level_delay_loop1
 
     ldx #0
@@ -4661,18 +4661,18 @@ show_end_of_level_screen:
         cpx #25
         bne end_of_level_text_loop2
 
-    lda $3dfa
+    lda $578a
     cmp #3
     bpl show_end_of_level_screen_exit
 
     lda #192    ; initialise delay counter
-    sta $3df5
+    sta $5785
 
     show_end_of_level_delay_loop2:
 
         jsr wait_for_vsync
 
-        dec $3df5
+        dec $5785
         bne show_end_of_level_delay_loop2
 
     show_end_of_level_screen_exit:
@@ -4764,13 +4764,13 @@ show_complete_game:
     jsr set_complete_palette
 
     lda #255
-    sta $3df5
+    sta $5785
 
     show_complete_game_delay_loop:
 
         jsr wait_for_vsync
 
-        dec $3df5
+        dec $5785
         bne show_complete_game_no_message
 
         ldx #0
@@ -4795,9 +4795,9 @@ check_high_scores:
     ; Start at the bottom of the table, moving scores down as necessary, and
     ; write in the current score at the appropriate place.
 
-    lda #$f6    ; current score
+    lda #$86    ; current score
     sta $70
-    lda #$3d
+    lda #$57
     sta $71
 
     lda #$80
@@ -4961,13 +4961,13 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     jsr position_player_set_up_plotting
 
     lda #0          ; reset motion counter
-    sta $3dfe
+    sta $578e
 
     lda #0          ; not on a character
-    sta $3dfd
+    sta $578d
 
     lda #0          ; reset the level number so that the correct tiles are used
-    sta $3dfa
+    sta $578a
 
     lda #3          ; cursor position in the high score entry held in $8d,$8e
     sta $8f
@@ -5023,7 +5023,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
         high_score_entry_aligned:
 
-        lda $3dfd
+        lda $578d
         cmp #1
         beq high_score_entry_next
 
@@ -5091,12 +5091,12 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
         high_score_entry_pressed:
         lda #1
-        sta $3dfd
+        sta $578d
         jmp high_score_entry_next
 
         high_score_entry_not_aligned:
         lda #0
-        sta $3dfd
+        sta $578d
 
         high_score_entry_next:
 
@@ -5105,7 +5105,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
         jmp high_score_entry_loop
 
-        inc $3dfe
+        inc $578e
         clc
 
     high_score_entry_after_loop:
@@ -5163,15 +5163,15 @@ start_new_game:
 
     ; Set the level.
     lda #0
-    sta $3dfa
+    sta $578a
 
     ; Set the score.
     lda #0
-    sta $3df6
+    sta $5786
     lda #0
-    sta $3df7
+    sta $5787
     lda #0
-    sta $3df8
+    sta $5788
 
     ; Blank the screen now because it will be blanked before the room is shown
     ; and otherwise the strength bar will show briefly.
@@ -5179,14 +5179,14 @@ start_new_game:
 
     ; Set the player's strength.
     lda #0
-    sta $3df4
+    sta $5784
     lda #64
     sta $70
     jsr add_strength
 
     ; Set the projectile type.
     lda #0
-    sta $3df9
+    sta $5789
 
     rts
 
@@ -5211,26 +5211,26 @@ start_level:
 
     ; Clear the item/player flags.
     lda #0
-    sta $3df0
+    sta $5780
 
     ; Set current room.
 
-    ldx $3dfa
+    ldx $578a
     lda start_rooms_y,x
-    sta $3df2
+    sta $5782
     lda start_rooms_x,x
-    sta $3df3
+    sta $5783
 
     ; Set the player's position.
 
     jsr reset_player_position
 
     ; Fill the treasure table with objects.
-    ldx $3dfa   ; level
+    ldx $578a   ; level
     lda key_rooms,x
     sta $80
     
-    ldx $3dfa   ; level
+    ldx $578a   ; level
     lda seeds,x
     adc #1
     and #31
@@ -5242,9 +5242,9 @@ start_level:
     sta $7d
     clc
 
-    lda $3dfa   ; create an upper limit on the weapon type found in this level
+    lda $578a   ; create an upper limit on the weapon type found in this level
     adc #2
-    sta $3df1
+    sta $5781
     clc
 
     lda #$00
@@ -5288,7 +5288,7 @@ start_level:
 
         ; Only add weapons with types that equal the level number or exceed it
         ; by one.
-        cmp $3df1                     
+        cmp $5781                     
         bcs start_level_add_treasure_none
 
         clc
@@ -5341,9 +5341,9 @@ main:
                 jsr reset_unplot_buffer
                 jsr reset_plot_buffer
 
-                lda $3df2       ; current room (y)
+                lda $5782       ; current room (y)
                 sta $78
-                lda $3df3       ; current room (x)
+                lda $5783       ; current room (x)
                 sta $79
                 jsr plot_room
                 jsr set_room_palette
@@ -5353,13 +5353,13 @@ main:
                 jsr plot_the_player
 
                 lda #0          ; reset projectile counter
-                sta $3dfd
+                sta $578d
 
                 lda #0          ; reset motion counter
-                sta $3dfe
+                sta $578e
 
                 lda #63         ; reset generation counter
-                sta $3dff
+                sta $578f
 
                 room_loop:
                     jsr reset_unplot_buffer
@@ -5368,12 +5368,12 @@ main:
                     jsr move_characters
                     jsr move_projectile
 
-                    lda $3df0   ; is player out of strength?
+                    lda $5780   ; is player out of strength?
                     and #$40
                     beq room_loop_player_move
                     clc
 
-                    dec $3df5           ; leave the loop when the delay
+                    dec $5785           ; leave the loop when the delay
                     beq after_room_loop ; counter is about to reset
 
                     lda $5181           ; leave the loop when the player
@@ -5381,7 +5381,7 @@ main:
                     beq room_loop_after_player_move
                     clc
 
-                    lda $3dfe
+                    lda $578e
                     and #7
                     bne room_loop_after_player_move
 
@@ -5399,7 +5399,7 @@ main:
                     room_loop_player_move:
 
                     ; See if it is time to generate a new enemy.
-                    lda $3dff
+                    lda $578f
                     cmp #0
                     bne no_emerge_characters
                     jsr emerge_characters
@@ -5424,32 +5424,32 @@ main:
                     beq game_over
                     clc
 
-                    lda $3dfd
+                    lda $578d
                     cmp #0
                     beq room_loop_no_update_projectile_counter
 
-                    dec $3dfd
+                    dec $578d
 
                     room_loop_no_update_projectile_counter:
 
-                    dec $3dff   ; update generation counter
+                    dec $578f   ; update generation counter
 
-                    inc $3dfe   ; update motion counter
+                    inc $578e   ; update motion counter
                     clc
                     jmp room_loop
 
                 after_room_loop:
                 clc
 
-                lda $3df0
+                lda $5780
                 and #$80
                 bne exit_level
 
-                lda $3df0
+                lda $5780
                 and #$40
                 bne game_over
 
-                lda $3df0
+                lda $5780
                 and #$02
                 bne complete_game
 
@@ -5459,7 +5459,7 @@ main:
 
             jsr show_end_of_level_screen
 
-            inc $3dfa
+            inc $578a
             jmp level_loop
 
             game_over:

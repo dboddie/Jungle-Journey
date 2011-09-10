@@ -53,21 +53,6 @@ if __name__ == "__main__":
     # 1780 title screen
     # 1F00 CODE
     #
-    # 3DF0 item/player flags (128=leave level, 64=player demise,
-    #                         bits 4,5,6=enemy limit, 2=complete game,
-    #                         1=has key)
-    # 3DF1 weapon/enemy limit (the highest weapon/enemy possible on a level)
-    # 3DF2 current room (i, j)
-    # 3DF4 lives (strength)
-    # 3DF5 delay counter
-    # 3DF6 score (three bytes)
-    # 3DF9 projectile type
-    # 3DFA level
-    # 3DFB palette workspace (enough for one 5 byte palette entry)
-    #       3DFD is also projectile counter when in a room
-    #       3DFE is also motion counter when in a room
-    #       3DFF is also enemy generation counter when in a room
-    #
     # 3E00 CHARS (character sprites)
     #       4 * 2 * 0x30 (player movement)
     #           4 * 0x30 (player demise)
@@ -125,7 +110,22 @@ if __name__ == "__main__":
     #   3 * (1 * 0x60 (flowers)
     #        1 * 0x60 (tree)
     #        1 * 0x60 (tree))
-    # 5780 space
+    #
+    # 5780 item/player flags (128=leave level, 64=player demise,
+    #                         bits 4,5,6=enemy limit, 2=complete game,
+    #                         1=has key)
+    # 5781 weapon/enemy limit (the highest weapon/enemy possible on a level)
+    # 5782 current room (i, j)
+    # 5784 lives (strength)
+    # 5785 delay counter
+    # 5786 score (three bytes)
+    # 5789 projectile type
+    # 578A level
+    # 578B palette workspace (enough for one 5 byte palette entry)
+    #       578D is also projectile counter when in a room
+    #       578E is also motion counter when in a room
+    #       578F is also enemy generation counter when in a room
+    #
     # 579C room data (generated)
     #   0 blank
     #   1 flowers/decoration
