@@ -4175,12 +4175,16 @@ move_completed_screen_down:
 
         ldy #1
         lda ($70),y
+        and #$0f
         asl
         asl
         asl
         asl
+        sta $80
         dey
-        ora ($70),y
+        lda ($70),y
+        and #$0f
+        ora $80
         sta ($72),y
 
         lda #0
@@ -4730,6 +4734,8 @@ complete_game_vdu_bytes5: .byte 17,1, 31,4,27, "Press SPACE"
 
 show_complete_game:
 
+    jsr blank_screen
+
     ldx #0
     show_complete_game_vdu_loop:
 
@@ -4960,7 +4966,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         lda high_score_vdu_bytes,x
         jsr $ffee
         inx
-        cpx #33
+        cpx #39
         bne high_score_vdu_loop
 
     high_score_entry_loop:
@@ -5096,7 +5102,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
     rts
 
-high_score_vdu_bytes: .byte 17,1, 31,2,3, "Enter your name!", 17,3, 31,5,30, ">", 31,15,30, "<", 17,1
+high_score_vdu_bytes: .byte 17,1, 31,2,3, "Enter your name!", 17,3, 31,5,30, ">         <", 17,1
 
 cls:
     lda #12
