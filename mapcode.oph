@@ -379,15 +379,17 @@ make_room:          ; $78,$79=i,j
 
     lda #5
     sta $579c,x
-    lda #3
-    sta $70
-    jmp add_room_decoration ; optimise away the rts
+    jmp exit_decoration
 
     exit_not_open:
     clc
     lda #4
     sta $579c,x
-    rts
+
+    exit_decoration:
+    lda #3
+    sta $70
+    jmp add_room_decoration ; optimise away the rts
 
     make_room_not_exit_room:
 
@@ -4327,15 +4329,42 @@ set_standard_palette:
 
     jmp set_core_palette    ; optimise away the rts
 
+complete_palette_bytes: .byte 2,4, 3,5, 1,4, 3,3, 2,2
+
 set_complete_palette:
 
-    lda #1
-    sta $70
-    lda #4
-    sta $71
-    jsr set_palette
+    lda #0
+    sta $80
+    lda #25
+    sta $81
 
-    jmp set_core_palette    ; optimise away the rts
+    set_complete_palette_loop:
+
+        jsr wait_for_vsync
+
+        dec $81
+        lda $81
+        cmp #0
+        bne set_complete_palette_loop
+
+        lda #25
+        sta $81
+
+        ldx $80
+        lda complete_palette_bytes,x
+        sta $70
+        inx 
+        lda complete_palette_bytes,x
+        sta $71
+        inx
+        stx $80
+        jsr set_palette
+
+        lda $80
+        cmp #10
+        bne set_complete_palette_loop
+
+    rts
 
 set_hidden_palette:
 
