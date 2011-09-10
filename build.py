@@ -84,7 +84,7 @@ if __name__ == "__main__":
     #                    bit 0 is animation
     #        enemy:  bits 2,3 are direction, bits 1,0 are animation
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
-    #                             bit 3 is type 0=emerge,1=explode,
+    #                             bit 2 is type 0=emerge,1=explode,
     #                             bits 0,1 are animation
     #        item: bits 0,1,2,3 are type, bit 2 is weapon/treasure
     #              0-3 weapons, 4 key, 5-8 treasure)

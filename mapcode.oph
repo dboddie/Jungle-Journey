@@ -1325,7 +1325,7 @@ screen_subcolumns_low: .byte $00,$08,$10,$18
 enemy_direction_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
 enemy_direction_chars_high: .byte $41,$42,$42,$42,$42,$43,$43,$43
 
-emerge_explode_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$00,$00
+emerge_explode_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
 emerge_explode_chars_high: .byte $4b,$4c,$4c,$4c,$4c,$4d,$4d,$4d
 
 item_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80,$c0
@@ -1491,7 +1491,7 @@ plot_character_sprite:  ; $74,$75=character address
     ; Select the sprites to use.
 
     lda $80
-    and #3          ; only keep the bits required to find the correct sprite
+    and #7          ; only keep the bits required to find the correct sprite
     clc
     tax
     lda emerge_explode_chars_low,x
@@ -2308,7 +2308,7 @@ emerge_explode:             ; $74,$75=character address
     bne move_characters_explosion_not_finished
 
     txa
-    and #8
+    and #4
     bne move_characters_remove_character
 
     ; For emerges, convert into an enemy.
@@ -2335,7 +2335,7 @@ emerge_explode:             ; $74,$75=character address
 
     move_characters_explosion_not_finished:
     txa
-    and #$f8
+    and #$fc
     ora $80
 
     ldy #1
@@ -2795,7 +2795,7 @@ create_explosion:           ; X=y, Y=x
 
     lda #3
     sta $52a4
-    lda #8
+    lda #4
     sta $52a5
     txa
     sta $52a6
@@ -3362,7 +3362,7 @@ move_projectile:
     ldy #0
     sta ($74),y
 
-    lda #8
+    lda #4
     ldy #1
     sta ($74),y
 
@@ -3592,7 +3592,7 @@ move_characters:
     ldy #0
     sta ($74),y
 
-    lda #8
+    lda #4
     ldy #1
     sta ($74),y
 
@@ -3816,7 +3816,7 @@ reduce_strength:    ; $70=strength to remove
         sta ($74),y
 
         iny
-        lda #8          ; explosion
+        lda #4          ; explosion
         sta ($74),y
 
         jsr plot_character
@@ -3830,7 +3830,7 @@ reduce_strength:    ; $70=strength to remove
 
         iny             ; whether emerging or exploding, ensure that the enemy
         lda ($74),y     ; is now exploding
-        ora #8
+        ora #4
         sta ($74),y
 
         jsr plot_character
