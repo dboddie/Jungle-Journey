@@ -2,6 +2,7 @@ To Do
 
 Improve the fire, explosion and player sprites.
 Add sounds.
+Add pause/resume and sound on/off support.
 Nice to have: analogue joystick support.
 Nice to have: make one of the enemies have different movement.
 Nice to have: make the boomerang turn before hitting a wall.
