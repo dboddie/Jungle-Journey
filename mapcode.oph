@@ -2288,6 +2288,9 @@ emerge_character:           ; $74,$75=character address
 
     jsr plot_character
 
+    ldx #5
+    jsr play_sound
+
     emerge_character_exit:
     clc
     rts
@@ -4106,13 +4109,24 @@ set_palette:
     jsr $fff1
     rts
 
-sounds_low:  .byte <explosion_sound, <damage_sound, <item_sound, <key_sound
-sounds_high: .byte >explosion_sound, >damage_sound, >item_sound, >key_sound
+sounds_low:  .byte <explosion_sound, <damage_sound, <item_sound, <key_sound, <note_sound, <emerge_sound
+sounds_high: .byte >explosion_sound, >damage_sound, >item_sound, >key_sound, >note_sound, >emerge_sound
 
 explosion_sound: .byte 1,0, 1,0, 60,0, 2,0
 damage_sound:    .byte 1,0, 2,0, 40,0, 4,0
-item_sound:      .byte 1,0, 3,0, 32,0, 3,0
-key_sound:       .byte 1,0, 4,0, 50,0, 5,0
+item_sound:      .byte $13,0, 3,0, 32,0, 3,0
+key_sound:       .byte $13,0, 4,0, 50,0, 5,0
+note_sound:      .byte $13,0, 241,255
+note_pitch:      .byte 0,0
+note_duration:   .byte 4,0
+emerge_sound:    .byte 2,0, 3,0, 0,0, 2,0
+
+play_note:      ; A=pitch, Y=duration
+
+    sta note_pitch
+    sty note_duration
+    ldx #4
+    ; Run on into the next routine.
 
 play_sound:     ; X=sound number
 
@@ -4458,7 +4472,7 @@ show_title:
         cmp #$e0
         bne show_title_high_scores_loop
 
-    lda #0
+    lda #0          ; message counter
     sta $72
 
     show_title_wait_loop:
@@ -4528,7 +4542,7 @@ show_game_over:
 
     rts
 
-end_of_level_bytes1:  .byte 31,1,3, 17,3, "Exploration bonus", 31,11,5, "x 5"
+end_of_level_bytes1:  .byte 31,1,3, 17,3, "Exploration bonus", 31,11,5, "x 9"
 end_of_level_bytes2:  .byte 31,0,28, 17,2, "My journey continues"
 
 show_end_of_level_screen:
@@ -4655,9 +4669,15 @@ show_end_of_level_screen:
 
         jsr write_bonus
 
-        lda #5
+        lda #9
         sta $70
         jsr add_score
+
+        lda $8d
+        and #$3f
+        asl
+        ldy #1
+        jsr play_note
 
         end_of_level_no_countdown:
         inc $578e   ; update motion counter
