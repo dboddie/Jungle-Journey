@@ -5207,6 +5207,12 @@ print_xy:
     jsr $ffee
     rts
 
+disable_sound:  ; X=1 (disable); X=0 (enable)
+
+    lda #210
+    ldy #0
+    jmp $fff4   ; optimise away the rts
+
 status_vdu_bytes: .byte 31,2,0, 17,3, "Score", 31,11,0, 17,2, "Strength", 17,1
 ; TAB(1,0), COLOUR 3, "Score", TAB(12,0), COLOUR 2, "Strength", COLOUR 1
 
@@ -5428,7 +5434,10 @@ main:
                     clc
 
                     dec $5785           ; leave the loop when the delay
-                    beq after_room_loop ; counter is about to reset
+                    bne room_loop_delay_next
+                    jmp after_room_loop ; counter is about to reset
+
+                    room_loop_delay_next:
 
                     lda $5281           ; leave the loop when the player
                     cmp #11             ; animation has finished
@@ -5472,10 +5481,45 @@ main:
                     jsr $fff4
                     jsr plot_buffer
 
-                    ldx #143
+                    ldx #143            ; Escape key check
                     jsr check_key
                     cpy #255
                     beq game_over
+
+                    ldx #174            ; S key check
+                    jsr check_key
+                    cpy #255
+                    bne no_set_sound
+
+                    ldx #0
+                    jsr disable_sound
+                    jmp after_sound_checks
+
+                    no_set_sound:
+
+                    ldx #239            ; Q key check
+                    jsr check_key
+                    cpy #255
+                    bne after_sound_checks
+
+                    ldx #1
+                    jsr disable_sound
+
+                    after_sound_checks:
+
+                    ldx #200            ; P key check
+                    jsr check_key
+                    cpy #255
+                    bne no_pause
+
+                    pause_loop:
+
+                        ldx #201         ; O key check
+                        jsr check_key
+                        cpy #255
+                        bne pause_loop
+
+                    no_pause:
                     clc
 
                     lda $578d
