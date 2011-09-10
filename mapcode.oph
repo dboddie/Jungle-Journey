@@ -5048,6 +5048,11 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         bmi high_score_entry_aligned
         cmp #5
         bne high_score_entry_not_aligned
+
+        lda $5282       ; y again (don't apply the touching rule to the bottom
+        cmp #7          ;          row of characters)
+        beq high_score_entry_not_aligned
+
         iny             ; we are really touching the character below
 
         high_score_entry_aligned:

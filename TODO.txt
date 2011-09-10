@@ -1,6 +1,5 @@
 To Do
 
-Fix space insertion in the high score entry screen caused by faulty y checks.
 Improve the fire, explosion and player sprites.
 Add sounds.
 Nice to have: analogue joystick support.
