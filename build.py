@@ -168,10 +168,25 @@ if __name__ == "__main__":
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
+    u.target_machine = "Electron"
     
-    # Insert a gap at the start of the tape.
-    u.chunks.append((0x110, "\xdc\x05"))
     u.import_files(0, files)
+    
+    # Insert a gap before each file.
+    offset = 0
+    for f in u.contents:
+    
+        # Insert a gap and some padding before the file.
+        gap_padding = [(0x112, "\xdc\x05"), (0x110, "\xdc\x05"), (0x100, "\xdc")]
+        u.chunks = u.chunks[:f["position"] + offset] + \
+                   gap_padding + u.chunks[f["position"] + offset:]
+
+        # Each time we insert a gap, the position of the file changes, so we
+        # need to update its position and last position. This isn't really
+        # necessary because we won't read the contents list again.
+        offset += len(gap_padding)
+        f["position"] += offset
+        f["last position"] += offset
     
     # Write the new UEF file.
     try:
