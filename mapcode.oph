@@ -5484,7 +5484,7 @@ main:
                     ldx #143            ; Escape key check
                     jsr check_key
                     cpy #255
-                    beq game_over
+                    beq main_loop_play_again
 
                     ldx #174            ; S key check
                     jsr check_key
