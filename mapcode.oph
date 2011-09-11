@@ -5558,6 +5558,7 @@ main:
             jsr show_end_of_level_screen
 
             inc $578a
+            clc
             jmp level_loop
 
             game_over:
