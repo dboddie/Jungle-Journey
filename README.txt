@@ -33,3 +33,49 @@ Sensing my presence, obscene creatures emerge from the darkness, hungry
 for prey. Only through skill and luck am I able to dispatch them back
 into the shadows. Even though I know I must journey deeper into this
 uncharted land to find the way home, the thought of vengeance drives me on.
+
+
+Installation
+
+You need Python, the Python Imaging Library and the Ophis 6502 assembler to
+build this game.
+
+Run the build.py script at the command line, passing the name of the UEF file
+to create. If the file was created, load it into an Electron emulator or create
+a sound file with one of the UEF utilities available online.
+
+
+Loading the Game
+
+Insert the cassette or disk and type
+
+  *RUN JUNGLE
+
+then press Return. If you are loading the game from cassette, press play on the
+cassette recorder. The game should now load.
+
+
+Playing the Game
+
+Your character can be moved around the screen by using four control keys:
+
+  Z     left
+  X     right
+  :     up
+  /     down
+
+Enemies can be destroying by the projectiles fired by the player's weapon.
+To fire a weapon, press the Return key. There are four different types of
+weapon available in the game.
+
+The player must help the character reach the exit for each level. However, the
+player must first find a key to unlock the exit. On the final level, the exit
+does not require a key but it may be obstructed.
+
+Other keys can be used to control the game:
+
+  S         enable sound effects
+  Q         disable sound effects
+  P         pause the game
+  O         resume the game
+  Escape    quits the game, returning to the title screen
