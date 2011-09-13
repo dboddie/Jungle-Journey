@@ -61,11 +61,9 @@ class TextBox:
 
 class Text:
 
-    def __init__(self, font, font_size, text, align = "left", style = None,
-                       weight = None):
+    def __init__(self, font, text, align = "left"):
     
-        self.font = {"family": font, "size": font_size, "weight": weight,
-                     "style": style}
+        self.font = font
         self.text = text
         self.align = align
         
@@ -155,11 +153,11 @@ class Text:
     
     def line_height(self):
     
-        font = QFont(self.font["family"])
-        font.setPixelSize(self.font["size"])
-        if self.font["weight"] == "bold":
+        font = QFont(self.font.get("family"))
+        font.setPixelSize(self.font.get("size"))
+        if self.font.get("weight") == "bold":
             font.setWeight(QFont.Bold)
-        if self.font["style"] == "italic":
+        if self.font.get("style") == "italic":
             font.setItalic(True)
         
         metrics = QFontMetrics(font)
@@ -174,11 +172,11 @@ class Word:
     
     def font(self):
     
-        font = QFont(self._font["family"])
-        font.setPixelSize(self._font["size"])
-        if self._font["weight"] == "bold":
+        font = QFont(self._font.get("family"))
+        font.setPixelSize(self._font.get("size"))
+        if self._font.get("weight") == "bold":
             font.setWeight(QFont.Bold)
-        if self._font["style"] == "italic":
+        if self._font.get("style") == "italic":
             font.setItalic(True)
         return font
     
@@ -212,11 +210,26 @@ if __name__ == "__main__":
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     
+    regular = {"family": "FreeSerif",
+               "size": 24}
+    
+    title = regular.copy()
+    title["weight"] = "bold"
+    
+    italic = regular.copy()
+    italic["style"] = "italic"
+    
+    quote = regular.copy()
+    quote["size"] = 22
+    
+    monospace = regular.copy()
+    monospace["family"] = "FreeMono"
+    
     pages = [
         Page((750, 1000),
              [TextBox((50, 40, 650, 0), 
-                      [Text("FreeSerif", 24, "Jungle Journey\n", weight = "bold"),
-                       Text("FreeSerif", 24,
+                      [Text(title, "Jungle Journey\n"),
+                       Text(regular,
                             "The last flames of the campfire fade to glowing embers and I am alone. "
                             "My recent acquaintances, their packs and paraphernalia have gone, leaving "
                             "me stranded deep in the heart of this jungle realm. Clouds momentarily "
@@ -225,7 +238,7 @@ if __name__ == "__main__":
                             "try to stay my panic and remember those fragments of wilderness craft "
                             "learned and unlearned many years ago.\n", align = "justify")]),
               TextBox((90, 5, 570, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(italic,
                             "Choose your weapon carefully,\n"
                             "Get ready for a fight.\n"
                             "The jungle can be dangerous\n"
@@ -233,10 +246,10 @@ if __name__ == "__main__":
                             "There's time to pick up treasure,\n"
                             "But no time to stop and stare.\n"
                             "If you don't find the hidden gate\n"
-                            "You won't get out of there.\n", style = "italic")],
+                            "You won't get out of there.\n")],
                       follow = True),
               TextBox((50, 5, 650, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
                             "Struggling through the dense undergrowth, I search for signs of a track or "
                             "trail. At first glance, paths that seemed to lead to safety turn out to be "
@@ -244,7 +257,7 @@ if __name__ == "__main__":
                             "an old teacher:\n", align = "justify")],
                       follow = True),
               TextBox((90, 5, 570, 0),
-                      [Text("FreeSerif", 22,
+                      [Text(quote,
                             u'\u201cDo not be tempted to use fire to make your way. '
                             'Many a traveller has strayed from the path, using fire to blaze a trail, '
                             'only to reach a dead end. Trying to return, they find that the jungle '
@@ -252,7 +265,7 @@ if __name__ == "__main__":
                             u'forgotten routes when the way home is in sight.\u201d\n')],
                       follow = True),
               TextBox((50, 5, 650, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                             "for prey. Only through skill and luck am I able to dispatch them back "
                             "into the shadows. Even though I know I must journey deeper into this "
@@ -262,32 +275,32 @@ if __name__ == "__main__":
              ]),
         Page((750, 1000),
              [TextBox((50, 40, 650, 0),
-                      [Text("FreeSerif", 24, "Loading the Game\n", weight = "bold")]),
+                      [Text(title, "Loading the Game\n")]),
               TextBox((50, 5, 640, 0),
-                      [Text("FreeSerif", 24, "Insert the cassette or disk and type\n")],
+                      [Text(regular, "Insert the cassette or disk and type\n")],
                       follow = True),
               TextBox((90, 5, 570, 0),
-                      [Text("FreeMono", 24, "*RUN JUNGLE\n")], follow = True),
+                      [Text(monospace, "*RUN JUNGLE\n")], follow = True),
               TextBox((50, 0, 640, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "then press Return. If you are loading the game from cassette, press play on the "
                             "cassette recorder. The game should now load.\n")],
                       follow = True),
               TextBox((50, 15, 640, 0),
-                      [Text("FreeSerif", 24, "Playing the Game\n", weight = "bold")],
+                      [Text(title, "Playing the Game\n")],
                       follow = True),
               TextBox((50, 5, 640, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "Your character can be moved around the screen by using four control keys:\n")],
                       follow = True),
               TextBox((90, 5, 570, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "Z     left\n"
                             "X     right\n"
                             ":     up\n"
                             "/     down\n")], follow = True),
               TextBox((50, 5, 640, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "Enemies can be destroying by the projectiles fired by the player's weapon. "
                             "To fire a weapon, press the Return key. There are four different types of "
                             "weapon available in the game.\n\n"
@@ -297,7 +310,7 @@ if __name__ == "__main__":
                             "Other keys can be used to control the game:\n")],
                       follow = True),
               TextBox((90, 5, 570, 0),
-                      [Text("FreeSerif", 24,
+                      [Text(regular,
                             "S         enable sound effects\n"
                             "Q         disable sound effects\n"
                             "P         pause the game\n"
