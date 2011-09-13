@@ -120,17 +120,17 @@ class Text:
                     w += 1
             
             if words:
-                yield self.format(words, width), self.height(words)
+                yield self.format(words, width, last = True), self.height(words)
             elif not line:
                 yield [], self.line_height()/2
     
-    def format(self, words, width):
+    def format(self, words, width, last = False):
     
         output = []
         
         if len(words) == 0:
             spacing = 0
-        elif self.align == "justify":
+        elif self.align == "justify" and not last:
             # Full justify the text.
             total_width = sum(map(lambda word: word.width(), words))
             spacing = (width - total_width)/float(len(words))
@@ -213,8 +213,8 @@ if __name__ == "__main__":
         os.mkdir(output_dir)
     
     pages = [
-        Page((800, 1000),
-             [TextBox((80, 40, 640, 1120), 
+        Page((750, 1000),
+             [TextBox((50, 40, 650, 0), 
                       [Text("FreeSerif", 24, "Jungle Journey\n", weight = "bold"),
                        Text("FreeSerif", 24,
                             "The last flames of the campfire fade to glowing embers and I am alone. "
@@ -223,8 +223,8 @@ if __name__ == "__main__":
                             "sweep the cold face of the moon and I perceive the clicks, whistles and "
                             "cries of creatures in the hot air that cloaks this place. Desperately, I "
                             "try to stay my panic and remember those fragments of wilderness craft "
-                            "learned and unlearned many years ago.\n")]),
-              TextBox((120, 0, 560, 0),
+                            "learned and unlearned many years ago.\n", align = "justify")]),
+              TextBox((90, 5, 570, 0),
                       [Text("FreeSerif", 24,
                             "Choose your weapon carefully,\n"
                             "Get ready for a fight.\n"
@@ -235,15 +235,15 @@ if __name__ == "__main__":
                             "If you don't find the hidden gate\n"
                             "You won't get out of there.\n", style = "italic")],
                       follow = True),
-              TextBox((80, 0, 640, 0),
+              TextBox((50, 5, 650, 0),
                       [Text("FreeSerif", 24,
                             "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
                             "Struggling through the dense undergrowth, I search for signs of a track or "
                             "trail. At first glance, paths that seemed to lead to safety turn out to be "
                             "impassable, overgrown by tangled and twisted vines. I remember the words of "
-                            "an old teacher:\n")],
+                            "an old teacher:\n", align = "justify")],
                       follow = True),
-              TextBox((120, 0, 560, 0),
+              TextBox((90, 5, 570, 0),
                       [Text("FreeSerif", 22,
                             u'\u201cDo not be tempted to use fire to make your way. '
                             'Many a traveller has strayed from the path, using fire to blaze a trail, '
@@ -251,14 +251,61 @@ if __name__ == "__main__":
                             'has grown back. Those who are desperate enough will even seek out '
                             u'forgotten routes when the way home is in sight.\u201d\n')],
                       follow = True),
-              TextBox((80, 0, 640, 0),
+              TextBox((50, 5, 650, 0),
                       [Text("FreeSerif", 24,
                             "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                             "for prey. Only through skill and luck am I able to dispatch them back "
                             "into the shadows. Even though I know I must journey deeper into this "
-                            "uncharted land to find the way home, the thought of vengeance drives me on.")],
+                            "uncharted land to find the way home, the thought of vengeance drives me on.",
+                            align = "justify")],
                       follow = True)
-              ])]
+             ]),
+        Page((750, 1000),
+             [TextBox((50, 40, 650, 0),
+                      [Text("FreeSerif", 24, "Loading the Game\n", weight = "bold")]),
+              TextBox((50, 5, 640, 0),
+                      [Text("FreeSerif", 24, "Insert the cassette or disk and type\n")],
+                      follow = True),
+              TextBox((90, 5, 570, 0),
+                      [Text("FreeMono", 24, "*RUN JUNGLE\n")], follow = True),
+              TextBox((50, 0, 640, 0),
+                      [Text("FreeSerif", 24,
+                            "then press Return. If you are loading the game from cassette, press play on the "
+                            "cassette recorder. The game should now load.\n")],
+                      follow = True),
+              TextBox((50, 15, 640, 0),
+                      [Text("FreeSerif", 24, "Playing the Game\n", weight = "bold")],
+                      follow = True),
+              TextBox((50, 5, 640, 0),
+                      [Text("FreeSerif", 24,
+                            "Your character can be moved around the screen by using four control keys:\n")],
+                      follow = True),
+              TextBox((90, 5, 570, 0),
+                      [Text("FreeSerif", 24,
+                            "Z     left\n"
+                            "X     right\n"
+                            ":     up\n"
+                            "/     down\n")], follow = True),
+              TextBox((50, 5, 640, 0),
+                      [Text("FreeSerif", 24,
+                            "Enemies can be destroying by the projectiles fired by the player's weapon. "
+                            "To fire a weapon, press the Return key. There are four different types of "
+                            "weapon available in the game.\n\n"
+                            "The player must help the character reach the exit for each level. However, the "
+                            "player must first find a key to unlock the exit. On the final level, the exit "
+                            "does not require a key but it may be obstructed.\n\n"
+                            "Other keys can be used to control the game:\n")],
+                      follow = True),
+              TextBox((90, 5, 570, 0),
+                      [Text("FreeSerif", 24,
+                            "S         enable sound effects\n"
+                            "Q         disable sound effects\n"
+                            "P         pause the game\n"
+                            "O         resume the game\n"
+                            "Escape    quits the game, returning to the title screen\n")],
+                      follow = True)
+              ])
+        ]
     
     i = 0
     for page in pages:
@@ -266,5 +313,6 @@ if __name__ == "__main__":
         path = os.path.join(output_dir, "page-%i.png" % i)
         image = page.render()
         image.save(path)
+        i += 1
     
     sys.exit()
