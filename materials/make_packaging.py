@@ -61,11 +61,10 @@ class TextBox:
 
 class Text:
 
-    def __init__(self, font, text, align = "left"):
+    def __init__(self, font, text):
     
         self.font = font
         self.text = text
-        self.align = align
         
         self.parse_text()
     
@@ -128,7 +127,7 @@ class Text:
         
         if len(words) == 0:
             spacing = 0
-        elif self.align == "justify" and not last:
+        elif self.font.get("align", "left") == "justify" and not last:
             # Full justify the text.
             total_width = sum(map(lambda word: word.width(), words))
             spacing = (width - total_width)/float(len(words))
@@ -211,19 +210,22 @@ if __name__ == "__main__":
         os.mkdir(output_dir)
     
     regular = {"family": "FreeSerif",
-               "size": 24}
+               "size": 24,
+               "align": "justify"}
     
-    title = regular.copy()
-    title["weight"] = "bold"
+    title = {"family": "FreeSerif",
+             "size": 24,
+             "weight": "bold"}
     
-    italic = regular.copy()
-    italic["style"] = "italic"
+    italic_quote = {"family": "FreeSerif",
+                    "size": 24,
+                    "style": "italic"}
     
-    quote = regular.copy()
-    quote["size"] = 22
+    quote = {"family": "FreeSerif",
+             "size": 22}
     
-    monospace = regular.copy()
-    monospace["family"] = "FreeMono"
+    monospace = {"family": "FreeMono",
+                 "size": 24}
     
     pages = [
         Page((750, 1000),
@@ -236,9 +238,9 @@ if __name__ == "__main__":
                             "sweep the cold face of the moon and I perceive the clicks, whistles and "
                             "cries of creatures in the hot air that cloaks this place. Desperately, I "
                             "try to stay my panic and remember those fragments of wilderness craft "
-                            "learned and unlearned many years ago.\n", align = "justify")]),
+                            "learned and unlearned many years ago.\n")]),
               TextBox((90, 5, 570, 0),
-                      [Text(italic,
+                      [Text(italic_quote,
                             "Choose your weapon carefully,\n"
                             "Get ready for a fight.\n"
                             "The jungle can be dangerous\n"
@@ -254,7 +256,7 @@ if __name__ == "__main__":
                             "Struggling through the dense undergrowth, I search for signs of a track or "
                             "trail. At first glance, paths that seemed to lead to safety turn out to be "
                             "impassable, overgrown by tangled and twisted vines. I remember the words of "
-                            "an old teacher:\n", align = "justify")],
+                            "an old teacher:\n")],
                       follow = True),
               TextBox((90, 5, 570, 0),
                       [Text(quote,
@@ -269,8 +271,7 @@ if __name__ == "__main__":
                             "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                             "for prey. Only through skill and luck am I able to dispatch them back "
                             "into the shadows. Even though I know I must journey deeper into this "
-                            "uncharted land to find the way home, the thought of vengeance drives me on.",
-                            align = "justify")],
+                            "uncharted land to find the way home, the thought of vengeance drives me on.")],
                       follow = True)
              ]),
         Page((750, 1000),
