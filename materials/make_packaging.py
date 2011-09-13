@@ -46,12 +46,17 @@ class TextBox:
         
         for text_item in self.text_items:
         
-            for pieces, line_height in text_item.readline(width):
+            left_indent = text_item.font.get("left indent", 0)
+            right_indent = text_item.font.get("right indent", 0)
+            item_x = x + left_indent
+            item_width = width - left_indent - right_indent
+            
+            for pieces, line_height in text_item.readline(item_width):
             
                 for font, word_x, text in pieces:
                 
                     p.setFont(font)
-                    p.drawText(x + word_x, y, text)
+                    p.drawText(item_x + word_x, y, text)
                 
                 y += line_height
         
@@ -219,13 +224,29 @@ if __name__ == "__main__":
     
     italic_quote = {"family": "FreeSerif",
                     "size": 24,
-                    "style": "italic"}
+                    "style": "italic",
+                    "left indent": 40,
+                    "right indent": 40}
     
     quote = {"family": "FreeSerif",
-             "size": 22}
+             "size": 22,
+             "left indent": 40,
+             "right indent": 40}
     
-    monospace = {"family": "FreeMono",
-                 "size": 24}
+    monospace_quote = {"family": "FreeMono",
+                       "size": 24,
+                       "left indent": 40,
+                       "right indent": 40}
+    
+    keys_quote = {"family": "FreeSerif",
+                  "size": 24,
+                  "left indent": 40,
+                  "right indent": 40}
+    
+    key_descriptions_quote = {"family": "FreeSerif",
+                              "size": 24,
+                              "left indent": 160,
+                              "right indent": 40}
     
     pages = [
         Page((750, 1000),
@@ -238,9 +259,8 @@ if __name__ == "__main__":
                             "sweep the cold face of the moon and I perceive the clicks, whistles and "
                             "cries of creatures in the hot air that cloaks this place. Desperately, I "
                             "try to stay my panic and remember those fragments of wilderness craft "
-                            "learned and unlearned many years ago.\n")]),
-              TextBox((90, 5, 570, 0),
-                      [Text(italic_quote,
+                            "learned and unlearned many years ago.\n"),
+                       Text(italic_quote,
                             "Choose your weapon carefully,\n"
                             "Get ready for a fight.\n"
                             "The jungle can be dangerous\n"
@@ -248,77 +268,73 @@ if __name__ == "__main__":
                             "There's time to pick up treasure,\n"
                             "But no time to stop and stare.\n"
                             "If you don't find the hidden gate\n"
-                            "You won't get out of there.\n")],
-                      follow = True),
-              TextBox((50, 5, 650, 0),
-                      [Text(regular,
+                            "You won't get out of there.\n\n"),
+                       Text(regular,
                             "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
                             "Struggling through the dense undergrowth, I search for signs of a track or "
                             "trail. At first glance, paths that seemed to lead to safety turn out to be "
                             "impassable, overgrown by tangled and twisted vines. I remember the words of "
-                            "an old teacher:\n")],
-                      follow = True),
-              TextBox((90, 5, 570, 0),
-                      [Text(quote,
+                            "an old teacher:\n"),
+                       Text(quote,
                             u'\u201cDo not be tempted to use fire to make your way. '
                             'Many a traveller has strayed from the path, using fire to blaze a trail, '
                             'only to reach a dead end. Trying to return, they find that the jungle '
                             'has grown back. Those who are desperate enough will even seek out '
-                            u'forgotten routes when the way home is in sight.\u201d\n')],
-                      follow = True),
-              TextBox((50, 5, 650, 0),
-                      [Text(regular,
+                            u'forgotten routes when the way home is in sight.\u201d\n\n'),
+                       Text(regular,
                             "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                             "for prey. Only through skill and luck am I able to dispatch them back "
                             "into the shadows. Even though I know I must journey deeper into this "
-                            "uncharted land to find the way home, the thought of vengeance drives me on.")],
-                      follow = True)
+                            "uncharted land to find the way home, the thought of vengeance drives me on.")
+                      ])
              ]),
         Page((750, 1000),
              [TextBox((50, 40, 650, 0),
-                      [Text(title, "Loading the Game\n")]),
-              TextBox((50, 5, 640, 0),
-                      [Text(regular, "Insert the cassette or disk and type\n")],
-                      follow = True),
-              TextBox((90, 5, 570, 0),
-                      [Text(monospace, "*RUN JUNGLE\n")], follow = True),
-              TextBox((50, 0, 640, 0),
-                      [Text(regular,
+                      [Text(title, "Loading the Game\n"),
+                       Text(regular, "Insert the cassette or disk and type\n"),
+                       Text(monospace_quote, "*RUN JUNGLE\n"),
+                       Text(regular,
                             "then press Return. If you are loading the game from cassette, press play on the "
-                            "cassette recorder. The game should now load.\n")],
-                      follow = True),
-              TextBox((50, 15, 640, 0),
-                      [Text(title, "Playing the Game\n")],
-                      follow = True),
-              TextBox((50, 5, 640, 0),
-                      [Text(regular,
-                            "Your character can be moved around the screen by using four control keys:\n")],
-                      follow = True),
-              TextBox((90, 5, 570, 0),
-                      [Text(regular,
-                            "Z     left\n"
-                            "X     right\n"
-                            ":     up\n"
-                            "/     down\n")], follow = True),
-              TextBox((50, 5, 640, 0),
-                      [Text(regular,
+                            "cassette recorder. The game should now load.\n\n"),
+                       Text(title, "Playing the Game\n"),
+                       Text(regular,
+                            "Your character can be moved around the screen by using four control keys:\n"),
+                       Text(keys_quote,
+                            "Z\n"
+                            "X\n"
+                            ":\n"
+                            "/")
+                      ]),
+              TextBox((50, -keys_quote["size"]*4*1.125, 650, 0),
+                      [Text(key_descriptions_quote,
+                            "left\n"
+                            "right\n"
+                            "up\n"
+                            "down\n"),
+                       Text(regular,
                             "Enemies can be destroying by the projectiles fired by the player's weapon. "
                             "To fire a weapon, press the Return key. There are four different types of "
                             "weapon available in the game.\n\n"
                             "The player must help the character reach the exit for each level. However, the "
                             "player must first find a key to unlock the exit. On the final level, the exit "
                             "does not require a key but it may be obstructed.\n\n"
-                            "Other keys can be used to control the game:\n")],
-                      follow = True),
-              TextBox((90, 5, 570, 0),
-                      [Text(regular,
-                            "S         enable sound effects\n"
-                            "Q         disable sound effects\n"
-                            "P         pause the game\n"
-                            "O         resume the game\n"
-                            "Escape    quits the game, returning to the title screen\n")],
-                      follow = True)
-              ])
+                            "Other keys can be used to control the game:\n"),
+                       Text(keys_quote,
+                            "S\n"
+                            "Q\n"
+                            "P\n"
+                            "O\n"
+                            "Escape")
+                      ], follow = True),
+              TextBox((50, -keys_quote["size"]*5*1.125, 650, 0),
+                      [Text(key_descriptions_quote,
+                            "enable sound effects\n"
+                            "disable sound effects\n"
+                            "pause the game\n"
+                            "resume the game\n"
+                            "quit the game, returning to the title screen\n")
+                      ], follow = True)
+             ])
         ]
     
     i = 0
