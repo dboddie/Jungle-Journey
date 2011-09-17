@@ -2875,7 +2875,7 @@ move_projectile_left:
     cmp #8
     bpl move_projectile_left_exit
 
-    ldx $5285               ; player's dx
+    ldx $577f               ; weapon counter
     ora boomerang_horizontal,x
     sta $5287
     clc
@@ -2918,7 +2918,7 @@ move_projectile_left:
     sec
     rts
 
-boomerang_horizontal: .byte $28, $28, $38, $38
+boomerang_horizontal: .byte $28, $38
 
 move_projectile_right:
 
@@ -2998,7 +2998,7 @@ move_projectile_right:
     cmp #8
     bpl move_projectile_right_exit
 
-    ldx $5285               ; player's dx
+    ldx $577f               ; weapon counter
     ora boomerang_horizontal,x
     sta $5287
     clc
@@ -3107,7 +3107,7 @@ move_projectile_up:
     cmp #8
     bpl move_projectile_up_exit
 
-    ldx $5283               ; player's dy
+    ldx $577f               ; weapon counter
     ora boomerang_vertical,x
     sta $5287
     clc
@@ -3150,7 +3150,7 @@ move_projectile_up:
     sec
     rts
 
-boomerang_vertical: .byte $08, $08, $08, $18, $18, $18
+boomerang_vertical: .byte $08, $18
 
 move_projectile_down:
 
@@ -3226,7 +3226,7 @@ move_projectile_down:
     cmp #8
     bpl move_projectile_down_exit
 
-    ldx $5283               ; player's dy
+    ldx $577f               ; weapon counter
     ora boomerang_vertical,x
     sta $5287
     clc
