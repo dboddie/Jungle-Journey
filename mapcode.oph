@@ -4524,7 +4524,21 @@ wait_for_vsync:
 
 game_over_vdu_bytes: .byte 28,4,17,15,15, 12, 26, 31,4,15, 17,2, "The journey", 31,9,17, "is over"
 
+delay:
+
+    delay_loop:
+
+        jsr wait_for_vsync
+        dec $5785
+        bne delay_loop
+
+    rts
+
 show_game_over:
+
+    lda #128
+    sta $5785
+    jsr delay
 
     ldx #0
     write_game_over_text_loop:
@@ -4536,11 +4550,7 @@ show_game_over:
 
     lda #192
     sta $5785
-    show_game_over_delay_loop:
-
-        jsr wait_for_vsync
-        dec $5785
-        bne show_game_over_delay_loop
+    jsr delay
 
     rts
 
@@ -4695,13 +4705,7 @@ show_end_of_level_screen:
 
     lda #64    ; initialise delay counter
     sta $5785
-
-    show_end_of_level_delay_loop1:
-
-        jsr wait_for_vsync
-
-        dec $5785
-        bne show_end_of_level_delay_loop1
+    jsr delay
 
     ldx #0
     end_of_level_text_loop2:
@@ -4718,13 +4722,7 @@ show_end_of_level_screen:
 
     lda #192    ; initialise delay counter
     sta $5785
-
-    show_end_of_level_delay_loop2:
-
-        jsr wait_for_vsync
-
-        dec $5785
-        bne show_end_of_level_delay_loop2
+    jsr delay
 
     show_end_of_level_screen_exit:
     rts
