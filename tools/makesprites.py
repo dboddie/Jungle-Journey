@@ -63,8 +63,8 @@ chars = [read_xpm("images/left1.xpm"),
 
          read_xpm("images/demise1.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
          read_xpm("images/demise2.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/demise3.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
-         read_xpm("images/demise4.xpm", [(".", "0"), ("+", "2"), ("@", "3")]),
+         read_xpm("images/demise3.xpm", [(".", "0"), ("@", "2"), ("+", "3")]),
+         read_xpm("images/demise4.xpm", [(".", "0"), ("@", "2"), ("+", "3")]),
 
          read_xpm("images/ball1.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
          read_xpm("images/ball2.xpm", [(".", "0"), ("+", "1"), ("@", "3")]),
