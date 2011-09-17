@@ -89,7 +89,7 @@ if __name__ == "__main__":
     #        item: bits 0,1,2,3 are type, bit 2 is weapon/treasure
     #              0-3 weapons, 4 key, 5-8 treasure)
     #   n+2 y room offset (0-10)
-    #   n+3 dy (0-5)
+    #   n+3 dy (0-3)
     #   n+4 x room offset (0-10)
     #   n+5 dx (0-3)
     #

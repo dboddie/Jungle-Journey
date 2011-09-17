@@ -409,8 +409,7 @@ make_room:          ; $78,$79=i,j
 
     ; Fill in the room details.
 
-    lda $7f
-    adc $79
+    lda $79
     sta $7c
     sec
     ldx $578a
@@ -930,156 +929,204 @@ set_room_palette:   ; $78=i; $79=j
 
 room_palettes: .byte 1, 6, 5, 7
 
+; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c
+
 plot8x24_y0:            ; $70,$71=source address
                         ; $72,$73=destination address
-    ldy #15
 
-    plotloop8x24_y0_0:
-        lda ($70),y
-        eor ($72),y
-        sta ($72),y
-        dey
-        bpl plotloop8x24_y0_0
-    clc
+    ldx #2
 
-    lda $72
-    adc #$30
-    sta $72
-    lda $73
-    adc #$01
-    sta $73     ; 0x140 - 16
-    clc
+    plot8x24_y0_loop:
 
-    ldy #31
+        ldy #15
 
-    plotloop8x24_y0_1:
-        lda ($70),y
-        eor ($72),y
-        sta ($72),y
-        dey
-        cpy #16
-        bpl plotloop8x24_y0_1
-    clc
-
-    lda $72
-    adc #$30
-    sta $72
-    lda $73
-    adc #$01
-    sta $73     ; 0x140 - 16
-    clc
-
-    ldy #47
-
-    plotloop8x24_y0_2:
-        lda ($70),y
-        eor ($72),y
-        sta ($72),y
-        dey
-        cpy #32
-        bpl plotloop8x24_y0_2
-
-    clc
-    jmp plot_buffer_loop_next
-
-; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c
-;
-; Write to screen in this arrangement:
-; -- --
-; 00 08
-;
-; 04 0c
-; 10 18
-;
-; 14 1c
-; 20 28
-;
-; 24 2c
-
-plot8x24_y1:            ; $70,$71=source address
-                        ; $72,$73=destination address
-
-    ldx #2              ; plotting 3 8x8 pieces
-
-    plotloop8x24_y1_loop:
-
-        ldy #3
-
-        plotloop8x24_y1_0:
+        plotloop8x24_y0_0:
             lda ($70),y
             eor ($72),y
             sta ($72),y
             dey
-            bpl plotloop8x24_y1_0
-        clc
+            bpl plotloop8x24_y0_0
 
-        ldy #11
-
-        plotloop8x24_y1_1:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            cpy #8
-            bpl plotloop8x24_y1_1
-        clc
-
-        lda $70
-        adc #4
-        sta $70
-        lda $71
-        adc #0
-        sta $71
-        clc
-
+        dex
+        bmi plot8x24_y0_exit
+        
         lda $72
-        adc #$3c
+        adc #$40
         sta $72
         lda $73
         adc #$01
         sta $73
         clc
 
-        ldy #3
-
-        plotloop8x24_y1_2:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            bpl plotloop8x24_y1_2
-        clc
-
-        ldy #11
-
-        plotloop8x24_y1_3:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            cpy #8
-            bpl plotloop8x24_y1_3
-        clc
-
         lda $70
-        adc #12
+        adc #16
         sta $70
         lda $71
         adc #0
         sta $71
         clc
 
-        lda $72
-        adc #4
+        jmp plot8x24_y0_loop
+
+    plot8x24_y0_exit:
+    clc
+    jmp plot_buffer_loop_next
+
+
+plot8x8_y1:             ; $70,$71=source address
+                        ; $72,$73=destination address
+    lda #2
+    sta $7e
+    lda #10
+    sta $7f
+
+    lda #0              ; plotting 1 8x8 piece
+    sta $8a
+
+    jmp plot8x24_y123   ; optimise away the rts
+
+plot8x24_y1:            ; $70,$71=source address
+                        ; $72,$73=destination address
+    lda #2
+    sta $7e
+    lda #10
+    sta $7f
+
+    lda #2              ; plotting 3 8x8 pieces
+    sta $8a
+
+    jmp plot8x24_y123   ; optimise away the rts
+
+plot8x8_y2:             ; $70,$71=source address
+                        ; $72,$73=destination address
+    lda #4
+    sta $7e
+    lda #12
+    sta $7f
+
+    lda #0              ; plotting 1 8x8 piece
+    sta $8a
+
+    jmp plot8x24_y123   ; optimise away the rts
+
+plot8x24_y2:            ; $70,$71=source address
+                        ; $72,$73=destination address
+    lda #4
+    sta $7e
+    lda #12
+    sta $7f
+
+    lda #2              ; plotting 3 8x8 pieces
+    sta $8a
+
+    jmp plot8x24_y123   ; optimise away the rts
+
+plot8x8_y3:             ; $70,$71=source address
+                        ; $72,$73=destination address
+    lda #6
+    sta $7e
+    lda #14
+    sta $7f
+
+    lda #0              ; plotting 1 8x8 piece
+    sta $8a
+
+    jmp plot8x24_y123   ; optimise away the rts
+
+plot8x24_y3:            ; $70,$71=source address
+                        ; $72,$73=destination address
+    lda #6
+    sta $7e
+    lda #14
+    sta $7f
+
+    lda #2              ; plotting 3 8x8 pieces
+    sta $8a
+
+    ; Run on into the next routine.
+
+plot8x24_y123:          ; $70,$71=source address
+                        ; $72,$73=destination address
+                        ; $7e=offset into source data for first column
+                        ; $7f=offset into source data for second column
+
+    plot8x24_y123_loop:
+
+        ldx #0
+        plot8x24_y123_upper_loop_outer:
+
+            ldy $7e,x
+            lda plot_upper_offsets,x
+            sta $89
+
+            plot8x24_y123_upper_loop_inner:     ; plot the first column until
+                dey                             ; we reach the start
+                cpy $89
+                bmi plot8x24_y123_upper_loop_inner_endloop
+                lda ($70),y
+                eor ($72),y
+                sta ($72),y
+                jmp plot8x24_y123_upper_loop_inner
+
+            plot8x24_y123_upper_loop_inner_endloop:
+            clc
+
+            inx
+            cpx #2
+            bne plot8x24_y123_upper_loop_outer
+
+        clc
+        lda $72       ; move the destination pointer to refer to the next line
+        adc #$38
+        sta $72
+        lda $73
+        adc #$01
+        sta $73
+        clc
+
+        ldx #0
+        plot8x24_y123_lower_loop_outer:
+        
+            lda plot_lower_offsets,x
+            tay
+            lda $7e,x
+            sta $89
+
+            plot8x24_y123_lower_loop_inner: ; plot until we reach the initial
+                lda ($70),y                 ; offset for the column
+                eor ($72),y
+                sta ($72),y
+                dey
+                cpy $89
+                bpl plot8x24_y123_lower_loop_inner
+
+            inx
+            cpx #2
+            bne plot8x24_y123_lower_loop_outer
+        
+        dec $8a
+        bmi plot8x24_y123_exit
+
+        clc
+        lda $70         ; update the source pointer to refer to the next piece
+        adc #16         ; of sprite data
+        sta $70
+        lda $71
+        adc #0
+        sta $71
+        clc
+
+        lda $72         ; update the destination pointer to point to the next
+        adc #8          ; space
         sta $72
         lda $73
         adc #0
         sta $73
         clc
 
-        dex
-        bpl plotloop8x24_y1_loop
+        jmp plot8x24_y123_loop
 
+    plot8x24_y123_exit:
     clc
     jmp plot_buffer_loop_next
 
@@ -1117,114 +1164,139 @@ plot16x16_y0:           ; $70,$71=source address
     jmp plot_buffer_loop_next
 
 ; Sprite data stored in memory: 00 04 08 0c 10 14 18 1c 20 24 28 2c 30 34 38 3c
-;
-; Write to screen in this arrangement:
-; -- -- -- --
-; 00 08 10 18
-;
-; 04 0c 14 1c
-; 20 28 30 38
-;
-; 24 2c 34 3c
 
 plot16x16_y1:           ; $70,$71=source address
                         ; $72,$73=destination address
 
-    ldx #3
+    lda #2
+    sta $7e
+    lda #10
+    sta $7f
+    lda #18
+    sta $80
+    lda #26
+    sta $81
+    jmp plot16x16_y123  ; optimise away the rts
 
-    plotloop16x16_y1_loop:
+plot16x16_y2:           ; $70,$71=source address
+                        ; $72,$73=destination address
 
-        ldy #3
+    lda #4
+    sta $7e
+    lda #12
+    sta $7f
+    lda #20
+    sta $80
+    lda #28
+    sta $81
+    jmp plot16x16_y123  ; optimise away the rts
 
-        plotloop16x16_y1_0:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            bpl plotloop16x16_y1_0
+plot16x16_y3:           ; $70,$71=source address
+                        ; $72,$73=destination address
+
+    lda #6
+    sta $7e
+    lda #14
+    sta $7f
+    lda #22
+    sta $80
+    lda #30
+    sta $81
+    ; Run on into the next routine.
+
+plot16x16_y123:         ; $70,$71=source address
+                        ; $72,$73=destination address
+                        ; $7e=offset into source data for first column
+                        ; $7f=offset into source data for second column
+                        ; $80=offset into source data for third column
+                        ; $81=offset into source data for fourth column
+
+    lda #1
+    sta $8a
+
+    plot16x16_y123_loop:
+
+        ldx #0
+        plot16x16_y123_upper_loop_outer:
+
+            ldy $7e,x
+            lda plot_upper_offsets,x
+            sta $89
+
+            plot16x16_y123_upper_loop_inner:
+
+                dey
+                cpy $89
+                bmi plot16x16_y123_upper_loop_inner_endloop
+                lda ($70),y
+                eor ($72),y
+                sta ($72),y
+                jmp plot16x16_y123_upper_loop_inner
+
+            plot16x16_y123_upper_loop_inner_endloop:
+            clc
+
+            inx
+            cpx #4
+            bne plot16x16_y123_upper_loop_outer
+
         clc
-
-        ldy #11
-
-        plotloop16x16_y1_1:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            cpy #8
-            bpl plotloop16x16_y1_1
-        clc
-
-        ldy #19
-
-        plotloop16x16_y1_2:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            cpy #16
-            bpl plotloop16x16_y1_2
-        clc
-
-        ldy #27
-
-        plotloop16x16_y1_3:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            cpy #24
-            bpl plotloop16x16_y1_3
-        clc
-
-        dex
-        bmi plotloop16x16_y1_exit
-        txa
-        and #1
-        bne plotloop16x16_y1_loop_next
-
-        lda $70         ; add by 4 to start the next half row
-        adc #4
-        sta $70
-        lda $71
-        adc #0
-        sta $71
-        clc
-
-        lda $72         ; add 0x140 - 4 to plot the next top half row
-        adc #$3c
+        lda $72       ; move the destination pointer to refer to the next line
+        adc #$38
         sta $72
         lda $73
         adc #$01
         sta $73
         clc
 
-        jmp plotloop16x16_y1_loop
+        ldx #0
+        plot16x16_y123_lower_loop_outer:
 
-        plotloop16x16_y1_loop_next:
+            lda plot_lower_offsets,x
+            tay
+            lda $7e,x
+            sta $89
+
+            plot16x16_y123_lower_loop_inner:    ; plot until we reach the initial offset
+                lda ($70),y                     ; for the column
+                eor ($72),y
+                sta ($72),y
+                dey
+                cpy $89
+                bpl plot16x16_y123_lower_loop_inner
+
+            inx
+            cpx #4
+            bne plot16x16_y123_lower_loop_outer
+
+        dec $8a
+        bmi plot16x16_y123_exit
+
         clc
-
-        lda $70         ; add 28 to start the next row
-        adc #$1c
+        lda $70         ; update the source pointer to refer to the next piece
+        adc #32         ; of sprite data
         sta $70
         lda $71
         adc #0
         sta $71
         clc
 
-        lda $72         ; add 4 to plot the next half row
-        adc #4
+        lda $72         ; update the destination pointer to point to the next
+        adc #8          ; space
         sta $72
         lda $73
         adc #0
         sta $73
         clc
 
-        jmp plotloop16x16_y1_loop
+        jmp plot16x16_y123_loop
 
-    plotloop16x16_y1_exit:
+    plot16x16_y123_exit:
     clc
     jmp plot_buffer_loop_next
+
+plot_upper_offsets: .byte 0, 8, 16, 24
+plot_lower_offsets: .byte 7, 15, 23, 31
 
 plot8x8_y0:             ; $70,$71=source address
                         ; $72,$73=destination address
@@ -1236,69 +1308,6 @@ plot8x8_y0:             ; $70,$71=source address
         sta ($72),y
         dey
         bpl plotloop8x8_y0_0
-    clc
-
-    jmp plot_buffer_loop_next
-
-; Sprite data stored in memory: 00 04
-;
-; Write to screen in this arrangement:
-; --
-; 00
-;
-; 04
-
-plot8x8_y1:             ; $70,$71=source address
-                        ; $72,$73=destination address
-
-    ldx #1
-
-    plotloop8x8_y1_loop:
-
-        ldy #3
-
-        plotloop8x8_y1_0:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            bpl plotloop8x8_y1_0
-        clc
-
-        ldy #11
-
-        plotloop8x8_y1_1:
-            lda ($70),y
-            eor ($72),y
-            sta ($72),y
-            dey
-            cpy #8
-            bpl plotloop8x8_y1_1
-        clc
-
-        dex
-        bmi plot8x8_y1_exit
-        clc
-
-        lda $70         ; add by 4 to start the next half row
-        adc #4
-        sta $70
-        lda $71
-        adc #0
-        sta $71
-        clc
-
-        lda $72         ; subtract by 0x140 - 4 to plot the next top half row
-        adc #$3c
-        sta $72
-        lda $73
-        adc #$01
-        sta $73
-        clc
-
-        jmp plotloop8x8_y1_loop
-
-    plot8x8_y1_exit:
     clc
 
     jmp plot_buffer_loop_next
@@ -1315,8 +1324,8 @@ player_direction_chars_high: .byte $3f,$3f,$3f,$3f,$3f,$3f,$40,$40, $40,$40,$40,
 
 screen_rows_low: .byte $80,$40,$00,$c0,$80,$40,$00,$c0,$80,$40
 screen_rows_high: .byte $5a,$5e,$62,$65,$69,$6d,$71,$74,$78,$7c
-screen_subrows_low: .byte $00,$04,$40,$44,$80,$84
-screen_subrows_high: .byte $00,$00,$01,$01,$02,$02
+screen_subrows_low: .byte $00,$06,$44,$82
+screen_subrows_high: .byte $00,$00,$01,$02
 
 screen_columns_low: .byte $00,$20,$40,$60,$80,$a0,$c0,$e0,$00,$20
 screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
@@ -1435,17 +1444,9 @@ plot_character_sprite:  ; $74,$75=character address
     ; Use the dy value to determine which plotting routine to use.
 
     ldy #0
-    lda $76
-    and #1
-    bne plot_characters_plot_8x24_1
+    ldx $76
+    lda plot_routine_indices_8x24,x
 
-    lda #1
-    sta ($78),y
-    jmp plot_characters_stored
-
-    plot_characters_plot_8x24_1:
-    clc
-    lda #2
     sta ($78),y
     jmp plot_characters_stored
 
@@ -1467,17 +1468,9 @@ plot_character_sprite:  ; $74,$75=character address
     ; Use the dy value to determine which plotting routine to use.
 
     ldy #0
-    lda $76
-    and #1
-    bne plot_characters_plot_8x8_1
+    ldx $76
+    lda plot_routine_indices_8x8,x
 
-    lda #3
-    sta ($78),y
-    jmp plot_characters_stored
-
-    plot_characters_plot_8x8_1:
-    clc
-    lda #4
     sta ($78),y
     jmp plot_characters_stored
 
@@ -1549,17 +1542,9 @@ plot_character_sprite:  ; $74,$75=character address
     ; Use the dy value to determine which plotting routine to use.
 
     ldy #0
-    lda $76
-    and #1
-    bne plot_characters_plot_16x16_1
+    ldx $76
+    lda plot_routine_indices_16x16,x
 
-    lda #5
-    sta ($78),y
-    jmp plot_characters_stored
-
-    plot_characters_plot_16x16_1:
-    clc
-    lda #6
     sta ($78),y
 
     plot_characters_stored:
@@ -1592,6 +1577,10 @@ plot_character_sprite:  ; $74,$75=character address
     clc
     rts
 
+plot_routine_indices_8x24:  .byte 1, 2, 3, 4
+plot_routine_indices_8x8:   .byte 5, 6, 7, 8
+plot_routine_indices_16x16: .byte 9, 10, 11, 12
+
 reset_plot_buffer:
     lda #$06    ; reset the index into the plot buffer
     sta $84
@@ -1614,8 +1603,15 @@ reset_unplot_buffer:
     sta ($82),y
     rts
 
-plot_buffer_types_low:  .byte <plot_buffer_loop_next, <plot8x24_y0, <plot8x24_y1, <plot8x8_y0, <plot8x8_y1, <plot16x16_y0, <plot16x16_y1
-plot_buffer_types_high: .byte >plot_buffer_loop_next, >plot8x24_y0, >plot8x24_y1, >plot8x8_y0, >plot8x8_y1, >plot16x16_y0, >plot16x16_y1
+plot_buffer_types_low:  .byte <plot_buffer_loop_next
+plot_buffer_types_low1: .byte <plot8x24_y0, <plot8x24_y1, <plot8x24_y2, <plot8x24_y3
+plot_buffer_types_low2: .byte <plot8x8_y0, <plot8x8_y1, <plot8x8_y2, <plot8x8_y3
+plot_buffer_types_low3: .byte <plot16x16_y0, <plot16x16_y1, <plot16x16_y2, <plot16x16_y3
+
+plot_buffer_types_high:  .byte >plot_buffer_loop_next
+plot_buffer_types_high1: .byte >plot8x24_y0, >plot8x24_y1, >plot8x24_y2, >plot8x24_y3
+plot_buffer_types_high2: .byte >plot8x8_y0, >plot8x8_y1, >plot8x8_y2, >plot8x8_y3
+plot_buffer_types_high3: .byte >plot16x16_y0, >plot16x16_y1, >plot16x16_y2, >plot16x16_y3
 
 plot_buffer:
 
@@ -2005,8 +2001,8 @@ move_player:
     jsr unplot_character    ; unplot the player character
     lda $81
     sta $5282               ; store the new room y offset
-    lda #5
-    sta $5283               ; dy = 5
+    lda #3
+    sta $5283               ; dy = 3
     clc
     jmp animate_player_up   ; optimise away the rts
 
@@ -2044,11 +2040,11 @@ move_player:
     lda $5283                   ; read dy
     cmp #0
     beq move_player_down_check_y
-    cmp #5
+    cmp #3
     beq move_player_down_tile
 
     jsr unplot_character        ; unplot the player character
-    inc $5283                   ; 0 < dy < 5
+    inc $5283                   ; 0 <= dy < 3
     clc
     jmp animate_player_down    ; optimise away the rts
     
@@ -2183,21 +2179,21 @@ create_projectile:
     ora $5789       ; apply the projectile type
     sta $5287
 
-    lda $5283       ; dy
-    cmp #4
+    lda $5283       ; if dy > 2, create the projectile on the tile below
+    cmp #3
     bpl create_projectile_below
 
     clc
-    adc #2
-    sta $5289       ; dy + 2
+    adc #1
+    sta $5289       ; dy + 1
     lda $5282       ; y
     sta $5288
     jmp create_projectile_continue
 
     create_projectile_below:
     sec
-    sbc #4
-    sta $5289       ; dy - 4
+    sbc #3
+    sta $5289       ; dy - 3
     clc
     lda $5282       ; y
     adc #1
@@ -2399,11 +2395,11 @@ move_enemy_left:        ; $74,$75=character address
 
     ldy #3
     lda ($74),y                 ; dy
-    cmp #3
+    cmp #2
     bmi move_enemy_allow_left
 
     clc
-    lda $70                 ; dy > 2 so we need to check another tile
+    lda $70                 ; dy > 1 so we need to check another tile
     adc #10
     sta $70
     ldy $81                 ; temporary (x - 1)
@@ -2477,10 +2473,10 @@ move_enemy_right:       ; $74,$75=character_address
 
     ldy #3
     lda ($74),y                 ; dy
-    cmp #3
+    cmp #2
     bmi move_enemy_allow_right
 
-    clc                         ; dy > 2 so we need to check another tile
+    clc                         ; dy > 1 so we need to check another tile
     lda $70
     adc #10
     sta $70
@@ -2583,9 +2579,9 @@ move_enemy_up:      ; $74,$75=character address
     txa
     ldy #2
     sta ($74),y             ; store the new room y offset
-    lda #5
+    lda #3
     iny
-    sta ($74),y             ; dy = 5
+    sta ($74),y             ; dy = 3
     clc
     jmp animate_enemy_up   ; optimise away the rts
 
@@ -2608,9 +2604,9 @@ move_enemy_down:    ; $74,$75=character address
 
     ldy #3
     lda ($74),y         ; dy
-    cmp #2
+    cmp #1
     beq move_enemy_down_check_y
-    cmp #5
+    cmp #3
     beq move_enemy_down_tile
 
     adc #1
@@ -2838,10 +2834,10 @@ move_projectile_left:
     bne move_projectile_left_wall
 
     lda $5289                   ; dy
-    cmp #5
+    cmp #3
     bmi move_projectile_allow_left
 
-    clc                         ; dy > 4 so we need to check another tile
+    clc                         ; dy > 2 so we need to check another tile
     lda $70
     adc #10
     sta $70
@@ -2887,7 +2883,7 @@ move_projectile_left:
     bne move_projectile_left_exit
 
     lda $5289                       ; dy
-    cmp #5
+    cmp #3
     beq move_projectile_left_exit   ; shots must be lined up
     
     lda ($70),y                 ; load the tile to the left
@@ -2956,10 +2952,10 @@ move_projectile_right:
     bne move_projectile_right_wall
 
     lda $5289                   ; dy
-    cmp #5
+    cmp #3
     bmi move_projectile_allow_right
 
-    clc                         ; dy > 4 so we need to check another tile
+    clc                         ; dy > 2 so we need to check another tile
     lda $70
     adc #10
     sta $70
@@ -3010,7 +3006,7 @@ move_projectile_right:
     bne move_projectile_right_exit
 
     lda $5289                   ; dy
-    cmp #5
+    cmp #3
     beq move_projectile_right_exit  ; shots must be lined up
     
     lda ($70),y                 ; load the tile to the right
@@ -3085,8 +3081,8 @@ move_projectile_up:
     move_projectile_allow_up:
     txa
     sta $5288               ; store the new room y offset
-    lda #5
-    sta $5289               ; dy = 5
+    lda #3
+    sta $5289               ; dy = 3
 
     clc
     rts
@@ -3155,15 +3151,15 @@ boomerang_vertical: .byte $08, $08, $08, $18, $18, $18
 move_projectile_down:
 
     lda $5289                   ; read dy
-    cmp #4
+    cmp #2
     beq move_projectile_down_check_y
-    cmp #5
+    cmp #3
     beq move_projectile_down_tile
 
-    inc $5289                   ; 0 < dy < 5
+    inc $5289                   ; 0 <= dy < 3
     clc
     rts
-    
+
     move_projectile_down_check_y:  ; Check the y offset.
 
     lda $5288
@@ -3864,24 +3860,24 @@ remove_characters:
     rts
 
 ; The player collision masks use bits to represent where the player is in a
-; tile.
+; tile. See the collisions.txt file for more information.
 
 ; Player is above, enemy is below, checking the overlap in the lower tile.
-player_collision_mask_above: .byte $00, $20, $30, $38, $3c, $3e
+player_collision_mask_above: .byte $00, $c0, $f0, $fc
 
-projectile_collision_mask_above: .byte $00, $00, $00, $00, $00, $20
+projectile_collision_mask_above: .byte $00, $00, $00, $80
 
 ; Player and enemy share the same tile or player is on the tile below.
-player_collision_mask_below:  .byte $3f, $1f, $0f, $07, $03, $01
+player_collision_mask_below:  .byte $ff, $3f, $0f, $03
 
-projectile_collision_mask_below: .byte $30, $18, $0c, $06, $03, $01
+projectile_collision_mask_below: .byte $e0, $38, $e0, $03
 
 ; Player is above or on the same tile, enemy is below, checking the overlap in
 ; the lower tile.
-enemy_collision_mask_above:  .byte $3c, $1e, $0f, $07, $03, $01
+enemy_collision_mask_above:  .byte $f8, $3f, $0f, $03
 
 ; Enemy is above, player is below, checking the overlap in the lower tile.
-enemy_collision_mask_below: .byte $00, $00, $00, $20, $30, $38
+enemy_collision_mask_below: .byte $00, $00, $c0, $f0
 
 ; Player is to the left, enemy is to the right, checking the overlap in the
 ; right hand tile.
@@ -5066,8 +5062,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         lda $5283       ; dy
         cmp #2
         bmi high_score_entry_aligned
-        cmp #5
-        bne high_score_entry_not_aligned
+        jmp high_score_entry_not_aligned
 
         lda $5282       ; y again (don't apply the touching rule to the bottom
         cmp #7          ;          row of characters)
@@ -5258,7 +5253,7 @@ reset_player_position:
     sta $5281
     lda #4      ; y=4
     sta $5282
-    lda #3      ; dy=3
+    lda #2      ; dy=2
     sta $5283
     lda #4      ; x=4
     sta $5284
