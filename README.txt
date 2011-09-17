@@ -78,4 +78,4 @@ Other keys can be used to control the game:
   Q         disable sound effects
   P         pause the game
   O         resume the game
-  Escape    quits the game, returning to the title screen
+  Escape    quit the game, returning to the title screen

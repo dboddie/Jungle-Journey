@@ -1,5 +1,6 @@
 To Do
 
+Fix end animation.
 Add last two enemy sprite sets.
 Nice to have: analogue joystick support.
 Nice to have: make one of the enemies have different movement.
