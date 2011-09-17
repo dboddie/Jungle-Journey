@@ -13,7 +13,7 @@
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-.org $1f00
+.org $1e00
 jmp main
 
 seeds:         .byte 100, 239, 183, 144   ; $ef, $b7, $90, $d6, $89
@@ -638,10 +638,10 @@ create_enemy_positions:
         bne create_enemy_positions_next
 
         lda $70
-        sta $0fe0,x                     ; store the x value
+        sta $0ee0,x                     ; store the x value
 
         lda $71
-        sta $0ff0,x                     ; store the y value
+        sta $0ef0,x                     ; store the y value
 
         dex
         bmi create_enemy_positions_exit
@@ -657,7 +657,7 @@ create_enemy_positions:
     lda #0
     create_enemy_positions_fill_loop:
 
-        sta $0fe0,x
+        sta $0ee0,x
         dex
         bpl create_enemy_positions_fill_loop
 
@@ -2250,12 +2250,12 @@ emerge_character:           ; $74,$75=character address
     jsr unlimited_values
     and #$0f
     tax
-    lda $0fe0,x
+    lda $0ee0,x
     cmp #0                  ; check for an invalid value and exit if found
     beq emerge_character_exit
 
     sta $80                 ; temporary
-    lda $0ff0,x
+    lda $0ef0,x
     tax
 
     ; Add an emerging enemy.
@@ -4144,7 +4144,7 @@ copy_title_down:
 
     lda #$80
     sta $72
-    lda #$1e
+    lda #$1d
     sta $73
 
     ; Run on into the following routine.
@@ -4175,7 +4175,7 @@ copy_title_up:
 
     lda #$80
     sta $70
-    lda #$1e
+    lda #$1d
     sta $71
 
     lda #$80
@@ -4194,7 +4194,7 @@ move_completed_screen_down:
 
     lda #$00
     sta $72
-    lda #$10
+    lda #$0f
     sta $73
 
     move_completed_screen_loop:
@@ -4240,7 +4240,7 @@ move_completed_screen_down:
         bne move_completed_screen_loop
 
         lda $73
-        cmp #$17
+        cmp #$16
         bne move_completed_screen_loop
 
     rts
@@ -4249,7 +4249,7 @@ copy_completed_screen_up:
 
     lda #$00
     sta $70
-    lda #$17
+    lda #$16
     sta $71
 
     lda #$00

@@ -66,7 +66,7 @@ init:
     ldy #>code_block
     jsr $ffdd
 
-    jmp $1f00
+    jmp $1e00
 
 sprites_file_name: .byte "SPRITES", 13
 chars_file_name: .byte "CHARS", 13
@@ -92,10 +92,10 @@ title_block: .byte <title_file_name, >title_file_name
                .byte $00, $71, 0, 0
 
 code_block: .byte <code_file_name, >code_file_name
-               .byte $00, $1f, 0, 0
-               .byte $00, $1f, 0, 0
+               .byte $00, $1e, 0, 0
+               .byte $00, $1e, 0, 0
                .byte $95, $1f, 0, 0
-               .byte $95, $3e, 0, 0
+               .byte $95, $3d, 0, 0
 
 init_load_window_vdu_bytes: .byte 28,0,29,19,24
 
