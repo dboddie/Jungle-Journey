@@ -2179,21 +2179,22 @@ create_projectile:
     ora $5789       ; apply the projectile type
     sta $5287
 
-    lda $5283       ; if dy > 2, create the projectile on the tile below
-    cmp #3
+    lda $5283       ; player dy
+    adc $577f       ; add the weapon counter
+    adc #1
+    cmp #4          ; if dy > 3, create the projectile on the tile below
     bpl create_projectile_below
 
     clc
-    adc #1
-    sta $5289       ; dy + 1
+    sta $5289       ; dy + weapon counter + 1
     lda $5282       ; y
     sta $5288
     jmp create_projectile_continue
 
     create_projectile_below:
     sec
-    sbc #3
-    sta $5289       ; dy - 3
+    sbc #4
+    sta $5289       ; dy + weapon counter + 1 - 4
     clc
     lda $5282       ; y
     adc #1
@@ -2206,11 +2207,14 @@ create_projectile:
     lda $5285       ; dx
     sta $528b
 
-    lda #$86
-    sta $74
-    lda #$52
-    sta $75
-    jsr plot_character
+    lda $577f       ; toggle the weapon counter
+    eor #1
+    sta $577f
+
+    ; Move the projectile away from the player.
+
+    jsr move_projectile_after_unplot
+    jsr move_projectile
 
     clc
     rts
@@ -3287,6 +3291,8 @@ move_projectile:
     lda #$52
     sta $75
     jsr unplot_character
+
+    move_projectile_after_unplot:
 
     lda $5287
     and #$30            ; direction
@@ -5279,6 +5285,10 @@ start_level:
     ; Set the player's position.
 
     jsr reset_player_position
+
+    ; Reset the weapon counter.
+    lda #0
+    sta $577f
 
     ; Fill the treasure table with objects.
     ldx $578a   ; level
