@@ -3405,8 +3405,24 @@ move_projectile:
     adc #2
     sta $70
     jsr add_score
+    jmp move_projectile_create_explosion
 
-    ; Unplot the enemy and replace it with an explosion.
+    move_projectile_no_enemy_collision:
+
+    cmp #4          ; items can be destroyed as well
+    bne move_projectile_no_item_collision
+
+    ldy #1          ; but not keys
+    lda ($74),y
+    cmp #4          ; even the mace is stopped by a key
+    beq move_projectile_remove_projectile
+    clc
+
+    jsr remove_room_item
+
+    move_projectile_create_explosion:
+
+    ; Unplot the item/enemy and replace it with an explosion.
 
     jsr unplot_character
 
@@ -3424,7 +3440,7 @@ move_projectile:
     ldx #0
     jsr play_sound
 
-    move_projectile_no_enemy_collision:
+    move_projectile_no_item_collision:
 
     lda $5287       ; type 2 projectiles pass through everything
     and #$06
@@ -3458,7 +3474,7 @@ move_projectile:
 
     move_projectile_remove_projectile:
 
-    lda #0                      ; remove the projectile from the character list
+    lda #0              ; remove the projectile from the character list
     sta $5286
 
     move_projectile_exit:
@@ -3562,12 +3578,7 @@ move_characters:
     jsr unplot_character
 
     ; Remove it from the item table.
-    ldx $5782
-    lda eleven_times_table,x
-    adc $5783
-    tax
-    lda #$80    ; store a value with the top bit set instead of zero because we
-    sta $5200,x ; have visited this room if we can collect the object within it
+    jsr remove_room_item
 
     lda #0      ; remove the item from the character list
     ldy #0
@@ -3660,6 +3671,17 @@ move_characters:
     jmp reduce_strength ; optimise away the rts
 
     move_characters_exit:
+    clc
+    rts
+
+remove_room_item:
+
+    ldx $5782                       ; current room row number
+    lda eleven_times_table,x
+    adc $5783                       ; current room column number
+    tax
+    lda #$80    ; store a value with the top bit set instead of zero because we
+    sta $5200,x ; have visited this room if we can collect the object within it
     clc
     rts
 
@@ -3990,7 +4012,7 @@ projectile_collide:
     lda projectile_collision_mask_right,x
     sta $89
 
-    jmp collide ; optimise away the rts
+    ; Run on into the next routine.
 
 collide:
 
