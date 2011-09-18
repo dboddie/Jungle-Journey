@@ -2896,6 +2896,7 @@ move_projectile_left:
     adc #10
     sta $70
     lda ($70),y                 ; load the tile below and to the left
+    inx                         ; y += 1
 
     cmp #0
     bne move_projectile_left_wall
@@ -2936,10 +2937,6 @@ move_projectile_left:
     cmp #6                          ; type 3 can destroy certain walls
     bne move_projectile_left_exit
 
-    lda $5289                       ; dy
-    cmp #3
-    beq move_projectile_left_exit   ; shots must be lined up
-    
     lda ($70),y                 ; load the tile to the left
     cmp #1                      ; decoration can be destroyed
     bne move_projectile_left_exit
@@ -3014,6 +3011,7 @@ move_projectile_right:
     adc #10
     sta $70
     lda ($70),y                 ; load the tile below and to the right
+    inx                         ; y += 1
 
     cmp #0
     bne move_projectile_right_wall
@@ -3059,10 +3057,6 @@ move_projectile_right:
     cmp #6                      ; type 3 can destroy certain walls
     bne move_projectile_right_exit
 
-    lda $5289                   ; dy
-    cmp #3
-    beq move_projectile_right_exit  ; shots must be lined up
-    
     lda ($70),y                 ; load the tile to the right
     cmp #1                      ; decoration can be destroyed
     bne move_projectile_right_exit
@@ -3168,10 +3162,6 @@ move_projectile_up:
     cmp #6                      ; type 3 can destroy certain walls
     bne move_projectile_up_exit
 
-    lda $528b                   ; dx
-    cmp #3
-    bpl move_projectile_up_exit ; shots must be lined up
-    
     lda ($70),y                 ; load the tile above
     cmp #1                      ; decoration can be destroyed
     bne move_projectile_up_exit
@@ -3287,10 +3277,6 @@ move_projectile_down:
     cmp #6                      ; type 3 can destroy certain walls
     bne move_projectile_down_exit
 
-    lda $528b                   ; dx
-    cmp #3
-    bpl move_projectile_down_exit   ; shots must be lined up
-    
     lda ($70),y                 ; load the tile below
     cmp #1                      ; decoration can be destroyed
     bne move_projectile_down_exit
