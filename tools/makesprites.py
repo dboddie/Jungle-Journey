@@ -159,7 +159,7 @@ chars = [read_xpm("images/left1.xpm"),
 
 title = read_xpm("images/title-screen.xpm")
 
-completed = read_xpm("images/complete-screen.xpm", [(".", "0"), ("@", "1"), ("+", "2"), ("#", "3")])
+completed = read_xpm("images/complete-screen.xpm", [("+", "0"), ("@", "1"), (".", "2"), ("#", "3")])
 overlay = read_xpm("images/overlay.xpm", [(".", "0"), ("+", "2")])
 
 def read_sprite(lines):

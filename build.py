@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # 0EE0 enemy x locations in the current room
     # 0EF0 enemy x locations in the current room
     # 0F00 completion screen
-    # 1680 title screen
+    # 1800 title screen
     # 1E00 CODE
     #
     # 3F00 CHARS (character sprites)
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     
     system("ophis loader.oph JUNGLE")
     code = open("JUNGLE").read()
-    code_start = 0x5200
+    code_start = 0x5180
     files.append(("JUNGLE", code_start, code_start, code))
     
     data = makesprites.read_sprites([makesprites.title])
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     overlay = makesprites.read_sprite(makesprites.overlay)
     combined = makesprites.combine(completed, overlay)
     data += combined
-    files.append(("TITLE", 0x5A80, 0x5A80, data))
+    files.append(("TITLE", 0x5AA0, 0x5AA0, data))
 
     data = makesprites.read_sprites(makesprites.tiles)
     files.append(("SPRITES", 0x5400, 0x5400, data))

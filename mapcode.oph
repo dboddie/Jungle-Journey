@@ -4199,113 +4199,50 @@ play_sound:     ; X=sound number
 
     rts
 
-copy_title_down:
+copy_title_up:
 
-    lda #$80
+    lda #$00
     sta $70
-    lda #$61
+    lda #$18
     sta $71
 
-    lda #$80
+    lda #$a0
     sta $72
-    lda #$1d
+    lda #$5a
     sta $73
 
-    ; Run on into the following routine.
+    ldx #5
+    ; Run on into the next routine.
 
 copy_title:
 
-    ldx #7
-    ldy #127
-
     copy_title_loop1:
 
+        ldy #0
         copy_title_loop2:
 
             lda ($70),y
             sta ($72),y
-            dey
-            cpy #255
+            iny
+            cpy #0
             bne copy_title_loop2
 
-        dec $71
-        dec $73
-        dex
-        bpl copy_title_loop1
-
-    rts
-
-copy_title_up:
-
-    lda #$80
-    sta $70
-    lda #$1d
-    sta $71
-
-    lda #$80
-    sta $72
-    lda #$61
-    sta $73
-
-    jmp copy_title  ; optimise away the rts
-
-move_completed_screen_down:
-
-    lda #$00
-    sta $70
-    lda #$62
-    sta $71
-
-    lda #$00
-    sta $72
-    lda #$0f
-    sta $73
-
-    move_completed_screen_loop:
-
-        ldy #1
-        lda ($70),y
-        and #$0f
-        asl
-        asl
-        asl
-        asl
-        sta $80
-        dey
-        lda ($70),y
-        and #$0f
-        ora $80
-        sta ($72),y
-
-        lda #0
-        sta ($70),y
-        iny
-        sta ($70),y
-
         clc
-        lda $70
-        adc #2
-        sta $70
-        lda $71
-        adc #0
-        sta $71
-        clc
-        
         lda $72
-        adc #1
+        adc #$40
         sta $72
         lda $73
-        adc #0
+        adc #$01
         sta $73
         clc
 
-        lda $72
-        cmp #$80
-        bne move_completed_screen_loop
+        lda $71
+        adc #$01
+        sta $71
+        clc
 
-        lda $73
-        cmp #$16
-        bne move_completed_screen_loop
+        dex
+        bpl copy_title_loop1
 
     rts
 
@@ -4313,23 +4250,18 @@ copy_completed_screen_up:
 
     lda #$00
     sta $70
-    lda #$16
+    lda #$0f
     sta $71
 
-    lda #$00
+    lda #$60
     sta $72
-    lda #$69
+    lda #$5e
     sta $73
 
+    ldx #8
     jmp copy_title  ; optimise away the rts
 
 init:
-    ; Copy the title screen to a lower address in memory.
-    jsr copy_title_down
-
-    ; Move the completed screen down in memory, decoding it.
-    jsr move_completed_screen_down
-
     jsr cls     ; clear the text window
 
     lda #26     ; unset the text window

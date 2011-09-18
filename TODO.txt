@@ -1,5 +1,6 @@
 To Do
 
+Ensure that each scenery explosion finishes before the next starts.
 Add last two enemy sprite sets.
 Nice to have: analogue joystick support.
 Nice to have: make one of the enemies have different movement.
