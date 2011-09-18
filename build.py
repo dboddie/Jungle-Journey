@@ -114,6 +114,7 @@ if __name__ == "__main__":
     #
     # 5760 space
     #
+    # 577E joystick support (0=off; 1=on)
     # 577F weapon counter (0=fire one subtile below; 1=fire two subtiles below)
     # 5780 item/player flags (128=leave level, 64=player demise,
     #                         bits 4,5,6=enemy limit, 2=complete game,

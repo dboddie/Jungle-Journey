@@ -1749,12 +1749,45 @@ move_player:
     lda #$52
     sta $75
 
+    ; Handle joystick
+
+    lda $577e
+    cmp #0
+    beq move_player_handle_left_key
+
+    lda #128
+    ldx #1
+    jsr $fff4
+    cpy #0
+    beq move_player_handle_joystick_up_down
+    cpy #128
+    bpl move_player_left
+    jmp move_player_right
+
+    move_player_handle_joystick_up_down:
+
+    lda #128
+    ldx #2
+    jsr $fff4
+    cpy #0
+    beq move_player_handle_left_key
+    cpy #128
+    bpl move_player_not_up
+    jmp move_player_up
+
+    move_player_not_up:
+    jmp move_player_down
+
+    move_player_handle_left_key:
+
     ; Handle the left key.
 
     ldx #158            ; (Z)
     jsr check_key
     cpy #255
     bne move_player_not_left_key
+
+    move_player_left:
 
     lda $5285           ; read dx
     cmp #0
@@ -1846,10 +1879,11 @@ move_player:
     ldx #189            ; (X)
     jsr check_key
     cpy #255
-    beq move_player_right_key
+    beq move_player_right
     jmp move_player_not_right_key
 
-    move_player_right_key:
+    move_player_right:
+
     lda $5285                   ; read dx
     cmp #2
     beq move_player_right_check_x
@@ -1947,6 +1981,8 @@ move_player:
     cpy #255
     bne move_player_not_up_key
 
+    move_player_up:
+
     lda $5283           ; read dy
     cmp #0
     beq move_player_up_check_y
@@ -2033,10 +2069,11 @@ move_player:
     ldx #151            ; (/)
     jsr check_key
     cpy #255
-    beq move_player_down_key
+    beq move_player_down
     jmp move_player_not_down_key
 
-    move_player_down_key:
+    move_player_down:
+
     lda $5283                   ; read dy
     cmp #0
     beq move_player_down_check_y
@@ -2148,10 +2185,23 @@ check_fire_key:
     lda $578d
     bne check_fire_key_exit
 
+    lda $577e
+    beq check_fire_key_no_joystick
+
+    lda #128
+    ldx #0
+    jsr $fff4
+    cpx #0
+    bne check_fire_key_fire
+
+    check_fire_key_no_joystick:
+
     ldx #182            ; (Return)
     jsr check_key
     cpy #255
     bne check_fire_key_exit
+
+    check_fire_key_fire:
 
     lda $5286
     cmp #0
@@ -4324,12 +4374,18 @@ init:
         cpy #96
         bne init_define_high_scores_loop
 
+    ; Disable joystick support.
+    lda #0
+    sta $577e
+
     rts
 
 high_score_default_name1: .byte "RETRO    "
 high_score_default_name2: .byte " SOFTWARE"
 
-title_vdu_bytes:    .byte 17,2, 31,4,27, "Press SPACE", 31,7,28, "to play"
+title_vdu_bytes:    .byte 17,2, 31,7,28, "to play"
+keyboard_message:   .byte 31,4,27, 17,2, "Press SPACE"
+joystick_message:   .byte 31,4,27, 17,2, "Press FIRE "
 title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"
 title_vdu_bytes2:   .byte 17,3, 31,1,30, "   David Boddie   "
 title_vdu_bytes3:   .byte 17,1, 31,1,30, "for Retro Software"
@@ -4417,15 +4473,17 @@ show_title:
         lda title_vdu_bytes,x
         jsr $ffee
         inx
-        cpx #27
+        cpx #12
         bmi write_title_text_loop
+
+    jsr show_keyboard_or_joystick_message
 
     ; Show the title.
     jsr copy_title_up
 
     ; Show the high scores.
 
-    jsr colour3
+    jsr colour1
 
     lda #$80
     sta $70
@@ -4510,12 +4568,66 @@ show_title:
         beq show_title_wait_loop
 
         show_title_wait_loop_no_update:
+        ldx #186
+        jsr check_key
+        cpy #255
+        bne show_title_no_j
+
+        lda #1              ; enable joystick support
+        sta $577e
+        jsr show_joystick_message
+        jmp show_title_no_k
+
+        show_title_no_j:
+        ldx #185
+        jsr check_key
+        cpy #255
+        bne show_title_no_k
+
+        lda #0              ; disable joystick support
+        sta $577e
+        jsr show_keyboard_message
+
+        show_title_no_k:
         ldx #157
         jsr check_key
         cpy #255
         bne show_title_wait_inner_loop
 
     rts
+
+show_keyboard_or_joystick_message:
+
+    lda $577e
+    cmp #0
+    bne show_joystick_message
+
+show_keyboard_message:
+
+    ldx #0
+    show_keyboard_message_loop:
+
+        lda keyboard_message,x
+        jsr $ffee
+        inx
+        cpx #16
+        bne show_keyboard_message_loop
+    
+    rts
+
+show_joystick_message:
+
+    ldx #0
+    show_joystick_message_loop:
+
+        lda joystick_message,x
+        jsr $ffee
+        inx
+        cpx #16
+        bne show_joystick_message_loop
+    
+    rts
+
 
 wait_for_vsync:
 
@@ -4793,7 +4905,6 @@ complete_game_vdu_bytes1: .byte 12
 complete_game_vdu_bytes2: .byte 17,3, 31,2,20, "Congratulations!"
 complete_game_vdu_bytes3: .byte 17,2, 31,1,22, "Now journey onward"
 complete_game_vdu_bytes4: .byte 17,2, 31,1,24, "to a new adventure"
-complete_game_vdu_bytes5: .byte 17,1, 31,4,27, "Press SPACE"
 
 show_complete_game:
 
@@ -4822,14 +4933,8 @@ show_complete_game:
         dec $5785
         bne show_complete_game_no_message
 
-        ldx #0
-        show_complete_game_message_loop:
-
-            lda complete_game_vdu_bytes5,x
-            jsr $ffee
-            inx
-            cpx #16
-            bne show_complete_game_message_loop
+        jsr colour1
+        jsr show_keyboard_or_joystick_message
 
         show_complete_game_no_message:
         ldx #157
@@ -5173,6 +5278,13 @@ high_score_vdu_bytes: .byte 17,1, 31,2,3, "Enter your name!", 17,3, 31,5,30, "> 
 
 cls:
     lda #12
+    jsr $ffee
+    rts
+
+colour1:
+    lda #17
+    jsr $ffee
+    lda #1
     jsr $ffee
     rts
 
