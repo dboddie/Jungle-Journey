@@ -153,7 +153,7 @@ chars = [read_xpm("images/left1.xpm"),
          read_xpm("images/exit2.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
 
          # final exit
-         read_xpm("images/finalexitl.xpm", [("+", "0"), ("#", "1"), (".", "2"), ("@", "3")]),
+         read_xpm("images/finalexitl.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          read_xpm("images/finalexitr.xpm", [(".", "0"), ("#", "1"), ("+", "2"), ("@", "3")]),
          ]
 
