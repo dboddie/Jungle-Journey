@@ -1,6 +1,5 @@
 To Do
 
-Ensure that each scenery explosion finishes before the next starts.
 Add last two enemy sprite sets.
 Nice to have: analogue joystick support.
 Nice to have: make one of the enemies have different movement.
@@ -10,3 +9,4 @@ Nice to have: make projectiles start next to the player, not on top of him.
 Things to look out for
 
 A high score not causing the high score screen to be activated.
+Ensure that each scenery explosion finishes before the next starts.

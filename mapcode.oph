@@ -2207,7 +2207,7 @@ check_fire_key:
     cmp #0
     bne check_fire_key_exit
 
-    lda #15
+    lda #16
     sta $578d
 
     jmp create_projectile   ; optimise away the rts
@@ -2958,7 +2958,7 @@ move_projectile_left:
     ldx #0
     jsr play_sound
 
-    lda #15                     ; prevent the player from firing a new
+    lda #16                     ; prevent the player from firing a new
     sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_left_exit:
@@ -3078,7 +3078,7 @@ move_projectile_right:
     ldx #0
     jsr play_sound
 
-    lda #15                     ; prevent the player from firing a new
+    lda #16                     ; prevent the player from firing a new
     sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_right_exit:
@@ -3183,7 +3183,7 @@ move_projectile_up:
     ldx #0
     jsr play_sound
 
-    lda #15                     ; prevent the player from firing a new
+    lda #16                     ; prevent the player from firing a new
     sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_up_exit:
@@ -3298,7 +3298,7 @@ move_projectile_down:
     ldx #0
     jsr play_sound
 
-    lda #15                     ; prevent the player from firing a new
+    lda #16                     ; prevent the player from firing a new
     sta $578d                   ; projectile until the explosion has finished
 
     move_projectile_down_exit:
