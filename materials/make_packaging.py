@@ -295,7 +295,7 @@ if __name__ == "__main__":
     
     pages = [
         Page((750, 1000),
-             [TextBox((50, 40, 650, 0), 
+             [TextBox((50, 50, 650, 0), 
                       [Text(title, "Jungle Journey\n"),
                        Text(regular,
                             "The last flames of the campfire fade to glowing embers and I am alone. "
@@ -334,7 +334,7 @@ if __name__ == "__main__":
                       ])
              ]),
         Page((750, 1000),
-             [TextBox((50, 40, 650, 0),
+             [TextBox((50, 50, 650, 0),
                       [Text(title, "Loading the Game\n"),
                        Text(regular, "Insert the cassette or disk and type\n"),
                        Text(monospace_quote, "*RUN JUNGLE\n"),
@@ -386,7 +386,7 @@ if __name__ == "__main__":
                       follow = True, index = -2)
              ]),
         Page((750, 1000),
-             [TextBox((50, 40, 650, 0),
+             [TextBox((50, 50, 650, 0),
                       [Text(title, "Treasure\n"),
                        Text(regular, "Items of treasure can be found throughout the jungle. "
                                      "Pick these up to increase your score.\n")]),
