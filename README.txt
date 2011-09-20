@@ -57,6 +57,12 @@ cassette recorder. The game should now load.
 
 Playing the Game
 
+The player must help the character reach the exit for each level. However, the
+player must first find a key to unlock the exit. On the final level, the exit
+does not require a key but it may be obstructed. Enemies will appear in each
+location and attack the player's character. These can be destroyed by
+projectiles fired by the current weapon.
+
 Your character can be moved around the screen by using four control keys:
 
   Z     left
@@ -64,13 +70,12 @@ Your character can be moved around the screen by using four control keys:
   :     up
   /     down
 
-Enemies can be destroying by the projectiles fired by the player's weapon.
 To fire a weapon, press the Return key. There are four different types of
 weapon available in the game.
 
-The player must help the character reach the exit for each level. However, the
-player must first find a key to unlock the exit. On the final level, the exit
-does not require a key but it may be obstructed.
+Alternatively, you may may using an analogue joystick connected to a Plus 1
+expansion interface. Select joystick controls by pressing the J key on the
+title page. Press K to select keyboard controls again.
 
 Other keys can be used to control the game:
 
