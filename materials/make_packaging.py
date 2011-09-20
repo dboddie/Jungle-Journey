@@ -18,27 +18,29 @@ class Page:
             image = QImage(QSize(*self.size), QImage.Format_RGB32)
             image.fill(qRgb(255,255,255))
         
-        x, y = 0, 0
+        positions = [(0, 0)]
         for obj in self.objects:
         
-            x, y = obj.render(image, x, y)
+            x, y = obj.render(image, positions)
+            positions.append((x, y))
         
         return image
 
 class TextBox:
 
-    def __init__(self, bbox, text_items, follow = False):
+    def __init__(self, bbox, text_items, follow = False, index = -1):
     
         self.bbox = bbox
         self.text_items = text_items
         self.follow = follow
+        self.index = index
     
-    def render(self, image, previous_x, previous_y):
+    def render(self, image, positions):
     
         x, y, width, height = self.bbox
         
         if self.follow:
-            y += previous_y
+            y = y + positions[self.index][1]
         
         p = QPainter()
         p.begin(image)
@@ -129,6 +131,7 @@ class Text:
     def format(self, words, width, last = False):
     
         output = []
+        x = 0
         
         if len(words) == 0:
             spacing = 0
@@ -136,10 +139,15 @@ class Text:
             # Full justify the text.
             total_width = sum(map(lambda word: word.width(), words))
             spacing = (width - total_width)/float(len(words))
+        elif self.font.get("align", "left") == "centre":
+            # Centre the text.
+            total_width = sum(map(lambda word: word.width(), words))
+            total_space = sum(map(lambda word: word.space(), words)[:-1])
+            x = width/2.0 - total_width/2.0 - total_space/2.0
+            spacing = None
         else:
             spacing = None
         
-        x = 0
         for word in words:
         
             output.append((word.font(), x, word.text))
@@ -200,6 +208,37 @@ class Word:
         return metrics.width(" ")
 
 
+class Image:
+
+    def __init__(self, bbox, path, scale = None, follow = False, index = -1):
+    
+        self.bbox = bbox
+        self.path = path
+        self.follow = follow
+        self.index = index
+        self.scale = scale
+    
+    def render(self, image, positions):
+    
+        x, y, width, height = self.bbox
+        
+        if self.follow:
+            y = y + positions[self.index][1]
+        
+        p = QPainter()
+        p.begin(image)
+        p.setRenderHint(QPainter.TextAntialiasing)
+        
+        im = QImage(self.path)
+        if self.scale:
+            im = im.scaled(self.scale * im.width(), self.scale * im.height())
+        p.drawImage(x, y, im)
+        
+        p.end()
+        
+        return x + im.size().width(), y + im.size().height()
+
+
 if __name__ == "__main__":
 
     app = QApplication(sys.argv)
@@ -248,6 +287,12 @@ if __name__ == "__main__":
                               "left indent": 160,
                               "right indent": 40}
     
+    exclamation = {"family": "FreeSerif",
+                   "size": 28,
+                   "style": "italic",
+                   "weight": "bold",
+                   "align": "centre"}
+    
     pages = [
         Page((750, 1000),
              [TextBox((50, 40, 650, 0), 
@@ -259,7 +304,7 @@ if __name__ == "__main__":
                             "sweep the cold face of the moon and I perceive the clicks, whistles and "
                             "cries of creatures in the hot air that cloaks this place. Desperately, I "
                             "try to stay my panic and remember those fragments of wilderness craft "
-                            "learned and unlearned many years ago.\n"),
+                            "learned and unlearned many years ago.\n\n"),
                        Text(italic_quote,
                             "Choose your weapon carefully,\n"
                             "Get ready for a fight.\n"
@@ -274,7 +319,7 @@ if __name__ == "__main__":
                             "Struggling through the dense undergrowth, I search for signs of a track or "
                             "trail. At first glance, paths that seemed to lead to safety turn out to be "
                             "impassable, overgrown by tangled and twisted vines. I remember the words of "
-                            "an old teacher:\n"),
+                            "an old teacher:\n\n"),
                        Text(quote,
                             u'\u201cDo not be tempted to use fire to make your way. '
                             'Many a traveller has strayed from the path, using fire to blaze a trail, '
@@ -295,45 +340,102 @@ if __name__ == "__main__":
                        Text(monospace_quote, "*RUN JUNGLE\n"),
                        Text(regular,
                             "then press Return. If you are loading the game from cassette, press play on the "
-                            "cassette recorder. The game should now load.\n\n"),
+                            "cassette recorder. The game should now load.\n\n\n"),
                        Text(title, "Playing the Game\n"),
                        Text(regular,
-                            "Your character can be moved around the screen by using four control keys:\n"),
-                       Text(keys_quote,
+                            "The player must help the character reach the exit for each level. However, the "
+                            "player must first find a key to unlock the exit. On the final level, the exit "
+                            "does not require a key but it may be obstructed. Enemies will appear in each "
+                            "location and attack the player's character. These can be destroyed by "
+                            "projectiles fired by the current weapon.\n\n"
+                            "Your character can be moved around the screen by using four control keys:\n")]),
+              TextBox((50, 0, 650, 0),
+                      [Text(keys_quote,
                             "Z\n"
                             "X\n"
                             ":\n"
-                            "/")
-                      ]),
-              TextBox((50, -keys_quote["size"]*4*1.125, 650, 0),
+                            "/")], follow = True),
+              TextBox((50, 0, 650, 0),
                       [Text(key_descriptions_quote,
                             "left\n"
                             "right\n"
                             "up\n"
                             "down\n"),
                        Text(regular,
-                            "Enemies can be destroying by the projectiles fired by the player's weapon. "
                             "To fire a weapon, press the Return key. There are four different types of "
                             "weapon available in the game.\n\n"
-                            "The player must help the character reach the exit for each level. However, the "
-                            "player must first find a key to unlock the exit. On the final level, the exit "
-                            "does not require a key but it may be obstructed.\n\n"
-                            "Other keys can be used to control the game:\n"),
-                       Text(keys_quote,
+                            "Alternatively, you may may using an analogue joystick connected to a Plus 1 "
+                            "expansion interface. Select joystick controls by pressing the J key on the "
+                            "title page. Press K to select keyboard controls again.\n\n"
+                            "Other keys can be used to control the game:\n")],
+                      follow = True, index = -2),
+              TextBox((50, 0, 650, 0),
+                      [Text(keys_quote,
                             "S\n"
                             "Q\n"
                             "P\n"
                             "O\n"
-                            "Escape")
-                      ], follow = True),
-              TextBox((50, -keys_quote["size"]*5*1.125, 650, 0),
+                            "Escape")], follow = True),
+              TextBox((50, 0, 650, 0),
                       [Text(key_descriptions_quote,
                             "enable sound effects\n"
                             "disable sound effects\n"
                             "pause the game\n"
                             "resume the game\n"
-                            "quit the game, returning to the title screen\n")
-                      ], follow = True)
+                            "quit the game, returning to the title screen\n")],
+                      follow = True, index = -2)
+             ]),
+        Page((750, 1000),
+             [TextBox((50, 40, 650, 0),
+                      [Text(title, "Treasure\n"),
+                       Text(regular, "Items of treasure can be found throughout the jungle. "
+                                     "Pick these up to increase your score.\n")]),
+              Image((80, -8, 620, 0), "../images/key.xpm", scale = 4,
+                    follow = True),
+              TextBox((170, 20, 480, 0),
+                      [Text(regular, "Find the key to open the door on all levels except the last. "
+                                     "Each key is worth 50 points.")],
+                      follow = True, index = -2),
+              Image((80, 8, 620, 0), "../images/chest.xpm", scale = 4,
+                    follow = True, index = -2),
+              TextBox((170, 48, 480, 0),
+                      [Text(regular, "Treasure chests are worth 20 points.")],
+                      follow = True, index = -3),
+              Image((80, 8, 620, 0), "../images/jewel.xpm", scale = 4,
+                    follow = True, index = -2),
+              TextBox((170, 48, 480, 0),
+                      [Text(regular, "Jewels are worth 5 points.")],
+                      follow = True, index = -3),
+              Image((80, 8, 620, 0), "../images/statue.xpm", scale = 4,
+                    follow = True, index = -2),
+              TextBox((170, 48, 480, 0),
+                      [Text(regular, "Statues are worth 10 points.")],
+                      follow = True, index = -3),
+              Image((80, 8, 620, 0), "../images/health.xpm", scale = 4,
+                    follow = True, index = -2),
+              TextBox((170, 36, 480, 0),
+                      [Text(regular, "Presents are worth 40 points and boost your strength by 20 units.")],
+                      follow = True, index = -3),
+              TextBox((50, 48, 650, 0),
+                      [Text(title, "Exits\n"),
+                       Text(regular, "Each level has an exit that can be opened using a key. "
+                                     "On the last level you will find a gate that leads to safety. "
+                                     "This does not require a key, but it is well hidden.\n")],
+                      follow = True),
+              Image((112, -4, 620, 0), "../images/exit1.xpm", scale = 4,
+                    follow = True),
+              TextBox((240, 36, 410, 0),
+                      [Text(regular, "The exit is initially locked. Find the key to unlock it.")],
+                      follow = True, index = -2),
+              Image((80, 8, 620, 0), "../images/finalexitl.xpm", scale = 4,
+                    follow = True, index = -2),
+              Image((144, 8, 620, 0), "../images/finalexitr.xpm", scale = 4,
+                    follow = True, index = -3),
+              TextBox((240, 48, 410, 0),
+                      [Text(regular, "The final exit is hidden somewhere on the final level.")],
+                      follow = True, index = -4),
+              TextBox((50, 950, 650, 0),
+                      [Text(exclamation, "Have a safe journey!")])
              ])
         ]
     
