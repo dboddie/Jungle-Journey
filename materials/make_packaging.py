@@ -1,8 +1,95 @@
 #!/usr/bin/env python
 
-import os, sys
+"""
+Copyright (C) 2011 David Boddie <david@boddie.org.uk>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
+import codecs, os, sys
 from PyQt4.QtCore import QSize
 from PyQt4.QtGui import *
+
+def relpath(source, destination):
+
+    source = os.path.abspath(source)
+    destination = os.path.abspath(destination)
+    
+    src_pieces = source.split(os.sep)
+    dest_pieces = destination.split(os.sep)
+    
+    if os.path.isfile(source):
+        src_pieces.pop()
+    
+    common = []
+    for i in range(min(len(src_pieces), len(dest_pieces))):
+    
+        if src_pieces[i] == dest_pieces[i]:
+            common.append(src_pieces[i])
+            i -= 1
+        else:
+            break
+    
+    to_common = os.sep.join([os.pardir]*(len(src_pieces)-len(common)))
+    return to_common + os.sep + os.sep.join(dest_pieces[len(common):])
+
+
+class SVG:
+
+    def __init__(self, path):
+    
+        self.path = path
+    
+    def _escape(self, text):
+    
+        for s, r in (("&", "&amp;"), ("<", "&lt;"), (">", "&gt;")):
+            text = text.replace(s, r)
+        
+        return text
+    
+    def open(self):
+    
+        self.text = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
+                     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n'
+                     '  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'
+                     '<svg version="1.1"\n'
+                     '     xmlns="http://www.w3.org/2000/svg"\n'
+                     '     xmlns:xlink="http://www.w3.org/1999/xlink">\n')
+    
+    def add_image(self, x, y, width, height, path):
+    
+        path = os.path.join(relpath(self.path, os.curdir), path)
+        self.text += '<image x="%f" y="%f" width="%f" height="%f"\n' % (x, y, width, height)
+        self.text += '       xlink:href="%s" />\n' % path
+        
+    def add_text(self, x, y, font, text):
+    
+        self.text += '<text x="%f" y="%f"\n' % (x, y)
+        self.text += ('      font-family="%s"\n'
+                      '      font-size="%i"\n') % (font["family"], font["size"])
+        if font.has_key("weight"):
+            self.text += '      font-weight="%s"\n' % font["weight"]
+        if font.has_key("style"):
+            self.text += '      font-style="%s"\n' % font["style"]
+        self.text += '>\n'
+        self.text += self._escape(text)
+        self.text += '</text>\n'
+    
+    def close(self):
+    
+        self.text += "</svg>\n"
+        codecs.open(self.path, "w", "utf-8").write(self.text)
 
 
 class Page:
@@ -12,19 +99,15 @@ class Page:
         self.size = size
         self.objects = objects
     
-    def render(self, image = None):
+    def render(self, svg):
     
-        if not image:
-            image = QImage(QSize(*self.size), QImage.Format_RGB32)
-            image.fill(qRgb(255,255,255))
-        
         positions = [(0, 0)]
         for obj in self.objects:
         
-            x, y = obj.render(image, positions)
+            x, y = obj.render(svg, positions)
             positions.append((x, y))
         
-        return image
+        return svg
 
 class TextBox:
 
@@ -35,16 +118,12 @@ class TextBox:
         self.follow = follow
         self.index = index
     
-    def render(self, image, positions):
+    def render(self, svg, positions):
     
         x, y, width, height = self.bbox
         
         if self.follow:
             y = y + positions[self.index][1]
-        
-        p = QPainter()
-        p.begin(image)
-        p.setRenderHint(QPainter.TextAntialiasing)
         
         for text_item in self.text_items:
         
@@ -57,12 +136,9 @@ class TextBox:
             
                 for font, word_x, text in pieces:
                 
-                    p.setFont(font)
-                    p.drawText(item_x + word_x, y, text)
+                    svg.add_text(item_x + word_x, y, font, text)
                 
                 y += line_height
-        
-        p.end()
         
         return x, y
 
@@ -150,7 +226,7 @@ class Text:
         
         for word in words:
         
-            output.append((word.font(), x, word.text))
+            output.append((word._font, x, word.text))
             x += word.width()
             if spacing is not None:
                 x += spacing
@@ -218,25 +294,24 @@ class Image:
         self.index = index
         self.scale = scale
     
-    def render(self, image, positions):
+    def render(self, svg, positions):
     
         x, y, width, height = self.bbox
         
         if self.follow:
             y = y + positions[self.index][1]
         
-        p = QPainter()
-        p.begin(image)
-        p.setRenderHint(QPainter.TextAntialiasing)
-        
         im = QImage(self.path)
+        width = im.size().width()
+        height = im.size().height()
+        
         if self.scale:
-            im = im.scaled(self.scale * im.width(), self.scale * im.height())
-        p.drawImage(x, y, im)
+            width = width * self.scale
+            height = height * self.scale
         
-        p.end()
+        svg.add_image(x, y, width, height, self.path)
         
-        return x + im.size().width(), y + im.size().height()
+        return x + width, y + height
 
 
 if __name__ == "__main__":
@@ -442,9 +517,11 @@ if __name__ == "__main__":
     i = 0
     for page in pages:
     
-        path = os.path.join(output_dir, "page-%i.png" % i)
-        image = page.render()
-        image.save(path)
+        path = os.path.join(output_dir, "page-%i.svg" % i)
+        svg = SVG(path)
+        svg.open()
+        page.render(svg)
+        svg.close()
         i += 1
     
     sys.exit()
