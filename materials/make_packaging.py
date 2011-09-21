@@ -65,7 +65,9 @@ class SVG:
                      '  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'
                      '<svg version="1.1"\n'
                      '     xmlns="http://www.w3.org/2000/svg"\n'
-                     '     xmlns:xlink="http://www.w3.org/1999/xlink">\n')
+                     '     xmlns:xlink="http://www.w3.org/1999/xlink"\n'
+                     '     width="7.5cm" height="10.0cm"\n'
+                     '     viewBox="0 0 750 1000">\n')
     
     def add_image(self, x, y, width, height, path):
     
@@ -379,7 +381,7 @@ if __name__ == "__main__":
                             "sweep the cold face of the moon and I perceive the clicks, whistles and "
                             "cries of creatures in the hot air that cloaks this place. Desperately, I "
                             "try to stay my panic and remember those fragments of wilderness craft "
-                            "learned and unlearned many years ago.\n\n"),
+                            "learned and unlearned many years ago.\n"),
                        Text(italic_quote,
                             "Choose your weapon carefully,\n"
                             "Get ready for a fight.\n"
@@ -388,19 +390,19 @@ if __name__ == "__main__":
                             "There's time to pick up treasure,\n"
                             "But no time to stop and stare.\n"
                             "If you don't find the hidden gate\n"
-                            "You won't get out of there.\n\n"),
+                            "You won't get out of there.\n"),
                        Text(regular,
                             "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
                             "Struggling through the dense undergrowth, I search for signs of a track or "
                             "trail. At first glance, paths that seemed to lead to safety turn out to be "
                             "impassable, overgrown by tangled and twisted vines. I remember the words of "
-                            "an old teacher:\n\n"),
+                            "an old teacher:\n"),
                        Text(quote,
                             u'\u201cDo not be tempted to use fire to make your way. '
                             'Many a traveller has strayed from the path, using fire to blaze a trail, '
                             'only to reach a dead end. Trying to return, they find that the jungle '
                             'has grown back. Those who are desperate enough will even seek out '
-                            u'forgotten routes when the way home is in sight.\u201d\n\n'),
+                            u'forgotten routes when the way home is in sight.\u201d\n'),
                        Text(regular,
                             "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                             "for prey. Only through skill and luck am I able to dispatch them back "
@@ -415,7 +417,7 @@ if __name__ == "__main__":
                        Text(monospace_quote, "*RUN JUNGLE\n"),
                        Text(regular,
                             "then press Return. If you are loading the game from cassette, press play on the "
-                            "cassette recorder. The game should now load.\n\n\n"),
+                            "cassette recorder. The game should now load.\n\n"),
                        Text(title, "Playing the Game\n"),
                        Text(regular,
                             "The player must help the character reach the exit for each level. However, the "
@@ -441,7 +443,7 @@ if __name__ == "__main__":
                             "weapon available in the game.\n\n"
                             "Alternatively, you may may using an analogue joystick connected to a Plus 1 "
                             "expansion interface. Select joystick controls by pressing the J key on the "
-                            "title page. Press K to select keyboard controls again.\n\n"
+                            "title page. Press K to select keyboard controls.\n\n"
                             "Other keys can be used to control the game:\n")],
                       follow = True, index = -2),
               TextBox((50, 0, 650, 0),
