@@ -2315,7 +2315,7 @@ emerge_character:           ; $74,$75=character address
     ; Add an emerging enemy.
 
     ldy #0
-    lda #3
+    lda #3                  ; emerge/explosion
     sta ($74),y
 
     jsr emerge_type         ; obtain an enemy type
@@ -2367,7 +2367,7 @@ emerge_explode:             ; $74,$75=character address
     ora #8          ; make this an enemy
 
     ldy #0
-    sta ($74),y     ; update the type
+    sta ($74),y     ; update the type (>= 8)
     iny
     lda #0          ; prepare the direction and animation offset
     sta ($74),y
@@ -2751,9 +2751,9 @@ move_enemy_animate:     ; $74,$75=character address
 move_enemy:             ; $74,$75=character address
 
     lda #0
-    sta $8d
+    sta $8d             ; vertical motion value (0=no motion; 1=up; 2=down)
     lda #0
-    sta $8e
+    sta $8e             ; horizontal motion value (0=no motion; 1=left; 2=right)
 
     ldy #2
     lda ($74),y         ; y
