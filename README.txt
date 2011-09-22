@@ -75,7 +75,7 @@ weapon available in the game.
 
 Alternatively, you may may using an analogue joystick connected to a Plus 1
 expansion interface. Select joystick controls by pressing the J key on the
-title page. Press K to select keyboard controls again.
+title page. Press K to select keyboard controls.
 
 Other keys can be used to control the game:
 
