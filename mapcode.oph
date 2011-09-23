@@ -2403,7 +2403,7 @@ animate_enemy_left:     ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #$0b    ; keep vertical direction bit and animation bits
+    and #$fb    ; keep vertical direction bit and animation bits
     sta ($74),y ; left (horizontal directional bit is 0)
 
     rts
@@ -2573,7 +2573,7 @@ animate_enemy_up:   ; $74,$75=character address
 
     ldy #1
     lda ($74),y
-    and #$07    ; keep horizontal direction bit and animation bits
+    and #$f7    ; keep horizontal direction bit and animation bits
     sta ($74),y
 
     rts
@@ -2739,14 +2739,17 @@ move_enemy_animate:     ; $74,$75=character address
     ldy #1
     lda ($74),y         ; direction/animation
     sta $81
+    and #$03
     adc #1
     and #$03            ; keep animation bits
     sta $8f
     lda $81
-    and #$0c            ; mask off the animation bits
+    and #$fc            ; mask off the animation bits
     ora $8f
     sta ($74),y
     rts
+
+move_enemy_next_direction: .byte $04, $0c, $00, $08
 
 move_enemy:             ; $74,$75=character address
 
@@ -2754,6 +2757,61 @@ move_enemy:             ; $74,$75=character address
     sta $8d             ; vertical motion value (0=no motion; 1=up; 2=down)
     lda #0
     sta $8e             ; horizontal motion value (0=no motion; 1=left; 2=right)
+
+    lda ($74),y         ; read the enemy number (Y should be zero)
+    and #$50
+    beq move_enemy_homing
+    clc
+
+    ; This enemy is a non-homing enemy.
+
+    jsr unplot_character    ; unplot now before we change the sprite used
+
+    ldy #1
+    lda ($74),y
+    and #$f0
+    cmp #$f0
+    bne move_enemy_set_direction
+    clc
+
+    ldy #1
+    lda ($74),y
+    and #$0c
+    ror
+    ror
+    tax
+    lda move_enemy_next_direction,x
+    sta ($74),y
+
+    move_enemy_set_direction:
+    clc
+
+    ldy #1
+    lda ($74),y
+    sta $7b
+
+    adc #$10
+    sta ($74),y
+    clc
+
+    lda $7b
+    and #$04
+    ror
+    ror
+    adc #1
+    sta $8e
+
+    lda $7b
+    and #$08
+    ror
+    ror
+    ror
+    adc #1
+    sta $8d
+
+    jmp move_enemy_with_direction
+
+    move_enemy_homing:
 
     ldy #2
     lda ($74),y         ; y
@@ -2787,22 +2845,25 @@ move_enemy:             ; $74,$75=character address
     ldy #5
     lda ($74),y         ; dx
     cmp #0
-    beq move_enemy_with_direction
+    beq move_enemy_with_direction_unplot
     bpl move_enemy_leftwards
 
     move_enemy_rightwards:
     lda #2
     sta $8e
-    jmp move_enemy_with_direction
+    jmp move_enemy_with_direction_unplot
 
     move_enemy_leftwards:
     lda #1
     sta $8e
 
-    move_enemy_with_direction:
+    move_enemy_with_direction_unplot:
     clc
 
     jsr unplot_character
+
+    move_enemy_with_direction:
+    clc
 
     lda $8e
     cmp #1
@@ -3536,8 +3597,8 @@ move_characters:
 
         lda $74                     ; for the last enemy, check the next slot
         cmp #$9e                    ; for the presence of an explosion
-        bne move_characters_endloop
-        clc
+        bne move_characters_endloop ; otherwise leave the loop (only performing
+        clc                         ; one iteration)
 
         adc #6
         sta $74

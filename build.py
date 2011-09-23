@@ -83,6 +83,7 @@ if __name__ == "__main__":
     #        projectile: bits 4,5 are direction, bits 1,2 are type,
     #                    bit 0 is animation
     #        enemy:  bits 2,3 are direction, bits 1,0 are animation
+    #                bits 4,5,6,7 are counter for non-homing enemies
     #        emerging, explosion: bits 4,5,6 are enemy type for emerging,
     #                             bit 2 is type 0=emerge,1=explode,
     #                             bits 0,1 are animation
@@ -167,6 +168,9 @@ if __name__ == "__main__":
     code = open("CODE").read()
     code_start = 0x1e00
     files.append(("CODE", code_start, code_start, code))
+    
+    copying = open("COPYING").read()
+    files.append(("COPYING", 0xe00, 0xe00, copying))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
