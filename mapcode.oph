@@ -2177,8 +2177,13 @@ try_to_exit_level:
 
     try_to_exit_level_exit:
     sta $5780
-    sec                         ; indicate that the player is leaving the room
-    rts
+
+    lda #$80
+    sta $74
+    lda #$52
+    sta $75
+    jsr unplot_character    ; remove the player sprite
+    jmp destroy_enemies     ; optimise away the rts
 
 check_fire_key:
 
@@ -3920,16 +3925,25 @@ reduce_strength:    ; $70=strength to remove
     sta $5281
 
     jsr plot_character
+    jmp destroy_enemies ; optimise away the rts
+
+    reduce_strength_exit:
+    clc
+    rts
+
+destroy_enemies:
 
     lda #$8c
     sta $74
+    lda #$52
+    sta $75
 
-    reduce_strength_destroy_enemies_loop:
+    destroy_enemies_loop:
 
         ldy #0
         lda ($74),y
         cmp #8
-        bmi reduce_strength_not_enemy
+        bmi destroy_enemies_not_enemy
 
         jsr unplot_character
 
@@ -3942,11 +3956,11 @@ reduce_strength:    ; $70=strength to remove
         sta ($74),y
 
         jsr plot_character
-        jmp reduce_strength_not_emerging_enemy
+        jmp destroy_enemies_not_emerging_enemy
 
-        reduce_strength_not_enemy:
+        destroy_enemies_not_enemy:
         cmp #3
-        bne reduce_strength_not_emerging_enemy
+        bne destroy_enemies_not_emerging_enemy
 
         jsr unplot_character
 
@@ -3957,15 +3971,14 @@ reduce_strength:    ; $70=strength to remove
 
         jsr plot_character
 
-        reduce_strength_not_emerging_enemy:
+        destroy_enemies_not_emerging_enemy:
         clc
         lda $74
         adc #6
         sta $74
         cmp #$a4
-        bmi reduce_strength_destroy_enemies_loop
+        bmi destroy_enemies_loop
 
-    reduce_strength_exit:
     clc
     rts
 
@@ -5545,8 +5558,8 @@ main:
                     jsr move_characters
                     jsr move_projectile
 
-                    lda $5780   ; is player out of strength?
-                    and #$40
+                    lda $5780   ; is player out of strength ($40), leaving the
+                    and #$c2    ; level (0x80) or completing the game (0x02)?
                     beq room_loop_player_move
                     clc
 
@@ -5556,7 +5569,7 @@ main:
 
                     room_loop_delay_next:
 
-                    lda $5281           ; leave the loop when the player
+                    lda $5281           ; leave the loop when the player demise
                     cmp #11             ; animation has finished
                     beq room_loop_after_player_move
                     clc
@@ -5564,6 +5577,12 @@ main:
                     lda $578e
                     and #7
                     bne room_loop_after_player_move
+
+                    lda $5780   ; skip the animation if leaving the level or
+                    and #$82    ; completing the game
+                    bne room_loop_after_player_move
+
+                    ; Show the demise animation when appropriate.
 
                     lda #$80
                     sta $74
