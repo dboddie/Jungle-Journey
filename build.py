@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import os, sys
+import os, struct, sys
 import UEFfile
 from tools import makesprites
 
@@ -35,6 +35,72 @@ def read_basic(path):
     lines = t.rstrip().split("\r")
     t = "\r".join(lines) + "\r"
     return t
+
+def encode_text(text):
+
+    words = text.split(" ")
+    word_dict = {}
+    
+    # Count the number of occurrences of each word.
+    for word in words:
+        word_dict.setdefault(word, 0)
+        word_dict[word] += 1
+    
+    # Sort the words in order of decreasing frequency.
+    frequencies = map(lambda x: (x[1], x[0]), word_dict.items())
+    frequencies.sort()
+    frequencies.reverse()
+    
+    # Create encoding and decoding look up tables.
+    decoding_lookup = {}
+    encoding_lookup = {}
+    
+    i = 0
+    for count, word in frequencies:
+    
+        if i >= 128:
+            j = 1 + i * 2
+        else:
+            j = i * 2
+        
+        encoding_lookup[word] = j
+        decoding_lookup[j] = word
+        
+        i += 1
+    
+    # Encode the text.
+    encoded = []
+    for word in words:
+    
+        encoded.append(encoding_lookup[word])
+    
+    encoded_string = ""
+    for value in encoded:
+    
+        if value & 1 == 0:
+            encoded_string += chr(value)
+        else:
+            encoded_string += struct.pack("<H", value)
+    
+    return decoding_lookup, encoded_string
+
+def decode_text(data, lookup):
+
+    words = ""
+    i = 0
+    while i < len(data):
+    
+        value = ord(data[i])
+        if value & 1 != 0:
+            value += ord(data[i+1]) << 8
+            i += 2
+        else:
+            i += 1
+        
+        words += lookup[value]
+        words += " "
+    
+    return words[:-1]
 
 
 if __name__ == "__main__":
@@ -168,9 +234,6 @@ if __name__ == "__main__":
     code = open("CODE").read()
     code_start = 0x1e00
     files.append(("CODE", code_start, code_start, code))
-    
-    copying = open("COPYING").read()
-    files.append(("COPYING", 0xe00, 0xe00, copying))
     
     u = UEFfile.UEFfile(creator = 'build.py '+version)
     u.minor = 6
