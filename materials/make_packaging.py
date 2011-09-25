@@ -66,8 +66,8 @@ class SVG:
                      '<svg version="1.1"\n'
                      '     xmlns="http://www.w3.org/2000/svg"\n'
                      '     xmlns:xlink="http://www.w3.org/1999/xlink"\n'
-                     '     width="7.5cm" height="10.0cm"\n'
-                     '     viewBox="0 0 750 1000">\n')
+                     '     width="6.5cm" height="10.0cm"\n'
+                     '     viewBox="0 0 650 1000">\n')
     
     def add_image(self, x, y, width, height, path):
     
@@ -213,16 +213,19 @@ class Text:
         
         if len(words) == 0:
             spacing = 0
+        
         elif self.font.get("align", "left") == "justify" and not last:
             # Full justify the text.
             total_width = sum(map(lambda word: word.width(), words))
-            spacing = (width - total_width)/float(len(words))
+            spacing = (width - total_width)/float(len(words) - 1)
+        
         elif self.font.get("align", "left") == "centre":
             # Centre the text.
             total_width = sum(map(lambda word: word.width(), words))
             total_space = sum(map(lambda word: word.space(), words)[:-1])
             x = width/2.0 - total_width/2.0 - total_space/2.0
             spacing = None
+        
         else:
             spacing = None
         
@@ -339,7 +342,7 @@ if __name__ == "__main__":
              "weight": "bold"}
     
     italic_quote = {"family": "FreeSerif",
-                    "size": 24,
+                    "size": 22,
                     "style": "italic",
                     "left indent": 40,
                     "right indent": 40}
@@ -385,8 +388,8 @@ if __name__ == "__main__":
                           "align": "centre"}
     
     pages = [
-        Page((750, 1000),
-             [TextBox((50, 50, 650, 0), 
+        Page((650, 1020),
+             [TextBox((25, 35, 600, 0), 
                       [Text(title, "Jungle Journey\n"),
                        Text(regular,
                             "The last flames of the campfire fade to glowing embers and I am alone. "
@@ -424,29 +427,30 @@ if __name__ == "__main__":
                             "uncharted land to find the way home, the thought of vengeance drives me on.")
                       ])
              ]),
-        Page((750, 1000),
-             [TextBox((50, 50, 650, 0),
+        Page((650, 1000),
+             [TextBox((25, 35, 600, 0),
                       [Text(title, "Loading the Game\n"),
                        Text(regular, "Insert the cassette or disk and type\n"),
                        Text(monospace_quote, "*RUN JUNGLE\n"),
                        Text(regular,
                             "then press Return. If you are loading the game from cassette, press play on the "
-                            "cassette recorder. The game should now load.\n\n"),
+                            "cassette recorder. The game should now load.\n"),
                        Text(title, "Playing the Game\n"),
                        Text(regular,
                             "The player must help the character reach the exit for each level. However, the "
                             "player must first find a key to unlock the exit. On the final level, the exit "
                             "does not require a key but it may be obstructed. Enemies will appear in each "
                             "location and attack the player's character. These can be destroyed by "
-                            "projectiles fired by the current weapon.\n\n"
+                            "projectiles fired by the current weapon.\n"),
+                       Text(regular,
                             "Your character can be moved around the screen by using four control keys:\n")]),
-              TextBox((50, 0, 650, 0),
+              TextBox((25, 0, 600, 0),
                       [Text(keys_quote,
                             "Z\n"
                             "X\n"
                             ":\n"
                             "/")], follow = True),
-              TextBox((50, 0, 650, 0),
+              TextBox((25, 0, 600, 0),
                       [Text(key_descriptions_quote,
                             "left\n"
                             "right\n"
@@ -460,14 +464,14 @@ if __name__ == "__main__":
                             "title page. Press K to select keyboard controls.\n\n"
                             "Other keys can be used to control the game:\n")],
                       follow = True, index = -2),
-              TextBox((50, 0, 650, 0),
+              TextBox((25, 0, 600, 0),
                       [Text(keys_quote,
                             "S\n"
                             "Q\n"
                             "P\n"
                             "O\n"
                             "Escape")], follow = True),
-              TextBox((50, 0, 650, 0),
+              TextBox((25, 0, 600, 0),
                       [Text(key_descriptions_quote,
                             "enable sound effects\n"
                             "disable sound effects\n"
@@ -476,67 +480,67 @@ if __name__ == "__main__":
                             "quit the game, returning to the title screen\n")],
                       follow = True, index = -2)
              ]),
-        Page((750, 1000),
-             [TextBox((50, 50, 650, 0),
+        Page((650, 1000),
+             [TextBox((25, 35, 600, 0),
                       [Text(title, "Treasure\n"),
                        Text(regular, "Items of treasure can be found throughout the jungle. "
                                      "Pick these up to increase your score.\n")]),
-              Image((80, -8, 620, 0), "../images/key.xpm", scale = 4,
+              Image((45, -8, 515, 0), "../images/key.xpm", scale = 4,
                     follow = True),
-              TextBox((170, 20, 480, 0),
+              TextBox((135, 20, 475, 0),
                       [Text(regular, "Find the key to open the door on all levels except the last. "
                                      "Each key is worth 50 points.")],
                       follow = True, index = -2),
-              Image((80, 8, 620, 0), "../images/chest.xpm", scale = 4,
+              Image((45, 8, 515, 0), "../images/chest.xpm", scale = 4,
                     follow = True, index = -2),
-              TextBox((170, 48, 480, 0),
+              TextBox((135, 48, 475, 0),
                       [Text(regular, "Treasure chests are worth 20 points.")],
                       follow = True, index = -3),
-              Image((80, 8, 620, 0), "../images/jewel.xpm", scale = 4,
+              Image((45, 8, 515, 0), "../images/jewel.xpm", scale = 4,
                     follow = True, index = -2),
-              TextBox((170, 48, 480, 0),
+              TextBox((135, 48, 475, 0),
                       [Text(regular, "Jewels are worth 5 points.")],
                       follow = True, index = -3),
-              Image((80, 8, 620, 0), "../images/statue.xpm", scale = 4,
+              Image((45, 8, 515, 0), "../images/statue.xpm", scale = 4,
                     follow = True, index = -2),
-              TextBox((170, 48, 480, 0),
+              TextBox((135, 48, 475, 0),
                       [Text(regular, "Statues are worth 10 points.")],
                       follow = True, index = -3),
-              Image((80, 8, 620, 0), "../images/health.xpm", scale = 4,
+              Image((45, 8, 515, 0), "../images/health.xpm", scale = 4,
                     follow = True, index = -2),
-              TextBox((170, 36, 480, 0),
+              TextBox((135, 36, 475, 0),
                       [Text(regular, "Presents are worth 40 points and boost your strength by 20 units.")],
                       follow = True, index = -3),
-              TextBox((50, 48, 650, 0),
+              TextBox((25, 48, 600, 0),
                       [Text(title, "Exits\n"),
                        Text(regular, "Each level has an exit that can be opened using a key. "
                                      "On the last level you will find a gate that leads to safety. "
                                      "This does not require a key, but it is well hidden.\n")],
                       follow = True),
-              Image((112, -4, 620, 0), "../images/exit1.xpm", scale = 4,
+              Image((77, -4, 513, 0), "../images/exit1.xpm", scale = 4,
                     follow = True),
-              TextBox((240, 36, 410, 0),
+              TextBox((215, 36, 400, 0),
                       [Text(regular, "The exit is initially locked. Find the key to unlock it.")],
                       follow = True, index = -2),
-              Image((80, 8, 620, 0), "../images/finalexitl.xpm", scale = 4,
+              Image((45, 8, 545, 0), "../images/finalexitl.xpm", scale = 4,
                     follow = True, index = -2),
-              Image((144, 8, 620, 0), "../images/finalexitr.xpm", scale = 4,
+              Image((109, 8, 481, 0), "../images/finalexitr.xpm", scale = 4,
                     follow = True, index = -3),
-              TextBox((240, 48, 410, 0),
+              TextBox((215, 48, 400, 0),
                       [Text(regular, "The final exit is hidden somewhere on the final level.")],
                       follow = True, index = -4),
-              TextBox((50, 950, 650, 0),
+              TextBox((25, 950, 600, 0),
                       [Text(exclamation, "Have a safe journey!")])
              ]),
-        Page((750, 1000),
-             [TextBox((50, 40, 650, 0),
+        Page((650, 1000),
+             [TextBox((25, 50, 600, 0),
                       [Text(back_cover_title, "Jungle Journey"),
                        Text(back_cover_subtitle, "for the Acorn Electron and BBC Model B")]),
-              Image((100, 8, 500, 0), "screenshot1.png", scale = 0.5, follow = True),
-              TextBox((50, 900, 650, 0),
+              Image((100, 8, 500, 0), "screenshot1.png", scale = 0.4, follow = True),
+              TextBox((25, 900, 600, 0),
                       [Text(back_cover_centred,
                             u"Copyright \u00a9 2011 David Boddie\n"
-                            u"for Retro Software\n"
+                            u"An Infukor production for Retro Software\n"
                             u"http://www.retrosoftware.co.uk/")]),
              ]),
         ]
