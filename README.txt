@@ -14,7 +14,7 @@ learned and unlearned many years ago.
     If you go there at night.
     There's time to pick up treasure,
     But no time to stop and stare.
-    If you don't find the hidden gate
+    If you don't find the hidden cave
     You won't get out of there.
 
 Hopeless, I scramble to my feet, reaching for any weapon still left to me.

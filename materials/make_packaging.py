@@ -375,6 +375,11 @@ if __name__ == "__main__":
                         "weight": "bold",
                         "align": "centre"}
     
+    back_cover_subtitle = {"family": "FreeSerif",
+                           "size": 28,
+                           "weight": "bold",
+                           "align": "centre"}
+    
     back_cover_centred = {"family": "FreeSerif",
                           "size": 24,
                           "align": "centre"}
@@ -398,7 +403,7 @@ if __name__ == "__main__":
                             "If you go there at night.\n"
                             "There's time to pick up treasure,\n"
                             "But no time to stop and stare.\n"
-                            "If you don't find the hidden gate\n"
+                            "If you don't find the hidden cave\n"
                             "You won't get out of there.\n"),
                        Text(regular,
                             "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
@@ -524,15 +529,15 @@ if __name__ == "__main__":
                       [Text(exclamation, "Have a safe journey!")])
              ]),
         Page((750, 1000),
-             [Image((55, 50, 650, 0), "../images/title-screen.xpm", scale = 5),
-              TextBox((50, 40, 650, 0),
-                      [Text(back_cover_title, "for the Acorn Electron")],
-                      follow = True),
+             [TextBox((50, 40, 650, 0),
+                      [Text(back_cover_title, "Jungle Journey"),
+                       Text(back_cover_subtitle, "for the Acorn Electron and BBC Model B")]),
+              Image((100, 8, 500, 0), "screenshot1.png", scale = 0.5, follow = True),
               TextBox((50, 900, 650, 0),
                       [Text(back_cover_centred,
                             u"Copyright \u00a9 2011 David Boddie\n"
                             u"for Retro Software\n"
-                            u"http://www.retrosoftware.co.uk/")])
+                            u"http://www.retrosoftware.co.uk/")]),
              ]),
         ]
     
