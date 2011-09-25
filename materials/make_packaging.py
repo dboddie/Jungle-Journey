@@ -369,6 +369,15 @@ if __name__ == "__main__":
                    "style": "italic",
                    "weight": "bold",
                    "align": "centre"}
+
+    back_cover_title = {"family": "FreeSerif",
+                        "size": 36,
+                        "weight": "bold",
+                        "align": "centre"}
+    
+    back_cover_centred = {"family": "FreeSerif",
+                          "size": 24,
+                          "align": "centre"}
     
     pages = [
         Page((750, 1000),
@@ -513,7 +522,18 @@ if __name__ == "__main__":
                       follow = True, index = -4),
               TextBox((50, 950, 650, 0),
                       [Text(exclamation, "Have a safe journey!")])
-             ])
+             ]),
+        Page((750, 1000),
+             [Image((55, 50, 650, 0), "../images/title-screen.xpm", scale = 5),
+              TextBox((50, 40, 650, 0),
+                      [Text(back_cover_title, "for the Acorn Electron")],
+                      follow = True),
+              TextBox((50, 900, 650, 0),
+                      [Text(back_cover_centred,
+                            u"Copyright \u00a9 2011 David Boddie\n"
+                            u"for Retro Software\n"
+                            u"http://www.retrosoftware.co.uk/")])
+             ]),
         ]
     
     i = 0
