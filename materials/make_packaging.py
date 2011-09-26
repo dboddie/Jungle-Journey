@@ -61,13 +61,16 @@ class SVG:
     def open(self):
     
         self.text = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
-                     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n'
-                     '  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'
-                     '<svg version="1.1"\n'
-                     '     xmlns="http://www.w3.org/2000/svg"\n'
-                     '     xmlns:xlink="http://www.w3.org/1999/xlink"\n'
-                     '     width="6.5cm" height="10.0cm"\n'
-                     '     viewBox="0 0 650 1000">\n')
+                     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n')
+    
+    def add_page(self, width, height):
+    
+        self.text += ('  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'
+                      '<svg version="1.1"\n'
+                      '     xmlns="http://www.w3.org/2000/svg"\n'
+                      '     xmlns:xlink="http://www.w3.org/1999/xlink"\n'
+                      '     width="%fcm" height="%fcm"\n'
+                      '     viewBox="0 0 %i %i">\n') % (width/100.0, height/100.0, width, height)
     
     def add_image(self, x, y, width, height, path):
     
@@ -103,6 +106,8 @@ class Page:
     
     def render(self, svg):
     
+        svg.add_page(self.size[0], self.size[1])
+        
         positions = [(0, 0)]
         for obj in self.objects:
         
@@ -353,7 +358,7 @@ if __name__ == "__main__":
              "right indent": 40}
     
     monospace_quote = {"family": "FreeMono",
-                       "size": 24,
+                       "size": 22,
                        "left indent": 40,
                        "right indent": 40}
     
@@ -365,7 +370,7 @@ if __name__ == "__main__":
     key_descriptions_quote = {"family": "FreeSerif",
                               "size": 24,
                               "left indent": 160,
-                              "right indent": 40}
+                              "right indent": 0}
     
     exclamation = {"family": "FreeSerif",
                    "size": 28,
@@ -430,9 +435,11 @@ if __name__ == "__main__":
         Page((650, 1000),
              [TextBox((25, 35, 600, 0),
                       [Text(title, "Loading the Game\n"),
-                       Text(regular, "Insert the cassette or disk and type\n"),
-                       Text(monospace_quote, "*RUN JUNGLE\n"),
-                       Text(regular,
+                       Text(regular, "Insert the cassette or disk and type\n")]),
+              TextBox((25, -2, 600, 0),
+                      [Text(monospace_quote, "*RUN JUNGLE\n")], follow = True),
+              TextBox((25, -2, 600, 0),
+                      [Text(regular,
                             "then press Return. If you are loading the game from cassette, press play on the "
                             "cassette recorder. The game should now load.\n"),
                        Text(title, "Playing the Game\n"),
@@ -440,10 +447,11 @@ if __name__ == "__main__":
                             "The player must help the character reach the exit for each level. However, the "
                             "player must first find a key to unlock the exit. On the final level, the exit "
                             "does not require a key but it may be obstructed. Enemies will appear in each "
-                            "location and attack the player's character. These can be destroyed by "
+                            "location and attack the player's character. They can be destroyed by "
                             "projectiles fired by the current weapon.\n"),
                        Text(regular,
-                            "Your character can be moved around the screen by using four control keys:\n")]),
+                            "Your character can be moved around the screen by using four control keys:\n")],
+                      follow = True),
               TextBox((25, 0, 600, 0),
                       [Text(keys_quote,
                             "Z\n"
@@ -536,12 +544,27 @@ if __name__ == "__main__":
              [TextBox((25, 50, 600, 0),
                       [Text(back_cover_title, "Jungle Journey"),
                        Text(back_cover_subtitle, "for the Acorn Electron and BBC Model B")]),
-              Image((100, 8, 500, 0), "screenshot1.png", scale = 0.4, follow = True),
-              TextBox((25, 900, 600, 0),
+              Image((101, 0, 450, 0), "screenshot1.png", scale = 0.7, follow = True),
+              TextBox((25, 45, 600, 0),
                       [Text(back_cover_centred,
                             u"Copyright \u00a9 2011 David Boddie\n"
                             u"An Infukor production for Retro Software\n"
-                            u"http://www.retrosoftware.co.uk/")]),
+                            u"http://www.retrosoftware.co.uk/")], follow = True),
+              TextBox((25, 20, 600, 0),
+                      [Text(regular,
+                            "This program is free software: you can redistribute it and/or modify "
+                            "it under the terms of the GNU General Public License as published by "
+                            "the Free Software Foundation, either version 3 of the License, or "
+                            "(at your option) any later version.\n"
+                            "\n"
+                            "This program is distributed in the hope that it will be useful, "
+                            "but WITHOUT ANY WARRANTY; without even the implied warranty of "
+                            "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "
+                            "GNU General Public License for more details.\n"
+                            "\n"
+                            "You should have received a copy of the GNU General Public License "
+                            "along with this program.\nIf not, see <http://www.gnu.org/licenses/>.")],
+                      follow = True)
              ]),
         ]
     
