@@ -60,7 +60,7 @@ Playing the Game
 The player must help the character reach the exit for each level. However, the
 player must first find a key to unlock the exit. On the final level, the exit
 does not require a key but it may be obstructed. Enemies will appear in each
-location and attack the player's character. These can be destroyed by
+location and attack the player's character. They can be destroyed by
 projectiles fired by the current weapon.
 
 Your character can be moved around the screen by using four control keys:
