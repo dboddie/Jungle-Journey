@@ -2197,7 +2197,7 @@ check_fire_key:
     ldx #0
     jsr $fff4
     cpx #0
-    bne check_fire_key_fire
+    beq check_fire_key_fire
 
     check_fire_key_no_joystick:
 
@@ -4399,8 +4399,7 @@ high_score_default_name1: .byte "RETRO    "
 high_score_default_name2: .byte " SOFTWARE"
 
 title_vdu_bytes:    .byte 17,2, 31,7,28, "to play"
-keyboard_message:   .byte 31,4,27, 17,2, "Press SPACE"
-joystick_message:   .byte 31,4,27, 17,2, "Press FIRE "
+input_message:      .byte 17,2, 31,1,27, "Press SPACE / FIRE"
 title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"
 title_vdu_bytes2:   .byte 17,3, 31,1,30, "   David Boddie   "
 title_vdu_bytes3:   .byte 17,1, 31,1,30, "for Retro Software"
@@ -4491,7 +4490,7 @@ show_title:
         cpx #12
         bmi write_title_text_loop
 
-    jsr show_keyboard_or_joystick_message
+    jsr show_input_message
 
     ; Show the title.
     jsr copy_title_up
@@ -4583,66 +4582,41 @@ show_title:
         beq show_title_wait_loop
 
         show_title_wait_loop_no_update:
-        ldx #186
-        jsr check_key
-        cpy #255
-        bne show_title_no_j
-
+        lda #128
+        ldx #0
+        jsr $fff4
+        cpx #0              ; fire button pressed?
+        beq show_title_no_joystick
+        
         lda #1              ; enable joystick support
         sta $577e
-        jsr show_joystick_message
-        jmp show_title_no_k
+        jmp show_title_exit
 
-        show_title_no_j:
-        ldx #185
-        jsr check_key
-        cpy #255
-        bne show_title_no_k
-
-        lda #0              ; disable joystick support
-        sta $577e
-        jsr show_keyboard_message
-
-        show_title_no_k:
-        ldx #157
+        show_title_no_joystick:
+        ldx #157            ; SPACE
         jsr check_key
         cpy #255
         bne show_title_wait_inner_loop
 
+    lda #0              ; disable joystick support
+    sta $577e
+
+    show_title_exit:
+    clc
     rts
 
-show_keyboard_or_joystick_message:
-
-    lda $577e
-    cmp #0
-    bne show_joystick_message
-
-show_keyboard_message:
+show_input_message:
 
     ldx #0
-    show_keyboard_message_loop:
+    show_input_message_loop:
 
-        lda keyboard_message,x
+        lda input_message,x
         jsr $ffee
         inx
-        cpx #16
-        bne show_keyboard_message_loop
+        cpx #23
+        bne show_input_message_loop
     
     rts
-
-show_joystick_message:
-
-    ldx #0
-    show_joystick_message_loop:
-
-        lda joystick_message,x
-        jsr $ffee
-        inx
-        cpx #16
-        bne show_joystick_message_loop
-    
-    rts
-
 
 wait_for_vsync:
 
@@ -4949,14 +4923,26 @@ show_complete_game:
         bne show_complete_game_no_message
 
         jsr colour1
-        jsr show_keyboard_or_joystick_message
+        jsr show_input_message
 
         show_complete_game_no_message:
+
+        lda #128
+        ldx #0
+        jsr $fff4
+        cpx #0              ; fire button pressed?
+        beq show_complete_game_no_joystick
+        jmp show_complete_game_exit
+
+        show_complete_game_no_joystick:
+
         ldx #157
         jsr check_key
         cpy #255
         bne show_complete_game_delay_loop
 
+    show_complete_game_exit:
+    clc
     rts
 
 check_high_scores:
