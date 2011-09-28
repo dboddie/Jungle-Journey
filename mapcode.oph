@@ -1758,24 +1758,27 @@ move_player:
     lda #128
     ldx #1
     jsr $fff4
-    cpy #0
-    beq move_player_handle_joystick_up_down
-    cpy #128
-    bpl move_player_left
+    cpy #16
+    bmi move_player_joystick_left_check
     jmp move_player_right
+
+    move_player_joystick_left_check:
+    cpy #240
+    bpl move_player_handle_joystick_up_down
+    jmp move_player_left
 
     move_player_handle_joystick_up_down:
 
     lda #128
     ldx #2
     jsr $fff4
-    cpy #0
-    beq move_player_handle_left_key
-    cpy #128
-    bpl move_player_not_up
+    cpy #16
+    bmi move_player_joystick_down_check
     jmp move_player_up
 
-    move_player_not_up:
+    move_player_joystick_down_check:
+    cpy #240
+    bpl move_player_handle_left_key
     jmp move_player_down
 
     move_player_handle_left_key:
@@ -2197,7 +2200,7 @@ check_fire_key:
     ldx #0
     jsr $fff4
     cpx #0
-    beq check_fire_key_fire
+    bne check_fire_key_fire
 
     check_fire_key_no_joystick:
 
