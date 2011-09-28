@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     width="6.500000cm" height="10.000000cm"
+     viewBox="0 0 650 1000">
+<text x="25.000000" y="35.000000"
+      font-family="FreeSerif"
+      font-size="24"
+      font-weight="bold"
+>
+Treasure</text>
+<text x="25.000000" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Items</text>
+<text x="89.111111" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+of</text>
+<text x="119.222222" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+treasure</text>
+<text x="206.333333" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+can</text>
+<text x="250.444444" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+be</text>
+<text x="283.555556" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+found</text>
+<text x="348.666667" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+throughout</text>
+<text x="464.777778" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="504.888889" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+jungle.</text>
+<text x="582.000000" y="75.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Pick</text>
+<text x="25.000000" y="102.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+these</text>
+<text x="81.000000" y="102.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+up</text>
+<text x="111.000000" y="102.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+to</text>
+<text x="136.000000" y="102.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+increase</text>
+<text x="222.000000" y="102.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+your</text>
+<text x="271.000000" y="102.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+score.</text>
+<image x="45.000000" y="134.000000" width="64.000000" height="64.000000"
+       xlink:href="../../images/key.xpm" />
+<text x="135.000000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Find</text>
+<text x="185.100000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="221.200000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+key</text>
+<text x="261.300000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+to</text>
+<text x="286.400000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+open</text>
+<text x="339.500000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="375.600000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+door</text>
+<text x="425.700000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+on</text>
+<text x="455.800000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+all</text>
+<text x="486.900000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+levels</text>
+<text x="548.000000" y="162.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+except</text>
+<text x="135.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="171.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+last.</text>
+<text x="217.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Each</text>
+<text x="272.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+key</text>
+<text x="312.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+is</text>
+<text x="334.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+worth</text>
+<text x="396.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+50</text>
+<text x="426.000000" y="189.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+points.</text>
+<image x="45.000000" y="206.000000" width="64.000000" height="64.000000"
+       xlink:href="../../images/chest.xpm" />
+<text x="135.000000" y="246.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Treasure</text>
+<text x="225.000000" y="246.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+chests</text>
+<text x="290.000000" y="246.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+are</text>
+<text x="326.000000" y="246.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+worth</text>
+<text x="388.000000" y="246.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+20</text>
+<text x="418.000000" y="246.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+points.</text>
+<image x="45.000000" y="278.000000" width="64.000000" height="64.000000"
+       xlink:href="../../images/jewel.xpm" />
+<text x="135.000000" y="318.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Jewels</text>
+<text x="203.000000" y="318.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+are</text>
+<text x="239.000000" y="318.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+worth</text>
+<text x="301.000000" y="318.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+5</text>
+<text x="319.000000" y="318.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+points.</text>
+<image x="45.000000" y="350.000000" width="64.000000" height="64.000000"
+       xlink:href="../../images/statue.xpm" />
+<text x="135.000000" y="390.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Statues</text>
+<text x="211.000000" y="390.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+are</text>
+<text x="247.000000" y="390.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+worth</text>
+<text x="309.000000" y="390.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+10</text>
+<text x="339.000000" y="390.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+points.</text>
+<image x="45.000000" y="422.000000" width="64.000000" height="64.000000"
+       xlink:href="../../images/health.xpm" />
+<text x="135.000000" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Presents</text>
+<text x="228.714286" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+are</text>
+<text x="272.428571" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+worth</text>
+<text x="342.142857" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+40</text>
+<text x="379.857143" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+points</text>
+<text x="452.571429" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+and</text>
+<text x="501.285714" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+boost</text>
+<text x="567.000000" y="450.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+your</text>
+<text x="135.000000" y="477.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+strength</text>
+<text x="219.000000" y="477.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+by</text>
+<text x="248.000000" y="477.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+20</text>
+<text x="278.000000" y="477.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+units.</text>
+<text x="25.000000" y="552.000000"
+      font-family="FreeSerif"
+      font-size="24"
+      font-weight="bold"
+>
+Exits</text>
+<text x="25.000000" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Each</text>
+<text x="80.923077" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+level</text>
+<text x="133.846154" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+has</text>
+<text x="172.769231" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+an</text>
+<text x="202.692308" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+exit</text>
+<text x="245.615385" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+that</text>
+<text x="289.538462" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+can</text>
+<text x="330.461538" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+be</text>
+<text x="360.384615" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+opened</text>
+<text x="437.307692" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+using</text>
+<text x="496.230769" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+a</text>
+<text x="514.153846" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+key.</text>
+<text x="559.076923" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+On</text>
+<text x="595.000000" y="592.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="25.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+last</text>
+<text x="67.500000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+level</text>
+<text x="122.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+you</text>
+<text x="165.500000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+will</text>
+<text x="212.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+find</text>
+<text x="259.500000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+a</text>
+<text x="279.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+gate</text>
+<text x="328.500000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+that</text>
+<text x="374.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+leads</text>
+<text x="432.500000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+to</text>
+<text x="460.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+safety.</text>
+<text x="529.500000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+This</text>
+<text x="581.000000" y="619.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+does</text>
+<text x="25.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+not</text>
+<text x="62.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+require</text>
+<text x="137.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+a</text>
+<text x="154.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+key,</text>
+<text x="198.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+but</text>
+<text x="235.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+it</text>
+<text x="255.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+is</text>
+<text x="277.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+well</text>
+<text x="324.000000" y="646.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+hidden.</text>
+<image x="77.000000" y="682.000000" width="64.000000" height="96.000000"
+       xlink:href="../../images/exit1.xpm" />
+<text x="215.000000" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+The</text>
+<text x="260.857143" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+exit</text>
+<text x="304.714286" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+is</text>
+<text x="328.571429" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+initially</text>
+<text x="412.428571" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+locked.</text>
+<text x="491.285714" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+Find</text>
+<text x="543.142857" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="581.000000" y="722.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+key</text>
+<text x="215.000000" y="749.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+to</text>
+<text x="240.000000" y="749.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+unlock</text>
+<text x="312.000000" y="749.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+it.</text>
+<image x="45.000000" y="786.000000" width="64.000000" height="96.000000"
+       xlink:href="../../images/finalexitl.xpm" />
+<image x="109.000000" y="786.000000" width="64.000000" height="96.000000"
+       xlink:href="../../images/finalexitr.xpm" />
+<text x="215.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+The</text>
+<text x="264.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+final</text>
+<text x="320.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+exit</text>
+<text x="367.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+is</text>
+<text x="394.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+hidden</text>
+<text x="471.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+somewhere</text>
+<text x="591.000000" y="826.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+on</text>
+<text x="215.000000" y="853.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+the</text>
+<text x="251.000000" y="853.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+final</text>
+<text x="302.000000" y="853.000000"
+      font-family="FreeSerif"
+      font-size="24"
+>
+level.</text>
+<text x="205.500000" y="960.000000"
+      font-family="FreeSerif"
+      font-size="28"
+      font-weight="bold"
+      font-style="italic"
+>
+Have</text>
+<text x="271.500000" y="960.000000"
+      font-family="FreeSerif"
+      font-size="28"
+      font-weight="bold"
+      font-style="italic"
+>
+a</text>
+<text x="292.500000" y="960.000000"
+      font-family="FreeSerif"
+      font-size="28"
+      font-weight="bold"
+      font-style="italic"
+>
+safe</text>
+<text x="344.500000" y="960.000000"
+      font-family="FreeSerif"
+      font-size="28"
+      font-weight="bold"
+      font-style="italic"
+>
+journey!</text>
+</svg>
