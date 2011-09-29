@@ -1758,28 +1758,38 @@ move_player:
     lda #128
     ldx #1
     jsr $fff4
-    cpy #16
-    bmi move_player_joystick_left_check
-    jmp move_player_right
+    cpy #16                                     ; >= 16 but could be -128 ... -1
+    bcc move_player_handle_joystick_up_down
 
-    move_player_joystick_left_check:
-    cpy #240
-    bpl move_player_handle_joystick_up_down
-    jmp move_player_left
+    move_player_joystick_right_or_negative:
+    cmp #128
+    bcs move_player_joystick_not_right
+    jmp move_player_right                       ; 16 ... 255
+
+    move_player_joystick_not_right:
+
+    cmp #241
+    bcs move_player_handle_joystick_up_down
+    jmp move_player_left                        ; <= -16
 
     move_player_handle_joystick_up_down:
 
     lda #128
     ldx #2
     jsr $fff4
-    cpy #16
-    bmi move_player_joystick_down_check
-    jmp move_player_up
+    cpy #16                                     ; >= 16 but could be -128 ... -1
+    bcc move_player_handle_left_key
 
-    move_player_joystick_down_check:
-    cpy #240
-    bpl move_player_handle_left_key
-    jmp move_player_down
+    move_player_joystick_up_or_negative:
+    cmp #128
+    bcs move_player_joystick_not_up
+    jmp move_player_up                          ; 16 ... 255
+
+    move_player_joystick_not_up:
+
+    cmp #241
+    bcs move_player_handle_left_key
+    jmp move_player_down                        ; <= -16
 
     move_player_handle_left_key:
 
