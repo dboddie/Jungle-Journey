@@ -1759,11 +1759,13 @@ move_player:
     ldx #1
     jsr $fff4
     cpy #112                ; <= -16
-    bcc move_player_left
+    bcs move_player_check_joystick_left
+    jmp move_player_right
 
+    move_player_check_joystick_left:
     cpy #144                ; >= 16
     bcc move_player_handle_joystick_up_down
-    jmp move_player_right
+    jmp move_player_left
 
     move_player_handle_joystick_up_down:
 
@@ -1771,9 +1773,10 @@ move_player:
     ldx #2
     jsr $fff4
     cpy #112                ; <= -16
-    bcs move_player_handle_left_key
+    bcs move_player_check_joystick_up
     jmp move_player_down
 
+    move_player_check_joystick_up:
     cpy #144
     bcc move_player_handle_left_key
     jmp move_player_up      ; >= 16
