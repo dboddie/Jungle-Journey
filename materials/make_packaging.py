@@ -479,13 +479,13 @@ if __name__ == "__main__":
         Page((650, 1000),
              [TextBox((25, 35, 600, 0),
                       [Text(title, "Loading the Game\n"),
-                       Text(regular, "Insert the cassette or disk and type\n")]),
+                       Text(regular, "Insert the cassette and type\n")]),
               TextBox((25, -2, 600, 0),
                       [Text(monospace_quote, "*RUN JUNGLE\n")], follow = True),
               TextBox((25, -2, 600, 0),
                       [Text(regular,
-                            "then press Return. If you are loading the game from cassette, press play on the "
-                            "cassette recorder. The game should now load.\n"),
+                            "then press Return. Press play on the cassette recorder. "
+                            "The game should now load.\n\n"),
                        Text(title, "Playing the Game\n"),
                        Text(regular,
                             "The player must help the character reach the exit for each level. However, the "
