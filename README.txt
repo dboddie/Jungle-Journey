@@ -73,9 +73,9 @@ Your character can be moved around the screen by using four control keys:
 To fire a weapon, press the Return key. There are four different types of
 weapon available in the game.
 
-Alternatively, you may may using an analogue joystick connected to a Plus 1
-expansion interface. Select joystick controls by pressing the J key on the
-title page. Press K to select keyboard controls.
+Alternatively, you may may using an analogue. Select joystick controls by
+pressing the Fire button on the title page to start the game. Press Space to
+start the game with keyboard controls.
 
 Other keys can be used to control the game:
 

@@ -61,12 +61,12 @@ class SVG:
     def open(self):
     
         self.text = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'
-                     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n')
+                     '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n'
+                     '  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n')
     
     def add_page(self, width, height):
     
-        self.text += ('  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'
-                      '<svg version="1.1"\n'
+        self.text += ('<svg version="1.1"\n'
                       '     xmlns="http://www.w3.org/2000/svg"\n'
                       '     xmlns:xlink="http://www.w3.org/1999/xlink"\n'
                       '     width="%fcm" height="%fcm"\n'
@@ -95,6 +95,45 @@ class SVG:
     
         self.text += "</svg>\n"
         codecs.open(self.path, "w", "utf-8").write(self.text)
+
+
+class Inlay(SVG):
+
+    def __init__(self, path):
+    
+        SVG.__init__(self, path)
+        
+        self.page_offsets = [(0, 0), (650, 0), (2 * 650, 0), (3 * 650, 0)]
+        self.page_number = 0
+    
+    def open(self):
+    
+        SVG.open(self)
+        self.text += ('<svg version="1.1"\n'
+                      '     xmlns="http://www.w3.org/2000/svg"\n'
+                      '     xmlns:xlink="http://www.w3.org/1999/xlink"\n'
+                      '     width="33.5cm" height="10cm"\n'
+                      '     viewBox="0 0 3350 1000">\n')
+    
+    def add_page(self, width, height):
+    
+        self.ox, self.oy = self.page_offsets[self.page_number]
+        self.page_number += 1
+    
+    def add_image(self, x, y, width, height, path):
+    
+        SVG.add_image(self, self.ox + x, self.oy + y, width, height, path)
+    
+    def add_text(self, x, y, font, text):
+    
+        SVG.add_text(self, self.ox + x, self.oy + y, font, text)
+    
+    def close(self):
+    
+        self.text += ('<rect x="2600" y="0" width="100" height="1000"\n'
+                      '      stroke="black" fill="none" stroke-width="1" />\n')
+        
+        SVG.close(self)
 
 
 class Page:
@@ -328,12 +367,17 @@ if __name__ == "__main__":
 
     app = QApplication(sys.argv)
     
-    if len(app.arguments()) != 2:
+    if not 2 <= len(app.arguments()) <= 3:
     
-        sys.stderr.write("Usage: %s <output directory>\n" % app.arguments()[0])
+        sys.stderr.write("Usage: %s [--inlay] <output directory>\n" % app.arguments()[0])
         sys.exit(1)
     
-    output_dir = sys.argv[1]
+    if app.arguments()[1] == "--inlay":
+        output_dir = sys.argv[2]
+        inlay = True
+    else:
+        output_dir = sys.argv[1]
+        inlay = False
     
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -393,7 +437,7 @@ if __name__ == "__main__":
                           "align": "centre"}
     
     pages = [
-        Page((650, 1020),
+        Page((650, 1000),
              [TextBox((25, 35, 600, 0), 
                       [Text(title, "Jungle Journey\n"),
                        Text(regular,
@@ -452,13 +496,13 @@ if __name__ == "__main__":
                        Text(regular,
                             "Your character can be moved around the screen by using four control keys:\n")],
                       follow = True),
-              TextBox((25, 0, 600, 0),
+              TextBox((25, -4, 600, 0),
                       [Text(keys_quote,
                             "Z\n"
                             "X\n"
                             ":\n"
                             "/")], follow = True),
-              TextBox((25, 0, 600, 0),
+              TextBox((25, -4, 600, 0),
                       [Text(key_descriptions_quote,
                             "left\n"
                             "right\n"
@@ -467,19 +511,19 @@ if __name__ == "__main__":
                        Text(regular,
                             "To fire a weapon, press the Return key. There are four different types of "
                             "weapon available in the game.\n\n"
-                            "Alternatively, you may may using an analogue joystick connected to a Plus 1 "
-                            "expansion interface. Select joystick controls by pressing the J key on the "
-                            "title page. Press K to select keyboard controls.\n\n"
+                            "Alternatively, you may may using an analogue. Select joystick controls by "
+                            "pressing the Fire button on the title page to start the game. Press Space to "
+                            "start the game with keyboard controls.\n\n"
                             "Other keys can be used to control the game:\n")],
                       follow = True, index = -2),
-              TextBox((25, 0, 600, 0),
+              TextBox((25, -4, 600, 0),
                       [Text(keys_quote,
                             "S\n"
                             "Q\n"
                             "P\n"
                             "O\n"
                             "Escape")], follow = True),
-              TextBox((25, 0, 600, 0),
+              TextBox((25, -4, 600, 0),
                       [Text(key_descriptions_quote,
                             "enable sound effects\n"
                             "disable sound effects\n"
@@ -537,20 +581,20 @@ if __name__ == "__main__":
               TextBox((215, 48, 400, 0),
                       [Text(regular, "The final exit is hidden somewhere on the final level.")],
                       follow = True, index = -4),
-              TextBox((25, 950, 600, 0),
+              TextBox((25, 960, 600, 0),
                       [Text(exclamation, "Have a safe journey!")])
              ]),
         Page((650, 1000),
              [TextBox((25, 50, 600, 0),
                       [Text(back_cover_title, "Jungle Journey"),
                        Text(back_cover_subtitle, "for the Acorn Electron and BBC Model B")]),
-              Image((101, 0, 450, 0), "screenshot1.png", scale = 0.7, follow = True),
-              TextBox((25, 45, 600, 0),
+              Image((101, 5, 450, 0), "screenshot1.png", scale = 0.7, follow = True),
+              TextBox((25, 55, 600, 0),
                       [Text(back_cover_centred,
                             u"Copyright \u00a9 2011 David Boddie\n"
                             u"An Infukor production for Retro Software\n"
                             u"http://www.retrosoftware.co.uk/")], follow = True),
-              TextBox((25, 20, 600, 0),
+              TextBox((25, 25, 600, 0),
                       [Text(regular,
                             "This program is free software: you can redistribute it and/or modify "
                             "it under the terms of the GNU General Public License as published by "
@@ -568,14 +612,28 @@ if __name__ == "__main__":
              ]),
         ]
     
-    i = 0
-    for page in pages:
+    if inlay:
+        path = os.path.join(output_dir, "inlay.svg")
+        inlay = Inlay(path)
+        inlay.open()
+        
+        i = 0
+        for page in pages:
+        
+            page.render(inlay)
+            i += 1
+        
+        inlay.close()
     
-        path = os.path.join(output_dir, "page-%i.svg" % i)
-        svg = SVG(path)
-        svg.open()
-        page.render(svg)
-        svg.close()
-        i += 1
+    else:
+        i = 0
+        for page in pages:
+        
+            path = os.path.join(output_dir, "page-%i.svg" % i)
+            svg = SVG(path)
+            svg.open()
+            page.render(svg)
+            svg.close()
+            i += 1
     
     sys.exit()
