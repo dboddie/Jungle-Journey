@@ -2199,7 +2199,8 @@ check_fire_key:
     lda #128
     ldx #0
     jsr $fff4
-    cpx #0
+    txa
+    and #1
     bne check_fire_key_fire
 
     check_fire_key_no_joystick:
