@@ -1778,8 +1778,12 @@ move_player:
 
     move_player_check_joystick_up:
     cpy #144
-    bcc move_player_handle_left_key
+    bcc move_player_no_joystick_input
     jmp move_player_up      ; >= 16
+
+    move_player_no_joystick_input:
+    clc
+    rts
 
     move_player_handle_left_key:
 
@@ -2203,6 +2207,9 @@ check_fire_key:
     and #1
     bne check_fire_key_fire
 
+    clc
+    rts
+
     check_fire_key_no_joystick:
 
     ldx #182            ; (Return)
@@ -2272,7 +2279,12 @@ create_projectile:
 
     ; Move the projectile away from the player.
 
+    lda #$86
+    sta $74
+    lda #$52
+    sta $75
     jsr move_projectile_after_unplot
+
     jsr move_projectile
 
     clc
