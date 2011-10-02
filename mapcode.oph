@@ -4415,7 +4415,7 @@ high_score_default_name1: .byte "RETRO    "
 high_score_default_name2: .byte " SOFTWARE"
 
 title_vdu_bytes:    .byte 17,2, 31,7,28, "to play"
-input_message:      .byte 17,2, 31,1,27, "Press SPACE / FIRE"
+input_message:      .byte 17,2, 31,2,27, "Press SPACE/FIRE"
 title_vdu_bytes1:   .byte 17,3, 31,1,30, "Copyright (c) 2011"
 title_vdu_bytes2:   .byte 17,3, 31,1,30, "   David Boddie   "
 title_vdu_bytes3:   .byte 17,1, 31,1,30, "for Retro Software"
