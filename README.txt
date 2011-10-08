@@ -37,8 +37,21 @@ uncharted land to find the way home, the thought of vengeance drives me on.
 
 Installation
 
+The sources for this game can be obtained from the Mercurial repository hosted
+on the Retro Software Web site:
+
+  http://www.retrosoftware.co.uk/hg/junglejourney
+
+You can download an archive of the current sources by clicking on one of the
+"bz2", "zip" or "gz" links on the main repository page.
+
+Alternatively, you can use Mercurial to clone this repository from the command
+line, obtaining the full development history of the game:
+
+  hg clone http://www.retrosoftware.co.uk/hg/junglejourney
+
 You need Python, the Python Imaging Library and the Ophis 6502 assembler to
-build this game.
+build the game.
 
 Run the build.py script at the command line, passing the name of the UEF file
 to create. If the file was created, load it into an Electron emulator or create
