@@ -2294,11 +2294,11 @@ emerge_type:                    ; returns A=type
     jsr unlimited_values
     lda $7d
     and #7
-    cmp #4
+    cmp #5
     bmi emerge_type_ok
 
     sec
-    sbc #4
+    sbc #5
     clc
 
     emerge_type_ok:

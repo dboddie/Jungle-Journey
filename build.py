@@ -123,15 +123,15 @@ if __name__ == "__main__":
     #       4 * 2 * 0x30 (player movement)
     #           4 * 0x30 (player demise)
     #       4 * 2 * 0x10 (projectile)
-    #   5 * 4 * 2 * 0x40 (enemies)          36C0
+    #   5 * 4 * 2 * 0x40 (enemies)          41C0
     #           4 * 0x40 (enemy appear)
     #           4 * 0x40 (enemy demise)
-    #           4 * 0x40 (weapons)          42C0
+    #           4 * 0x40 (weapons)          4dC0
     #           5 * 0x40 (treasure)
-    #           2 * 0x60 (exit)             4500
+    #           2 * 0x60 (exit)             5000
     #           2 * 0x60 (final exit)
     #
-    # 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60 + 0x3f00
+    # 0x3f00 + 4*2*0x30 + 4*0x30 + 4*2*0x10 + 5*4*2*0x40 + 4*0x40 + 4*0x40 + 4*0x40 + 5*0x40 + 2*0x60 + 2*0x60
     #
     # 5180 high scores (8 * 12 = 0xe0)
     #   n   3 bytes score + 9 bytes ASCII
