@@ -1,0 +1,7395 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="33.5cm"
+   height="10cm"
+   viewBox="0 0 3350 1000"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45.1"
+   sodipodi:docname="inlay.svg"
+   sodipodi:docbase="/home/david/Private/Python/Games/Emulation/Jungle_Escape/materials"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata1505">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs1503">
+    <linearGradient
+       y2="251.34723"
+       x2="191.82292"
+       y1="175.38194"
+       x1="191.82292"
+       gradientTransform="translate(-0.32641,69.960459)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2501"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="261.13019"
+       y1="174.88194"
+       x1="260.96085"
+       gradientTransform="translate(-5.2361317,70.460469)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2498"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="319.2049"
+       y1="175.38194"
+       x1="319.2049"
+       gradientTransform="translate(-0.32641,69.960459)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2495"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="378.10196"
+       y1="174.88194"
+       x1="379.43909"
+       gradientTransform="translate(-0.32641,70.460469)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2492"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="445.88196"
+       y1="175.38194"
+       x1="445.88196"
+       gradientTransform="translate(-0.32641,69.960459)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2489"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="507.11807"
+       y1="175.38194"
+       x1="507.11807"
+       gradientTransform="translate(-0.32641,69.960459)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2486"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="558.55383"
+       y1="175.38194"
+       x1="558.55383"
+       gradientTransform="translate(-0.32641,69.960459)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2483"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="558.55383"
+       y1="175.38194"
+       x1="558.55383"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2480"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="507.11807"
+       y1="175.38194"
+       x1="507.11807"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2478"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="445.88196"
+       y1="175.38194"
+       x1="445.88196"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2476"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="378.10196"
+       y1="174.88194"
+       x1="379.43909"
+       gradientTransform="translate(-0.32641,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2474"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="319.2049"
+       y1="175.38194"
+       x1="319.2049"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2472"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="261.13019"
+       y1="174.88194"
+       x1="260.96085"
+       gradientTransform="translate(-5.2361317,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2470"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="191.82292"
+       y1="175.38194"
+       x1="191.82292"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2468"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="692.73059"
+       x2="264.58334"
+       y1="694.14166"
+       x1="512.52783"
+       gradientTransform="translate(-13.555583,-79.113302)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2466"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-13.05558,8.5811521)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2463"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-4.1145272,-0.2382828)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2460"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(31.041639,39.449389)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2457"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.319406,43.859116)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2454"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-48.333368,43.859106)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2451"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-21.875027,21.810503)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2448"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(35.451359,-4.6478409)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2445"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-65.97226,8.5813411)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2442"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-4.2361374,48.268838)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2439"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientTransform="translate(-13.05558,8.5811521)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2435"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(53.090236,17.400786)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2432"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.402753,17.400786)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2429"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(83.958298,8.5813512)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2426"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.104206,-4.6478109)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2423"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(0.173574,-9.0575559)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2420"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(0.173574,-17.638708)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2417"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.104206,-13.228963)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2415"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(83.958298,1.9907694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2413"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.402753,8.8196336)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2411"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(53.090236,8.8196341)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2409"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientTransform="translate(-13.05558,0)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2407"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-4.2361374,39.687686)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2405"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-65.97226,1.8897694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2403"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(35.451359,-13.228993)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2401"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-21.875027,13.229351)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2399"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-48.333368,35.277954)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2397"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.319406,35.277964)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2395"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(31.041639,30.868237)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2393"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-4.1145272,-8.8194349)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2391"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-13.05558,0)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2389"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="692.73059"
+       x2="264.58334"
+       y1="694.14166"
+       x1="512.52783"
+       gradientTransform="translate(-13.555583,-87.694454)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2387"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="1000"
+       x2="402.18347"
+       y1="12.222208"
+       x1="399.91818"
+       gradientTransform="matrix(0.8809524,0,0,0.9271978,44.642864,27.609876)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2384"
+       xlink:href="#linearGradient10071"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(0.173574,-17.638708)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2807"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.104206,-13.228963)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2805"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(83.958298,1.9907694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2803"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.402753,8.8196336)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2801"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(53.090236,8.8196341)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2799"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientTransform="translate(-13.05558,0)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2797"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-4.2361374,39.687686)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2795"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-65.97226,1.8897694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2793"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(35.451359,-13.228993)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2791"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-21.875027,13.229351)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2789"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-48.333368,35.277954)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2787"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.319406,35.277964)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2785"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(31.041639,30.868237)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2783"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-4.1145272,-8.8194349)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2781"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-13.05558,0)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2779"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="692.73059"
+       x2="264.58334"
+       y1="694.14166"
+       x1="512.52783"
+       gradientTransform="translate(-13.555583,-87.694454)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2777"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="558.55383"
+       y1="175.38194"
+       x1="558.55383"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2775"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="507.11807"
+       y1="175.38194"
+       x1="507.11807"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2773"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="445.88196"
+       y1="175.38194"
+       x1="445.88196"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2771"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="378.10196"
+       y1="174.88194"
+       x1="379.43909"
+       gradientTransform="translate(-0.32641,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2769"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="319.2049"
+       y1="175.38194"
+       x1="319.2049"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2767"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="261.13019"
+       y1="174.88194"
+       x1="260.96085"
+       gradientTransform="translate(-5.2361317,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2765"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="191.82292"
+       y1="175.38194"
+       x1="191.82292"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2763"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="1000"
+       x2="402.18347"
+       y1="12.222208"
+       x1="399.91818"
+       gradientTransform="matrix(0.8809524,0,0,0.9271978,49.226207,27.609914)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2761"
+       xlink:href="#linearGradient10071"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="1000"
+       x2="402.18347"
+       y1="12.222208"
+       x1="399.91818"
+       gradientTransform="matrix(0.8809524,0,0,0.9271978,49.226207,27.609914)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2649"
+       xlink:href="#linearGradient10071"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(0.173574,-17.638708)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2608"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.104206,-13.228963)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2606"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(83.958298,1.9907694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2604"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.402753,8.8196336)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2602"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(53.090236,8.8196341)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2600"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientTransform="translate(-13.05558,0)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2598"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-4.2361374,39.687686)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2596"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-65.97226,1.8897694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2594"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(35.451359,-13.228993)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2592"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-21.875027,13.229351)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2590"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-48.333368,35.277954)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2588"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.319406,35.277964)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2586"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(31.041639,30.868237)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient2584"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-4.1145272,-8.8194349)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2582"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-13.05558,0)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2580"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="692.73059"
+       x2="264.58334"
+       y1="694.14166"
+       x1="512.52783"
+       gradientTransform="translate(-13.555583,-87.694454)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2578"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="558.55383"
+       y1="175.38194"
+       x1="558.55383"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2576"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="507.11807"
+       y1="175.38194"
+       x1="507.11807"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2574"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="445.88196"
+       y1="175.38194"
+       x1="445.88196"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2572"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="378.10196"
+       y1="174.88194"
+       x1="379.43909"
+       gradientTransform="translate(-0.32641,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2570"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="319.2049"
+       y1="175.38194"
+       x1="319.2049"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2568"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="261.13019"
+       y1="174.88194"
+       x1="260.96085"
+       gradientTransform="translate(-5.2361317,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2566"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="191.82292"
+       y1="175.38194"
+       x1="191.82292"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2564"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="1000"
+       x2="402.18347"
+       y1="12.222208"
+       x1="399.91818"
+       gradientTransform="matrix(0.8809524,0,0,0.9271978,49.226207,27.609914)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient2562"
+       xlink:href="#linearGradient10071"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="692.73059"
+       x2="264.58334"
+       y1="694.14166"
+       x1="512.52783"
+       gradientTransform="translate(-13.555583,-87.694454)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10664"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientTransform="translate(-13.05558,0)"
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10661"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(-4.1145272,-8.8194349)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10658"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(31.041639,30.868237)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10655"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.319406,35.277964)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10652"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-48.333368,35.277954)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10649"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-21.875027,13.229351)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10646"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(35.451359,-13.228993)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10643"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-65.97226,1.8897694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10640"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-4.2361374,39.687686)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10637"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientTransform="translate(-13.05558,0)"
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10634"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(53.090236,8.8196341)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10631"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.402753,8.8196336)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10628"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(83.958298,1.9907694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10625"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.104206,-13.228963)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10622"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(0.173574,-17.638708)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10619"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.229154,-17.638708)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10616"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-22.048626,-13.228963)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10614"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(97.013878,1.9907694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10612"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(26.458333,8.8196336)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10610"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.145816,8.8196341)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10608"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10606"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(8.8194426,39.687686)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10604"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-52.91668,1.8897694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10602"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(48.506939,-13.228993)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10600"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-8.8194471,13.229351)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10598"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.277788,35.277954)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10596"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(79.374986,35.277964)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10594"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(44.097219,30.868237)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10592"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientTransform="translate(8.9410528,-8.8194349)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10590"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10588"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientTransform="translate(-0.5000031,-87.694454)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10586"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientTransform="translate(8.9410528,-8.8194349)"
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10548"
+       xlink:href="#linearGradient10558"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="717.77777"
+       x2="397.02225"
+       y1="481.94583"
+       x1="396.37503"
+       id="linearGradient10524"
+       xlink:href="#linearGradient10534"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(13.229154,-17.638708)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10506"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-22.048626,-13.228963)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10501"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(97.013878,1.9907694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10497"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(26.458333,8.8196336)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10493"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(8.8194426,39.687686)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10489"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(66.145816,8.8196341)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10485"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(79.374986,35.277964)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10481"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-52.91668,1.8897694e-4)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10477"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(-35.277788,35.277954)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10473"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(48.506939,-13.228993)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10469"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       gradientTransform="translate(44.097219,30.868237)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient10465"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <radialGradient
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-8.8194471,13.229351)"
+       r="17.638889"
+       fy="664.86115"
+       fx="370.41669"
+       cy="664.86115"
+       cx="370.41669"
+       id="radialGradient10453"
+       xlink:href="#linearGradient10455"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientTransform="translate(-0.5000031,-87.694454)"
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10417"
+       xlink:href="#linearGradient10419"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="701.90283"
+       x2="512.02783"
+       y1="703.3139"
+       x1="264.08334"
+       id="linearGradient10411"
+       xlink:href="#linearGradient10405"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="558.55383"
+       y1="175.38194"
+       x1="558.55383"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10393"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="507.11807"
+       y1="175.38194"
+       x1="507.11807"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10391"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="445.88196"
+       y1="175.38194"
+       x1="445.88196"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10389"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="378.10196"
+       y1="174.88194"
+       x1="379.43909"
+       gradientTransform="translate(-0.32641,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10387"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="319.2049"
+       y1="175.38194"
+       x1="319.2049"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10385"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="250.84721"
+       x2="261.13019"
+       y1="174.88194"
+       x1="260.96085"
+       gradientTransform="translate(-5.2361317,63.236124)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10383"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="251.34723"
+       x2="191.82292"
+       y1="175.38194"
+       x1="191.82292"
+       gradientTransform="translate(-0.32641,62.736114)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10381"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="212.86458"
+       x2="410.60419"
+       y1="212.86458"
+       x1="356.68753"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10354"
+       xlink:href="#linearGradient10024"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="212.86458"
+       x2="410.60419"
+       y1="212.86458"
+       x1="356.68753"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10319"
+       xlink:href="#linearGradient10024"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="1000"
+       x2="402.18347"
+       y1="12.222208"
+       x1="399.91818"
+       gradientTransform="matrix(0.8809524,0,0,0.8658065,49.226207,28.360251)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10294"
+       xlink:href="#linearGradient10071"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="212.86458"
+       x2="410.60419"
+       y1="212.86458"
+       x1="356.68753"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10278"
+       xlink:href="#linearGradient10024"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="212.86458"
+       x2="410.60419"
+       y1="212.86458"
+       x1="356.68753"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10147"
+       xlink:href="#linearGradient10024"
+       inkscape:collect="always" />
+    <linearGradient
+       y2="212.86458"
+       x2="410.60419"
+       y1="212.86458"
+       x1="356.68753"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10111"
+       xlink:href="#linearGradient10024"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="212.86458"
+       x2="287.13196"
+       y1="212.86458"
+       x1="224.39584"
+       id="linearGradient10046"
+       xlink:href="#linearGradient10048"
+       inkscape:collect="always" />
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="212.86458"
+       x2="410.60419"
+       y1="212.86458"
+       x1="356.68753"
+       id="linearGradient10030"
+       xlink:href="#linearGradient10024"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient10024"
+       inkscape:collect="always">
+      <stop
+         id="stop10026"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop10028"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10048">
+      <stop
+         id="stop10050"
+         offset="0"
+         style="stop-color:#008000;stop-opacity:1;" />
+      <stop
+         id="stop10052"
+         offset="1"
+         style="stop-color:#ffff00;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10071">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop10079" />
+      <stop
+         id="stop10083"
+         offset="0.30000001"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop10075"
+         offset="1"
+         style="stop-color:#205c00;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10201">
+      <stop
+         id="stop10203"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0.98000002"
+         id="stop10209" />
+      <stop
+         id="stop10205"
+         offset="1"
+         style="stop-color:#008000;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10405">
+      <stop
+         id="stop10407"
+         offset="0"
+         style="stop-color:#400000;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ff3f00;stop-opacity:1;"
+         offset="0.74074072"
+         id="stop10413" />
+      <stop
+         id="stop10409"
+         offset="1"
+         style="stop-color:#d82724;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10419">
+      <stop
+         style="stop-color:#400000;stop-opacity:1;"
+         offset="0"
+         id="stop10421" />
+      <stop
+         id="stop10423"
+         offset="0.74074072"
+         style="stop-color:#c22d00;stop-opacity:1;" />
+      <stop
+         style="stop-color:#d82724;stop-opacity:1;"
+         offset="1"
+         id="stop10425" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10455">
+      <stop
+         id="stop10459"
+         offset="0"
+         style="stop-color:#ffff00;stop-opacity:1;" />
+      <stop
+         style="stop-color:#d82724;stop-opacity:1;"
+         offset="1"
+         id="stop10461" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10534">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1"
+         offset="0"
+         id="stop10536" />
+      <stop
+         id="stop10542"
+         offset="0.47083142"
+         style="stop-color:#f57f00;stop-opacity:1;" />
+      <stop
+         id="stop10540"
+         offset="0.65192044"
+         style="stop-color:#eb0000;stop-opacity:1;" />
+      <stop
+         id="stop10538"
+         offset="1"
+         style="stop-color:#d82724;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient10558">
+      <stop
+         id="stop10560"
+         offset="0"
+         style="stop-color:#c85c00;stop-opacity:1;" />
+      <stop
+         style="stop-color:#f57f00;stop-opacity:1;"
+         offset="0.47083142"
+         id="stop10562" />
+      <stop
+         style="stop-color:#eb3700;stop-opacity:1;"
+         offset="0.65192044"
+         id="stop10564" />
+      <stop
+         style="stop-color:#a2311b;stop-opacity:0;"
+         offset="1"
+         id="stop10566" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     inkscape:cy="206.47936"
+     inkscape:cx="594.00989"
+     inkscape:zoom="0.86831672"
+     inkscape:window-height="572"
+     inkscape:window-width="748"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     inkscape:document-units="mm"
+     showgrid="true"
+     gridspacingx="1mm"
+     gridspacingy="1mm"
+     gridanglex="8.4666669mm"
+     gridanglez="8.4666669mm"
+     grid_units="mm"
+     inkscape:object-bbox="true"
+     inkscape:window-x="134"
+     inkscape:window-y="60"
+     inkscape:current-layer="svg2" />
+  <text
+     x="25.000000"
+     y="35.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text4">
+Jungle</text>
+  <text
+     x="99.000000"
+     y="35.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text6">
+Journey</text>
+  <text
+     x="25.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text8">
+The</text>
+  <text
+     x="69.727273"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text10">
+last</text>
+  <text
+     x="110.454545"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text12">
+flames</text>
+  <text
+     x="183.181818"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text14">
+of</text>
+  <text
+     x="209.909091"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text16">
+the</text>
+  <text
+     x="246.636364"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text18">
+campfire</text>
+  <text
+     x="340.363636"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text20">
+fade</text>
+  <text
+     x="388.090909"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text22">
+to</text>
+  <text
+     x="413.818182"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text24">
+glowing</text>
+  <text
+     x="498.545455"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text26">
+embers</text>
+  <text
+     x="575.272727"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text28">
+and</text>
+  <text
+     x="617.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text30">
+I</text>
+  <text
+     x="25.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text32">
+am</text>
+  <text
+     x="75.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text34">
+alone.</text>
+  <text
+     x="154.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text36">
+My</text>
+  <text
+     x="207.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text38">
+recent</text>
+  <text
+     x="287.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text40">
+acquaintances,</text>
+  <text
+     x="450.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text42">
+their</text>
+  <text
+     x="515.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text44">
+packs</text>
+  <text
+     x="590.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text46">
+and</text>
+  <text
+     x="25.000000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text48">
+paraphernalia</text>
+  <text
+     x="170.375000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text50">
+have</text>
+  <text
+     x="225.750000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text52">
+gone,</text>
+  <text
+     x="290.125000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text54">
+leaving</text>
+  <text
+     x="372.500000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text56">
+me</text>
+  <text
+     x="413.875000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text58">
+stranded</text>
+  <text
+     x="507.250000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text60">
+deep</text>
+  <text
+     x="564.625000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text62">
+in</text>
+  <text
+     x="595.000000"
+     y="129.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text64">
+the</text>
+  <text
+     x="25.000000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text66">
+heart</text>
+  <text
+     x="86.375000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text68">
+of</text>
+  <text
+     x="117.750000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text70">
+this</text>
+  <text
+     x="164.125000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text72">
+jungle</text>
+  <text
+     x="236.500000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text74">
+realm.</text>
+  <text
+     x="309.875000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text76">
+Clouds</text>
+  <text
+     x="389.250000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text78">
+momentarily</text>
+  <text
+     x="524.625000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text80">
+sweep</text>
+  <text
+     x="595.000000"
+     y="156.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text82">
+the</text>
+  <text
+     x="25.000000"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text84">
+cold</text>
+  <text
+     x="74.363636"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text86">
+face</text>
+  <text
+     x="121.727273"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text88">
+of</text>
+  <text
+     x="149.090909"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text90">
+the</text>
+  <text
+     x="186.454545"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text92">
+moon</text>
+  <text
+     x="248.818182"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text94">
+and</text>
+  <text
+     x="291.181818"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text96">
+I</text>
+  <text
+     x="306.545455"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text98">
+perceive</text>
+  <text
+     x="395.909091"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text100">
+the</text>
+  <text
+     x="433.272727"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text102">
+clicks,</text>
+  <text
+     x="503.636364"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text104">
+whistles</text>
+  <text
+     x="590.000000"
+     y="183.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text106">
+and</text>
+  <text
+     x="25.000000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text108">
+cries</text>
+  <text
+     x="85.800000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text110">
+of</text>
+  <text
+     x="120.600000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text112">
+creatures</text>
+  <text
+     x="223.400000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text114">
+in</text>
+  <text
+     x="257.200000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text116">
+the</text>
+  <text
+     x="302.000000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text118">
+hot</text>
+  <text
+     x="347.800000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text120">
+air</text>
+  <text
+     x="388.600000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text122">
+that</text>
+  <text
+     x="440.400000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text124">
+cloaks</text>
+  <text
+     x="517.200000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text126">
+this</text>
+  <text
+     x="567.000000"
+     y="210.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text128">
+place.</text>
+  <text
+     x="25.000000"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text130">
+Desperately,</text>
+  <text
+     x="157.333333"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text132">
+I</text>
+  <text
+     x="178.666667"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text134">
+try</text>
+  <text
+     x="220.000000"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text136">
+to</text>
+  <text
+     x="252.333333"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text138">
+stay</text>
+  <text
+     x="303.666667"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text140">
+my</text>
+  <text
+     x="347.000000"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text142">
+panic</text>
+  <text
+     x="413.333333"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text144">
+and</text>
+  <text
+     x="461.666667"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text146">
+remember</text>
+  <text
+     x="574.000000"
+     y="237.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text148">
+those</text>
+  <text
+     x="25.000000"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text150">
+fragments</text>
+  <text
+     x="132.857143"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text152">
+of</text>
+  <text
+     x="163.714286"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text154">
+wilderness</text>
+  <text
+     x="278.571429"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text156">
+craft</text>
+  <text
+     x="334.428571"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text158">
+learned</text>
+  <text
+     x="418.285714"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text160">
+and</text>
+  <text
+     x="464.142857"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text162">
+unlearned</text>
+  <text
+     x="572.000000"
+     y="264.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text164">
+many</text>
+  <text
+     x="25.000000"
+     y="291.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text166">
+years</text>
+  <text
+     x="81.000000"
+     y="291.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text168">
+ago.</text>
+  <text
+     x="65.000000"
+     y="331.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text170">
+Choose</text>
+  <text
+     x="138.000000"
+     y="331.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text172">
+your</text>
+  <text
+     x="185.000000"
+     y="331.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text174">
+weapon</text>
+  <text
+     x="259.000000"
+     y="331.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text176">
+carefully,</text>
+  <text
+     x="65.000000"
+     y="356.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text178">
+Get</text>
+  <text
+     x="103.000000"
+     y="356.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text180">
+ready</text>
+  <text
+     x="159.000000"
+     y="356.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text182">
+for</text>
+  <text
+     x="190.000000"
+     y="356.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text184">
+a</text>
+  <text
+     x="207.000000"
+     y="356.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text186">
+fight.</text>
+  <text
+     x="65.000000"
+     y="381.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text188">
+The</text>
+  <text
+     x="104.000000"
+     y="381.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text190">
+jungle</text>
+  <text
+     x="164.000000"
+     y="381.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text192">
+can</text>
+  <text
+     x="202.000000"
+     y="381.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text194">
+be</text>
+  <text
+     x="229.000000"
+     y="381.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text196">
+dangerous</text>
+  <text
+     x="65.000000"
+     y="406.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text198">
+If</text>
+  <text
+     x="84.000000"
+     y="406.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text200">
+you</text>
+  <text
+     x="122.000000"
+     y="406.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text202">
+go</text>
+  <text
+     x="150.000000"
+     y="406.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text204">
+there</text>
+  <text
+     x="201.000000"
+     y="406.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text206">
+at</text>
+  <text
+     x="224.000000"
+     y="406.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text208">
+night.</text>
+  <text
+     x="65.000000"
+     y="431.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text210">
+There's</text>
+  <text
+     x="136.000000"
+     y="431.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text212">
+time</text>
+  <text
+     x="180.000000"
+     y="431.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text214">
+to</text>
+  <text
+     x="203.000000"
+     y="431.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text216">
+pick</text>
+  <text
+     x="245.000000"
+     y="431.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text218">
+up</text>
+  <text
+     x="273.000000"
+     y="431.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text220">
+treasure,</text>
+  <text
+     x="65.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text222">
+But</text>
+  <text
+     x="101.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text224">
+no</text>
+  <text
+     x="129.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text226">
+time</text>
+  <text
+     x="173.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text228">
+to</text>
+  <text
+     x="196.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text230">
+stop</text>
+  <text
+     x="239.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text232">
+and</text>
+  <text
+     x="278.000000"
+     y="456.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text234">
+stare.</text>
+  <text
+     x="65.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text236">
+If</text>
+  <text
+     x="84.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text238">
+you</text>
+  <text
+     x="122.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text240">
+don't</text>
+  <text
+     x="172.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text242">
+find</text>
+  <text
+     x="212.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text244">
+the</text>
+  <text
+     x="245.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text246">
+hidden</text>
+  <text
+     x="311.000000"
+     y="481.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text248">
+cave</text>
+  <text
+     x="65.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text250">
+You</text>
+  <text
+     x="103.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text252">
+won't</text>
+  <text
+     x="156.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text254">
+get</text>
+  <text
+     x="188.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text256">
+out</text>
+  <text
+     x="222.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text258">
+of</text>
+  <text
+     x="245.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     font-style="italic"
+     id="text260">
+there.</text>
+  <text
+     x="25.000000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text262">
+Hopeless,</text>
+  <text
+     x="125.300000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text264">
+I</text>
+  <text
+     x="139.600000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text266">
+scramble</text>
+  <text
+     x="233.900000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text268">
+to</text>
+  <text
+     x="259.200000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text270">
+my</text>
+  <text
+     x="295.500000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text272">
+feet,</text>
+  <text
+     x="343.800000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text274">
+reaching</text>
+  <text
+     x="434.100000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text276">
+for</text>
+  <text
+     x="467.400000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text278">
+any</text>
+  <text
+     x="507.700000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text280">
+weapon</text>
+  <text
+     x="588.000000"
+     y="543.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text282">
+still</text>
+  <text
+     x="25.000000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text284">
+left</text>
+  <text
+     x="72.250000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text286">
+to</text>
+  <text
+     x="105.500000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text288">
+me.</text>
+  <text
+     x="155.750000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text290">
+Struggling</text>
+  <text
+     x="272.000000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text292">
+through</text>
+  <text
+     x="361.250000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text294">
+the</text>
+  <text
+     x="405.500000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text296">
+dense</text>
+  <text
+     x="474.750000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text298">
+undergrowth,</text>
+  <text
+     x="617.000000"
+     y="570.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text300">
+I</text>
+  <text
+     x="25.000000"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text302">
+search</text>
+  <text
+     x="94.916667"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text304">
+for</text>
+  <text
+     x="129.833333"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text306">
+signs</text>
+  <text
+     x="186.750000"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text308">
+of</text>
+  <text
+     x="214.666667"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text310">
+a</text>
+  <text
+     x="233.583333"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text312">
+track</text>
+  <text
+     x="290.500000"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text314">
+or</text>
+  <text
+     x="318.416667"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text316">
+trail.</text>
+  <text
+     x="372.333333"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text318">
+At</text>
+  <text
+     x="404.250000"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text320">
+first</text>
+  <text
+     x="451.166667"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text322">
+glance,</text>
+  <text
+     x="529.083333"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text324">
+paths</text>
+  <text
+     x="588.000000"
+     y="597.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text326">
+that</text>
+  <text
+     x="25.000000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text328">
+seemed</text>
+  <text
+     x="104.300000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text330">
+to</text>
+  <text
+     x="129.600000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text332">
+lead</text>
+  <text
+     x="176.900000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text334">
+to</text>
+  <text
+     x="202.200000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text336">
+safety</text>
+  <text
+     x="265.500000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text338">
+turn</text>
+  <text
+     x="311.800000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text340">
+out</text>
+  <text
+     x="349.100000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text342">
+to</text>
+  <text
+     x="374.400000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text344">
+be</text>
+  <text
+     x="403.700000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text346">
+impassable,</text>
+  <text
+     x="524.000000"
+     y="624.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text348">
+overgrown</text>
+  <text
+     x="25.000000"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text350">
+by</text>
+  <text
+     x="54.818182"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text352">
+tangled</text>
+  <text
+     x="133.636364"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text354">
+and</text>
+  <text
+     x="175.454545"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text356">
+twisted</text>
+  <text
+     x="252.272727"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text358">
+vines.</text>
+  <text
+     x="316.090909"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text360">
+I</text>
+  <text
+     x="330.909091"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text362">
+remember</text>
+  <text
+     x="436.727273"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text364">
+the</text>
+  <text
+     x="473.545455"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text366">
+words</text>
+  <text
+     x="537.363636"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text368">
+of</text>
+  <text
+     x="564.181818"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text370">
+an</text>
+  <text
+     x="594.000000"
+     y="651.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text372">
+old</text>
+  <text
+     x="25.000000"
+     y="678.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text374">
+teacher:</text>
+  <text
+     x="65.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text376">
+“Do</text>
+  <text
+     x="108.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text378">
+not</text>
+  <text
+     x="142.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text380">
+be</text>
+  <text
+     x="169.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text382">
+tempted</text>
+  <text
+     x="246.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text384">
+to</text>
+  <text
+     x="269.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text386">
+use</text>
+  <text
+     x="305.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text388">
+fire</text>
+  <text
+     x="341.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text390">
+to</text>
+  <text
+     x="364.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text392">
+make</text>
+  <text
+     x="418.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text394">
+your</text>
+  <text
+     x="463.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text396">
+way.</text>
+  <text
+     x="508.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text398">
+Many</text>
+  <text
+     x="565.000000"
+     y="718.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text400">
+a</text>
+  <text
+     x="65.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text402">
+traveller</text>
+  <text
+     x="142.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text404">
+has</text>
+  <text
+     x="178.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text406">
+strayed</text>
+  <text
+     x="246.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text408">
+from</text>
+  <text
+     x="294.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text410">
+the</text>
+  <text
+     x="327.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text412">
+path,</text>
+  <text
+     x="377.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text414">
+using</text>
+  <text
+     x="431.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text416">
+fire</text>
+  <text
+     x="467.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text418">
+to</text>
+  <text
+     x="490.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text420">
+blaze</text>
+  <text
+     x="543.000000"
+     y="743.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text422">
+a</text>
+  <text
+     x="65.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text424">
+trail,</text>
+  <text
+     x="112.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text426">
+only</text>
+  <text
+     x="156.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text428">
+to</text>
+  <text
+     x="179.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text430">
+reach</text>
+  <text
+     x="233.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text432">
+a</text>
+  <text
+     x="249.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text434">
+dead</text>
+  <text
+     x="297.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text436">
+end.</text>
+  <text
+     x="341.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text438">
+Trying</text>
+  <text
+     x="405.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text440">
+to</text>
+  <text
+     x="428.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text442">
+return,</text>
+  <text
+     x="492.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text444">
+they</text>
+  <text
+     x="535.000000"
+     y="768.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text446">
+find</text>
+  <text
+     x="65.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text448">
+that</text>
+  <text
+     x="104.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text450">
+the</text>
+  <text
+     x="137.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text452">
+jungle</text>
+  <text
+     x="198.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text454">
+has</text>
+  <text
+     x="234.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text456">
+grown</text>
+  <text
+     x="295.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text458">
+back.</text>
+  <text
+     x="349.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text460">
+Those</text>
+  <text
+     x="409.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text462">
+who</text>
+  <text
+     x="453.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text464">
+are</text>
+  <text
+     x="486.000000"
+     y="793.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text466">
+desperate</text>
+  <text
+     x="65.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text468">
+enough</text>
+  <text
+     x="136.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text470">
+will</text>
+  <text
+     x="176.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text472">
+even</text>
+  <text
+     x="222.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text474">
+seek</text>
+  <text
+     x="268.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text476">
+out</text>
+  <text
+     x="302.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text478">
+forgotten</text>
+  <text
+     x="387.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text480">
+routes</text>
+  <text
+     x="447.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text482">
+when</text>
+  <text
+     x="501.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text484">
+the</text>
+  <text
+     x="534.000000"
+     y="818.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text486">
+way</text>
+  <text
+     x="65.000000"
+     y="843.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text488">
+home</text>
+  <text
+     x="120.000000"
+     y="843.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text490">
+is</text>
+  <text
+     x="141.000000"
+     y="843.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text492">
+in</text>
+  <text
+     x="164.000000"
+     y="843.000000"
+     font-family="FreeSerif"
+     font-size="22"
+     id="text494">
+sight.”</text>
+  <text
+     x="25.000000"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text496">
+Sensing</text>
+  <text
+     x="113.714286"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text498">
+my</text>
+  <text
+     x="156.428571"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text500">
+presence,</text>
+  <text
+     x="260.142857"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text502">
+obscene</text>
+  <text
+     x="350.857143"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text504">
+creatures</text>
+  <text
+     x="451.571429"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text506">
+emerge</text>
+  <text
+     x="535.285714"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text508">
+from</text>
+  <text
+     x="595.000000"
+     y="880.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text510">
+the</text>
+  <text
+     x="25.000000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text512">
+darkness,</text>
+  <text
+     x="123.900000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text514">
+hungry</text>
+  <text
+     x="201.800000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text516">
+for</text>
+  <text
+     x="237.700000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text518">
+prey.</text>
+  <text
+     x="292.600000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text520">
+Only</text>
+  <text
+     x="348.500000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text522">
+through</text>
+  <text
+     x="432.400000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text524">
+skill</text>
+  <text
+     x="483.300000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text526">
+and</text>
+  <text
+     x="527.200000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text528">
+luck</text>
+  <text
+     x="578.100000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text530">
+am</text>
+  <text
+     x="617.000000"
+     y="907.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text532">
+I</text>
+  <text
+     x="25.000000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text534">
+able</text>
+  <text
+     x="74.600000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text536">
+to</text>
+  <text
+     x="102.200000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text538">
+dispatch</text>
+  <text
+     x="191.800000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text540">
+them</text>
+  <text
+     x="249.400000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text542">
+back</text>
+  <text
+     x="304.000000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text544">
+into</text>
+  <text
+     x="350.600000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text546">
+the</text>
+  <text
+     x="389.200000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text548">
+shadows.</text>
+  <text
+     x="483.800000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text550">
+Even</text>
+  <text
+     x="541.400000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text552">
+though</text>
+  <text
+     x="617.000000"
+     y="934.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text554">
+I</text>
+  <text
+     x="25.000000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text556">
+know</text>
+  <text
+     x="85.400000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text558">
+I</text>
+  <text
+     x="101.800000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text560">
+must</text>
+  <text
+     x="157.200000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text562">
+journey</text>
+  <text
+     x="239.600000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text564">
+deeper</text>
+  <text
+     x="313.000000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text566">
+into</text>
+  <text
+     x="359.400000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text568">
+this</text>
+  <text
+     x="402.800000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text570">
+uncharted</text>
+  <text
+     x="508.200000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text572">
+land</text>
+  <text
+     x="558.600000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text574">
+to</text>
+  <text
+     x="586.000000"
+     y="961.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text576">
+find</text>
+  <text
+     x="25.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text578">
+the</text>
+  <text
+     x="61.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text580">
+way</text>
+  <text
+     x="105.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text582">
+home,</text>
+  <text
+     x="171.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text584">
+the</text>
+  <text
+     x="207.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text586">
+thought</text>
+  <text
+     x="287.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text588">
+of</text>
+  <text
+     x="313.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text590">
+vengeance</text>
+  <text
+     x="420.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text592">
+drives</text>
+  <text
+     x="484.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text594">
+me</text>
+  <text
+     x="520.000000"
+     y="988.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text596">
+on.</text>
+  <text
+     x="675.000000"
+     y="35.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text598">
+Loading</text>
+  <text
+     x="766.000000"
+     y="35.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text600">
+the</text>
+  <text
+     x="804.000000"
+     y="35.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text602">
+Game</text>
+  <text
+     x="675.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text604">
+Insert</text>
+  <text
+     x="737.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text606">
+the</text>
+  <text
+     x="773.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text608">
+cassette</text>
+  <text
+     x="855.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text610">
+and</text>
+  <text
+     x="896.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text612">
+type</text>
+  <text
+     x="715.000000"
+     y="113.000000"
+     font-family="FreeMono"
+     font-size="22"
+     id="text614">
+*RUN</text>
+  <text
+     x="780.000000"
+     y="113.000000"
+     font-family="FreeMono"
+     font-size="22"
+     id="text616">
+JUNGLE</text>
+  <text
+     x="675.000000"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text618">
+then</text>
+  <text
+     x="727.222222"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text620">
+press</text>
+  <text
+     x="786.444444"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text622">
+Return.</text>
+  <text
+     x="868.666667"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text624">
+Press</text>
+  <text
+     x="928.888889"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text626">
+play</text>
+  <text
+     x="980.111111"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text628">
+on</text>
+  <text
+     x="1014.333333"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text630">
+the</text>
+  <text
+     x="1054.555556"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text632">
+cassette</text>
+  <text
+     x="1140.777778"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text634">
+recorder.</text>
+  <text
+     x="1237.000000"
+     y="148.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text636">
+The</text>
+  <text
+     x="675.000000"
+     y="175.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text638">
+game</text>
+  <text
+     x="734.000000"
+     y="175.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text640">
+should</text>
+  <text
+     x="804.000000"
+     y="175.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text642">
+now</text>
+  <text
+     x="850.000000"
+     y="175.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text644">
+load.</text>
+  <text
+     x="675.000000"
+     y="228.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text646">
+Playing</text>
+  <text
+     x="758.000000"
+     y="228.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text648">
+the</text>
+  <text
+     x="796.000000"
+     y="228.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text650">
+Game</text>
+  <text
+     x="675.000000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text652">
+The</text>
+  <text
+     x="723.300000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text654">
+player</text>
+  <text
+     x="792.600000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text656">
+must</text>
+  <text
+     x="849.900000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text658">
+help</text>
+  <text
+     x="902.200000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text660">
+the</text>
+  <text
+     x="942.500000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text662">
+character</text>
+  <text
+     x="1042.800000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text664">
+reach</text>
+  <text
+     x="1106.100000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text666">
+the</text>
+  <text
+     x="1146.400000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text668">
+exit</text>
+  <text
+     x="1192.700000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text670">
+for</text>
+  <text
+     x="1230.000000"
+     y="268.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text672">
+each</text>
+  <text
+     x="675.000000"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text674">
+level.</text>
+  <text
+     x="734.727273"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text676">
+However,</text>
+  <text
+     x="831.454545"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text678">
+the</text>
+  <text
+     x="869.181818"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text680">
+player</text>
+  <text
+     x="935.909091"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text682">
+must</text>
+  <text
+     x="990.636364"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text684">
+first</text>
+  <text
+     x="1037.363636"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text686">
+find</text>
+  <text
+     x="1084.090909"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text688">
+a</text>
+  <text
+     x="1102.818182"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text690">
+key</text>
+  <text
+     x="1144.545455"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text692">
+to</text>
+  <text
+     x="1171.272727"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text694">
+unlock</text>
+  <text
+     x="1245.000000"
+     y="295.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text696">
+the</text>
+  <text
+     x="675.000000"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text698">
+exit.</text>
+  <text
+     x="724.846154"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text700">
+On</text>
+  <text
+     x="761.692308"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text702">
+the</text>
+  <text
+     x="799.538462"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text704">
+final</text>
+  <text
+     x="852.384615"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text706">
+level,</text>
+  <text
+     x="912.230769"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text708">
+the</text>
+  <text
+     x="950.076923"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text710">
+exit</text>
+  <text
+     x="993.923077"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text712">
+does</text>
+  <text
+     x="1045.769231"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text714">
+not</text>
+  <text
+     x="1084.615385"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text716">
+require</text>
+  <text
+     x="1161.461538"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text718">
+a</text>
+  <text
+     x="1180.307692"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text720">
+key</text>
+  <text
+     x="1222.153846"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text722">
+but</text>
+  <text
+     x="1261.000000"
+     y="322.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text724">
+it</text>
+  <text
+     x="675.000000"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text726">
+may</text>
+  <text
+     x="723.111111"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text728">
+be</text>
+  <text
+     x="753.222222"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text730">
+obstructed.</text>
+  <text
+     x="867.333333"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text732">
+Enemies</text>
+  <text
+     x="958.444444"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text734">
+will</text>
+  <text
+     x="1003.555556"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text736">
+appear</text>
+  <text
+     x="1075.666667"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text738">
+in</text>
+  <text
+     x="1101.777778"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text740">
+each</text>
+  <text
+     x="1153.888889"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text742">
+location</text>
+  <text
+     x="1240.000000"
+     y="349.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text744">
+and</text>
+  <text
+     x="675.000000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text746">
+attack</text>
+  <text
+     x="749.375000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text748">
+the</text>
+  <text
+     x="794.750000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text750">
+player's</text>
+  <text
+     x="882.125000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text752">
+character.</text>
+  <text
+     x="992.500000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text754">
+They</text>
+  <text
+     x="1056.875000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text756">
+can</text>
+  <text
+     x="1106.250000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text758">
+be</text>
+  <text
+     x="1144.625000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text760">
+destroyed</text>
+  <text
+     x="1252.000000"
+     y="376.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text762">
+by</text>
+  <text
+     x="675.000000"
+     y="403.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text764">
+projectiles</text>
+  <text
+     x="783.000000"
+     y="403.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text766">
+fired</text>
+  <text
+     x="835.000000"
+     y="403.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text768">
+by</text>
+  <text
+     x="864.000000"
+     y="403.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text770">
+the</text>
+  <text
+     x="900.000000"
+     y="403.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text772">
+current</text>
+  <text
+     x="976.000000"
+     y="403.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text774">
+weapon.</text>
+  <text
+     x="675.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text776">
+Your</text>
+  <text
+     x="728.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text778">
+character</text>
+  <text
+     x="825.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text780">
+can</text>
+  <text
+     x="866.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text782">
+be</text>
+  <text
+     x="896.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text784">
+moved</text>
+  <text
+     x="967.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text786">
+around</text>
+  <text
+     x="1041.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text788">
+the</text>
+  <text
+     x="1078.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text790">
+screen</text>
+  <text
+     x="1147.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text792">
+by</text>
+  <text
+     x="1177.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text794">
+using</text>
+  <text
+     x="1236.000000"
+     y="443.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text796">
+four</text>
+  <text
+     x="675.000000"
+     y="470.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text798">
+control</text>
+  <text
+     x="750.000000"
+     y="470.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text800">
+keys:</text>
+  <text
+     x="715.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text802">
+Z</text>
+  <text
+     x="715.000000"
+     y="533.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text804">
+X</text>
+  <text
+     x="715.000000"
+     y="560.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text806">
+:</text>
+  <text
+     x="715.000000"
+     y="587.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text808">
+/</text>
+  <text
+     x="835.000000"
+     y="506.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text810">
+left</text>
+  <text
+     x="835.000000"
+     y="533.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text812">
+right</text>
+  <text
+     x="835.000000"
+     y="560.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text814">
+up</text>
+  <text
+     x="835.000000"
+     y="587.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text816">
+down</text>
+  <text
+     x="675.000000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text818">
+To</text>
+  <text
+     x="714.100000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text820">
+fire</text>
+  <text
+     x="762.200000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text822">
+a</text>
+  <text
+     x="787.300000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text824">
+weapon,</text>
+  <text
+     x="881.400000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text826">
+press</text>
+  <text
+     x="944.500000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text828">
+the</text>
+  <text
+     x="988.600000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text830">
+Return</text>
+  <text
+     x="1068.700000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text832">
+key.</text>
+  <text
+     x="1120.800000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text834">
+There</text>
+  <text
+     x="1191.900000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text836">
+are</text>
+  <text
+     x="1236.000000"
+     y="627.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text838">
+four</text>
+  <text
+     x="675.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text840">
+different</text>
+  <text
+     x="764.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text842">
+types</text>
+  <text
+     x="821.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text844">
+of</text>
+  <text
+     x="847.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text846">
+weapon</text>
+  <text
+     x="927.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text848">
+available</text>
+  <text
+     x="1020.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text850">
+in</text>
+  <text
+     x="1045.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text852">
+the</text>
+  <text
+     x="1081.000000"
+     y="654.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text854">
+game.</text>
+  <text
+     x="675.000000"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text856">
+Alternatively,</text>
+  <text
+     x="824.428571"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text858">
+you</text>
+  <text
+     x="876.857143"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text860">
+may</text>
+  <text
+     x="935.285714"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text862">
+may</text>
+  <text
+     x="993.714286"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text864">
+using</text>
+  <text
+     x="1063.142857"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text866">
+an</text>
+  <text
+     x="1103.571429"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text868">
+analogue.</text>
+  <text
+     x="1215.000000"
+     y="694.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text870">
+Select</text>
+  <text
+     x="675.000000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text872">
+joystick</text>
+  <text
+     x="757.500000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text874">
+controls</text>
+  <text
+     x="843.000000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text876">
+by</text>
+  <text
+     x="873.500000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text878">
+pressing</text>
+  <text
+     x="961.000000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text880">
+the</text>
+  <text
+     x="998.500000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text882">
+Fire</text>
+  <text
+     x="1045.000000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text884">
+button</text>
+  <text
+     x="1114.500000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text886">
+on</text>
+  <text
+     x="1146.000000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text888">
+the</text>
+  <text
+     x="1183.500000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text890">
+title</text>
+  <text
+     x="1230.000000"
+     y="721.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text892">
+page</text>
+  <text
+     x="675.000000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text894">
+to</text>
+  <text
+     x="709.300000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text896">
+start</text>
+  <text
+     x="767.600000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text898">
+the</text>
+  <text
+     x="812.900000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text900">
+game.</text>
+  <text
+     x="887.200000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text902">
+Press</text>
+  <text
+     x="952.500000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text904">
+Space</text>
+  <text
+     x="1025.800000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text906">
+to</text>
+  <text
+     x="1060.100000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text908">
+start</text>
+  <text
+     x="1118.400000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text910">
+the</text>
+  <text
+     x="1163.700000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text912">
+game</text>
+  <text
+     x="1232.000000"
+     y="748.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text914">
+with</text>
+  <text
+     x="675.000000"
+     y="775.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text916">
+keyboard</text>
+  <text
+     x="770.000000"
+     y="775.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text918">
+controls.</text>
+  <text
+     x="675.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text920">
+Other</text>
+  <text
+     x="736.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text922">
+keys</text>
+  <text
+     x="784.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text924">
+can</text>
+  <text
+     x="824.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text926">
+be</text>
+  <text
+     x="853.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text928">
+used</text>
+  <text
+     x="903.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text930">
+to</text>
+  <text
+     x="928.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text932">
+control</text>
+  <text
+     x="1003.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text934">
+the</text>
+  <text
+     x="1039.000000"
+     y="815.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text936">
+game:</text>
+  <text
+     x="715.000000"
+     y="851.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text938">
+S</text>
+  <text
+     x="715.000000"
+     y="878.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text940">
+Q</text>
+  <text
+     x="715.000000"
+     y="905.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text942">
+P</text>
+  <text
+     x="715.000000"
+     y="932.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text944">
+O</text>
+  <text
+     x="715.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text946">
+Escape</text>
+  <text
+     x="835.000000"
+     y="851.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text948">
+enable</text>
+  <text
+     x="905.000000"
+     y="851.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text950">
+sound</text>
+  <text
+     x="968.000000"
+     y="851.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text952">
+effects</text>
+  <text
+     x="835.000000"
+     y="878.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text954">
+disable</text>
+  <text
+     x="910.000000"
+     y="878.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text956">
+sound</text>
+  <text
+     x="973.000000"
+     y="878.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text958">
+effects</text>
+  <text
+     x="835.000000"
+     y="905.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text960">
+pause</text>
+  <text
+     x="896.000000"
+     y="905.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text962">
+the</text>
+  <text
+     x="932.000000"
+     y="905.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text964">
+game</text>
+  <text
+     x="835.000000"
+     y="932.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text966">
+resume</text>
+  <text
+     x="911.000000"
+     y="932.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text968">
+the</text>
+  <text
+     x="947.000000"
+     y="932.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text970">
+game</text>
+  <text
+     x="835.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text972">
+quit</text>
+  <text
+     x="879.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text974">
+the</text>
+  <text
+     x="915.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text976">
+game,</text>
+  <text
+     x="980.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text978">
+returning</text>
+  <text
+     x="1076.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text980">
+to</text>
+  <text
+     x="1101.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text982">
+the</text>
+  <text
+     x="1137.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text984">
+title</text>
+  <text
+     x="1182.000000"
+     y="959.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text986">
+screen</text>
+  <text
+     x="1325.000000"
+     y="35.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text988">
+Treasure</text>
+  <text
+     x="1325.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text990">
+Items</text>
+  <text
+     x="1389.111111"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text992">
+of</text>
+  <text
+     x="1419.222222"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text994">
+treasure</text>
+  <text
+     x="1506.333333"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text996">
+can</text>
+  <text
+     x="1550.444444"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text998">
+be</text>
+  <text
+     x="1583.555556"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1000">
+found</text>
+  <text
+     x="1648.666667"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1002">
+throughout</text>
+  <text
+     x="1764.777778"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1004">
+the</text>
+  <text
+     x="1804.888889"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1006">
+jungle.</text>
+  <text
+     x="1882.000000"
+     y="75.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1008">
+Pick</text>
+  <text
+     x="1325.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1010">
+these</text>
+  <text
+     x="1381.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1012">
+up</text>
+  <text
+     x="1411.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1014">
+to</text>
+  <text
+     x="1436.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1016">
+increase</text>
+  <text
+     x="1522.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1018">
+your</text>
+  <text
+     x="1571.000000"
+     y="102.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1020">
+score.</text>
+  <image
+     x="1345.000000"
+     y="134.000000"
+     width="64.000000"
+     height="64.000000"
+     xlink:href="images/key.xpm"
+     id="image1022" />
+  <text
+     x="1435.000000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1024">
+Find</text>
+  <text
+     x="1485.100000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1026">
+the</text>
+  <text
+     x="1521.200000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1028">
+key</text>
+  <text
+     x="1561.300000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1030">
+to</text>
+  <text
+     x="1586.400000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1032">
+open</text>
+  <text
+     x="1639.500000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1034">
+the</text>
+  <text
+     x="1675.600000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1036">
+door</text>
+  <text
+     x="1725.700000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1038">
+on</text>
+  <text
+     x="1755.800000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1040">
+all</text>
+  <text
+     x="1786.900000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1042">
+levels</text>
+  <text
+     x="1848.000000"
+     y="162.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1044">
+except</text>
+  <text
+     x="1435.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1046">
+the</text>
+  <text
+     x="1471.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1048">
+last.</text>
+  <text
+     x="1517.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1050">
+Each</text>
+  <text
+     x="1572.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1052">
+key</text>
+  <text
+     x="1612.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1054">
+is</text>
+  <text
+     x="1634.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1056">
+worth</text>
+  <text
+     x="1696.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1058">
+50</text>
+  <text
+     x="1726.000000"
+     y="189.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1060">
+points.</text>
+  <image
+     x="1345.000000"
+     y="206.000000"
+     width="64.000000"
+     height="64.000000"
+     xlink:href="images/chest.xpm"
+     id="image1062" />
+  <text
+     x="1435.000000"
+     y="246.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1064">
+Treasure</text>
+  <text
+     x="1525.000000"
+     y="246.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1066">
+chests</text>
+  <text
+     x="1590.000000"
+     y="246.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1068">
+are</text>
+  <text
+     x="1626.000000"
+     y="246.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1070">
+worth</text>
+  <text
+     x="1688.000000"
+     y="246.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1072">
+20</text>
+  <text
+     x="1718.000000"
+     y="246.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1074">
+points.</text>
+  <image
+     x="1345.000000"
+     y="278.000000"
+     width="64.000000"
+     height="64.000000"
+     xlink:href="images/jewel.xpm"
+     id="image1076" />
+  <text
+     x="1435.000000"
+     y="318.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1078">
+Jewels</text>
+  <text
+     x="1503.000000"
+     y="318.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1080">
+are</text>
+  <text
+     x="1539.000000"
+     y="318.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1082">
+worth</text>
+  <text
+     x="1601.000000"
+     y="318.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1084">
+5</text>
+  <text
+     x="1619.000000"
+     y="318.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1086">
+points.</text>
+  <image
+     x="1345.000000"
+     y="350.000000"
+     width="64.000000"
+     height="64.000000"
+     xlink:href="images/statue.xpm"
+     id="image1088" />
+  <text
+     x="1435.000000"
+     y="390.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1090">
+Statues</text>
+  <text
+     x="1511.000000"
+     y="390.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1092">
+are</text>
+  <text
+     x="1547.000000"
+     y="390.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1094">
+worth</text>
+  <text
+     x="1609.000000"
+     y="390.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1096">
+10</text>
+  <text
+     x="1639.000000"
+     y="390.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1098">
+points.</text>
+  <image
+     x="1345.000000"
+     y="422.000000"
+     width="64.000000"
+     height="64.000000"
+     xlink:href="images/health.xpm"
+     id="image1100" />
+  <text
+     x="1435.000000"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1102">
+Presents</text>
+  <text
+     x="1528.714286"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1104">
+are</text>
+  <text
+     x="1572.428571"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1106">
+worth</text>
+  <text
+     x="1642.142857"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1108">
+40</text>
+  <text
+     x="1679.857143"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1110">
+points</text>
+  <text
+     x="1752.571429"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1112">
+and</text>
+  <text
+     x="1801.285714"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1114">
+boost</text>
+  <text
+     x="1867.000000"
+     y="450.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1116">
+your</text>
+  <text
+     x="1435.000000"
+     y="477.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1118">
+strength</text>
+  <text
+     x="1519.000000"
+     y="477.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1120">
+by</text>
+  <text
+     x="1548.000000"
+     y="477.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1122">
+20</text>
+  <text
+     x="1578.000000"
+     y="477.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1124">
+units.</text>
+  <text
+     x="1325.000000"
+     y="552.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     font-weight="bold"
+     id="text1126">
+Exits</text>
+  <text
+     x="1325.000000"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1128">
+Each</text>
+  <text
+     x="1380.923077"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1130">
+level</text>
+  <text
+     x="1433.846154"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1132">
+has</text>
+  <text
+     x="1472.769231"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1134">
+an</text>
+  <text
+     x="1502.692308"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1136">
+exit</text>
+  <text
+     x="1545.615385"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1138">
+that</text>
+  <text
+     x="1589.538462"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1140">
+can</text>
+  <text
+     x="1630.461538"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1142">
+be</text>
+  <text
+     x="1660.384615"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1144">
+opened</text>
+  <text
+     x="1737.307692"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1146">
+using</text>
+  <text
+     x="1796.230769"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1148">
+a</text>
+  <text
+     x="1814.153846"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1150">
+key.</text>
+  <text
+     x="1859.076923"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1152">
+On</text>
+  <text
+     x="1895.000000"
+     y="592.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1154">
+the</text>
+  <text
+     x="1325.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1156">
+last</text>
+  <text
+     x="1367.500000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1158">
+level</text>
+  <text
+     x="1422.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1160">
+you</text>
+  <text
+     x="1465.500000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1162">
+will</text>
+  <text
+     x="1512.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1164">
+find</text>
+  <text
+     x="1559.500000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1166">
+a</text>
+  <text
+     x="1579.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1168">
+gate</text>
+  <text
+     x="1628.500000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1170">
+that</text>
+  <text
+     x="1674.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1172">
+leads</text>
+  <text
+     x="1732.500000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1174">
+to</text>
+  <text
+     x="1760.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1176">
+safety.</text>
+  <text
+     x="1829.500000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1178">
+This</text>
+  <text
+     x="1881.000000"
+     y="619.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1180">
+does</text>
+  <text
+     x="1325.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1182">
+not</text>
+  <text
+     x="1362.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1184">
+require</text>
+  <text
+     x="1437.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1186">
+a</text>
+  <text
+     x="1454.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1188">
+key,</text>
+  <text
+     x="1498.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1190">
+but</text>
+  <text
+     x="1535.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1192">
+it</text>
+  <text
+     x="1555.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1194">
+is</text>
+  <text
+     x="1577.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1196">
+well</text>
+  <text
+     x="1624.000000"
+     y="646.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1198">
+hidden.</text>
+  <image
+     x="1377.000000"
+     y="682.000000"
+     width="64.000000"
+     height="96.000000"
+     xlink:href="images/exit1.xpm"
+     id="image1200" />
+  <text
+     x="1515.000000"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1202">
+The</text>
+  <text
+     x="1560.857143"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1204">
+exit</text>
+  <text
+     x="1604.714286"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1206">
+is</text>
+  <text
+     x="1628.571429"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1208">
+initially</text>
+  <text
+     x="1712.428571"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1210">
+locked.</text>
+  <text
+     x="1791.285714"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1212">
+Find</text>
+  <text
+     x="1843.142857"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1214">
+the</text>
+  <text
+     x="1881.000000"
+     y="722.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1216">
+key</text>
+  <text
+     x="1515.000000"
+     y="749.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1218">
+to</text>
+  <text
+     x="1540.000000"
+     y="749.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1220">
+unlock</text>
+  <text
+     x="1612.000000"
+     y="749.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1222">
+it.</text>
+  <image
+     x="1345.000000"
+     y="786.000000"
+     width="64.000000"
+     height="96.000000"
+     xlink:href="images/finalexitl.xpm"
+     id="image1224" />
+  <image
+     x="1409.000000"
+     y="786.000000"
+     width="64.000000"
+     height="96.000000"
+     xlink:href="images/finalexitr.xpm"
+     id="image1226" />
+  <text
+     x="1515.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1228">
+The</text>
+  <text
+     x="1564.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1230">
+final</text>
+  <text
+     x="1620.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1232">
+exit</text>
+  <text
+     x="1667.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1234">
+is</text>
+  <text
+     x="1694.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1236">
+hidden</text>
+  <text
+     x="1771.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1238">
+somewhere</text>
+  <text
+     x="1891.000000"
+     y="826.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1240">
+on</text>
+  <text
+     x="1515.000000"
+     y="853.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1242">
+the</text>
+  <text
+     x="1551.000000"
+     y="853.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1244">
+final</text>
+  <text
+     x="1602.000000"
+     y="853.000000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1246">
+level.</text>
+  <text
+     x="1505.500000"
+     y="960.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     font-style="italic"
+     id="text1248">
+Have</text>
+  <text
+     x="1571.500000"
+     y="960.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     font-style="italic"
+     id="text1250">
+a</text>
+  <text
+     x="1592.500000"
+     y="960.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     font-style="italic"
+     id="text1252">
+safe</text>
+  <text
+     x="1644.500000"
+     y="960.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     font-style="italic"
+     id="text1254">
+journey!</text>
+  <text
+     x="2157.000000"
+     y="50.000000"
+     font-family="FreeSerif"
+     font-size="36"
+     font-weight="bold"
+     id="text1256">
+Jungle</text>
+  <text
+     x="2268.000000"
+     y="50.000000"
+     font-family="FreeSerif"
+     font-size="36"
+     font-weight="bold"
+     id="text1258">
+Journey</text>
+  <text
+     x="2028.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1260">
+for</text>
+  <text
+     x="2069.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1262">
+the</text>
+  <text
+     x="2113.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1264">
+Acorn</text>
+  <text
+     x="2193.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1266">
+Electron</text>
+  <text
+     x="2302.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1268">
+and</text>
+  <text
+     x="2355.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1270">
+BBC</text>
+  <text
+     x="2420.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1272">
+Model</text>
+  <text
+     x="2503.000000"
+     y="89.000000"
+     font-family="FreeSerif"
+     font-size="28"
+     font-weight="bold"
+     id="text1274">
+B</text>
+  <image
+     x="2051.000000"
+     y="125.000000"
+     width="448.000000"
+     height="358.400000"
+     xlink:href="images/screenshot1.png"
+     id="image1276" />
+  <text
+     x="2117.500000"
+     y="538.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1278">
+Copyright</text>
+  <text
+     x="2220.500000"
+     y="538.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1280">
+©</text>
+  <text
+     x="2244.500000"
+     y="538.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1282">
+2011</text>
+  <text
+     x="2298.500000"
+     y="538.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1284">
+David</text>
+  <text
+     x="2362.500000"
+     y="538.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1286">
+Boddie</text>
+  <text
+     x="2074.500000"
+     y="565.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1288">
+An</text>
+  <text
+     x="2109.500000"
+     y="565.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1290">
+Infukor</text>
+  <text
+     x="2186.500000"
+     y="565.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1292">
+production</text>
+  <text
+     x="2297.500000"
+     y="565.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1294">
+for</text>
+  <text
+     x="2330.500000"
+     y="565.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1296">
+Retro</text>
+  <text
+     x="2389.500000"
+     y="565.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1298">
+Software</text>
+  <text
+     x="2121.000000"
+     y="592.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1300">
+http://www.retrosoftware.co.uk/</text>
+  <text
+     x="1975.000000"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1302">
+This</text>
+  <text
+     x="2026.444444"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1304">
+program</text>
+  <text
+     x="2116.888889"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1306">
+is</text>
+  <text
+     x="2141.333333"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1308">
+free</text>
+  <text
+     x="2187.777778"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1310">
+software:</text>
+  <text
+     x="2285.222222"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1312">
+you</text>
+  <text
+     x="2328.666667"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1314">
+can</text>
+  <text
+     x="2371.111111"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1316">
+redistribute</text>
+  <text
+     x="2490.555556"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1318">
+it</text>
+  <text
+     x="2513.000000"
+     y="644.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1320">
+and/or</text>
+  <text
+     x="1975.000000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1322">
+modify</text>
+  <text
+     x="2051.100000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1324">
+it</text>
+  <text
+     x="2071.200000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1326">
+under</text>
+  <text
+     x="2132.300000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1328">
+the</text>
+  <text
+     x="2168.400000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1330">
+terms</text>
+  <text
+     x="2228.500000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1332">
+of</text>
+  <text
+     x="2254.600000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1334">
+the</text>
+  <text
+     x="2290.700000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1336">
+GNU</text>
+  <text
+     x="2347.800000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1338">
+General</text>
+  <text
+     x="2430.900000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1340">
+Public</text>
+  <text
+     x="2499.000000"
+     y="671.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1342">
+License</text>
+  <text
+     x="1975.000000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1344">
+as</text>
+  <text
+     x="2002.750000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1346">
+published</text>
+  <text
+     x="2104.500000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1348">
+by</text>
+  <text
+     x="2135.250000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1350">
+the</text>
+  <text
+     x="2173.000000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1352">
+Free</text>
+  <text
+     x="2223.750000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1354">
+Software</text>
+  <text
+     x="2317.500000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1356">
+Foundation,</text>
+  <text
+     x="2441.250000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1358">
+either</text>
+  <text
+     x="2505.000000"
+     y="698.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1360">
+version</text>
+  <text
+     x="1975.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1362">
+3</text>
+  <text
+     x="1993.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1364">
+of</text>
+  <text
+     x="2019.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1366">
+the</text>
+  <text
+     x="2055.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1368">
+License,</text>
+  <text
+     x="2143.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1370">
+or</text>
+  <text
+     x="2169.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1372">
+(at</text>
+  <text
+     x="2201.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1374">
+your</text>
+  <text
+     x="2250.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1376">
+option)</text>
+  <text
+     x="2326.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1378">
+any</text>
+  <text
+     x="2366.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1380">
+later</text>
+  <text
+     x="2416.000000"
+     y="725.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1382">
+version.</text>
+  <text
+     x="1975.000000"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1384">
+This</text>
+  <text
+     x="2025.454545"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1386">
+program</text>
+  <text
+     x="2114.909091"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1388">
+is</text>
+  <text
+     x="2138.363636"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1390">
+distributed</text>
+  <text
+     x="2249.818182"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1392">
+in</text>
+  <text
+     x="2276.272727"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1394">
+the</text>
+  <text
+     x="2313.727273"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1396">
+hope</text>
+  <text
+     x="2368.181818"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1398">
+that</text>
+  <text
+     x="2412.636364"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1400">
+it</text>
+  <text
+     x="2434.090909"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1402">
+will</text>
+  <text
+     x="2479.545455"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1404">
+be</text>
+  <text
+     x="2510.000000"
+     y="765.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1406">
+useful,</text>
+  <text
+     x="1975.000000"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1408">
+but</text>
+  <text
+     x="2012.285714"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1410">
+WITHOUT</text>
+  <text
+     x="2130.571429"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1412">
+ANY</text>
+  <text
+     x="2187.857143"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1414">
+WARRANTY;</text>
+  <text
+     x="2333.142857"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1416">
+without</text>
+  <text
+     x="2413.428571"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1418">
+even</text>
+  <text
+     x="2463.714286"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1420">
+the</text>
+  <text
+     x="2500.000000"
+     y="792.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1422">
+implied</text>
+  <text
+     x="1975.000000"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1424">
+warranty</text>
+  <text
+     x="2075.833333"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1426">
+of</text>
+  <text
+     x="2110.666667"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1428">
+MERCHANTABILITY</text>
+  <text
+     x="2353.500000"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1430">
+or</text>
+  <text
+     x="2388.333333"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1432">
+FITNESS</text>
+  <text
+     x="2497.166667"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1434">
+FOR</text>
+  <text
+     x="2558.000000"
+     y="819.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1436">
+A</text>
+  <text
+     x="1975.000000"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1438">
+PARTICULAR</text>
+  <text
+     x="2136.666667"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1440">
+PURPOSE.</text>
+  <text
+     x="2261.333333"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1442">
+See</text>
+  <text
+     x="2311.000000"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1444">
+the</text>
+  <text
+     x="2355.666667"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1446">
+GNU</text>
+  <text
+     x="2421.333333"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1448">
+General</text>
+  <text
+     x="2513.000000"
+     y="846.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1450">
+Public</text>
+  <text
+     x="1975.000000"
+     y="873.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1452">
+License</text>
+  <text
+     x="2057.000000"
+     y="873.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1454">
+for</text>
+  <text
+     x="2090.000000"
+     y="873.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1456">
+more</text>
+  <text
+     x="2146.000000"
+     y="873.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1458">
+details.</text>
+  <text
+     x="1975.000000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1460">
+You</text>
+  <text
+     x="2020.500000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1462">
+should</text>
+  <text
+     x="2092.000000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1464">
+have</text>
+  <text
+     x="2143.500000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1466">
+received</text>
+  <text
+     x="2233.000000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1468">
+a</text>
+  <text
+     x="2251.500000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1470">
+copy</text>
+  <text
+     x="2305.000000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1472">
+of</text>
+  <text
+     x="2332.500000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1474">
+the</text>
+  <text
+     x="2370.000000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1476">
+GNU</text>
+  <text
+     x="2428.500000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1478">
+General</text>
+  <text
+     x="2513.000000"
+     y="913.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1480">
+Public</text>
+  <text
+     x="1975.000000"
+     y="940.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1482">
+License</text>
+  <text
+     x="2057.000000"
+     y="940.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1484">
+along</text>
+  <text
+     x="2117.000000"
+     y="940.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1486">
+with</text>
+  <text
+     x="2166.000000"
+     y="940.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1488">
+this</text>
+  <text
+     x="2207.000000"
+     y="940.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1490">
+program.</text>
+  <text
+     x="1975.000000"
+     y="967.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1492">
+If</text>
+  <text
+     x="1997.000000"
+     y="967.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1494">
+not,</text>
+  <text
+     x="2040.000000"
+     y="967.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1496">
+see</text>
+  <text
+     x="2077.000000"
+     y="967.400000"
+     font-family="FreeSerif"
+     font-size="24"
+     id="text1498">
+&lt;http://www.gnu.org/licenses/&gt;.</text>
+  <rect
+     x="2600"
+     y="0"
+     width="100"
+     height="1000"
+     stroke="black"
+     fill="none"
+     stroke-width="1"
+     id="rect1500" />
+  <g
+     id="g4361"
+     transform="matrix(0.8666666,0,0,0.8666666,2699.9999,66.666739)">
+    <rect
+       y="-76.923096"
+       x="-3.0511719e-05"
+       height="1153.8462"
+       width="750.00006"
+       id="rect10069"
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       style="fill:url(#linearGradient2384);fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:4, 4;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect10292"
+       width="652.63892"
+       height="915.86542"
+       x="48.680542"
+       y="38.94228" />
+    <path
+       sodipodi:nodetypes="cccccccccccccccc"
+       id="path2205"
+       d="M 194.20138,161.55768 L 194.20138,170.37712 C 194.20138,174.78684 194.20138,174.78684 198.6111,174.78684 L 216.24999,174.78684 L 216.24999,214.47434 C 216.24999,218.88407 211.84027,223.29379 207.43055,223.29379 C 203.02083,223.29379 198.6111,218.88407 198.6111,214.47434 L 189.79166,214.47434 L 189.79166,218.88407 C 189.79166,227.70351 198.6111,236.52296 211.84027,236.52296 C 220.65972,236.52295 229.47916,227.70351 229.47916,218.88407 L 229.47916,174.78684 L 247.11805,174.78684 L 247.11805,165.9674 C 247.11805,161.55768 247.11805,161.55768 242.70833,161.55768 L 194.20138,161.55768 z "
+       style="fill:#007f00;fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="ccccsccccsccc"
+       id="path4148"
+       d="M 255.9375,161.55768 L 269.16667,161.55768 L 269.16667,210.06462 C 269.16667,214.47434 273.57639,223.29379 282.39583,223.29379 L 286.80556,223.29379 C 295.625,223.29379 300.03472,214.47434 300.03472,210.06462 L 300.03472,161.55768 L 313.26389,161.55768 L 313.26389,214.47434 C 313.26389,223.29379 304.44445,236.52294 286.80556,236.52296 L 282.39583,236.52296 C 264.75693,236.52296 255.9375,223.29379 255.9375,214.47434 L 255.9375,161.55768 z "
+       style="fill:#007f00;fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccccccccc"
+       id="path5119"
+       d="M 322.08334,161.55768 L 322.08334,236.52296 L 335.3125,236.52296 L 335.3125,183.60629 L 370.59028,236.52296 L 383.81945,236.52296 L 383.81945,165.9674 C 383.81945,161.55768 383.81945,161.55768 379.40973,161.55768 L 370.59028,161.55768 L 370.59028,214.47434 L 335.3125,161.55768 L 322.08334,161.55768 z "
+       style="fill:#007f00;fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccccccccccc"
+       id="path6090"
+       d="M 392.63889,196.83545 C 392.63889,179.19656 401.45834,161.55768 419.09722,161.55768 C 432.1528,162.81043 440.97225,162.81043 445.38197,180.44932 L 436.73611,183.60629 C 436.73612,174.78684 427.91667,174.78684 423.50695,174.78684 C 414.6875,174.78684 405.86806,179.19656 405.86806,196.83545 C 405.86806,214.47435 414.6875,223.29379 423.50695,223.29379 C 432.32639,223.29379 441.14584,218.88407 441.14584,210.06462 L 432.32639,210.06462 L 432.32639,201.24518 L 449.96528,201.24518 L 449.96528,214.47434 C 449.96528,227.70351 441.14584,236.52296 423.50695,236.52296 C 401.45834,236.52296 392.63889,218.88407 392.63889,196.83545 z "
+       style="fill:#007f00;fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="ccccccccc"
+       id="path7061"
+       d="M 459.28473,236.02296 L 503.38195,236.02296 C 507.79167,236.02296 507.79167,236.02296 507.79167,231.61323 L 507.79167,222.79379 L 472.51389,222.79379 L 472.51389,165.4674 C 472.51389,161.05767 472.51389,161.05767 468.10417,161.05767 L 459.28473,161.05767 L 459.28473,236.02296 z "
+       style="fill:#007f00;fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccccccccccccc"
+       id="path8032"
+       d="M 516.11112,161.55768 L 516.11112,236.52296 L 555.79861,236.52296 C 560.20835,236.52296 560.20835,236.52296 560.20835,232.11323 L 560.20835,223.29379 L 524.93057,223.29379 L 524.93057,201.24518 L 542.56945,201.24518 C 546.97917,201.24518 546.97917,201.24518 546.97917,196.83545 L 546.97917,188.01601 L 524.93057,188.01601 L 524.93057,170.37712 L 551.38889,170.37712 C 555.79861,170.37712 555.79861,170.37712 555.79861,165.9674 L 555.79861,161.55768 L 516.11112,161.55768 z "
+       style="fill:#007f00;fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccccccccccccc"
+       id="path9003"
+       d="M 167.24304,245.8424 L 167.24304,254.66185 C 167.24304,259.07157 167.24304,259.07157 171.65276,259.07157 L 189.29165,259.07157 L 189.29165,298.75907 C 189.29165,303.1688 184.88193,307.57852 180.47221,307.57852 C 176.06249,307.57852 171.65276,303.1688 171.65276,298.75907 L 162.83332,298.75907 L 162.83332,303.1688 C 162.83332,311.98824 171.65276,320.80769 184.88193,320.80769 C 193.70138,320.80768 202.52082,311.98824 202.52082,303.1688 L 202.52082,259.07157 L 220.15971,259.07157 L 220.15971,250.25213 C 220.15971,245.8424 220.15971,245.8424 215.74999,245.8424 L 167.24304,245.8424 z "
+       style="fill:url(#linearGradient2501);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       d="M 219.65972,285.52991 C 219.65972,259.07158 232.88888,245.84241 250.52777,245.84241 C 268.16666,245.84241 281.39583,259.07158 281.39583,285.52991 C 281.39583,307.57853 268.16666,320.80769 250.52777,320.80769 C 232.88888,320.80769 219.65972,307.57853 219.65972,285.52991 z M 232.88888,285.52991 C 232.88888,263.4813 241.70833,254.66186 250.52777,254.66186 C 259.34722,254.66186 268.16666,263.4813 268.16666,285.52991 C 268.16666,303.1688 259.34722,311.98825 250.52777,311.98825 C 241.70833,311.98825 232.88888,303.1688 232.88888,285.52991 z "
+       style="fill:url(#linearGradient2498);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path9005" />
+    <path
+       style="fill:url(#linearGradient2495);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 290.21528,245.8424 L 303.44445,245.8424 L 303.44445,294.34935 C 303.44445,298.75907 307.85417,307.57852 316.67361,307.57852 L 321.08334,307.57852 C 329.90278,307.57852 334.3125,298.75907 334.3125,294.34935 L 334.3125,245.8424 L 347.54167,245.8424 L 347.54167,298.75907 C 347.54167,307.57852 338.72223,320.80767 321.08334,320.80769 L 316.67361,320.80769 C 299.03472,320.80769 290.21528,307.57852 290.21528,298.75907 L 290.21528,245.8424 z "
+       id="path9982"
+       sodipodi:nodetypes="ccccsccccsccc" />
+    <path
+       d="M 356.86111,245.84241 L 356.86111,316.39797 C 356.86111,320.80769 356.86111,320.80769 361.27083,320.80769 L 370.09028,320.80769 L 370.09028,289.93964 L 383.31945,289.93964 L 400.95834,320.80769 L 409.77778,320.80769 L 409.77778,316.39797 L 392.13889,285.52991 C 405.36806,281.12019 405.36806,272.30075 405.36806,267.89102 L 405.36806,263.4813 C 405.36806,254.66186 400.95834,245.84241 387.72917,245.84241 L 356.86111,245.84241 z M 370.09028,254.66186 L 370.09028,276.71047 L 383.31945,276.71047 C 396.54861,276.71047 396.54861,254.66185 383.31945,254.66186 L 370.09028,254.66186 z "
+       style="fill:url(#linearGradient2492);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="path9984" />
+    <path
+       style="fill:url(#linearGradient2489);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 414.6875,245.84241 L 414.6875,320.80769 L 427.91667,320.80769 L 427.91667,267.89102 L 463.19445,320.80769 L 476.42361,320.80769 L 476.42361,250.25213 C 476.42361,245.84241 476.42361,245.84241 472.01389,245.84241 L 463.19445,245.84241 L 463.19445,298.75907 L 427.91667,245.84241 L 414.6875,245.84241 z "
+       id="path9988"
+       sodipodi:nodetypes="cccccccccccc" />
+    <path
+       style="fill:url(#linearGradient2486);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 484.74306,245.8424 L 484.74306,320.80769 L 524.43056,320.80769 C 528.84029,320.80769 528.84029,320.80769 528.84029,316.39796 L 528.84029,307.57852 L 493.56251,307.57852 L 493.56251,285.52991 L 511.2014,285.52991 C 515.61112,285.52991 515.61112,285.52991 515.61112,281.12018 L 515.61112,272.30074 L 493.56251,272.30074 L 493.56251,254.66185 L 520.02084,254.66185 C 524.43056,254.66185 524.43056,254.66185 524.43056,250.25213 L 524.43056,245.8424 L 484.74306,245.8424 z "
+       id="path9990"
+       sodipodi:nodetypes="cccccccccccccccc" />
+    <path
+       sodipodi:nodetypes="cccccccccccc"
+       id="path9992"
+       d="M 551.8889,320.80769 L 560.70835,320.80769 C 565.11807,320.80769 565.11807,320.80769 565.11807,316.39796 L 564.61807,281.62018 C 573.43751,272.80074 587.16668,267.89101 587.16668,245.8424 C 582.75696,245.8424 578.34724,245.8424 577.84724,250.75212 C 578.34724,259.07157 565.11807,272.30074 560.70835,276.71046 L 556.29862,276.71046 C 547.47918,267.89102 537.65973,264.48129 538.15973,246.3424 C 531.94801,245.66545 528.84029,248.54727 529.34029,250.75212 C 528.84029,266.18616 537.40693,274.80668 551.8889,281.12018 L 551.8889,320.80769 z "
+       style="fill:url(#linearGradient2483);fill-opacity:1;fill-rule:evenodd;stroke:#a0a000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+       id="path10288"
+       d="M 14.755594,975.16024 L 32.394485,957.52135 L 32.394489,922.24353 L 14.755598,904.60464 L 12.728353,788.83332 L 30.367243,771.19443 L 12.728353,753.55554 L 12.728353,559.52776 L 30.367243,541.88887 L 30.367243,471.33331 L 12.728353,453.69442 L 12.728353,242.02774 L 30.367243,224.38885 L 29.188791,122.70938 L 11.549901,105.07049 L 29.188791,87.431606 L 29.010393,67.257456 L 12.049897,51.653826 L 12.049897,16.376045 L 29.688786,-1.2628454 L 64.966566,-1.2628454 L 82.605457,16.376045 L 170.79992,16.376045 L 188.43881,-1.2628454 L 347.18882,-1.2628454 L 364.82771,16.376045 L 382.4666,-1.2628454 L 576.49439,-1.2628454 L 594.13328,16.376045 L 682.32773,16.376045 L 699.96662,-1.2628454 L 718.10551,-1.7628504 L 735.7444,15.87604 L 735.2444,51.653826 L 717.60551,69.292716 L 735.2444,86.931606 L 736.42285,347.36108 L 718.78396,364.99997 L 718.78396,400.27775 L 736.42285,417.91664 L 736.42285,506.11109 L 718.78396,523.74998 L 718.78396,576.66665 L 736.42285,594.30554 L 718.78396,611.94443 L 718.78396,788.33332 L 736.42285,805.97221 L 738.4501,939.38242 L 720.81121,957.02131 L 720.81121,974.66024 L 703.17232,992.29909 L 685.53343,974.66024 L 667.39454,975.16024 L 649.75565,992.79909 L 526.28342,992.79909 L 508.64453,975.16024 L 367.53341,975.16024 L 349.89452,992.79909 L 296.97785,992.79909 L 279.33896,975.16024 L 208.7834,975.16024 L 191.14451,992.79909 L 120.58895,992.79909 L 102.95006,975.16024 L 85.311155,992.79909 L 32.394485,992.79909 L 14.755594,975.16024 z "
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#008000;stroke-width:5.00000048;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+       id="path10290"
+       d="M 14.925188,960.23503 L 14.925188,924.95725 L 32.564079,907.31836 L 30.876061,788.33332 L 13.23717,770.69443 L 30.876061,753.05554 L 30.876061,559.02776 L 13.23717,541.38887 L 13.23717,470.83331 L 30.876061,453.19442 L 30.876061,241.52774 L 13.23717,223.88885 L 11.880316,124.42305 L 29.519206,106.78416 L 11.880316,89.145276 L 11.880316,71.506386 L 29.519206,53.867496 L 29.519206,18.589714 L 64.796986,18.589714 L 82.435874,0.95082398 L 170.63033,0.95082398 L 188.26922,18.589714 L 347.01923,18.589714 L 364.65812,0.95082398 L 382.29701,18.589714 L 576.3248,18.589714 L 593.96369,0.95082398 L 682.15814,0.95082398 L 699.79703,18.589714 L 717.43592,18.589715 L 717.43592,36.228606 L 717.43592,53.867496 L 735.07481,71.506386 L 717.43592,89.145276 L 718.79278,347.36108 L 736.43167,364.99997 L 736.43167,400.27775 L 718.79278,417.91664 L 718.79278,506.11109 L 736.43167,523.74998 L 736.43167,576.66665 L 718.79278,594.30554 L 736.43167,611.94443 L 736.43167,788.33332 L 718.79278,805.97221 L 720.4808,942.59614 L 738.11969,960.23503 L 738.11969,977.87392 L 720.4808,995.51281 L 702.84191,977.87392 L 685.20302,995.51281 L 667.56413,995.51281 L 649.92524,977.87392 L 526.45301,977.87392 L 508.81412,995.51281 L 367.703,995.51281 L 350.06411,977.87392 L 297.14744,977.87392 L 279.50855,995.51281 L 208.95299,995.51281 L 191.3141,977.87392 L 120.75854,977.87392 L 103.11965,995.51281 L 85.480748,977.87392 L 32.564079,977.87392 L 14.925188,960.23503 z "
+       style="fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#808000;stroke-width:5.00000048;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       id="text10395"
+       y="-27.683496"
+       x="152.0625"
+       style="font-size:32px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="-27.683496"
+         x="152.0625"
+         id="tspan10397"
+         sodipodi:role="line">Acorn Electron/BBC Model B</tspan></text>
+    <text
+       id="text10399"
+       y="1049.9143"
+       x="52.320312"
+       style="font-size:32px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="1049.9143"
+         x="52.320312"
+         id="tspan10401"
+         sodipodi:role="line">An Infukor production for Retro Software</tspan></text>
+    <path
+       style="fill:url(#linearGradient2466);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 251.52777,655.8034 C 251.52777,691.08117 322.08333,708.72006 374.5,709.22006 C 427.91667,708.72006 498.47223,691.08117 498.47223,655.8034 C 498.47223,620.52562 410.27778,620.52562 374.5,621.02561 C 339.72222,620.52562 251.52777,620.52562 251.52777,655.8034 z "
+       id="path10415"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       sodipodi:nodetypes="czzzzczczzczzzcczczcsscsscsssssscsssscssscccccccc"
+       id="path10508"
+       d="M 286.80555,646.98395 C 296.08441,638.62392 305.60655,627.86766 304.44444,611.70617 C 303.28233,595.54468 300.21926,578.66072 286.80555,567.60895 C 273.39183,556.55719 260.72849,555.8327 260.34721,541.15061 C 259.96593,526.46852 262.56924,521.14239 269.16666,505.87283 C 275.76408,490.60328 285.79823,480.67544 295.62499,470.59505 C 295.62499,470.59505 284.41566,487.94047 286.80555,505.87283 C 289.19544,523.80519 292.62676,537.6462 304.44444,549.97006 C 313.91023,561.08297 325.62253,574.82948 330.90277,585.24784 C 336.18302,595.66621 338.25232,602.82396 339.72222,611.70617 C 341.19212,620.58837 339.72222,628.28556 339.72222,638.16451 C 349.51371,626.47214 358.39653,609.99432 357.36111,594.06728 C 356.32569,578.14024 352.13294,578.47458 348.54166,576.42839 C 344.95039,574.3822 327.452,564.64123 322.08333,549.97006 C 316.71466,535.29889 322.08333,523.51172 322.08333,523.51172 C 326.70251,533.17146 329.78319,543.85688 339.72222,549.97006 C 347.31785,556.66556 357.07262,562.01584 366.18055,567.60895 C 375.28848,573.20206 375.30141,584.16743 375,594.06728 C 374.221,603.96714 367.50867,610.56214 366.18055,620.52562 C 364.85243,630.4891 365.61452,637.54364 375,638.16451 C 397.84497,622.79827 401.60192,600.8553 392.63889,585.24784 C 383.74753,569.76517 358.10025,542.58068 375,523.51172 C 382.98886,514.49742 363.09845,508.95494 357.36111,505.87283 C 339.72222,497.05339 339.72222,497.05339 330.90277,488.23394 C 322.74153,480.0727 322.18934,470.59662 322.08333,461.77561 C 321.9417,449.9907 330.90277,435.31727 339.72222,435.31727 C 339.72222,435.31727 326.49305,448.54644 330.90277,461.77561 C 335.31249,475.00478 334.71262,480.51326 348.54166,488.23394 C 359.70104,494.46417 373.688,492.43595 383.81944,497.05339 C 391.95563,500.76148 399.03933,510.70801 401.45833,523.51172 C 403.21281,532.79814 394.06076,541.14308 392.63889,549.97006 C 390.77697,561.52885 403.12295,569.15676 410.27778,576.42839 C 424.54448,590.92799 426.1812,615.92814 427.91667,638.16451 C 438.62987,624.9155 457.21021,607.88523 445.55556,594.06728 C 438.76972,586.02188 429.39511,584.00022 427.91667,576.42839 C 424.43794,558.6121 435.85284,545.04703 445.55556,532.33117 C 450.97641,525.2269 448.04014,519.27003 445.55556,514.69228 C 438.66746,502.00122 427.91667,496.84115 419.09722,488.23394 C 433.7963,494.8573 448.72133,498.9623 463.19445,514.69228 C 469.62113,521.67706 478.80953,533.9008 472.01389,541.15061 C 458.83182,555.21365 454.30011,574.65475 463.19445,594.06728 C 468.22472,605.04621 479.92943,612.61008 472.01389,638.16451 C 483.37341,644.43111 488.46155,649.51925 488.46155,659.69553 C 483.37341,685.13624 459.85756,698.25818 445.55556,717.53951 L 375,726.35895 L 304.44444,708.72006 L 269.16666,682.26173 L 269.16666,664.62284 L 286.80555,646.98395 z "
+       style="fill:url(#linearGradient2463);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="fill:url(#linearGradient2460);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 295.7466,638.16451 C 322.0512,596.58081 266.23154,589.63855 269.28827,558.78951 C 268.90699,544.10742 282.993,540.8679 304.56605,523.51173 C 326.1391,506.15556 320.90801,495.97261 313.38549,479.4145 C 361.86641,519.49232 251.39631,543.12187 331.02438,585.24784 C 348.6466,599.23321 331.02438,602.88673 348.66327,629.34507 C 330.20116,579.52429 375.17796,573.74879 357.48272,541.15062 C 344.83754,523.10693 340.5861,517.54897 331.02438,505.87284 C 321.46266,494.1967 366.30216,452.95617 366.30216,452.95617 C 357.48272,470.59506 338.72424,490.94021 348.66327,497.05339 C 356.2589,503.74889 370.99251,516.93937 383.94105,532.33117 C 396.88959,547.72297 397.75746,585.2075 375.1216,611.70618 C 373.79348,621.66966 374.55557,628.7242 383.94105,629.34507 C 406.78602,613.97883 410.54297,592.03586 401.57994,576.4284 C 392.7605,536.7409 428.03828,523.51173 422.70711,492.10882 C 436.85772,514.69228 433.37896,517.73233 428.03828,532.33117 C 422.6976,546.93001 413.77745,540.25539 419.21883,567.60895 C 423.05767,586.9066 432.07902,607.1087 436.85772,629.34507 C 447.57092,616.09606 448.51237,607.88524 436.85772,594.06729 C 414.76346,574.58694 437.03249,538.43149 445.67717,523.51173 C 454.32185,508.59196 436.85772,479.4145 454.49661,470.59506 C 445.67717,479.4145 454.49661,497.05339 463.31606,514.69228 C 472.1355,532.33117 436.85772,576.4284 454.49661,594.06729 C 472.1355,611.70618 446.73879,621.70408 473.19712,639.34297 C 473.19712,639.34297 488.46155,644.43111 489.65278,655.8034 C 488.46155,674.95996 473.19712,695.31252 454.49661,708.72007 L 383.94105,717.53951 L 313.26388,708.72006 C 277.9861,708.72006 255.93749,664.62285 260.34721,655.8034 C 264.75693,646.98396 277.9861,638.16451 295.7466,638.16451 z "
+       id="path10546"
+       sodipodi:nodetypes="cczcccczcczcccczscczczzccccczc" />
+    <path
+       style="fill:url(#radialGradient2457);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 401.45833,721.94922 L 383.81944,704.31034 L 401.45833,686.67145 L 419.09722,704.31034 L 401.45833,721.94922 z "
+       id="path10463" />
+    <path
+       style="fill:url(#radialGradient2454);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 436.73611,726.35894 L 419.09722,708.72006 L 436.73611,691.08117 L 454.375,708.72006 L 436.73611,726.35894 z "
+       id="path10479" />
+    <path
+       style="fill:url(#radialGradient2451);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 322.08333,726.35894 L 304.44444,708.72006 L 322.08333,691.08117 L 339.72222,708.72006 L 322.08333,726.35894 z "
+       id="path10471" />
+    <path
+       id="path10435"
+       d="M 348.54166,704.31033 L 330.90277,686.67145 L 348.54166,669.03256 L 366.18055,686.67145 L 348.54166,704.31033 z "
+       style="fill:url(#radialGradient2448);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path10467"
+       d="M 405.86806,677.852 L 388.22917,660.21312 L 405.86806,642.57423 L 423.50695,660.21312 L 405.86806,677.852 z "
+       style="fill:url(#radialGradient2445);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path10475"
+       d="M 304.44444,691.08117 L 286.80555,673.44229 L 304.44444,655.8034 L 322.08333,673.44229 L 304.44444,691.08117 z "
+       style="fill:url(#radialGradient2442);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="fill:url(#radialGradient2439);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 366.18055,730.76867 L 348.54166,713.12979 L 366.18055,695.4909 L 383.81944,713.12979 L 366.18055,730.76867 z "
+       id="path10487" />
+    <path
+       style="fill:#000000;fill-opacity:0.5;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 269.16666,779.77562 C 269.16666,806.23396 322.08333,832.69229 375,832.69229 C 427.41667,833.1923 480.83334,806.23396 480.83334,779.77562 C 480.83334,753.31728 427.91667,744.49784 375,744.49784 C 322.08333,744.49784 269.16666,753.31728 269.16666,779.77562 z "
+       id="path10666"
+       sodipodi:nodetypes="cczcz" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       id="path10403"
+       d="M 251.52777,655.8034 C 251.52777,691.08117 286.80555,796.91452 375,796.91451 C 463.19444,796.91452 498.47222,691.08117 498.47223,655.8034 C 480.83333,691.08117 427.91667,708.72006 375,708.72006 C 322.08333,708.72006 269.16666,691.08117 251.52777,655.8034 z "
+       style="fill:url(#linearGradient2435);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path10483"
+       d="M 423.50694,699.90061 L 405.86805,682.26173 L 423.50694,664.62284 L 441.14583,682.26173 L 423.50694,699.90061 z "
+       style="fill:url(#radialGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="fill:url(#radialGradient2429);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 383.81944,699.90061 L 366.18055,682.26173 L 383.81944,664.62284 L 401.45833,682.26173 L 383.81944,699.90061 z "
+       id="path10491" />
+    <path
+       style="fill:url(#radialGradient2426);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 454.375,691.08117 L 436.73611,673.44229 L 454.375,655.8034 L 472.01389,673.44229 L 454.375,691.08117 z "
+       id="path10495" />
+    <path
+       id="path10499"
+       d="M 335.3125,677.85201 L 317.67361,660.21313 L 335.3125,642.57424 L 352.95139,660.21313 L 335.3125,677.85201 z "
+       style="fill:url(#radialGradient2423);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       style="fill:url(#radialGradient2420);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 370.59028,673.44229 L 352.95139,655.80341 L 370.59028,638.16452 L 388.22917,655.80341 L 370.59028,673.44229 z "
+       id="path10504" />
+  </g>
+  <g
+     id="g4407"
+     transform="translate(-23.813779,0)">
+    <text
+       transform="matrix(0,1,-1,0,0,0)"
+       style="font-size:54px;font-weight:bold;font-family:FreeSerif"
+       id="text4401"
+       font-weight="bold"
+       font-size="36"
+       y="-2661.1238"
+       x="97.056587">Jungle</text>
+    <text
+       transform="matrix(0,1,-1,0,0,0)"
+       style="font-size:54px;font-weight:bold;font-family:FreeSerif"
+       id="text4403"
+       font-weight="bold"
+       font-size="36"
+       y="-2661.1238"
+       x="263.55658">Journey</text>
+  </g>
+  <g
+     id="g3157"
+     transform="matrix(0,2.25,-2.25,0,3904.0871,-4669.0757)">
+    <text
+       x="2330.5"
+       y="565.40002"
+       font-size="24"
+       id="text3153"
+       style="font-size:24px;font-family:FreeSerif">Retro</text>
+    <text
+       x="2389.5"
+       y="565.40002"
+       font-size="24"
+       id="text3155"
+       style="font-size:24px;font-family:FreeSerif">Software</text>
+  </g>
+</svg>
