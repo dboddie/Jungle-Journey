@@ -511,7 +511,7 @@ if __name__ == "__main__":
                        Text(regular,
                             "To fire a weapon, press the Return key. There are four different types of "
                             "weapon available in the game.\n\n"
-                            "Alternatively, you may may using an analogue. Select joystick controls by "
+                            "Alternatively, you may play using an analogue joystick. Select joystick controls by "
                             "pressing the Fire button on the title page to start the game. Press Space to "
                             "start the game with keyboard controls.\n\n"
                             "Other keys can be used to control the game:\n")],
