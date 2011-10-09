@@ -2304,7 +2304,12 @@ emerge_type:                    ; returns A=type
     emerge_type_ok:
     cmp $5781               ; only allow the appropriate enemies for this level
     bmi emerge_type_exit
+    beq emerge_type_reduce
 
+    sec
+    sbc #1
+
+    emerge_type_reduce:
     sec
     sbc $5781
     clc
