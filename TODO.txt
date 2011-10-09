@@ -1,10 +1,7 @@
 To Do
 
-Add last two enemy sprite sets.
 Include the source in the disk image, avoiding potential license issues with
 redistribution.
-Change the filing system to tape (*TAPE) to avoid potential problems with high
-PAGE systems.
 
 Things to look out for
 
