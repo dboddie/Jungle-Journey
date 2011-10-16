@@ -51,7 +51,7 @@ service_entry:
     service_entry_exit:
     rts
 
-rom_name: .byte "JUNGLE"
+rom_name: .byte "JUNGLE", 13
 
 service_command:
 
@@ -68,7 +68,7 @@ service_command:
         bne service_command_exit
         inx
         iny
-        cpx #10
+        cpx #7
         bne service_command_loop
     
     jsr jungle_code
@@ -78,7 +78,7 @@ service_command:
     service_command_exit:
     pla                         ; pop Y and X registers off the stack
     tax
-    pha
+    pla
     tay
     lda #4                      ; restore A
     rts
@@ -127,24 +127,45 @@ jungle_code:
     jsr $fff4   ; *TAPE
 
     jsr copy_title_down
-    jsr move_completed_screen_down
-    jsr copy_sprites_from_rom
-    jsr copy_chars_from_rom
 
-    lda #129    ; returns y=255 or 0
-    ldx #157    ; SPACE
-    ldy #255
+    ldx #0
+    show_input_message_loop:
+
+        lda input_message,x
+        jsr $ffee
+        inx
+        cpx #21
+        bne show_input_message_loop
+
     wait_loop:
+
+        lda #128
+        ldx #0
+        jsr $fff4
+        cpx #0              ; fire button pressed?
+        beq wait_no_joystick
+        jmp continue
+
+        wait_no_joystick:
+
+        lda #129    ; returns y=255 or 0
+        ldx #157    ; SPACE
+        ldy #255
         jsr $fff4
         cpy #255
         bne wait_loop
 
-    ldx #<start_game
-    ldy #>start_game
-    jsr $fff7
-    rts
+    continue:
+    clc
 
-start_game: .byte "*JUNGLECODE", 13, 0
+    jsr move_completed_screen_down
+    jsr copy_sprites_from_rom
+    jsr copy_chars_from_rom
+    jsr copy_launch_code
+
+    jmp $1e00
+
+input_message:      .byte 17,3, 31,2,28, "Press SPACE/FIRE"
 
 set_hidden_palette:
 
@@ -202,7 +223,7 @@ copy_title_from_rom:
 
     lda #$00
     sta $70
-    lda #$83
+    lda #$84
     sta $71
 
     lda #$a0
@@ -371,7 +392,7 @@ copy_sprites_from_rom:
 
     lda #$80
     sta $70
-    lda #$ad
+    lda #$ae
     sta $71
 
     lda #$00
@@ -419,7 +440,7 @@ copy_chars_from_rom:
 
     lda #$00
     sta $70
-    lda #$9b
+    lda #$9c
     sta $71
 
     lda #$00
@@ -455,11 +476,43 @@ copy_chars_from_rom:
         sta $73
         clc
 
-        cmp #$ad
+        cmp #$51
         bne copy_chars_from_rom_loop1
         lda $72
         cmp #$80
         bne copy_chars_from_rom_loop1
+
+    clc
+    rts
+
+launch_code:
+
+    ldx #[start_game - launch_code]
+    ldy #$1e
+    jsr $fff7
+
+start_game: .byte "*JUNGLECODE", 13, 0
+
+copy_launch_code:       ; copy the launch code to $1e00
+
+    lda #<launch_code
+    sta $70
+    lda #>launch_code
+    sta $71
+
+    lda #$00
+    sta $72
+    lda #$1e
+    sta $73
+
+    ldy #[copy_launch_code - launch_code - 1]
+
+    copy_launch_code_loop:
+
+        lda ($70),y
+        sta ($72),y
+        dey
+        bpl copy_launch_code_loop
 
     clc
     rts

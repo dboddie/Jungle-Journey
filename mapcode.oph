@@ -4616,7 +4616,7 @@ show_input_message:
         lda input_message,x
         jsr $ffee
         inx
-        cpx #23
+        cpx #21
         bne show_input_message_loop
     
     rts

@@ -15,11 +15,11 @@
 
 .org $8000
 rom_start:
-jmp language_entry
+.byte 0, 0, 0
 jmp service_entry
 
 ; ROM type
-.byte $c2       ; 6502 code (2), language ($40), service ($80)
+.byte $82       ; 6502 code (2), language ($40), service ($80)
 
 copyright_offset:
 .byte [copyright_string - rom_start - 1]
@@ -39,10 +39,6 @@ copyright_string:
 ; Second processor relocation address
 .byte 0, $80, 0, 0
 
-language_entry:
-
-    jmp jungle_code
-
 service_entry:
 
     cmp #4
@@ -51,7 +47,7 @@ service_entry:
     service_entry_exit:
     rts
 
-rom_name: .byte "JUNGLECODE"
+rom_name: .byte "JUNGLECODE", 13
 
 service_command:
 
@@ -68,7 +64,7 @@ service_command:
         bne service_command_exit
         inx
         iny
-        cpx #10
+        cpx #11
         bne service_command_loop
     
     jsr jungle_code
@@ -78,7 +74,7 @@ service_command:
     service_command_exit:
     pla                         ; pop Y and X registers off the stack
     tax
-    pha
+    pla
     tay
     lda #4                      ; restore A
     rts

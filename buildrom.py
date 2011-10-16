@@ -21,7 +21,7 @@ from build import *
 
 if __name__ == "__main__":
 
-    if not 1 <= len(sys.argv) <= 3:
+    if not 1 <= len(sys.argv) <= 3 or "-h" in sys.argv[1:] or "--help" in sys.argv[1:]:
     
         sys.stderr.write("Usage: %s [<code ROM file> <loader ROM file>]\n" % sys.argv[0])
         sys.exit(1)
@@ -39,16 +39,16 @@ if __name__ == "__main__":
     #      CODE
     #
     # 8000 ROM header code
-    # 8300 title screen (0x1800 bytes including completion screen)
+    # 8400 title screen (0x1800 bytes including completion screen)
     #
-    # 9B00 CHARS (0x1280 bytes of character sprites)
-    # AD80 SPRITES (0x360 bytes of tile sprites)
-    # B0E0 space
+    # 9C00 CHARS (0x1280 bytes of character sprites)
+    # AE80 SPRITES (0x360 bytes of tile sprites)
+    # B1E0 space
     
     system("ophis romcode.oph " + code_rom_file)
     
     # Add padding after the code to make a final image size of 16K.
-    romcode = open("junglecode.rom", "rb").read()
+    romcode = open(code_rom_file, "rb").read()
     romcode += (0x4000 - len(romcode))*"\x00"
     open(code_rom_file, "wb").write(romcode)
     
@@ -57,16 +57,16 @@ if __name__ == "__main__":
     romdata = open(loader_rom_file, "rb").read()
     
     # Add padding before the data is appended to the loader code.
-    romdata += (0x300 - len(romdata))*"\x00"
+    romdata += (0x400 - len(romdata))*"\x00"
     
-    data = makesprites.read_sprites([makesprites.title])
+    romdata += makesprites.read_sprites([makesprites.title])
     completed = makesprites.encode(makesprites.read_sprite(makesprites.completed))
     overlay = makesprites.read_sprite(makesprites.overlay)
     combined = makesprites.combine(completed, overlay)
     romdata += combined
     
-    romdata += makesprites.read_sprites(makesprites.tiles)
     romdata += makesprites.read_sprites(makesprites.chars)
+    romdata += makesprites.read_sprites(makesprites.tiles)
     romdata += (0x4000 - len(romdata))*"\x00"
     
     open(loader_rom_file, "wb").write(romdata)
