@@ -788,9 +788,6 @@ plot_blank:         ; $72,$73=destination address
     
     rts
 
-tile_addresses_low:  .byte $00, $60, $c0, $00, $60, $c0, $20
-tile_addresses_high: .byte $54, $54, $54, $50, $50, $50, $51
-
 plot_tile:          ; $7b=tile number
                     ;   1 = flowers/decoration
                     ;   2 = trees/wall
@@ -1318,9 +1315,6 @@ check_key:      ; x=key code
     jsr $fff4
     rts
 
-player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50, $80,$b0,$e0,$10
-player_direction_chars_high: .byte $3f,$3f,$3f,$3f,$3f,$3f,$40,$40, $40,$40,$40,$41
-
 screen_rows_low: .byte $80,$40,$00,$c0,$80,$40,$00,$c0,$80,$40
 screen_rows_high: .byte $5a,$5e,$62,$65,$69,$6d,$71,$74,$78,$7c
 screen_subrows_low: .byte $00,$06,$44,$82
@@ -1329,17 +1323,6 @@ screen_subrows_high: .byte $00,$00,$01,$02
 screen_columns_low: .byte $00,$20,$40,$60,$80,$a0,$c0,$e0,$00,$20
 screen_columns_high: .byte $00,$00,$00,$00,$00,$00,$00,$00,$01,$01
 screen_subcolumns_low: .byte $00,$08,$10,$18
-
-enemy_direction_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
-enemy_direction_chars_high: .byte $41,$42,$42,$42,$42,$43,$43,$43
-
-emerge_explode_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
-emerge_explode_chars_high: .byte $4b,$4c,$4c,$4c,$4c,$4d,$4d,$4d
-
-item_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80,$c0
-item_chars_high: .byte $4d,$4e,$4e,$4e,$4e,$4f,$4f,$4f,$4f
-
-projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
 
 unplot_character:       ; $74,$75=character address
 
@@ -1461,7 +1444,7 @@ plot_character_sprite:  ; $74,$75=character address
     tax
     lda projectile_chars_low,x
     sta $70
-    lda #$41
+    lda #projectile_chars_high
     sta $71
 
     ; Use the dy value to determine which plotting routine to use.

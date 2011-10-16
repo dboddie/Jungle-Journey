@@ -13,7 +13,78 @@
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-.org $1e00
+.org $8000
+rom_start:
+jmp language_entry
+jmp service_entry
+
+; ROM type
+.byte $c2       ; 6502 code (2), language ($40), service ($80)
+
+copyright_offset:
+.byte [copyright_string - rom_start - 1]
+
+; Version
+.byte 1
+
+; Title string
+.byte "Jungle Journey (code)", 0
+
+; Version string
+.byte "1.0", 0
+
+copyright_string:
+.byte "(C) 2011 David Boddie", 0
+
+; Second processor relocation address
+.byte 0, $80, 0, 0
+
+language_entry:
+
+    jmp jungle_code
+
+service_entry:
+
+    cmp #4
+    beq service_command
+
+    service_entry_exit:
+    rts
+
+rom_name: .byte "JUNGLECODE"
+
+service_command:
+
+    tya                         ; push Y and X registers onto the stack
+    pha
+    txa
+    pha
+
+    ldx #0
+    service_command_loop:
+    
+        lda ($f2),y
+        cmp rom_name,x
+        bne service_command_exit
+        inx
+        iny
+        cpx #10
+        bne service_command_loop
+    
+    jsr jungle_code
+    lda #0
+    rts
+    
+    service_command_exit:
+    pla                         ; pop Y and X registers off the stack
+    tax
+    pha
+    tay
+    lda #4                      ; restore A
+    rts
+
+jungle_code:
+
 .include "mapcode.oph"
 
 tile_addresses_low:  .byte $00, $60, $c0, $00, $60, $c0, $20
