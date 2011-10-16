@@ -230,7 +230,7 @@ if __name__ == "__main__":
     data = makesprites.read_sprites(makesprites.chars)
     files.append(("CHARS", 0x3f00, 0x3f00, data))
 
-    system("ophis mapcode.oph CODE")
+    system("ophis tapecode.oph CODE")
     code = open("CODE").read()
     code_start = 0x1e00
     files.append(("CODE", code_start, code_start, code))

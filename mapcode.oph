@@ -13,7 +13,6 @@
 ; You should have received a copy of the GNU General Public License
 ; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-.org $1e00
 jmp main
 
 seeds:         .byte 100, 239, 183, 144   ; $ef, $b7, $90, $d6, $89
