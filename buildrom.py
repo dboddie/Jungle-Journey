@@ -33,22 +33,30 @@ if __name__ == "__main__":
         code_rom_file = "junglecode.rom"
         loader_rom_file = "jungle.rom"
     
-    # Memory map
+    # Memory map (code ROM)
     #
     # 8000 ROM header code
     #      CODE
+    # A200 CHARS (0x1280 bytes of character sprites)
+    # B480 SPRITES (0x360 bytes of tile sprites)
+    # B7E0 space
+    #
+    # Memory map (loader ROM)
     #
     # 8000 ROM header code
     # 8400 title screen (0x1800 bytes including completion screen)
-    #
-    # 9C00 CHARS (0x1280 bytes of character sprites)
-    # AE80 SPRITES (0x360 bytes of tile sprites)
-    # B1E0 space
     
     system("ophis romcode.oph " + code_rom_file)
     
-    # Add padding after the code to make a final image size of 16K.
     romcode = open(code_rom_file, "rb").read()
+    
+    # Add padding before the data is appended to the code.
+    romcode += (0x2200 - len(romcode))*"\x00"
+    
+    romcode += makesprites.read_sprites(makesprites.chars)
+    romcode += makesprites.read_sprites(makesprites.tiles)
+    
+    # Add padding after the code to make a final image size of 16K.
     romcode += (0x4000 - len(romcode))*"\x00"
     open(code_rom_file, "wb").write(romcode)
     
@@ -65,8 +73,6 @@ if __name__ == "__main__":
     combined = makesprites.combine(completed, overlay)
     romdata += combined
     
-    romdata += makesprites.read_sprites(makesprites.chars)
-    romdata += makesprites.read_sprites(makesprites.tiles)
     romdata += (0x4000 - len(romdata))*"\x00"
     
     open(loader_rom_file, "wb").write(romdata)

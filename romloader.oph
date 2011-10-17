@@ -159,8 +159,6 @@ jungle_code:
     clc
 
     jsr move_completed_screen_down
-    jsr copy_sprites_from_rom
-    jsr copy_chars_from_rom
     jsr copy_launch_code
 
     jmp $1e00

@@ -83,20 +83,20 @@ jungle_code:
 
 .include "mapcode.oph"
 
-tile_addresses_low:  .byte $00, $60, $c0, $00, $60, $c0, $20
-tile_addresses_high: .byte $54, $54, $54, $50, $50, $50, $51
+tile_addresses_low:  .byte $80, $E0, $40, $00, $60, $c0, $20
+tile_addresses_high: .byte $B4, $B4, $B5, $b3, $b3, $b3, $b4
 
 player_direction_chars_low: .byte $00,$30,$60,$90,$c0,$f0,$20,$50, $80,$b0,$e0,$10
-player_direction_chars_high: .byte $3f,$3f,$3f,$3f,$3f,$3f,$40,$40, $40,$40,$40,$41
+player_direction_chars_high: .byte $a2,$a2,$a2,$a2,$a2,$a2,$a3,$a3, $a3,$a3,$a3,$a4
 
 enemy_direction_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
-enemy_direction_chars_high: .byte $41,$42,$42,$42,$42,$43,$43,$43
+enemy_direction_chars_high: .byte $a4,$a5,$a5,$a5,$a5,$a6,$a6,$a6
 
 emerge_explode_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80
-emerge_explode_chars_high: .byte $4b,$4c,$4c,$4c,$4c,$4d,$4d,$4d
+emerge_explode_chars_high: .byte $ae,$af,$af,$af,$af,$b0,$b0,$b0
 
 item_chars_low:  .byte $c0,$00,$40,$80,$c0,$00,$40,$80,$c0
-item_chars_high: .byte $4d,$4e,$4e,$4e,$4e,$4f,$4f,$4f,$4f
+item_chars_high: .byte $b0,$b1,$b1,$b1,$b1,$b2,$b2,$b2,$b2
 
 projectile_chars_low: .byte $40,$50,$60,$70,$80,$90,$a0,$b0
-.alias projectile_chars_high $41
+.alias projectile_chars_high $a4
