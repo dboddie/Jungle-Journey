@@ -179,7 +179,7 @@ if __name__ == "__main__":
     #        1 * 0x60 (tree)
     #        1 * 0x60 (tree))
     #
-    # 5760 space
+    # 5760 note data (8 bytes)
     #
     # 577E joystick support (0=off; 1=on)
     # 577F weapon counter (0=fire one subtile below; 1=fire two subtiles below)

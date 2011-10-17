@@ -4254,10 +4254,11 @@ explosion_sound: .byte 1,0, 1,0, 60,0, 2,0
 damage_sound:    .byte 1,0, 2,0, 40,0, 4,0
 item_sound:      .byte $13,0, 3,0, 32,0, 3,0
 key_sound:       .byte $13,0, 4,0, 50,0, 5,0
-note_sound:      .byte $13,0, 241,255
-note_pitch:      .byte 0,0
-note_duration:   .byte 4,0
 emerge_sound:    .byte 2,0, 3,0, 0,0, 2,0
+
+.alias note_sound $5760
+.alias note_pitch $5764
+.alias note_duration $5766
 
 play_note:      ; A=pitch, Y=duration
 
@@ -4340,6 +4341,14 @@ copy_completed_screen_up:
     jmp copy_title  ; optimise away the rts
 
 init:
+    ; Set up note data.
+    ldx #7
+    set_up_note_loop:
+        lda note_data,x
+        sta $5760,x
+        dex
+        bpl set_up_note_loop
+
     jsr cls     ; clear the text window
 
     lda #26     ; unset the text window
@@ -4397,6 +4406,8 @@ init:
     sta $577e
 
     rts
+
+note_data: .byte $13,0, 241,255, 0,0, 4,0
 
 high_score_default_name1: .byte "RETRO    "
 high_score_default_name2: .byte " SOFTWARE"
