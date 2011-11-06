@@ -1740,32 +1740,14 @@ move_player:
     lda #128
     ldx #1
     jsr $fff4
-    cpy #112                ; <= -16
+    cpy #96                 ; <= -32
     bcs move_player_check_joystick_left
     jmp move_player_right
 
     move_player_check_joystick_left:
-    cpy #144                ; >= 16
-    bcc move_player_handle_joystick_up_down
-    jmp move_player_left
-
-    move_player_handle_joystick_up_down:
-
-    lda #128
-    ldx #2
-    jsr $fff4
-    cpy #112                ; <= -16
-    bcs move_player_check_joystick_up
-    jmp move_player_down
-
-    move_player_check_joystick_up:
-    cpy #144
-    bcc move_player_no_joystick_input
-    jmp move_player_up      ; >= 16
-
-    move_player_no_joystick_input:
-    clc
-    rts
+    cpy #160                ; >= 32
+    bcs move_player_left
+    jmp move_player_handle_joystick_up_down
 
     move_player_handle_left_key:
 
@@ -1774,7 +1756,8 @@ move_player:
     ldx #158            ; (Z)
     jsr check_key
     cpy #255
-    bne move_player_not_left_key
+    beq move_player_left
+    jmp move_player_check_right_key
 
     move_player_left:
 
@@ -1810,7 +1793,10 @@ move_player:
 
     move_player_not_left_exit1:
     cmp #0
-    bne move_player_not_left_key
+    beq move_player_left_check_dy
+    jmp move_player_not_horizontal
+
+    move_player_left_check_dy:
 
     lda $5283               ; dy
     cmp #0
@@ -1828,7 +1814,8 @@ move_player:
 
     move_player_not_left_exit2:
     cmp #0
-    bne move_player_not_left_key
+    beq move_player_allow_left
+    jmp move_player_not_horizontal
 
     move_player_allow_left:
     tya
@@ -1861,7 +1848,7 @@ move_player:
     sec                     ; indicate to the calling routine that the player
     rts                     ; has left the room
 
-    move_player_not_left_key:
+    move_player_check_right_key:
 
     ; Handle the right key.
 
@@ -1869,7 +1856,7 @@ move_player:
     jsr check_key
     cpy #255
     beq move_player_right
-    jmp move_player_not_right_key
+    jmp move_player_not_horizontal
 
     move_player_right:
 
@@ -1907,7 +1894,7 @@ move_player:
 
     move_player_not_right_exit1:
     cmp #0
-    bne move_player_not_right_key
+    bne move_player_not_horizontal
 
     lda $5283                   ; dy
     cmp #0
@@ -1925,7 +1912,7 @@ move_player:
 
     move_player_not_right_exit2:
     cmp #0
-    bne move_player_not_right_key
+    bne move_player_not_horizontal
 
     move_player_allow_right:
 
@@ -1961,14 +1948,48 @@ move_player:
     sec                         ; indicate to the calling routine that the
     rts                         ; player has left the room
 
-    move_player_not_right_key:
+    move_player_not_horizontal:
+
+    ; Handle joystick
+
+    lda $577e
+    cmp #0
+    beq move_player_handle_up_key
+
+    move_player_handle_joystick_up_down:
+
+    lda #128
+    ldx #2
+    jsr $fff4
+    cpy #96                 ; <= -32
+    bcs move_player_check_joystick_up
+    jmp move_player_down
+
+    move_player_check_joystick_up:
+    cpy #160
+    bcc move_player_no_joystick_input
+    jmp move_player_up      ; >= 32
+
+    move_player_no_joystick_input:
+    clc
+    rts
+
+    move_player_handle_up_key:
 
     ; Handle the up key.
 
     ldx #183            ; (:)
     jsr check_key
     cpy #255
-    bne move_player_not_up_key
+    beq move_player_up
+
+    ; Handle the down key.
+
+    ldx #151            ; (/)
+    jsr check_key
+    cpy #255
+    beq move_player_down
+    jmp move_player_not_vertical
 
     move_player_up:
 
@@ -2002,7 +2023,11 @@ move_player:
 
     move_player_not_up_exit1:
     cmp #0
-    bne move_player_not_up_key
+    beq move_player_up_check_dx
+    clc
+    rts
+
+    move_player_up_check_dx:
 
     lda $5285                   ; dx
     cmp #3
@@ -2018,7 +2043,9 @@ move_player:
 
     move_player_not_up_exit2:
     cmp #0
-    bne move_player_not_up_key
+    beq move_player_allow_up
+    clc
+    rts
 
     move_player_allow_up:
     txa
@@ -2050,16 +2077,6 @@ move_player:
     jsr animate_player_up
     sec                     ; indicate to the calling routine that the player
     rts                     ; has left the room
-
-    move_player_not_up_key:
-
-    ; Handle the down key.
-
-    ldx #151            ; (/)
-    jsr check_key
-    cpy #255
-    beq move_player_down
-    jmp move_player_not_down_key
 
     move_player_down:
 
@@ -2096,7 +2113,7 @@ move_player:
 
     move_player_not_down_exit1:
     cmp #0
-    bne move_player_not_down_key
+    bne move_player_not_vertical
 
     lda $5285                   ; dx
     cmp #3
@@ -2112,7 +2129,7 @@ move_player:
 
     move_player_not_down_exit2:
     cmp #0
-    bne move_player_not_down_key
+    bne move_player_not_vertical
 
     move_player_allow_down:
 
@@ -2147,7 +2164,7 @@ move_player:
     sec                         ; indicate to the calling routine that the
     rts                         ; player has left the room
 
-    move_player_not_down_key:
+    move_player_not_vertical:
     clc
     rts
 
