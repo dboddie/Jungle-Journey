@@ -1715,6 +1715,82 @@ animate_player_down:
     jsr plot_character
     rts
 
+joystick_abs:
+
+    cmp #160
+    bcc joystick_abs_next1
+
+    sec
+    sbc #128
+    clc
+    rts
+
+    joystick_abs_next1:
+
+    cmp #97
+    bcs joystick_abs_next2
+
+    sta $81
+    lda #128
+    sec
+    sbc $81
+    clc
+    rts
+
+    joystick_abs_next2:
+    lda #0
+    clc
+    rts
+
+read_joystick:
+
+    lda #128
+    ldx #2
+    jsr $fff4
+    tya
+    sta $8e             ; store the original vertical value
+
+    jsr joystick_abs
+    sta $8f             ; absolute vertical value
+
+    lda #128
+    ldx #1
+    jsr $fff4
+    tya
+    sta $8d             ; store the original horizontal value
+
+    jsr joystick_abs
+    cmp #0
+    beq read_joystick_vertical_check
+    cmp $8f
+    bcc read_joystick_vertical_check
+
+    lda $8d
+    cmp #128
+    bcs read_joystick_left
+    jmp move_player_right
+
+    read_joystick_left:
+    jmp move_player_left
+
+    read_joystick_vertical_check:
+
+    lda $8f
+    cmp #0
+    bne read_joystick_vertical
+    clc
+    rts
+
+    read_joystick_vertical:
+
+    lda $8e
+    cmp #128
+    bcs read_joystick_up
+    jmp move_player_down
+
+    read_joystick_up:
+    jmp move_player_up
+
 move_player:
 
     lda $578e
@@ -1736,18 +1812,7 @@ move_player:
     lda $577e
     cmp #0
     beq move_player_handle_left_key
-
-    lda #128
-    ldx #1
-    jsr $fff4
-    cpy #96                 ; <= -32
-    bcs move_player_check_joystick_left
-    jmp move_player_right
-
-    move_player_check_joystick_left:
-    cpy #160                ; >= 32
-    bcs move_player_left
-    jmp move_player_handle_joystick_up_down
+    jmp read_joystick
 
     move_player_handle_left_key:
 
@@ -1949,30 +2014,10 @@ move_player:
     rts                         ; player has left the room
 
     move_player_not_horizontal:
-
-    ; Handle joystick
-
     lda $577e
     cmp #0
     beq move_player_handle_up_key
-
-    move_player_handle_joystick_up_down:
-
-    lda #128
-    ldx #2
-    jsr $fff4
-    cpy #96                 ; <= -32
-    bcs move_player_check_joystick_up
-    jmp move_player_down
-
-    move_player_check_joystick_up:
-    cpy #160
-    bcc move_player_no_joystick_input
-    jmp move_player_up      ; >= 32
-
-    move_player_no_joystick_input:
-    clc
-    rts
+    jmp read_joystick_vertical_check
 
     move_player_handle_up_key:
 
