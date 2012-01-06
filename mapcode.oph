@@ -5043,7 +5043,7 @@ check_high_scores:
 
             lda ($72),y
             cmp ($70),y     ; existing score less than current score?
-            bmi check_high_scores_move_down
+            bcc check_high_scores_move_down
             beq check_high_scores_digits_next   ; keep checking digits if equal
             jmp check_high_scores_next
 
