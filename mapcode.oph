@@ -5336,6 +5336,7 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         high_score_entry_next:
 
         jsr wait_for_vsync
+        jsr wait_for_vsync
         jsr plot_buffer
 
         jmp high_score_entry_loop
