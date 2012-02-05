@@ -1,5 +1,22 @@
 #!/usr/bin/env python
 
+"""
+Copyright (C) 2011 David Boddie <david@boddie.org.uk>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+"""
+
 import os, sys
 import Image
 import series
@@ -32,7 +49,7 @@ class Mapper:
                    183: (10, 6), 239: (5, 2)}
     extra_life_rooms = {17: (2, 0), 26: (9, 4)}
     
-    levels = {100: 0, 183: 1, 239: 2, 144: 3}
+    levels = {100: 0, 239: 1, 183: 2, 144: 3}
     
     treasure_table = [6, 5, 7, 1, 1, 5, 2, 7, 6, 2, 1, 7, 1, 7, 8, 7,
                       0, 7, 6, 7, 7, 7, 5, 0, 6, 3, 7, 7, 5, 7, 5, 0]
@@ -353,9 +370,16 @@ def make_map(name, width, height, room_width, room_height, seed):
 
     images, wall_tile, floor_tiles = select_images(seed)
     
-    im = Image.new("P", (width * room_width * tile_size[0] + (width - 1),
-                         height * room_height * tile_size[1] + (height - 1)), 7)
-    #im.putpalette((0,0,0, 255,0,0, 0,255,0, 255,255,0, 0,0,255, 255,0,255, 0,255,255, 255,255,255))
+    xf = 2
+    yf = 1
+    
+    scaled_tile_size = (int(tile_size[0] * xf), int(tile_size[1] * yf))
+    
+    scaled_room_size = (int(room_width * scaled_tile_size[0]),
+                        int(room_height * scaled_tile_size[1]))
+    
+    im = Image.new("P", (width * scaled_room_size[0] + (width - 1),
+                         height * scaled_room_size[1] + (height - 1)), 0xffffff)
     black = (0,0,0)
     red = (255,0,0)
     green = (0,255,0)
@@ -365,10 +389,13 @@ def make_map(name, width, height, room_width, room_height, seed):
     cyan = (0,255,255)
     white = (255,255,255)
     im.putpalette(black + red + green + yellow + blue + magenta + cyan + white)
+    
     room_palettes = [1, 6, 5, 7]
     
     mapper = Mapper(width, height, room_width, room_height, seed, im, images,
                     wall_tile, floor_tiles)
+    
+    start_room = mapper.start_rooms.get(seed)
     
     for i in range(height):
         for j in range(width):
@@ -386,56 +413,61 @@ def make_map(name, width, height, room_width, room_height, seed):
             room_image = Image.fromstring("P", (room_width * tile_size[0],
                                                 room_height * tile_size[1]),
                                           room_string)
+            room_image.putpalette(black + red + green + yellow + blue + magenta + cyan + white)
             
-            im.paste(room_image, (j * room_width * tile_size[0] + j,
-                                  i * room_height * tile_size[1] + i))
-    
-    start_room = mapper.start_rooms.get(seed)
+            if (j, i) == start_room:
+                room_image.paste(player,
+                    ((tile_size[0] * room_width/2) - tile_size[0]/4,
+                     (tile_size[1] * room_height/2) - tile_size[1]/2))
+            
+            room_image = room_image.resize(scaled_room_size, Image.BILINEAR)
+            
+            im.paste(room_image, (j * scaled_room_size[0] + j,
+                                  i * scaled_room_size[1] + i))
     
     if start_room:
     
         mapper.find_map_extent(start_room)
-        
-        mapper.image.paste(player,
-            (int((start_room[0] + 0.5) * mapper.room_width * tile_size[0]) + start_room[0] - tile_size[0]/4,
-             int((start_room[1] + 0.5) * mapper.room_height * tile_size[1]) + start_room[1] - tile_size[1]/2))
         
         for i in range(height):
             for j in range(width):
             
                 if (j,i) not in mapper.visited:
                 
-                    fade(im, j * room_width * tile_size[0] + j,
-                             i * room_height * tile_size[1] + i,
-                             room_width * tile_size[0],
-                             room_height * tile_size[1])
+                    fade(im, j * scaled_room_size[0] + j,
+                             i * scaled_room_size[1] + i,
+                             scaled_room_size[0],
+                             scaled_room_size[1])
     
     im.save(name)
 
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 5:
+    if len(sys.argv) != 2:
     
-        sys.stderr.write("Usage: %s <width> <height> <seed> <file name>\n\n" % sys.argv[0])
-        sys.stderr.write("For the release version of Jungle Journey, use a value of 11\n"
-                         "for both width and height, and one of 100, 239, 183 or 144\n"
-                         "for the seed value.\n")
+        sys.stderr.write("Usage: %s <file name template>\n\n" % sys.argv[0])
+        sys.stderr.write("Creates images for the four maps used in the release version of Jungle Journey.\n"
+                         "The file name of each image is derived from the template.\n"
+                         "For example, specifying a template called map.png will result in files being\n"
+                         "created called map1.png, map2.png, map3.png and map4.png.\n\n")
         sys.exit(1)
     
-    width = int(sys.argv[1])
-    height = int(sys.argv[2])
-    seed = int(sys.argv[3])
-    name = sys.argv[4]
+    width = height = 11
+    name = sys.argv[1]
     room_width = 10
     room_height = 10
     
     start_room = (width/2, height/2)
     stem, suffix = os.path.splitext(name)
+    level = 1
     
-    make_map("%s-%02x%s" % (stem, seed, suffix),
-             width, height, room_width, room_height, seed)
+    for seed in 100, 239, 183, 144:
     
-    print "Created %s-%02x%s" % (stem, seed, suffix)
+        file_name = "%s%i%s" % (stem, level, suffix)
+        make_map(file_name, width, height, room_width, room_height, seed)
+        
+        print "Created %s" % file_name
+        level += 1
     
     sys.exit()
