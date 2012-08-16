@@ -23,7 +23,7 @@ import series
 from tileimages import blank, tile_size, leaf1, leaf2, visited, flowers, \
                        flowers2, leaf4, leaf6, flowers3, leaf5, leaf3, \
                        exit, final_exit1, final_exit2, item_size, player, \
-                       treasure_images
+                       treasure_images, read_xpm
 
 image_sets = {
     100: [blank, flowers, leaf1, leaf2, exit],
@@ -36,6 +36,11 @@ default_image_set = [blank, flowers, leaf1, leaf2]
 
 tile_values_map = [0, 1, 0, 0, 0, 0, 2, 3, 4, 5, 6]
 
+xf = 2
+yf = 1
+
+scaled_tile_size = (int(tile_size[0] * xf), int(tile_size[1] * yf))
+    
 class Mapper:
 
     start_rooms = {100: (5, 5), 36: (0, 0), 44: (9, 7), 4: (7, 0), 5: (5, 10),
@@ -370,11 +375,6 @@ def make_map(name, width, height, room_width, room_height, seed):
 
     images, wall_tile, floor_tiles = select_images(seed)
     
-    xf = 2
-    yf = 1
-    
-    scaled_tile_size = (int(tile_size[0] * xf), int(tile_size[1] * yf))
-    
     scaled_room_size = (int(room_width * scaled_tile_size[0]),
                         int(room_height * scaled_tile_size[1]))
     
@@ -462,10 +462,40 @@ if __name__ == "__main__":
     stem, suffix = os.path.splitext(name)
     level = 1
     
+    title_image = Image.fromstring("P", (128, 48), "".join(
+        read_xpm("../../images/title-screen.xpm", [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
+    title_image = title_image.resize((title_image.size[0]*4, title_image.size[1]*4),
+                                     Image.LINEAR)
+    
+    overlay_image = Image.fromstring("P", (128, 115), "".join(
+        read_xpm("../../images/overlay.xpm", [(".", "\x00"), ("#", "\x01"), ("@", "\x02"), ("+", "\x03")])))
+    overlay_image = overlay_image.resize((overlay_image.size[0]*4, overlay_image.size[1]*4),
+                                     Image.LINEAR)
+    
+    border = Image.new("P", (scaled_tile_size[0] * 18 + 1,
+        title_image.size[1] + overlay_image.size[1] + scaled_tile_size[1]), 0)
+    
+    banner_positions = [(-scaled_tile_size[0] - border.size[0], -scaled_tile_size[1] - border.size[1]),
+                        (scaled_tile_size[0], -scaled_tile_size[1] - border.size[1]),
+                        (scaled_tile_size[0], scaled_tile_size[1]),
+                        (-scaled_tile_size[0] - border.size[0], scaled_tile_size[1])]
+    
     for seed in 100, 239, 183, 144:
     
         file_name = "%s%i%s" % (stem, level, suffix)
         make_map(file_name, width, height, room_width, room_height, seed)
+        
+        im = Image.open(file_name)
+        bx, by = banner_positions[level - 1]
+        if bx < 0:
+            bx = im.size[0] + bx
+        if by < 0:
+            by = im.size[1] + by
+        
+        im.paste(border, (bx, by))
+        im.paste(title_image, (bx + scaled_tile_size[0], by + int(scaled_tile_size[1] * 0.75)))
+        im.paste(overlay_image, (bx + scaled_tile_size[0], by + int(scaled_tile_size[1] * 0.75) + title_image.size[1]))
+        im.save(file_name)
         
         print "Created %s" % file_name
         level += 1
