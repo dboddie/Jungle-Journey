@@ -72,7 +72,7 @@ exit = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/exit1.xpm
                         [("+", "\x00"), ("#", "\x01"), (".", "\x02"), ("@", "\x03")])))
 
 final_exit1 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/finalexitl.xpm",
-                               [("+", "\x00"), ("#", "\x01"), (".", "\x02"), ("@", "\x03")])))
+                               [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
 final_exit2 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/finalexitr.xpm",
                                [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
 
