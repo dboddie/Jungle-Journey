@@ -4074,7 +4074,7 @@ projectile_collision_mask_above: .byte $00, $00, $00, $80
 ; Player and enemy share the same tile or player is on the tile below.
 player_collision_mask_below:  .byte $ff, $3f, $0f, $03
 
-projectile_collision_mask_below: .byte $e0, $38, $e0, $03
+projectile_collision_mask_below: .byte $e0, $38, $0e, $03
 
 ; Player is above or on the same tile, enemy is below, checking the overlap in
 ; the lower tile.
