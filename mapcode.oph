@@ -1715,8 +1715,10 @@ animate_player_down:
     jsr plot_character
     rts
 
-joystick_abs:
-
+joystick_abs:               ; A=value for a joystick axis read from the ADC
+                            ; Returns 0 for insufficiently large values,
+                            ; Returns [32, 127] for right/up movement.
+                            ; Returns [32, 128] for left/down movement.
     cmp #160
     bcc joystick_abs_next1
 
@@ -1760,11 +1762,11 @@ read_joystick:
     sta $8d             ; store the original horizontal value
 
     jsr joystick_abs
-    cmp #0
-    beq read_joystick_vertical_check
-    cmp $8f
-    bcc read_joystick_vertical_check
-
+    cmp #0                              ; If no horizontal input then branch to
+    beq read_joystick_vertical_check    ; the vertical check.
+    cmp $8f                             ; If the horizontal input is less than
+    bcc read_joystick_vertical_check    ; the vertical input then branch to the
+                                        ; vertical check.
     lda $8d
     cmp #128
     bcs read_joystick_left
