@@ -53,19 +53,15 @@ line, obtaining the full development history of the game:
 You need Python, the Python Imaging Library and the Ophis 6502 assembler to
 build the game.
 
-Run the build.py script at the command line, passing the name of the UEF file
-to create. If the file was created, load it into an Electron emulator or create
-a sound file with one of the UEF utilities available online.
+Run the buildrom.py script at the command line, passing the name of the ROM
+files to create. If the files were created, install them in free ROM slots in
+an Electron emulator or use them to burn ROMs for use in a ROM cartridge.
 
 
 Loading the Game
 
-Insert the cassette or disk and type
-
-  *RUN JUNGLE
-
-then press Return. If you are loading the game from cassette, press play on the
-cassette recorder. The game should now load.
+Ensure that the computer is switched off. Insert the ROM cartridge and switch
+the computer on. The game should load automatically.
 
 
 Playing the Game
