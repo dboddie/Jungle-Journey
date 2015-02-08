@@ -1106,7 +1106,7 @@ if __name__ == "__main__":
     inlay_height = 1020
     
     # Background colour
-    background = "#905090"
+    background = "#601828"
     box_background = "#ffffff"
     box_shadow = "#ffb060"
     logo_background = "#ffffc0"
