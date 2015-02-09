@@ -513,8 +513,9 @@ italic_quote = {"family": "FreeSerif",
 
 quote = {"family": "FreeSerif",
          "size": 22,
-         "left indent": 40,
-         "right indent": 40}
+         "style": "italic",
+         "left indent": 10,
+         "right indent": 10}
 
 monospace_quote = {"family": "FreeMono",
                    "size": 22,
@@ -1123,7 +1124,7 @@ if __name__ == "__main__":
     # Picture position
     py = 370
     
-    # Shadow offset and castle position
+    # Shadow offset
     o = 0.32 # 1 - 1/(2**0.5)
     
     # Screenshot scale and horizontal positions
@@ -1142,18 +1143,23 @@ if __name__ == "__main__":
     
     instructions = [
         Page((665, inlay_height),
-            [TextBox((62, 83, 590, 0), 
+            [TextBox((62, 85, 590, 0), 
                  [Text(title, "Jungle Journey")]),
-             TextBox((62, -3, 590, 0),
+             TextBox((62, 2, 590, 0),
                  [Text(regular,
                        "The last flames of the campfire fade to glowing embers and I am alone. "
                        "My recent acquaintances, their packs and paraphernalia have gone, leaving "
-                       "me stranded deep in the heart of this jungle realm. Clouds momentarily "
+                       "me stranded deep in the heart of this jungle realm.")],
+                 line_spacing = 1.1, follow = True),
+             TextBox((62, 10, 590, 0),
+                 [Text(regular,
+                       "Clouds momentarily "
                        "sweep the cold face of the moon and I perceive the clicks, whistles and "
                        "cries of creatures in the hot air that cloaks this place. Desperately, I "
                        "try to stay my panic and remember those fragments of wilderness craft "
-                       "learned and unlearned many years ago.\n")], follow = True),
-             TextBox((62, 10, 590, 0),
+                       "learned and unlearned many years ago.")],
+                 line_spacing = 1.1, follow = True),
+             TextBox((62, 15, 590, 0),
                  [Text(italic_quote,
                        "Choose your weapon carefully,\n"
                        "Get ready for a fight.\n"
@@ -1162,56 +1168,62 @@ if __name__ == "__main__":
                        "There's time to pick up treasure,\n"
                        "But no time to stop and stare.\n"
                        "If you don't find the hidden cave\n"
-                       "You won't get out of there.\n")], follow = True),
-             TextBox((62, 10, 590, 0),
+                       "You won't get out of there.")],
+                 line_spacing = 1.1, follow = True),
+             TextBox((62, 15, 590, 0),
                  [Text(regular,
                        "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
                        "Struggling through the dense undergrowth, I search for signs of a track or "
                        "trail. At first glance, paths that seemed to lead to safety turn out to be "
                        "impassable, overgrown by tangled and twisted vines. I remember the words of "
-                       "an old teacher:\n")], follow = True),
+                       "an old teacher:")],
+                 line_spacing = 1.1, follow = True),
              TextBox((62, 10, 590, 0),
-                 [Text(regular,
+                 [Text(quote,
                        u'\u201cDo not be tempted to use fire to make your way. '
                        'Many a traveller has strayed from the path, using fire to blaze a trail, '
                        'only to reach a dead end. Trying to return, they find that the jungle '
                        'has grown back. Those who are desperate enough will even seek out '
-                       u'forgotten routes when the way home is in sight.\u201d\n')],
-                 follow = True),
+                       u'forgotten routes when the way home is in sight.\u201d')],
+                 line_spacing = 1.0, follow = True),
              TextBox((62, 10, 590, 0),
                  [Text(regular,
                        "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                        "for prey. Only through skill and luck am I able to dispatch them back "
                        "into the shadows. Even though I know I must journey deeper into this "
                        "uncharted land to find the way home, the thought of vengeance drives me on.")],
-                 follow = True)
+                 line_spacing = 1.1, follow = True)
 
              ] + inner_instructions_decoration(0, 0, 670*2, inlay_height, 7, 48)),
         Page((635, inlay_height),
-             [TextBox((15, 85, 560, 0),
-                  [Text(subtitle, "Loading the Game\n"),
-                   Text(regular, "Insert the cassette in the cassette recorder and type\n")]),
-              TextBox((15, -2, 560, 0),
-                  [Text(monospace_quote, '*RUN JUNGLE\n')], follow = True),
-              TextBox((15, -2, 560, 0),
+             [TextBox((15, 84, 560, 0),
+                  [Text(subtitle, "Loading the Game")]),
+              TextBox((15, 10, 560, 0),
+                  [Text(regular, "Insert the cassette in the cassette recorder and type")],
+                  line_spacing = 1.1, follow = True),
+              TextBox((15, 10, 560, 0),
+                  [Text(monospace_quote, '*RUN JUNGLE')], follow = True),
+              TextBox((15, 10, 560, 0),
                   [Text(regular,
-                        "then press Return. Press play on the cassette recorder. "
-                        "The game should now load.\n\n")],
-                  follow = True),
+                        "then press Return. Press play on the cassette recorder.\n"
+                        "The game should now load.")],
+                  line_spacing = 1.1, follow = True),
 
               TextBox((15, 24, 560, 0),
-                  [Text(subtitle, "Playing the Game\n"),
-                   Text(regular,
+                  [Text(subtitle, "Playing the Game")],
+                  follow = True),
+              TextBox((15, 10, 560, 0),
+                  [Text(regular,
                         "The player must help the character reach the exit for each level. However, the "
                         "player must first find a key to unlock the exit. On the final level, the exit "
                         "does not require a key but it may be obstructed. Enemies will appear in each "
                         "location and attack the player's character. They can be destroyed by "
-                        "projectiles fired by the current weapon.\n")],
-                  follow = True),
+                        "projectiles fired by the current weapon.")],
+                  line_spacing = 1.1, follow = True),
               TextBox((15, 8, 560, 0),
                   [Text(regular,
                         "Your character can be moved around the screen by using four control keys:\n")],
-                  follow = True),
+                  line_spacing = 1.1, follow = True),
               TextBox((15, 0, 560, 0),
                   [Text(keys_quote,
                         "Z\n"
@@ -1223,15 +1235,17 @@ if __name__ == "__main__":
                         "left\n"
                         "right\n"
                         "up\n"
-                        "down\n"),
-                   Text(regular,
+                        "down\n")],
+                  follow = True, index = -2),
+              TextBox((15, 10, 560, 0),
+                  [Text(regular,
                         "To fire a weapon, press the Return key. There are four different types of "
                         "weapon available in the game.\n\n"
                         "Alternatively, you may play using an analogue joystick. Select joystick controls by "
                         "pressing the Fire button on the title page to start the game. Press Space to "
                         "start the game with keyboard controls.\n\n"
                         "Other keys can be used to control the game:\n")],
-                        follow = True, index = -2),
+                  line_spacing = 1.1, follow = True),
               TextBox((15, 0, 560, 0),
                   [Text(keys_quote,
                         "S\n"
@@ -1246,7 +1260,9 @@ if __name__ == "__main__":
                         "pause the game\n"
                         "resume the game\n"
                         "quit the game, returning to the title screen\n")],
-                  follow = True, index = -2)
+                  follow = True, index = -2),
+              TextBox((15, 7, 560, 0),
+                  [Text(regular, "Good luck!")], follow = True)
              ]),
         Page((670, inlay_height),
              [Path((0, 0, 670, inlay_height),
@@ -1350,7 +1366,7 @@ if __name__ == "__main__":
     
         pages = instructions + [spine, front_cover]
         
-        file_name = "Castle-Raider-%s-inlay.svg" % platform.replace(" ", "-").replace("/", "-")
+        file_name = "Jungle-Journey-%s-inlay.svg" % platform.replace(" ", "-").replace("/", "-")
         
         page_rects = [((0, 0, 665, inlay_height), False),
                       ((665, 0, 635, inlay_height), False),
