@@ -776,7 +776,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
             ly = ly1 + lh * (1.1 ** i)
             
             if i % 2 == 0:
-                points.append((lx1 * ((16 - i)/16.0)**0.5, ly))
+                points.append((lx1 * ((16 - i)/16.0)**0.25, ly))
             else:
                 points.append((lx2 - (((i/16.0)**3) * (lx2 - lx1)), ly))
         
