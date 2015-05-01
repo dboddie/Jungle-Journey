@@ -760,6 +760,37 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
     # The imported fire paths need to be displaced.
     fx = bx + 65
     fy = py + 65
+
+    ly1 = -20
+    lh = 100
+    lw = bw
+    patterns = []
+    
+    for lx1, lx2, colour in ((0, lw/2, "#808040"), (lw/4, lw/2.5, "#804020")):
+    
+        points = []
+        
+        for i in range(1, 17):
+        
+            lx = bx - bw/2
+            ly = ly1 + lh * (1.1 ** i)
+            
+            if i % 2 == 0:
+                points.append((lx1 * ((16 - i)/16.0)**0.5, ly))
+            else:
+                points.append((lx2 - (((i/16.0)**3) * (lx2 - lx1)), ly))
+        
+        style = {"fill": "black", "fill-opacity": "0.25",
+                 "stroke": "none"}
+        
+        patterns.append(Path((bx, fy, bw, bh),
+                             [("M",) + points[0]] + \
+                             map(lambda p: ("L",) + p, points[1:]) + \
+                             [("L",points[-1][0], points[0][1]), ("z",)], style))
+        patterns.append(Path((bx, fy, bw, bh),
+                             [("M",lw - points[0][0], points[0][1])] + \
+                             map(lambda p: ("L",lw-p[0],p[1]), points[1:]) + \
+                             [("L",lw-points[-1][0], points[0][1]), ("z",)], style))
     
     return Page((670, inlay_height),
                 [Path((0, 0, 670, inlay_height),
@@ -789,7 +820,9 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                        ("l",0,bh-(r*2)), ("c",0,hr,-r+hr,r,-r,r),
                        ("l",-(bw-(r*2)),0), ("c",-hr,0,-r,-r+hr,-r,-r),
                        ("l",0,-(bh-(r*2))), ("c",0,-hr,r-hr,-r,r,-r)],
-                      {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4}),
+                      {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4})
+
+                 ] + patterns + [
 
                  # Imported from fire.svg:
                  Path((fx, fy, bw, bh),
