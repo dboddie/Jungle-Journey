@@ -41,6 +41,14 @@ copyright_string:
 
 language_entry:
 
+    cmp #1
+    beq is_language
+    rts
+
+    is_language:
+    ldx #255
+    txs
+    cli
     jmp jungle_code
 
 service_entry:

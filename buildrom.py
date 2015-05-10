@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # 8000 ROM header code
     # 8400 title screen (0x1800 bytes including completion screen)
     
-    system("ophis romcode.oph " + code_rom_file)
+    system("ophis -o " + code_rom_file + " romcode.oph")
     
     romcode = open(code_rom_file, "rb").read()
     
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     romcode += (0x4000 - len(romcode))*"\x00"
     open(code_rom_file, "wb").write(romcode)
     
-    system("ophis romloader.oph " + loader_rom_file)
+    system("ophis -o " + loader_rom_file + " romloader.oph")
     
     romdata = open(loader_rom_file, "rb").read()
     
