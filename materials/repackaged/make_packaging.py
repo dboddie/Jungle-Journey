@@ -1140,7 +1140,7 @@ if __name__ == "__main__":
     inlay_height = 1020
     
     # Background colour
-    background = "#601828"
+    background = "#a048a8"
     box_background = "#ffffff"
     box_shadow = "#ffb060"
     logo_background = "#ffffc0"
@@ -1176,15 +1176,15 @@ if __name__ == "__main__":
     
     instructions = [
         Page((665, inlay_height),
-            [TextBox((62, 85, 590, 0), 
+            [TextBox((62, 85, 558, 0), 
                  [Text(title, "Jungle Journey")]),
-             TextBox((62, 2, 590, 0),
+             TextBox((62, 2, 558, 0),
                  [Text(regular,
                        "The last flames of the campfire fade to glowing embers and I am alone. "
                        "My recent acquaintances, their packs and paraphernalia have gone, leaving "
                        "me stranded deep in the heart of this jungle realm.")],
                  line_spacing = 1.1, follow = True),
-             TextBox((62, 10, 590, 0),
+             TextBox((62, 10, 558, 0),
                  [Text(regular,
                        "Clouds momentarily "
                        "sweep the cold face of the moon and I perceive the clicks, whistles and "
@@ -1192,7 +1192,7 @@ if __name__ == "__main__":
                        "try to stay my panic and remember those fragments of wilderness craft "
                        "learned and unlearned many years ago.")],
                  line_spacing = 1.1, follow = True),
-             TextBox((62, 15, 590, 0),
+             TextBox((62, 15, 558, 0),
                  [Text(italic_quote,
                        "Choose your weapon carefully,\n"
                        "Get ready for a fight.\n"
@@ -1203,7 +1203,7 @@ if __name__ == "__main__":
                        "If you don't find the hidden cave\n"
                        "You won't get out of there.")],
                  line_spacing = 1.1, follow = True),
-             TextBox((62, 15, 590, 0),
+             TextBox((62, 15, 558, 0),
                  [Text(regular,
                        "Hopeless, I scramble to my feet, reaching for any weapon still left to me. "
                        "Struggling through the dense undergrowth, I search for signs of a track or "
@@ -1211,7 +1211,7 @@ if __name__ == "__main__":
                        "impassable, overgrown by tangled and twisted vines. I remember the words of "
                        "an old teacher:")],
                  line_spacing = 1.1, follow = True),
-             TextBox((62, 10, 590, 0),
+             TextBox((62, 10, 558, 0),
                  [Text(quote,
                        u'\u201cDo not be tempted to use fire to make your way. '
                        'Many a traveller has strayed from the path, using fire to blaze a trail, '
@@ -1219,7 +1219,7 @@ if __name__ == "__main__":
                        'has grown back. Those who are desperate enough will even seek out '
                        u'forgotten routes when the way home is in sight.\u201d')],
                  line_spacing = 1.0, follow = True),
-             TextBox((62, 10, 590, 0),
+             TextBox((62, 10, 558, 0),
                  [Text(regular,
                        "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                        "for prey. Only through skill and luck am I able to dispatch them back "
