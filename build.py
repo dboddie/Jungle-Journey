@@ -212,7 +212,7 @@ if __name__ == "__main__":
     
     files = []
     
-    system("ophis loader.oph JUNGLE")
+    system("ophis loader.oph -o JUNGLE")
     code = open("JUNGLE").read()
     code_start = 0x5180
     files.append(("JUNGLE", code_start, code_start, code))
@@ -230,7 +230,7 @@ if __name__ == "__main__":
     data = makesprites.read_sprites(makesprites.chars)
     files.append(("CHARS", 0x3f00, 0x3f00, data))
 
-    system("ophis tapecode.oph CODE")
+    system("ophis tapecode.oph -o CODE")
     code = open("CODE").read()
     code_start = 0x1e00
     files.append(("CODE", code_start, code_start, code))
