@@ -753,10 +753,10 @@ class UEFfile:
             data = data[256:]
 
             if gap == 1:
-                new_chunks.append((0x110, self.number(2,0x05dc)))
+                new_chunks.append((0x110, self.number(2,0x00f0)))
                 gap = 0
             else:
-                new_chunks.append((0x110, self.number(2,0x0258)))
+                new_chunks.append((0x110, self.number(2,0x0078)))
 
             # Write the block to the list of new chunks
             new_chunks.append((0x100, block))
