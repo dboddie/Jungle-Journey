@@ -1,0 +1,49 @@
+Notes on map generation
+=======================
+
+The game allows the player to reach a "bonus" level 5 by exiting level 4 via a
+door rather than through the cave entrance. The possibility of this was
+intentionally included in the game. I could have ensured that level 4 didn't
+include a key or a door, but instead ensured that they were placed in parts of
+the level that the player could never reach - unless they had picked up the
+fireball weapon and started to break into otherwise closed off areas of the
+map.
+
+Level 5 is just another level that happens to use the data that follows each
+array. So its seed will be 5 from the byte after 144 which happens to be the
+first element in the start_rooms_x array, the start room will be at (5, 7),
+exit at (0, 1) and the key at (0, 1).
+
+seeds:         .byte 100, 239, 183, 144
+start_rooms_x: .byte 5,   3,   5,   10
+start_rooms_y: .byte 5,   8,   1,   8
+exit_rooms_x:  .byte 7,   9,   3,   0
+exit_rooms_y:  .byte 0,   0,   9,   10
+key_rooms_x:   .byte 1,   5,  10,   1
+key_rooms_y:   .byte 0,   2,   6,   4
+key_rooms:     .byte 1,  27,  76,  45
+
+Unfortunately, the clash between the key and door rooms means that only the
+door will appear on the level and progress to any following levels is
+impossible. I had hoped that the player might get to experience a few "bonus"
+levels, though I should be grateful that the one that can be accessed at least
+allows the player to reach the cave entrance. I included this on level 4
+onwards to ensure that completion of the game was at least theoretically
+possible.
+
+The room at (0, 5) on level 5 is odd because it looks like it should contain a
+key or a door, or perhaps should have been the start room. It is missing
+scenery as a result of a quirk in the way the pseudo-random number generator
+works. The generator uses two starting values: j and (seed - i), where j is the
+column of the room in the map and i is the row. When the seed is 5 then the
+values are
+
+    first = j
+    second = 5 - i
+
+which means that, in room (0, 5), the values will both be zero. This results in
+a stream of zeros from the generator, hence an empty room. Normally this would
+be something I would want to eliminate, which is why the seeds for the first
+four levels are high values, but in this case it adds a little mystery to the
+proceedings. Players might wonder if the key should have been in the room but
+was replaced by some other item!
