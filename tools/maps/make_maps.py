@@ -29,7 +29,8 @@ image_sets = {
     100: [blank, flowers, leaf1, leaf2, exit],
     239: [blank, flowers2, leaf6, leaf4, exit],
     183: [blank, flowers2, leaf6, leaf4, exit],
-    144: [blank, flowers3, leaf5, leaf3, exit, final_exit1, final_exit2]
+    144: [blank, flowers3, leaf5, leaf3, exit, final_exit1, final_exit2],
+    5: [blank, flowers, leaf1, leaf2, exit, final_exit1, final_exit2]
     }
 
 default_image_set = [blank, flowers, leaf1, leaf2]
@@ -43,18 +44,19 @@ scaled_tile_size = (int(tile_size[0] * xf), int(tile_size[1] * yf))
     
 class Mapper:
 
-    start_rooms = {100: (5, 5), 36: (0, 0), 44: (9, 7), 4: (7, 0), 5: (5, 10),
+    start_rooms = {100: (5, 5), 36: (0, 0), 44: (9, 7), 4: (7, 0), 5: (5, 7),
                      8: (0, 8), 10: (0, 10), 17: (7, 10), 26: (0, 9),
                     33: (10, 0), 127: (0, 0), 144: (10, 8), 183: (5, 1),
-                   239: (3, 8)}
-    exit_rooms  = {100: (7, 0), 36: (7, 0),             4: (5, 10), 5: (9, 6),
+                   239: (3, 8)} # 5: (5, 10)
+    exit_rooms  = {100: (7, 0), 36: (7, 0),             4: (5, 10), 5: (0, 1),
                      8: (3, 0), 10: (10, 2), 17: (9, 0), 26: (10, 4),
                     33: (2, 10), 144: (0, 10), 183: (3, 9), 239: (9, 0)}
+                    # 5: (9, 6)
     key_rooms   = {100: (1, 0), 17: (0, 0), 26: (9, 0), 33: (10, 6), 144: (1, 4),
-                   183: (10, 6), 239: (5, 2)}
+                   183: (10, 6), 239: (5, 2), 5: (0, 1)}
     extra_life_rooms = {17: (2, 0), 26: (9, 4)}
     
-    levels = {100: 0, 239: 1, 183: 2, 144: 3}
+    levels = {100: 0, 239: 1, 183: 2, 144: 3, 5: 4} # 5 is a "bonus" level
     
     treasure_table = [6, 5, 7, 1, 1, 5, 2, 7, 6, 2, 1, 7, 1, 7, 8, 7,
                       0, 7, 6, 7, 7, 7, 5, 0, 6, 3, 7, 7, 5, 7, 5, 0]
@@ -99,12 +101,11 @@ class Mapper:
         
             for j in range(self.map_width):
             
-                if self.key_rooms.get(self.seed, ()) == (j, i):
-                
+                if self.key_rooms.get(self.seed, ()) == (j, i) and \
+                   self.exit_rooms.get(self.seed, ()) != (j, i):
                     self.objects.append(5)
                 
                 else:
-                
                     item = gen.next() & 15
                     if item == 0:
                         self.objects.append(0)
@@ -138,9 +139,11 @@ class Mapper:
             x = y = 1
             while True:
                 if (x, y) in [(1, 1), (1, 8), (8, 1), (8, 8)]:
+                    # Add corner decorations in special rooms.
                     yield special_rooms[(j, i)]
                 
                 elif (j, i) == self.exit_rooms.get(self.seed, ()):
+                    # Check for the door position in an exit room.
                     position = self.exit_room_offsets[(i ^ j) & 15]
                     if x == position % 10 and y == position / 10:
                         yield 8
@@ -261,7 +264,7 @@ class Mapper:
             else:
                 rows.append([self.wall_tile]*cx + [0]*(self.room_width - 2*cx) + [self.wall_tile]*cx)
             
-            if self.levels.get(self.seed) == 3 and room == (2, 0):
+            if self.levels.get(self.seed) >= 3 and room == (2, 0):
             
                 rows[-1][4] = 5
                 rows[-1][5] = 6
@@ -478,9 +481,10 @@ if __name__ == "__main__":
     banner_positions = [(-scaled_tile_size[0] - border.size[0], -scaled_tile_size[1] - border.size[1]),
                         (scaled_tile_size[0], -scaled_tile_size[1] - border.size[1]),
                         (scaled_tile_size[0], scaled_tile_size[1]),
-                        (-scaled_tile_size[0] - border.size[0], scaled_tile_size[1])]
+                        (-scaled_tile_size[0] - border.size[0], scaled_tile_size[1]),
+                        (-scaled_tile_size[0] - border.size[0], -scaled_tile_size[1] - border.size[1])]
     
-    for seed in 100, 239, 183, 144:
+    for seed in 100, 239, 183, 144, 5:
     
         file_name = "%s%i%s" % (stem, level, suffix)
         make_map(file_name, width, height, room_width, room_height, seed)
