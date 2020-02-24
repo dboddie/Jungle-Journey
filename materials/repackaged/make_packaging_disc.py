@@ -140,8 +140,6 @@ class Inlay(SVG):
         
             if reverse:
                 self.text += '</g>\n'
-            
-            self.text += self.crop_marks(rect)
         
         rect, self.reverse = self.page_rects[self.page_number]
         self.ox, self.oy, w, h = rect
@@ -167,24 +165,18 @@ class Inlay(SVG):
             
             if self.reverse:
                 self.text += '</g>\n'
-            
-            self.text += self.crop_marks(rect)
+        
+        self.text += self.crop_marks(rect)
         
         SVG.close(self)
     
     def crop_marks(self, rect):
     
-        return ('<path d="M %f %f l 0 8 l 8 0" '
-                'stroke="black" fill="none" stroke-width="0.5" />\n'
-                '<path d="M %f %f l 0 -8 l 8 0" '
-                'stroke="black" fill="none" stroke-width="0.5" />\n'
-                '<path d="M %f %f l 0 8 l -8 0" '
-                'stroke="black" fill="none" stroke-width="0.5" />\n'
-                '<path d="M %f %f l 0 -8 l -8 0" '
-                'stroke="black" fill="none" stroke-width="0.5" />\n' % \
-                (rect[0], rect[1] - 8, rect[0], rect[1] + rect[3] + 8,
-                 rect[0] + rect[2], rect[1] - 8, rect[0] + rect[2],
-                 rect[1] + rect[3] + 8))
+        return ('<path d="M 150,0 L 150,100 M 0,150 L 100,150\n'
+                'M 3290,150 L 3390,150 M 3240,0 L 3240,100\n'
+                'M 150,2460 L 150,2360 M 0,2310 L 100,2310\n'
+                'M 3290,2310 L 3390,2310 M 3240,2360 L 3240,2460"\n'
+                'stroke="black" fill="none" stroke-width="1" />\n')
 
 
 class Page:
@@ -697,41 +689,28 @@ def make_back_flap(r, hr, o, background):
                      ]),
                 ])
 
-def make_spine(r, hr, o, background):
+def make_spine(w, r, hr, o, background):
 
-    sbx = 300
-    sbw = 420
-    sbh = 60
+    sbx = 10
+    sby = -13
+    sbw = inlay_height
+    sbh = spine_width
     
-    return Page((120, inlay_height), [Transform([("scale", "2.0,2.0")],
-                [Path((0, 0, 120, inlay_height/2.0),
-                      [("M",0,0), ("l",120,0), ("l",0,inlay_height/2.0), ("l",-120,0), ("l",0,-inlay_height/2.0)],
-                       {"fill": background, "stroke": "none"}),
-                 make_checkered(120, inlay_height/2.0, 10, 10, background),
+    return Page((w, inlay_height), [
+                Path((0, 0, w, inlay_height),
+                     [("M",0,0), ("l",w,0),
+                      ("l",0,inlay_height), ("l",-w,0),
+                      ("l",0,-inlay_height)],
+                      {"fill": background, "stroke": "none"}),
+#                 make_checkered(w, inlay_height/2.0, 10, 10, background),
 
-                 Transform([("rotate", 90)],
-                     [Transform([("translate", "0,-115")],
-                          make_logo(150, 25, 30, 30, spine_publisher1, spine_publisher2) + \
-                          make_logo(inlay_height/2.0 - 150, 25, 30, 30, spine_publisher1, spine_publisher2) + \
-                          [Path((sbx-r+(r*o)+10, 15, sbw+r-(r*o*2), sbh+r-(r*o)),
-                                [("M",sbw+r-(r*o*2),sbh-(r*o)),
-                                 ("l",-r*0.5,r*0.5), ("c",-r*0.5,r*0.5,-r*0.5,r*0.5,-r,r*0.5),
-                                 ("l",-sbw+(r*o*2)+(r*1.5),0), ("c",-hr,0,-r,-r+hr,-r,-r),
-                                 ("l",0,-sbh+(r*o*2)+(r*1.5)), ("c",0,-r*0.5,0,-r*0.5,r*0.5,-r),
-                                 ("l",r*0.5,-r*0.5), ("z",)],
-                                {"fill": box_shadow, "stroke": "#000000", "stroke-width": 4}),
-                            Path((sbx+10, 15, sbw, sbh),
-                                [("M",r,0), ("l",sbw-(r*2),0), ("c",hr,0,r,r-hr,r,r),
-                                 ("l",0,sbh-(r*2)), ("c",0,hr,-r+hr,r,-r,r),
-                                 ("l",-(sbw-(r*2)),0), ("c",-hr,0,-r,-r+hr,-r,-r),
-                                 ("l",0,-(sbh-(r*2))), ("c",0,-hr,r-hr,-r,r,-r)],
-                                {"fill": box_background, "stroke": "#000000", "stroke-width": 4}),
-                            TextBox((sbx+10, 61, sbw, sbh),
-                               [Text(spine_title, "JUNGLE JOURNEY")])
-                          ])
-                     ]),
+                Transform([("rotate", 90)],
+                    [Transform([("translate", "0,0")], [
+                        TextBox((sbx, sby, sbw, sbh), [
+                            Text(spine_title, u"JUNGLE JOURNEY \u2013 B.B.C. MODEL B / ACORN ELECTRON")])
+                        ])
+                    ]),
                 ])
-            ])
 
 def make_title_box(bx, by, bw, bh, r, hr, o, background = None):
 
@@ -749,15 +728,19 @@ def make_title_box(bx, by, bw, bh, r, hr, o, background = None):
 def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
 
     # The imported fire paths need to be displaced.
-    fx = bx + 65
-    fy = py + 65
+    fx = bx + 100
+    fy = py + 180
 
     # Front cover width
-    fw = 670
+    fw = 1515
 
     ly1 = -20
     lh = 100
     lw = bw
+    
+    # Cave entrance position
+    cy = (ly1 + (lh * 1.1)) + 180
+    
     patterns = []
     
     for lx1, lx2, colour in ((0, lw/2, "#808040"), (lw/4, lw/2.5, "#804020")):
@@ -786,12 +769,12 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                              map(lambda p: ("L",lw-p[0],p[1]), points[1:]) + \
                              [("L",lw-points[-1][0], points[0][1]), ("z",)], style))
     
-    return Page((fw * 2, inlay_height), [Transform([("scale", "2.0,2.0")],
-                [Path((0, 0, fw, inlay_height/2.0),
-                      [("M",0,0), ("l",fw,0), ("l",0,inlay_height/2.0),
-                       ("l",-fw,0), ("l",0,-inlay_height/2.0)],
+    return Page((fw, inlay_height), [Transform([("scale", "2.0,2.0")],
+                [Path((0, 0, fw/2.0, inlay_height/2.0),
+                      [("M",0,0), ("l",fw/2.0,0), ("l",0,inlay_height/2.0),
+                       ("l",-fw/2.0,0), ("l",0,-inlay_height/2.0)],
                       {"fill": background, "stroke": "none"}),
-                 make_checkered(fw, inlay_height/2.0, 10, 10, background)
+                 make_checkered(fw/2.0, inlay_height/2.0, 10, 10, background)
 
                 ] + make_title_box(bx, title_by, bw, title_bh, r, hr, o) + [
 
@@ -807,7 +790,14 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                        ("l",0,bh-(r*2)), ("c",0,hr,-r+hr,r,-r,r),
                        ("l",-(bw-(r*2)),0), ("c",-hr,0,-r,-r+hr,-r,-r),
                        ("l",0,-(bh-(r*2))), ("c",0,-hr,r-hr,-r,r,-r)],
-                      {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4})
+                      {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4}),
+
+                 Path((bx, py, bw, bh),
+                      [("M",r,0), ("l",bw-(r*2),0), ("c",hr,0,r,r-hr,r,r),
+                       ("l",0,cy - r), ("l",-bw/4.0,0), ("c",0,-cy/3.0,-bw/8.0,-cy/2.0,-bw/4.0,-cy/2.0),
+                       ("c",-bw/8.0,0,-bw/4.0,cy/6.0,-bw/4.0,cy/2.0),("l",-bw/4.0,0),
+                       ("l",0,-cy + r), ("c",0,-hr,r-hr,-r,r,-r)],
+                      {"fill": "url(#cave-outside)", "stroke": "none", "stroke-width": 4}),
 
                  ] + patterns + [
 
@@ -1052,8 +1042,13 @@ if __name__ == "__main__":
     # Inlay/page height
     inlay_height = 2160
     
+    # Cover width (front and back)
+    cover_width = 1515
+    spine_width = 60
+    
     # Background colour
     background = "#105818"
+    spine_background = "#186820"
     box_background = "#ffffff"
     box_shadow = "#ffb060"
     logo_background = "#ffffc0"
@@ -1061,14 +1056,14 @@ if __name__ == "__main__":
     
     # Placement of boxes on the front cover
     bx = 70
-    bw = 550
+    bw = (1515 - (bx * 4))/2.0
     bh = bw
     # Title box vertical position and height
-    tby = 160
-    tbh = 120
+    tby = 165
+    tbh = 115
     
     # Picture position
-    py = 370
+    py = 310
     
     # Shadow offset
     o = 0.32 # 1 - 1/(2**0.5)
@@ -1080,16 +1075,18 @@ if __name__ == "__main__":
     sr = (bw - (2 * sw))/3.0
     
     back_flap = make_back_flap(r, hr, o, background)
-    spine = make_spine(r, hr, o, logo_background)
+    spine = make_spine(spine_width, r, hr, o, spine_background)
     front_cover = make_front_cover(bx, bw, bh, tby, tbh, py, r, hr, o, background)
     
     instructions = [
-        Page((1340, inlay_height),
-            [Path((0, 0, 1340, inlay_height),
-                   [("M",0,0), ("l",1340,0), ("l",0,inlay_height), ("l",-1340,0), ("l",0,-inlay_height)],
+        Page((cover_width, inlay_height),
+            [Path((0, 0, cover_width, inlay_height),
+                   [("M",0,0), ("l",cover_width,0),
+                    ("l",0,inlay_height), ("l",-cover_width,0),
+                    ("l",0,-inlay_height)],
                    {"fill": background, "stroke": "none"}),
              Transform([("scale", "2.0,2.0")],
-                [make_checkered(670, inlay_height/2.0, 10, 10, background)] + \
+                [make_checkered(cover_width/2.0, inlay_height/2.0, 10, 10, background)] + \
                  make_title_box(bx/2.0, 20, bw + bx, 700, r, hr, o) + \
                  make_title_box(bx/2.0, 750, bw + bx, 300, r, hr, o))] + \
                  
@@ -1283,20 +1280,23 @@ if __name__ == "__main__":
             '  <stop offset="0.74074072" stop-color="#ff3f00" />\n'
             '  <stop offset="1" stop-color="#d82724" />\n'
             '</linearGradient>\n'
+            '<linearGradient id="cave-outside" x1="50%" y1="0%" x2="50%" y2="100%">\n'
+            '  <stop offset="0" stop-color="#000000" />\n'
+            '  <stop offset="0.25" stop-color="#040404" />\n'
+            '  <stop offset="1" stop-color="#101010" />\n'
+            '</linearGradient>\n'
             )
     
     pages = instructions + [spine, front_cover]
     
-    file_name = "Jungle-Journey-%s-disc-inlay.svg" % platform.replace(" ", "-").replace("/", "-")
-    
-    page_rects = [((0, 0, 1340, inlay_height), False),
-                  ((1340, 0, 120, inlay_height), False),
-                  ((1340 + 240, 0, 670, inlay_height), False)]
+    page_rects = [((0, 0, cover_width, inlay_height), False),
+                  ((cover_width, 0, spine_width, inlay_height), False),
+                  ((cover_width + spine_width, 0, 1515, inlay_height), False)]
     
     total_size = (3390, 2460)
     
-    dx = (3390 - 670*4 - 120)/2.0
-    dy = (2460 - inlay_height)/2.0
+    dx = 150
+    dy = 150
     
     for i in range(len(page_rects)):
         rect, rev = page_rects[i]
