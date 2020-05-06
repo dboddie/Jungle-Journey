@@ -456,6 +456,30 @@ class Path:
         return x + width, y + height
 
 
+class Clip:
+
+    def __init__(self, rule, clip_path, elements):
+    
+        self.rule = rule
+        self.clip_path = clip_path
+        self.elements = elements
+    
+    def render(self, svg, positions):
+    
+        svg.text += '<g clip-rule="%s">\n' % self.rule
+        svg.text += '<clipPath id="%s">\n' % id(self)
+        x, y = self.clip_path.render(svg, positions)
+        svg.text += '</clipPath>\n'
+        
+        for element in self.elements:
+            element.attributes["clip-path"] = "url(#%s)" % id(self)
+            element.render(svg, positions)
+        
+        svg.text += '</g>\n'
+        
+        return x, y
+
+
 class Transform:
 
     def __init__(self, transformation, elements):
@@ -486,31 +510,31 @@ class Transform:
 sans = "Futura Md BT"
 
 regular = {"family": "FreeSans",
-           "size": 20,
+           "size": 23,
            "align": "justify"}
 
 title = {"family": sans,
-         "size": 28,
+         "size": 30,
          "weight": "bold"}
 
 subtitle = {"family": "FreeSans",
-         "size": 22,
+         "size": 25,
          "weight": "bold"}
 
 italic_quote = {"family": "FreeSerif",
-                "size": 22,
+                "size": 25,
                 "style": "italic",
                 "left indent": 40,
                 "right indent": 40}
 
 quote = {"family": "FreeSerif",
-         "size": 22,
+         "size": 25,
          "style": "italic",
          "left indent": 10,
          "right indent": 10}
 
 monospace_quote = {"family": "FreeMono",
-                   "size": 22,
+                   "size": 25,
                    "left indent": 40,
                    "right indent": 40}
 
@@ -724,6 +748,55 @@ def make_title_box(bx, by, bw, bh, r, hr, o, background = None):
                   ("l",0,-(bh-(r*2))), ("c",0,-hr,r-hr,-r,r,-r)],
                  {"fill": background, "stroke": "#000000", "stroke-width": 8})]
 
+def make_vines(fx, fy, bw, bh):
+
+    vines = []
+    
+    initials = [
+        [["M",-100,250], ["q",100,-100,110,-190], ["q",10,-90,50,-140],
+         ["q",40,-50,50,-100],["l",-10,0], ["q",-5,50,-50,100],
+         ["q",-45,50,-50,140], ["q",-5,90,-120,180], ["z",]],
+        [["M",bw-100,250], ["q",-90,-95,-105,-180], ["q",-10,-90,-50,-140],
+         ["q",-40,-50,-50,-100],["l",10,0], ["q",5,50,50,100],
+         ["q",45,50,50,140], ["q",5,90,120,180], ["z",]],
+        ]
+
+    ys = [245, 259]
+    fs = [1.0, 1.1]
+    level = 48
+    
+    while ys[0] > -50 and ys[1] > -50:
+    
+        for i, (y, f) in enumerate(zip(ys, fs)):
+        
+            path = initials[i][:]
+
+            for element in path:
+                t = element[0]
+                if t == "M":
+                    element[2] = y - 35
+                elif t == "q":
+                    element[1] = float(element[1]) * f + ((y % 10) - 5)
+                    element[3] = float(element[3]) * f + ((y % 14) - 7)
+                elif t == "l":
+                    element[1] = float(element[1])
+
+            vines.insert(0,
+                Path((fx, fy - 50, bw, bh), map(tuple, path),
+                     {"stroke": "#00%02x00" % (level/2), "stroke-width": 1,
+                      "fill": "#00%02x00" % level}),
+                )
+
+            dy = (y % 63)
+            y -= dy + 31
+            f += 0.01 + (dy * 0.02)
+            if f > 3.0: f -= 1.5
+            ys[i] = y
+            fs[i] = f
+        
+        level = max(0, level - 6)
+    
+    return vines
 
 def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
 
@@ -769,6 +842,16 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                              map(lambda p: ("L",lw-p[0],p[1]), points[1:]) + \
                              [("L",lw-points[-1][0], points[0][1]), ("z",)], style))
     
+    # Vines
+    vines = make_vines(fx, fy, bw, bh)
+    
+    border = Path((bx, py, bw, bh),
+                  [("M",r,0), ("l",bw-(r*2),0), ("c",hr,0,r,r-hr,r,r),
+                   ("l",0,bh-(r*2)), ("c",0,hr,-r+hr,r,-r,r),
+                   ("l",-(bw-(r*2)),0), ("c",-hr,0,-r,-r+hr,-r,-r),
+                   ("l",0,-(bh-(r*2))), ("c",0,-hr,r-hr,-r,r,-r)],
+                  {"fill": "none", "stroke": "#000000", "stroke-width": 8})
+    
     return Page((fw, inlay_height), [Transform([("scale", "2.0,2.0")],
                 [Path((0, 0, fw/2.0, inlay_height/2.0),
                       [("M",0,0), ("l",fw/2.0,0), ("l",0,inlay_height/2.0),
@@ -778,7 +861,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
 
                 ] + make_title_box(bx, title_by, bw, title_bh, r, hr, o) + [
 
-                 TextBox((bx, title_by + 45, bw, title_bh-(r*2)),
+                 TextBox((bx, title_by + 44, bw, title_bh-(r*2)),
                      [Text(front_cover_platforms, "%s" % platform.upper()),
                       Text(front_cover_title, "JUNGLE JOURNEY")],
                       line_spacing = 1.25)
@@ -793,13 +876,11 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                       {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4}),
 
                  Path((bx, py, bw, bh),
-                      [("M",r,0), ("l",bw-(r*2),0), ("c",hr,0,r,r-hr,r,r),
-                       ("l",0,cy - r), ("l",-bw/4.0,0), ("c",0,-cy/3.0,-bw/8.0,-cy/2.0,-bw/4.0,-cy/2.0),
-                       ("c",-bw/8.0,0,-bw/4.0,cy/6.0,-bw/4.0,cy/2.0),("l",-bw/4.0,0),
-                       ("l",0,-cy + r), ("c",0,-hr,r-hr,-r,r,-r)],
-                      {"fill": "url(#cave-outside)", "stroke": "none", "stroke-width": 4}),
+                      [("M",bw/4.0,cy), ("l",bw/2.0,0), ("c",0,-cy/3.0,-bw/8.0,-cy/2.0,-bw/4.0,-cy/2.0),
+                       ("c",-bw/8.0,0,-bw/4.0,cy/6.0,-bw/4.0,cy/2.0)],
+                      {"fill": "black", "stroke": "none", "stroke-width": 4}),
 
-                 ] + patterns + [
+                 Clip('nonzero', border, patterns + vines),
 
                  # Imported from fire.svg:
                  Path((fx, fy, bw, bh),
@@ -1014,12 +1095,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                       {"fill": "url(#ember)", "stroke": "none"}),
 
                  # Drawing border
-                 Path((bx, py, bw, bh),
-                      [("M",r,0), ("l",bw-(r*2),0), ("c",hr,0,r,r-hr,r,r),
-                       ("l",0,bh-(r*2)), ("c",0,hr,-r+hr,r,-r,r),
-                       ("l",-(bw-(r*2)),0), ("c",-hr,0,-r,-r+hr,-r,-r),
-                       ("l",0,-(bh-(r*2))), ("c",0,-hr,r-hr,-r,r,-r)],
-                      {"fill": "none", "stroke": "#000000", "stroke-width": 4})
+                 border
                 ])
             ])
 
@@ -1087,8 +1163,8 @@ if __name__ == "__main__":
                    {"fill": background, "stroke": "none"}),
              Transform([("scale", "2.0,2.0")],
                 [make_checkered(cover_width/2.0, inlay_height/2.0, 10, 10, background)] + \
-                 make_title_box(bx/2.0, 20, bw + bx, 700, r, hr, o) + \
-                 make_title_box(bx/2.0, 750, bw + bx, 300, r, hr, o))] + \
+                 make_title_box(bx/2.0, 30, bw + bx, 750, r, hr, o) + \
+                 make_title_box(bx/2.0, 800, bw + bx, 250, r, hr, o))] + \
                  
 #             make_title_box(bx + bw - sw - 18, 109, sw + 18, sh + 14, r, hr, o, "black") + \
 #             make_title_box(bx, 109, sw + 18, sh + 14, r, hr, o, "black") + \
@@ -1096,12 +1172,12 @@ if __name__ == "__main__":
             [
 #             Image((bx + 9, 109 + 9, sw, 0), "../images/screenshot1.png", scale = scale),
 #             Image((bx + bw - sw - 9, 109 + 9, sw, 0), "../screenshot2.png", scale = scale),
-             TextBox((bx, 1550, bw * 2, 0),
+             TextBox((bx * 2, 1669, bw * 2, 0),
                 [Text(back_cover_centred,
                       u"Copyright \u00a9 2011 David Boddie\n"
                       u"An Infukor production for Retro Software\n"
                       u"http://www.retrosoftware.co.uk/")]),
-             TextBox((bx + 25, 1700, bw * 2, 0),
+             TextBox((bx * 2, 1819, bw * 2, 0),
                 [Text(back_cover_small,
                       "This program is free software: you can redistribute it and/or modify "
                       "it under the terms of the GNU General Public License as published by "
@@ -1117,7 +1193,7 @@ if __name__ == "__main__":
                       "along with this program.\nIf not, see <http://www.gnu.org/licenses/>.")])
             ] + \
                 #make_logo(bx/2.0 + 670 - 35, 50, 70, 70, back_cover_publisher1, back_cover_publisher2)
-            [TextBox((bx * 2, 135, bw * 2, 0), 
+            [TextBox((bx * 2, 120, bw * 2, 0), 
                  [Text(title, "Jungle Journey")]),
              TextBox((bx * 2, 2, bw * 2, 0),
                  [Text(regular,
@@ -1227,7 +1303,7 @@ if __name__ == "__main__":
     
     defs = ('<linearGradient id="box-background" x1="50%" y1="0%" x2="50%" y2="100%">\n'
             '  <stop offset="0" stop-color="#000000" />\n'
-            '  <stop offset="0.3" stop-color="#000000" />\n'
+            '  <stop offset="0.3" stop-color="#040404" />\n'
             '  <stop offset="1" stop-color="#205c00" />\n'
             '</linearGradient>\n'
             '<linearGradient id="hills" x1="0%" y1="0%" x2="100%" y2="100%">\n'
@@ -1272,7 +1348,9 @@ if __name__ == "__main__":
             '  <stop offset="1" stop-color="#a2311b" />\n'
             '</linearGradient>\n'
             '<radialGradient id="ember" cx="50%" cy1="50%" fx="50%" fy="50%" r="50%">\n'
-            '  <stop offset="0" stop-color="#ffff00" />\n'
+            '  <stop offset="0" stop-color="#ffff7f" />\n'
+            '  <stop offset="0.5" stop-color="#ffff00" />\n'
+            '  <stop offset="0.9" stop-color="#ff2724" />\n'
             '  <stop offset="1" stop-color="#d82724" />\n'
             '</radialGradient>\n'
             '<linearGradient id="linearGradient10405" x1="50%" y1="0%" x2="50%" y2="100%">\n'
