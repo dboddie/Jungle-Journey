@@ -513,6 +513,10 @@ regular = {"family": "FreeSans",
            "size": 23,
            "align": "justify"}
 
+key_symbol = {"family": "FreeSans",
+              "size": 27,
+              "align": "justify"}
+
 title = {"family": sans,
          "size": 30,
          "weight": "bold"}
@@ -1240,14 +1244,10 @@ if __name__ == "__main__":
                  line_spacing = 1.1, follow = True),
              TextBox((bx * 2, 15, bw * 2, 0),
                  [Text(italic_quote,
-                       "Choose your weapon carefully,\n"
-                       "Get ready for a fight.\n"
-                       "The jungle can be dangerous\n"
-                       "If you go there at night.\n"
-                       "There's time to pick up treasure,\n"
-                       "But no time to stop and stare.\n"
-                       "If you don't find the hidden cave\n"
-                       "You won't get out of there.")],
+                       "Choose your weapon carefully, get ready for a fight.\n"
+                       "The jungle can be dangerous if you go there at night.\n"
+                       "There's time to pick up treasure, but no time to stop and stare.\n"
+                       "If you don't find the hidden cave you won't get out of there.")],
                  line_spacing = 1.1, follow = True),
              TextBox((bx * 2, 15, bw * 2, 0),
                  [Text(regular,
@@ -1286,24 +1286,27 @@ if __name__ == "__main__":
                  line_spacing = 1.1, follow = True),
              TextBox((bx * 2, 8, bw * 2, 0),
                  [Text(regular,
-                       "Your character can be moved around the screen by using four control keys:\n")],
+                       "Your character can move around the screen and fire using these keys:\n")],
                  line_spacing = 1.1, follow = True),
-             TextBox((bx * 2, 0, bw * 2, 0),
-                 [Text(keys_quote,
-                       "Z\n"
-                       "X\n"
-                       ":\n"
-                       "/")], follow = True),
-             TextBox((bx * 2, 0, bw * 2, 0),
-                 [Text(key_descriptions_quote,
-                       "left\n"
-                       "right\n"
-                       "up\n"
-                       "down\n")],
-                 follow = True, index = -2),
+             TextBox(((bx * 8) - 8, 0, bw * 2, 0),
+                 [Text(regular, "up")], follow = True),
+             TextBox((bx * 8, 8, bw * 2, 0),
+                 [Text(key_symbol, ":")], follow = True),
+             TextBox((bx * 5.5, 0, bw * 2, 0), [Text(regular, "left")],
+                follow = True),
+             TextBox((bx * 7, 0, bw * 2, 0), [Text(key_symbol, "Z")],
+                follow = True, index = -2),
+             TextBox((bx * 9, 0, bw * 2, 0), [Text(key_symbol, "X")],
+                follow = True, index = -3),
+             TextBox((bx * 10, 0, bw * 2, 0), [Text(regular, "right")],
+                follow = True, index = -4),
+             TextBox((bx * 8, 0, bw * 2, 0),
+                 [Text(key_symbol, "/")], follow = True),
+             TextBox(((bx * 8) - 16, 0, bw * 2, 0),
+                 [Text(regular, "down")], follow = True),
              TextBox((bx * 2, 10, bw * 2, 0),
                  [Text(regular,
-                       "To fire a weapon, press the Return key. There are four different types of "
+                       "There are four different types of "
                        "weapon available in the game.\n\n"
                        "Alternatively, you may play using an analogue joystick. Select joystick controls by "
                        "pressing the Fire button on the title page to start the game. Press Space to "
