@@ -510,12 +510,12 @@ class Transform:
 sans = "Futura Md BT"
 
 regular = {"family": "FreeSans",
-           "size": 23,
+           "size": 25,
            "align": "justify"}
 
 key_symbol = {"family": "FreeSans",
               "size": 27,
-              "align": "justify"}
+              "align": "centre"}
 
 title = {"family": sans,
          "size": 30,
@@ -1132,6 +1132,54 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                 ])
             ])
 
+def key_tops(bx, by, bw):
+
+    mx = 40
+    sx = sy = 24
+    ex = ey = 8
+
+    paths = [
+        TextBox((mx + (bx * 4), by + 840, bw * 2, 0), [Text(regular, "up")]),
+        TextBox((mx + (bx * 2.5) - 4, by + 930, bw * 2, 0), [Text(regular, "left")]),
+        TextBox((mx + (bx * 5.5) - 4, by + 930, bw * 2, 0), [Text(regular, "right")]),
+        TextBox((mx + (bx * 4) - 16, by + 1020, bw * 2, 0), [Text(regular, "down")])
+        ]
+
+    pos = [(mx + bx * 4, by + 880, ":"),
+           (mx + bx * 4, by + 980, "/"),
+           (mx + bx * 3.25, by + 930, "Z"),
+           (mx + bx * 4.75, by + 930, "X")]
+
+    for x, y, ch in pos:
+        paths += [
+            Path((x, y, sx + (ex * 2), sy + (ey * 2)),
+                 [("M",0,-ey/2 - 2 -sy), ("l",sx,0), ("q",ex,0,ex,ey),
+                  ("l",0,sy), ("q",0,ey,-ex,ey), ("l",-sx,0),
+                  ("q",-ex,0,-ex,-ey), ("l",0,-sy), ("q",0,-ey,ex,-ey),
+                  ("z",)],
+                 {"stroke": "black", "fill": "none", "stroke-width": 1}),
+            TextBox((x, y, sx, 0), [Text(key_symbol, ch)])
+            ]
+
+    x, y, sx, sy = mx + (bx * 8), by + 930, 100, 24
+
+    paths += [
+        Path((x, y, sx + (ex * 2), sy + (ey * 2)),
+             [("M",0,-ey/2 - 2 -sy), ("l",sx,0), ("q",ex,0,ex,ey),
+              ("l",0,sy), ("q",0,ey,-ex,ey), ("l",-sx,0),
+              ("q",-ex,0,-ex,-ey), ("l",0,-sy), ("q",0,-ey,ex,-ey),
+              ("z",)],
+             {"stroke": "black", "fill": "none", "stroke-width": 1}),
+        TextBox((x, y, sx, 0), [Text(key_symbol, "Return")]),
+
+        TextBox((mx + (bx * 10), y, bw * 2, 0), [Text(regular, "fire weapon")]),
+        TextBox((mx + (bx * 8), by + 975, bw * 2, 0), [
+                Text(regular, "There are four different types of "
+                              "weapon available in the game.\n\n")]),
+        ]
+
+    return paths
+
 
 if __name__ == "__main__":
 
@@ -1288,26 +1336,8 @@ if __name__ == "__main__":
                  [Text(regular,
                        "Your character can move around the screen and fire using these keys:\n")],
                  line_spacing = 1.1, follow = True),
-             TextBox(((bx * 8) - 8, 0, bw * 2, 0),
-                 [Text(regular, "up")], follow = True),
-             TextBox((bx * 8, 8, bw * 2, 0),
-                 [Text(key_symbol, ":")], follow = True),
-             TextBox((bx * 5.5, 0, bw * 2, 0), [Text(regular, "left")],
-                follow = True),
-             TextBox((bx * 7, 0, bw * 2, 0), [Text(key_symbol, "Z")],
-                follow = True, index = -2),
-             TextBox((bx * 9, 0, bw * 2, 0), [Text(key_symbol, "X")],
-                follow = True, index = -3),
-             TextBox((bx * 10, 0, bw * 2, 0), [Text(regular, "right")],
-                follow = True, index = -4),
-             TextBox((bx * 8, 0, bw * 2, 0),
-                 [Text(key_symbol, "/")], follow = True),
-             TextBox(((bx * 8) - 16, 0, bw * 2, 0),
-                 [Text(regular, "down")], follow = True),
-             TextBox((bx * 2, 10, bw * 2, 0),
+             TextBox((bx * 2, 230, bw * 2, 0),
                  [Text(regular,
-                       "There are four different types of "
-                       "weapon available in the game.\n\n"
                        "Alternatively, you may play using an analogue joystick. Select joystick controls by "
                        "pressing the Fire button on the title page to start the game. Press Space to "
                        "start the game with keyboard controls.\n\n"
@@ -1330,7 +1360,8 @@ if __name__ == "__main__":
                  follow = True, index = -2),
              TextBox((bx * 2, 7, bw * 2, 0),
                  [Text(regular, "Good luck!")], follow = True)
-            ])
+
+            ] + key_tops(bx, 130, bw))
         ]
     
     defs = ('<linearGradient id="box-background" x1="50%" y1="0%" x2="50%" y2="100%">\n'
