@@ -1330,7 +1330,7 @@ if __name__ == "__main__":
                        "impassable, overgrown by tangled and twisted vines. I remember the words of "
                        "an old teacher:")],
                  line_spacing = 1.1, follow = True),
-             TextBox((bx * 2, 10, bw * 2, 0),
+             TextBox((bx * 2, 15, bw * 2, 0),
                  [Text(italic_quote,
                        u'\u201cDo not be tempted to use fire to make your way. '
                        'Many a traveller has strayed from the path, using fire to blaze a trail, '
@@ -1338,7 +1338,7 @@ if __name__ == "__main__":
                        'has grown back. Those who are desperate enough will even seek out '
                        u'forgotten routes when the way home is in sight.\u201d')],
                  line_spacing = 1.0, follow = True),
-             TextBox((bx * 2, 10, bw * 2, 0),
+             TextBox((bx * 2, 15, bw * 2, 0),
                  [Text(regular,
                        "Sensing my presence, obscene creatures emerge from the darkness, hungry "
                        "for prey. Only through skill and luck am I able to dispatch them back "
@@ -1372,7 +1372,7 @@ if __name__ == "__main__":
              TextBox((bx * 2, 140, bw * 2, 0),
                  [Text(regular, "Good luck on your journey!")], follow = True)
 
-            ] + key_tops(bx, 130, bw))
+            ] + key_tops(bx, 140, bw))
         ]
     
     defs = ('<linearGradient id="box-background" x1="50%" y1="0%" x2="50%" y2="100%">\n'
