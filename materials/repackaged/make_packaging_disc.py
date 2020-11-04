@@ -526,7 +526,7 @@ subtitle = {"family": "FreeSans",
          "weight": "bold"}
 
 italic_quote = {"family": "FreeSerif",
-                "size": 25,
+                "size": 28,
                 "style": "italic",
                 "left indent": 40,
                 "right indent": 40}
@@ -1137,18 +1137,28 @@ def key_tops(bx, by, bw):
     mx = 40
     sx = sy = 24
     ex = ey = 8
+    p1 = 880
+    p2 = 1250
 
     paths = [
-        TextBox((mx + (bx * 4), by + 840, bw * 2, 0), [Text(regular, "up")]),
-        TextBox((mx + (bx * 2.5) - 4, by + 930, bw * 2, 0), [Text(regular, "left")]),
-        TextBox((mx + (bx * 5.5) - 4, by + 930, bw * 2, 0), [Text(regular, "right")]),
-        TextBox((mx + (bx * 4) - 16, by + 1020, bw * 2, 0), [Text(regular, "down")])
+        TextBox((mx + (bx * 4), by + p1, bw * 2, 0), [Text(regular, "up")]),
+        TextBox((mx + (bx * 2.5) - 4, by + p1 + 90, bw * 2, 0), [Text(regular, "left")]),
+        TextBox((mx + (bx * 5.5) - 4, by + p1 + 90, bw * 2, 0), [Text(regular, "right")]),
+        TextBox((mx + (bx * 4) - 16, by + p1 + 180, bw * 2, 0), [Text(regular, "down")]),
+        TextBox((mx + (bx * 2.75), by + p2, bw * 2, 0), [Text(regular, "enable sound effects")]),
+        TextBox((mx + (bx * 2.75), by + p2 + 55, bw * 2, 0), [Text(regular, "disable sound effects")]),
+        TextBox((mx + (bx * 7.75), by + p2, bw * 2, 0), [Text(regular, "pause the game")]),
+        TextBox((mx + (bx * 7.75), by + p2 + 55, bw * 2, 0), [Text(regular, "resume the game")])
         ]
 
-    pos = [(mx + bx * 4, by + 880, ":"),
-           (mx + bx * 4, by + 980, "/"),
-           (mx + bx * 3.25, by + 930, "Z"),
-           (mx + bx * 4.75, by + 930, "X")]
+    pos = [(mx + bx * 4, by + p1 + 40, ":"),
+           (mx + bx * 4, by + p1 + 140, "/"),
+           (mx + bx * 3.25, by + p1 + 90, "Z"),
+           (mx + bx * 4.75, by + p1 + 90, "X"),
+           (mx + bx * 2, by + p2, "S"),
+           (mx + bx * 2, by + p2 + 55, "Q"),
+           (mx + bx * 7, by + p2, "P"),
+           (mx + bx * 7, by + p2 + 55, "O")]
 
     for x, y, ch in pos:
         paths += [
@@ -1161,7 +1171,7 @@ def key_tops(bx, by, bw):
             TextBox((x, y, sx, 0), [Text(key_symbol, ch)])
             ]
 
-    x, y, sx, sy = mx + (bx * 8), by + 930, 100, 24
+    x, y, sx, sy = mx + (bx * 8), by + p1 + 90, 100, 24
 
     paths += [
         Path((x, y, sx + (ex * 2), sy + (ey * 2)),
@@ -1173,9 +1183,24 @@ def key_tops(bx, by, bw):
         TextBox((x, y, sx, 0), [Text(key_symbol, "Return")]),
 
         TextBox((mx + (bx * 10), y, bw * 2, 0), [Text(regular, "fire weapon")]),
-        TextBox((mx + (bx * 8), by + 975, bw * 2, 0), [
+        TextBox((mx + (bx * 8), by + p1 + 135, bw * 2, 0), [
                 Text(regular, "There are four different types of "
-                              "weapon available in the game.\n\n")]),
+                              "weapon available in the game.\n\n")])
+        ]
+
+    x, y, sx, sy = mx + (bx * 11.5), by + p2, 100, 24
+
+    paths += [
+        Path((x, y, sx + (ex * 2), sy + (ey * 2)),
+             [("M",0,-ey/2 - 2 -sy), ("l",sx,0), ("q",ex,0,ex,ey),
+              ("l",0,sy), ("q",0,ey,-ex,ey), ("l",-sx,0),
+              ("q",-ex,0,-ex,-ey), ("l",0,-sy), ("q",0,-ey,ex,-ey),
+              ("z",)],
+             {"stroke": "black", "fill": "none", "stroke-width": 1}),
+        TextBox((x, y, sx, 0), [Text(key_symbol, "Escape")]),
+
+        TextBox((mx + (bx * 13.4), y, bw * 2, 0),
+            [Text(regular, "return to the title screen")])
         ]
 
     return paths
@@ -1276,7 +1301,7 @@ if __name__ == "__main__":
                 #make_logo(bx/2.0 + 670 - 35, 50, 70, 70, back_cover_publisher1, back_cover_publisher2)
             [TextBox((bx * 2, 120, bw * 2, 0), 
                  [Text(title, "Jungle Journey")]),
-             TextBox((bx * 2, 2, bw * 2, 0),
+             TextBox((bx * 2, 12, bw * 2, 0),
                  [Text(regular,
                        "The last flames of the campfire fade to glowing embers and I am alone. "
                        "My recent acquaintances, their packs and paraphernalia have gone, leaving "
@@ -1306,7 +1331,7 @@ if __name__ == "__main__":
                        "an old teacher:")],
                  line_spacing = 1.1, follow = True),
              TextBox((bx * 2, 10, bw * 2, 0),
-                 [Text(quote,
+                 [Text(italic_quote,
                        u'\u201cDo not be tempted to use fire to make your way. '
                        'Many a traveller has strayed from the path, using fire to blaze a trail, '
                        'only to reach a dead end. Trying to return, they find that the jungle '
@@ -1341,25 +1366,11 @@ if __name__ == "__main__":
                        "Alternatively, you may play using an analogue joystick. Select joystick controls by "
                        "pressing the Fire button on the title page to start the game. Press Space to "
                        "start the game with keyboard controls.\n\n"
-                       "Other keys can be used to control the game:\n")],
+                       "Other keys can be used to pause, unpause or exit the "
+                       "game, and enable or disable sound effects:\n")],
                  line_spacing = 1.1, follow = True),
-             TextBox((bx * 2, 0, bw * 2, 0),
-                 [Text(keys_quote,
-                       "S\n"
-                       "Q\n"
-                       "P\n"
-                       "O\n"
-                       "Escape")], follow = True),
-             TextBox((bx * 2, 0, bw * 2, 0),
-                 [Text(key_descriptions_quote,
-                       "enable sound effects\n"
-                       "disable sound effects\n"
-                       "pause the game\n"
-                       "resume the game\n"
-                       "quit the game, returning to the title screen\n")],
-                 follow = True, index = -2),
-             TextBox((bx * 2, 7, bw * 2, 0),
-                 [Text(regular, "Good luck!")], follow = True)
+             TextBox((bx * 2, 140, bw * 2, 0),
+                 [Text(regular, "Good luck on your journey!")], follow = True)
 
             ] + key_tops(bx, 130, bw))
         ]
