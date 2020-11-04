@@ -781,10 +781,12 @@ def make_vines(fx, fy, bw, bh):
                 elif t == "l":
                     element[1] = float(element[1])
 
+            red_level = ((level * 3.5) + 24) % 64
+
             vines.insert(0,
                 Path((fx, fy - 50, bw, bh), map(tuple, path),
                      {"stroke": "#00%02x00" % (level/2), "stroke-width": 1,
-                      "fill": "#00%02x00" % level}),
+                      "fill": "#%02x%02x00" % (red_level, level)}),
                 )
 
             dy = (y % 63)
@@ -797,6 +799,30 @@ def make_vines(fx, fy, bw, bh):
         level = max(0, level - 6)
     
     return vines
+
+def make_eyes(bx, by, bw, bh):
+
+    eyes = []
+
+    c1 = "#604000"
+    c2 = "#482800"
+    c3 = "#503000"
+    cx = bx + bw/2
+    pos = [(cx, by + 115, 10, 5, c1),
+           (cx - 120, by + 90, 8, 4, c2),
+           (cx + 200, by + 15, 8, 4, c2),
+           (cx - 330, by + 70, 8, 4, c1),
+           (cx - 250, by + 180, 8, 4, c3),
+           (cx + 110, by + 195, 8, 4, c3)]
+
+    for (x, y, sx, sy, c) in pos:
+
+        eyes.append(Path((bx, by, bw, bh),
+            [("M",x,y), ("q",-sx,0,-sx,-sy), ("z",),
+             ("m",sx*2,0), ("q",sx,0,sx,-sy), ("z",)],
+            {"stroke": c, "stroke-width": 1, "fill": c}))
+
+    return eyes
 
 def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
 
@@ -830,7 +856,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
             else:
                 points.append((lx2 - (((i/16.0)**3) * (lx2 - lx1)), ly))
         
-        style = {"fill": "black", "fill-opacity": "0.25",
+        style = {"fill": "black", "fill-opacity": "0.4",
                  "stroke": "none"}
         
         patterns.append(Path((bx, fy, bw, bh),
@@ -841,6 +867,9 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                              [("M",lw - points[0][0], points[0][1])] + \
                              map(lambda p: ("L",lw-p[0],p[1]), points[1:]) + \
                              [("L",lw-points[-1][0], points[0][1]), ("z",)], style))
+    
+    # Eyes
+    eyes = make_eyes(bx, py - 120, bw, bh)
     
     # Vines
     vines = make_vines(fx, fy, bw, bh)
@@ -880,7 +909,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                        ("c",-bw/8.0,0,-bw/4.0,cy/6.0,-bw/4.0,cy/2.0)],
                       {"fill": "black", "stroke": "none", "stroke-width": 4}),
 
-                 Clip('nonzero', border, patterns + vines),
+                 Clip('nonzero', border, patterns + eyes + vines),
 
                  # Imported from fire.svg:
                  Path((fx, fy, bw, bh),
@@ -1302,9 +1331,14 @@ if __name__ == "__main__":
         ]
     
     defs = ('<linearGradient id="box-background" x1="50%" y1="0%" x2="50%" y2="100%">\n'
-            '  <stop offset="0" stop-color="#000000" />\n'
-            '  <stop offset="0.3" stop-color="#040404" />\n'
+            '  <stop offset="0" stop-color="#081800" />\n'
+            '  <stop offset="0.15" stop-color="#000000" />\n'
+            '  <stop offset="0.5" stop-color="#000800" />\n'
             '  <stop offset="1" stop-color="#205c00" />\n'
+            '</linearGradient>\n'
+            '<linearGradient id="cave" x1="50%" y1="0%" x2="50%" y2="100%">\n'
+            '  <stop offset="0" stop-color="#180800" />\n'
+            '  <stop offset="1" stop-color="#040000" />\n'
             '</linearGradient>\n'
             '<linearGradient id="hills" x1="0%" y1="0%" x2="100%" y2="100%">\n'
             '  <stop offset="20%" stop-color="#003000" />\n'
