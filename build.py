@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os, struct, sys
 import UEFfile
-from tools import makesprites
+from tools import makedfs, makesprites
 
 version = "0.1"
 
@@ -101,6 +101,32 @@ def decode_text(data, lookup):
         words += " "
     
     return words[:-1]
+
+def build_uef(files):
+
+    u = UEFfile.UEFfile(creator = 'build.py '+version)
+    u.minor = 6
+    u.target_machine = "Electron"
+    
+    u.import_files(0, files)
+    
+    # Insert a gap before each file.
+    offset = 0
+    for f in u.contents:
+    
+        # Insert a gap and some padding before the file.
+        gap_padding = [(0x112, "\xdc\x05"), (0x110, "\xdc\x05"), (0x100, "\xdc")]
+        u.chunks = u.chunks[:f["position"] + offset] + \
+                   gap_padding + u.chunks[f["position"] + offset:]
+
+        # Each time we insert a gap, the position of the file changes, so we
+        # need to update its position and last position. This isn't really
+        # necessary because we won't read the contents list again.
+        offset += len(gap_padding)
+        f["position"] += offset
+        f["last position"] += offset
+    
+    return u
 
 
 if __name__ == "__main__":
@@ -211,6 +237,8 @@ if __name__ == "__main__":
     # 5800 screen memory
     
     files = []
+
+    files.append(("RETRO", 0x1900, 0x8023, open("resources/loader_U5D", "rb").read()))
     
     system("ophis loader.oph -o JUNGLE")
     code = open("JUNGLE").read()
@@ -235,27 +263,7 @@ if __name__ == "__main__":
     code_start = 0x1e00
     files.append(("CODE", code_start, code_start, code))
     
-    u = UEFfile.UEFfile(creator = 'build.py '+version)
-    u.minor = 6
-    u.target_machine = "Electron"
-    
-    u.import_files(0, files)
-    
-    # Insert a gap before each file.
-    offset = 0
-    for f in u.contents:
-    
-        # Insert a gap and some padding before the file.
-        gap_padding = [(0x112, "\xdc\x05"), (0x110, "\xdc\x05"), (0x100, "\xdc")]
-        u.chunks = u.chunks[:f["position"] + offset] + \
-                   gap_padding + u.chunks[f["position"] + offset:]
-
-        # Each time we insert a gap, the position of the file changes, so we
-        # need to update its position and last position. This isn't really
-        # necessary because we won't read the contents list again.
-        offset += len(gap_padding)
-        f["position"] += offset
-        f["last position"] += offset
+    u = build_uef(files)
     
     # Write the new UEF file.
     try:
@@ -263,6 +271,50 @@ if __name__ == "__main__":
     except UEFfile.UEFfile_error:
         sys.stderr.write("Couldn't write the new executable to %s.\n" % out_uef_file)
         sys.exit(1)
+    
+    # Write a UEF file for transfer to ADFS.
+
+    # Replace the loader and insert a boot file.
+    files.pop(0)
+    files.insert(0, ("RETRO", 0x1d00, 0x8023, open("resources/loader_U3A", "rb").read()))
+    files.insert(0, ("!BOOT", 0x0, 0x0, 'CHAIN "RETRO"\r'))
+    
+    u = build_uef(files)
+    out_uef_adf_file = out_uef_file.replace(".uef", "-for-ADFS.uef")
+    try:
+        u.write(out_uef_adf_file, write_emulator_info = False)
+    except UEFfile.UEFfile_error:
+        sys.stderr.write("Couldn't write the new executable to %s.\n" % out_uef_adf_file)
+        sys.exit(1)
+    
+    print
+    print "Written", out_uef_adf_file
+    
+    # Write an SSD file.
+    
+    disk = makedfs.Disk()
+    disk.new()
+    
+    catalogue = disk.catalogue()
+    catalogue.boot_option = 3
+
+    # Replace the loader.
+    files[1] = ("RETRO", 0x1900, 0x8023, open("resources/loader_U5D", "rb").read())
+    disk_files = []
+    for name, load, exec_, data in files:
+        disk_files.append(makedfs.File("$." + name, data, load, exec_, len(data)))
+    
+    COPYING = open("COPYING").read().replace("\n", "\r\n")
+    disk_files.append(makedfs.File("$.COPYING", COPYING, 0x0000, 0x0000, len(COPYING)))
+    
+    catalogue.write("Journey", disk_files)
+    
+    disk.file.seek(0, 0)
+    disk_data = disk.file.read()
+    out_ssd_file = out_uef_file.replace(".uef", ".ssd")
+    open(out_ssd_file, "w").write(disk_data)
+    
+    print "Written", out_ssd_file
 
     # Exit
     sys.exit()
