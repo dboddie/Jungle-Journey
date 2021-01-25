@@ -431,17 +431,20 @@ def make_map(name, width, height, room_width, room_height, seed):
     if start_room:
     
         mapper.find_map_extent(start_room)
+        number_of_rooms = width * height
         
         for i in range(height):
             for j in range(width):
             
                 if (j,i) not in mapper.visited:
                 
+                    number_of_rooms -= 1
                     fade(im, j * scaled_room_size[0] + j,
                              i * scaled_room_size[1] + i,
                              scaled_room_size[0],
                              scaled_room_size[1])
     
+    print number_of_rooms, "screens to explore"
     im.save(name)
 
 
