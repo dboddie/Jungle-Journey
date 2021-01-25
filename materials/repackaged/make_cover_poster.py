@@ -108,77 +108,6 @@ class SVG:
         codecs.open(self.path, "w", "utf-8").write(self.text)
 
 
-class Inlay(SVG):
-
-    def __init__(self, path, page_rects, total_size):
-    
-        SVG.__init__(self, path)
-        
-        self.page_rects = page_rects
-        self.total_size = total_size
-        self.page_number = 0
-        self.reverse = False
-    
-    def open(self):
-    
-        SVG.open(self)
-        self.text += ('<svg version="1.1"\n'
-                      '     xmlns="http://www.w3.org/2000/svg"\n'
-                      '     xmlns:xlink="http://www.w3.org/1999/xlink"\n')
-        
-        w, h = self.total_size
-        self.text += ('     width="%fcm" height="%fcm"\n'
-                      '     viewBox="0 0 %i %i">\n' % (w/100.0, h/100.0, w, h))
-        
-        self.text += '<defs>\n' + defs + '\n</defs>\n'
-    
-    def add_page(self, width, height):
-    
-        if self.page_number > 0:
-        
-            rect, reverse = self.page_rects[self.page_number - 1]
-        
-            if reverse:
-                self.text += '</g>\n'
-        
-        rect, self.reverse = self.page_rects[self.page_number]
-        self.ox, self.oy, w, h = rect
-        self.page_number += 1
-        
-        if self.reverse:
-            self.text += '<g transform="rotate(180) translate(%f, %f)">\n' % \
-                         (-(self.ox*2 + w), -(self.oy*2 + h))
-    
-    def add_image(self, x, y, width, height, path):
-    
-        SVG.add_image(self, self.ox + x, self.oy + y, width, height, path)
-    
-    def add_text(self, x, y, font, text):
-    
-        SVG.add_text(self, self.ox + x, self.oy + y, font, text)
-    
-    def close(self):
-    
-        if self.page_number > 0:
-        
-            rect, reverse = self.page_rects[self.page_number - 1]
-            
-            if self.reverse:
-                self.text += '</g>\n'
-        
-        self.text += self.crop_marks(rect)
-        
-        SVG.close(self)
-    
-    def crop_marks(self, rect):
-    
-        return ('<path d="M 150,0 L 150,100 M 0,150 L 100,150\n'
-                'M 3290,150 L 3390,150 M 3240,0 L 3240,100\n'
-                'M 150,2460 L 150,2360 M 0,2310 L 100,2310\n'
-                'M 3290,2310 L 3390,2310 M 3240,2360 L 3240,2460"\n'
-                'stroke="black" fill="none" stroke-width="1" />\n')
-
-
 class Page:
 
     def __init__(self, size, objects):
@@ -521,11 +450,11 @@ subtitle = {"family": "FreeSans",
          "size": 25,
          "weight": "bold"}
 
-front_cover_publisher1 = {"family": sans, "size": 30,
+front_cover_publisher1 = {"family": sans, "size": 22,
                           "weight": "bold", "align": "centre",
                           "colour": "#202020"}
 
-front_cover_publisher2 = {"family": sans, "size": 30,
+front_cover_publisher2 = {"family": sans, "size": 22,
                           "weight": "bold", "align": "centre",
                           "colour": "#ffffc0"}
 
@@ -647,7 +576,7 @@ def make_eyes(bx, by, bw, bh):
            (cx - 120, by + 90, 8, 4, c2),
            (cx + 200, by + 15, 8, 4, c2),
            (cx - 330, by + 70, 8, 4, c1),
-           (cx - 250, by - 70, 8, 4, c3),
+           (cx - 270, by - 50, 8, 4, c3),
            (cx + 110, by - 55, 8, 4, c3)]
 
     for (x, y, sx, sy, c) in pos:
@@ -664,9 +593,6 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
     # The imported fire paths need to be displaced.
     fx = bx + 100
     fy = py + 180
-
-    # Front cover width
-    fw = 1515
 
     ly1 = -20
     lh = 100
@@ -704,7 +630,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                              [("L",lw-points[-1][0], points[0][1]), ("z",)], style))
     
     # Eyes
-    eyes = make_eyes(bx, py - 120, bw, bh)
+    eyes = make_eyes(30, py - 120, bw, bh)
     
     # Vines
     vines = make_vines(fx, fy, bw, bh)
@@ -713,9 +639,14 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                   [("M",0,-bh/4), ("l",bw,0), ("l",0,1.25*bh), ("l",-bw,0), ("l",0,-1.25*bh)],
                   {"fill": "none", "stroke": "#000000", "stroke-width": 8})
     
-    return Page((fw, inlay_height), [Transform([("scale", "2.0,2.0")],
+    # Calculate the scale factor based on the target dimensions and drawing
+    # dimensions.
+    scale = 2100. / bw # 2970 / (bh*1.414286)
+    dy = py - (bh*0.414286)
+
+    return Page((2100, 2970), [Transform([("scale", "%f,%f" % (scale, scale)), ("translate", "0,%f" % -dy)],
                 [Path((bx, py, bw, bh),
-                      [("M",0,-bh/2), ("l",bw,0), ("l",0,1.5*bh), ("l",-bw,0), ("l",0,-1.5*bh)],
+                      [("M",0,-bh*0.414286), ("l",bw,0), ("l",0,1.414286*bh), ("l",-bw,0), ("l",0,-1.414286*bh)],
                       {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4}),
 
                  Path((bx, py, bw, bh),
@@ -723,7 +654,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                        ("c",-bw/8.0,0,-bw/4.0,cy/6.0,-bw/4.0,cy/2.0)],
                       {"fill": "black", "stroke": "none", "stroke-width": 4}),
 
-                 Clip('nonzero', border, patterns + eyes + vines),
+                 Clip('nonzero', border, patterns + vines),
 
                  # Imported from fire.svg:
                  Path((fx, fy, bw, bh),
@@ -938,10 +869,10 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                       {"fill": "url(#ember)", "stroke": "none"}),
 
                  Path((bx, py, bw, bh),
-                      [("M",0,-bh/4), ("l",bw,0), ("l",0,bh/4), ("l",-bw,0), ("l",0,-bh/4)],
+                      [("M",0,-bh/4), ("l",bw,0), ("l",0,bh/3.5), ("l",-bw,0), ("l",0,-bh/3.5)],
                       {"fill": "url(#box-fade)", "stroke": "none", "stroke-width": 4}),
 
-                 Transform([("translate", "%i,%i" % (bx, -py*2)),
+                 Transform([("translate", "%i,%i" % (bw*0.3, -py*2.0)),
                             ("scale", "2.5,2.5")], [
                      Path((bx, py, bw, bh), [
                         # J
@@ -1003,7 +934,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                            "fill-rule": "evenodd", "stroke": "none"}),
                         ]),
 
-                 Transform([("translate", "%i,%i" % (0.6*bx, -py*1.75)),
+                 Transform([("translate", "%i,%i" % (bw*0.25, -py*1.77)),
                             ("scale", "2.5,2.5")], [
                      Path((bx, py, bw, bh), [
                         # J
@@ -1089,7 +1020,8 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                         ])
                        ] + \
 
-                 make_logo(bx + bw/2.0, 40, 40, 40, front_cover_publisher1, front_cover_publisher2)
+                 make_logo(bw/2.0, 70, 30, 30, front_cover_publisher1, front_cover_publisher2) + \
+                 eyes
                 )
             ])
 
@@ -1110,11 +1042,10 @@ if __name__ == "__main__":
     hr = 0.5*r
     
     # Inlay/page height
-    inlay_height = 2160
+    inlay_height = 2142
     
     # Cover width (front and back)
     cover_width = 1515
-    spine_width = 60
     
     # Background colour
     background = "#105818"
@@ -1144,16 +1075,7 @@ if __name__ == "__main__":
     sw = scale * 640
     sr = (bw - (2 * sw))/3.0
     
-    front_cover = make_front_cover(bx, bw, bh, tby, tbh, py, r, hr, o, background)
-    
-    instructions = [
-        Page((cover_width, inlay_height),
-            [Path((0, 0, cover_width, inlay_height),
-                   [("M",0,0), ("l",cover_width,0),
-                    ("l",0,inlay_height), ("l",-cover_width,0),
-                    ("l",0,-inlay_height)],
-                   {"fill": background, "stroke": "none"})])
-        ]
+    front_cover = make_front_cover(0, bw, bh, tby, tbh, py, r, hr, o, background)
     
     defs = ('<linearGradient id="box-background" x1="50%" y1="0%" x2="50%" y2="100%">\n'
             '  <stop offset="0" stop-color="#081800" />\n'
@@ -1219,7 +1141,7 @@ if __name__ == "__main__":
             '  <stop offset="1" stop-color="#101010" />\n'
             '</linearGradient>\n'
             '<linearGradient id="box-fade" x1="50%" y1="0%" x2="50%" y2="100%">\n'
-            '  <stop offset="0.5" stop-color="black" stop-opacity="1" />\n'
+            '  <stop offset="0.85" stop-color="black" stop-opacity="1" />\n'
             '  <stop offset="1" stop-color="black" stop-opacity="0" />\n'
             '</linearGradient>\n'
             '<linearGradient id="logo-top" x1="50%" y1="0%" x2="50%" y2="100%">\n'
@@ -1234,28 +1156,14 @@ if __name__ == "__main__":
     
     pages = [front_cover]
     
-    page_rects = [((0, 0, cover_width, inlay_height), False),
-                  ((cover_width, 0, spine_width, inlay_height), False),
-                  ((cover_width + spine_width, 0, 1515, inlay_height), False)]
+    total_size = (cover_width, inlay_height)
     
-    total_size = (3390, 2460)
+    svg = SVG(output_file)
+    svg.open()
+    svg.add_defs(defs)
     
-    dx = 150
-    dy = 150
+    front_cover.render(svg)
     
-    for i in range(len(page_rects)):
-        rect, rev = page_rects[i]
-        page_rects[i] = ((rect[0] + dx, rect[1] + dy,) + rect[2:], rev)
-    
-    inlay = Inlay(output_file, page_rects, total_size)
-    inlay.open()
-    inlay.add_defs(defs)
-    
-    i = 0
-    for page in pages:
-        page.render(inlay)
-        i += 1
-    
-    inlay.close()
+    svg.close()
     
     sys.exit()
