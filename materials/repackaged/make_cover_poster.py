@@ -589,6 +589,78 @@ def make_eyes(bx, by, bw, bh):
 
     return eyes
 
+def make_border_decorations(x, y, w, h):
+
+    ox = oy = w/30
+    ow = w - (2 * ox)
+    oh = h - (2 * oy)
+    odx = ow/10
+    ody = oh/14
+    ix = iy = w/22
+    iw = w - (2 * ix)
+    ih = h - (2 * iy)
+    idx = iw/10
+    idy = ih/14
+    
+    c = b"David Boddie"
+    bits = []
+    i = 0
+    while c:
+        bits.append((c[0] & (1 << i)) >> i)
+        i += 1
+        if i == 8:
+            i = 0
+            c = c[1:]
+    
+    # Create strokes with gaps between them on each edge.
+    decor = []
+    path1 = []
+    path2 = []
+    
+    def draw_strokes(path1, path2, bits, x, y, w, h,
+                     ox, oy, olx, oly, ix, iy, ilx, ily, n):
+
+        for i in range(n):
+            odx = olx - (olx / 4)
+            ody = oly - (oly / 4)
+            osx = ox + (i * olx) + (olx / 8)
+            osy = oy + (i * oly) + (oly / 8)
+            
+            idx = ilx - (ilx / 4)
+            idy = ily - (ily / 4)
+            isx = ix + (i * ilx) + (ilx / 8)
+            isy = iy + (i * ily) + (ily / 8)
+            
+            b = bits.pop(0)
+            if b:
+                path1 += [("L",osx,osy), ("l",odx,ody)]
+                path2 += [("L",isx,isy), ("l",idx,idy)]
+            else:
+                path2 += [("L",osx,osy), ("l",odx,ody)]
+                path1 += [("L",isx,isy), ("l",idx,idy)]
+    
+    draw_strokes(path1, path2, bits, x, y, w, h,
+                 ox, oy, odx, 0, ix, iy, idx, 0, 10)
+    draw_strokes(path1, path2, bits, x, y, w, h,
+                 ox + ow, oy, 0, ody, ix + iw, iy, 0, idy, 14)
+    draw_strokes(path1, path2, bits, x, y, w, h,
+                 ox + ow, oy + oh, -odx, 0, ix + iw, iy + ih, -idx, 0, 10)
+    draw_strokes(path1, path2, bits, x, y, w, h,
+                 ox, oy + oh, 0, -ody, ix, iy + ih, 0, -idy, 14)
+    
+    path1[0] = ("M", path1[0][1], path1[0][2])
+    path2[0] = ("M", path2[0][1], path2[0][2])
+    path1.append(("Z",))
+    path2.append(("Z",))
+    
+    return [
+        Path((x, y, w, h), path1, {"stroke": "#008000", "fill": "none",
+                                   "stroke-width": "4"}),
+        Path((x, y, w, h), path2, {"stroke": "#808000", "fill": "none",
+                                   "stroke-width": "4"})
+        ]
+
+
 def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
 
     # The imported fire paths need to be displaced.
@@ -643,11 +715,14 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
     # Calculate the scale factor based on the target dimensions and drawing
     # dimensions.
     scale = 2100. / bw # 2970 / (bh*1.414286)
-    dy = py - (bh*0.414286)
+    disp_y = -(bh*0.414286) + 25
+    dy = py + disp_y
 
+    border_decorations = make_border_decorations(bx, dy, bw, 1.414286*bh)
+    
     return Page((2100, 2970), [Transform([("scale", "%f,%f" % (scale, scale)), ("translate", "0,%f" % -dy)],
                 [Path((bx, py, bw, bh),
-                      [("M",0,-bh*0.414286), ("l",bw,0), ("l",0,1.414286*bh), ("l",-bw,0), ("l",0,-1.414286*bh)],
+                      [("M",0,disp_y), ("l",bw,0), ("l",0,1.414286*bh), ("l",-bw,0), ("l",0,-1.414286*bh)],
                       {"fill": "url(#box-background)", "stroke": "none", "stroke-width": 4}),
 
                  Path((bx, py, bw, bh),
@@ -1021,8 +1096,8 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                         ])
                        ] + \
 
-                 make_logo(bw/2.0, 70, 30, 30, front_cover_publisher1, front_cover_publisher2) + \
-                 eyes
+#                 make_logo(bw/2.0, 70, 30, 30, front_cover_publisher1, front_cover_publisher2) + \
+                 eyes + border_decorations
                 )
             ])
 
