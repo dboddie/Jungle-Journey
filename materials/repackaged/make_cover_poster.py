@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
 Copyright (C) 2020 David Boddie <david@boddie.org.uk>
@@ -18,8 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import codecs, os, sys
-from PyQt4.QtCore import QSize
-from PyQt4.QtGui import *
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
 def relpath(source, destination):
 
@@ -92,11 +93,11 @@ class SVG:
         self.text += '<text x="%f" y="%f"\n' % (x, y)
         self.text += ('      font-family="%s"\n'
                       '      font-size="%i"\n') % (font["family"], font["size"])
-        if font.has_key("weight"):
+        if "weight" in font:
             self.text += '      font-weight="%s"\n' % font["weight"]
-        if font.has_key("style"):
+        if "style" in font:
             self.text += '      font-style="%s"\n' % font["style"]
-        if font.has_key("colour"):
+        if "colour" in font:
             self.text += '      fill="%s"\n' % font["colour"]
         self.text += '>\n'
         self.text += self._escape(text)
@@ -235,13 +236,13 @@ class Text:
         
         elif self.font.get("align", "left") == "justify" and not last:
             # Full justify the text.
-            total_width = sum(map(lambda word: word.width(), words))
+            total_width = sum([word.width() for word in words])
             spacing = (width - total_width)/float(len(words) - 1)
         
         elif self.font.get("align", "left") == "centre":
             # Centre the text.
-            total_width = sum(map(lambda word: word.width(), words))
-            total_space = sum(map(lambda word: word.space(), words)[:-1])
+            total_width = sum([word.width() for word in words])
+            total_space = sum([word.space() for word in words][:-1])
             x = width/2.0 - total_width/2.0 - total_space/2.0
             spacing = None
         
@@ -419,7 +420,7 @@ class Transform:
     def render(self, svg, positions):
     
         svg.text += '<g transform="translate(%f,%f) ' % (svg.ox, svg.oy)
-        svg.text += ' '.join(map(lambda (k,v): '%s(%s)' % (k, v), self.transformation))
+        svg.text += ' '.join(['%s(%s)' % (k, v) for(k,v) in self.transformation])
         svg.text += '">\n'
         
         ox, oy = svg.ox, svg.oy
@@ -545,11 +546,11 @@ def make_vines(fx, fy, bw, bh):
                 elif t == "l":
                     element[1] = float(element[1])
 
-            red_level = ((level * 3.5) + 24) % 64
+            red_level = int((level * 3.5) + 24) % 64
 
             vines.insert(0,
-                Path((fx, fy - 50, bw, bh), map(tuple, path),
-                     {"stroke": "#00%02x00" % (level/2), "stroke-width": 1,
+                Path((fx, fy - 50, bw, bh), list(map(tuple, path)),
+                     {"stroke": "#00%02x00" % (level//2), "stroke-width": 1,
                       "fill": "#%02x%02x00" % (red_level, level)}),
                 )
 
@@ -622,11 +623,11 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
         
         patterns.append(Path((bx, fy, bw, bh),
                              [("M",) + points[0]] + \
-                             map(lambda p: ("L",) + p, points[1:]) + \
+                             [(("L",) + p) for p in points[1:]] + \
                              [("L",points[-1][0], points[0][1]), ("z",)], style))
         patterns.append(Path((bx, fy, bw, bh),
                              [("M",lw - points[0][0], points[0][1])] + \
-                             map(lambda p: ("L",lw-p[0],p[1]), points[1:]) + \
+                             [("L",lw-p[0],p[1]) for p in points[1:]] + \
                              [("L",lw-points[-1][0], points[0][1]), ("z",)], style))
     
     # Eyes
