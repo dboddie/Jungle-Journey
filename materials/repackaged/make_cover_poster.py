@@ -457,7 +457,7 @@ front_cover_publisher1 = {"family": sans, "size": 22,
 
 front_cover_publisher2 = {"family": sans, "size": 22,
                           "weight": "bold", "align": "centre",
-                          "colour": "#ffffc0"}
+                          "colour": "#ffff40"}
 
 front_cover_title = {"family": sans, "size": 56,
                      "weight": "bold", "align": "centre", "colour": "white"}
@@ -479,7 +479,7 @@ def curved_box(x, y, w, h, style):
 def make_logo(cx, y, w, h, font1, font2):
 
     logo = []
-    x = cx - (len("RETRO") * w)/2.0
+    x = cx - (len("RETRO POWER") * w)/2.0 + w/4
     lr = h/10.0
     lhr = lr/2.0
     
@@ -497,8 +497,7 @@ def make_logo(cx, y, w, h, font1, font2):
                             [Text(font1, ch)]))
         x += w
     
-    x = cx - (len("POWER") * w)/2.0
-    y += h
+    x += w/2
     
     for ch in "POWER":
         logo.append(curved_box(x - lhr, y + lr + lhr, w, h,
@@ -591,12 +590,12 @@ def make_eyes(bx, by, bw, bh):
 
 def make_border_decorations(x, y, w, h):
 
-    ox = oy = w/30
+    ox = oy = w/45
     ow = w - (2 * ox)
     oh = h - (2 * oy)
     odx = ow/10
     ody = oh/14
-    ix = iy = w/22
+    ix = iy = w/28
     iw = w - (2 * ix)
     ih = h - (2 * iy)
     idx = iw/10
@@ -715,7 +714,7 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
     # Calculate the scale factor based on the target dimensions and drawing
     # dimensions.
     scale = 2100. / bw # 2970 / (bh*1.414286)
-    disp_y = -(bh*0.414286) + 25
+    disp_y = -(bh*0.414286) + 40
     dy = py + disp_y
 
     border_decorations = make_border_decorations(bx, dy, bw, 1.414286*bh)
@@ -1096,8 +1095,8 @@ def make_front_cover(bx, bw, bh, title_by, title_bh, py, r, hr, o, background):
                         ])
                        ] + \
 
-#                 make_logo(bw/2.0, 70, 30, 30, front_cover_publisher1, front_cover_publisher2) + \
                  eyes + border_decorations
+#                 make_logo(bw/2.0, 900, 32, 32, front_cover_publisher1, front_cover_publisher2)
                 )
             ])
 
@@ -1128,7 +1127,7 @@ if __name__ == "__main__":
     spine_background = "#186820"
     box_background = "#ffffff"
     box_shadow = "#ffb060"
-    logo_background = "#ffffc0"
+    logo_background = "#ffff40"
     logo_shadow = "#ff4040"
     
     # Placement of boxes on the front cover
