@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 import os, sys
-import Image
+from PIL import Image
 import series
 from tileimages import blank, tile_size, leaf1, leaf2, visited, flowers, \
                        flowers2, leaf4, leaf6, flowers3, leaf5, leaf3, \
@@ -406,14 +406,14 @@ def make_map(name, width, height, room_width, room_height, seed):
             room_image = mapper.make_room_image(i, j)
             
             # Change the palette for this room.
-            room_string = room_image.tostring()
+            room_string = room_image.tobytes()
             
             # Replace logical colour 1 with 1, 3, 5 or 7.
             new_colour = room_palettes[(i ^ j) & 3]
             if new_colour != 1:
                 room_string = room_string.replace("\x01", chr(new_colour))
             
-            room_image = Image.fromstring("P", (room_width * tile_size[0],
+            room_image = Image.frombytes("P", (room_width * tile_size[0],
                                                 room_height * tile_size[1]),
                                           room_string)
             room_image.putpalette(black + red + green + yellow + blue + magenta + cyan + white)
@@ -468,12 +468,12 @@ if __name__ == "__main__":
     stem, suffix = os.path.splitext(name)
     level = 1
     
-    title_image = Image.fromstring("P", (128, 48), "".join(
+    title_image = Image.frombytes("P", (128, 48), "".join(
         read_xpm("../../images/title-screen.xpm", [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
     title_image = title_image.resize((title_image.size[0]*4, title_image.size[1]*4),
                                      Image.LINEAR)
     
-    overlay_image = Image.fromstring("P", (128, 115), "".join(
+    overlay_image = Image.frombytes("P", (128, 115), "".join(
         read_xpm("../../images/overlay.xpm", [(".", "\x00"), ("#", "\x01"), ("@", "\x02"), ("+", "\x03")])))
     overlay_image = overlay_image.resize((overlay_image.size[0]*4, overlay_image.size[1]*4),
                                      Image.LINEAR)

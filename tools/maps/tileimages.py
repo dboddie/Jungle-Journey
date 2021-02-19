@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import Image
+from PIL import Image
 
 tile_size = (16, 24)
 
@@ -53,53 +53,53 @@ def read_xpm(path, symbols = None):
     
     return data
 
-flowers = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/flowers.xpm",
+flowers = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/flowers.xpm",
                            [(".", "\x00"), ("@", "\x01"), ("+", "\x02")])))
-leaf1 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/leaf1.xpm")))
-leaf2 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/leaf2.xpm")))
+leaf1 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/leaf1.xpm")))
+leaf2 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/leaf2.xpm")))
 
-flowers2 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/flowers2.xpm",
+flowers2 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/flowers2.xpm",
                             [(".", "\x00"), ("@", "\x01"), ("+", "\x02")])))
-leaf6 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/leaf6.xpm")))
-leaf4 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/leaf4.xpm")))
+leaf6 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/leaf6.xpm")))
+leaf4 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/leaf4.xpm")))
 
-flowers3 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/flowers3.xpm",
+flowers3 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/flowers3.xpm",
                             [(".", "\x00"), ("@", "\x01"), ("+", "\x02"), ("#", "\x03")])))
-leaf5 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/leaf5.xpm")))
-leaf3 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/leaf3.xpm")))
+leaf5 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/leaf5.xpm")))
+leaf3 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/leaf3.xpm")))
 
-exit = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/exit1.xpm",
+exit = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/exit1.xpm",
                         [("+", "\x00"), ("#", "\x01"), (".", "\x02"), ("@", "\x03")])))
 
-final_exit1 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/finalexitl.xpm",
+final_exit1 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/finalexitl.xpm",
                                [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
-final_exit2 = Image.fromstring("P", tile_size, "".join(read_xpm("../../images/finalexitr.xpm",
+final_exit2 = Image.frombytes("P", tile_size, "".join(read_xpm("../../images/finalexitr.xpm",
                                [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
 
 player_size = (8, 24)
 
-player = Image.fromstring("P", player_size, "".join(read_xpm("../../images/down1.xpm")))
+player = Image.frombytes("P", player_size, "".join(read_xpm("../../images/down1.xpm")))
 
 item_size = (16, 16)
 
 treasure_images = [
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/weapon1.xpm", [(".", "\x00"), ("+", "\x01"), ("@", "\x03")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/weapon2.xpm", [(".", "\x00"), ("@", "\x01"), ("+", "\x02")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/weapon3.xpm", [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/weapon4.xpm", [(".", "\x00"), ("@", "\x01"), ("+", "\x03")]))),
 
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/key.xpm", [(".", "\x00"), ("+", "\x01"), ("@", "\x03")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/chest.xpm", [(".", "\x00"), ("+", "\x01"), ("@", "\x03")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/statue.xpm", [(".", "\x00"), ("+", "\x02"), ("@", "\x03")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/jewel.xpm", [(".", "\x00"), ("@", "\x01"), ("+", "\x02"), ("#", "\x03")]))),
-    Image.fromstring("P", item_size, "".join(
+    Image.frombytes("P", item_size, "".join(
          read_xpm("../../images/health.xpm", [(".", "\x00"), ("#", "\x01"), ("+", "\x02"), ("@", "\x03")])))
     ]
