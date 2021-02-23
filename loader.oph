@@ -61,6 +61,8 @@ init:
         cpx #5
         bne init_load_window_loop
 
+.include "preload.oph"
+
     lda #255
     ldx #<title_block
     ldy #>title_block
@@ -88,6 +90,8 @@ init:
 
     jsr copy_title_down
     jsr move_completed_screen_down
+
+.include "postload.oph"
 
     jmp $1e00
 

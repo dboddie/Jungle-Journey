@@ -131,12 +131,20 @@ def build_uef(files):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
+    args = sys.argv[:]
+    
+    # Quiet mode turns off sound while loading and hides text. This is useful
+    # when reusing the cassette version in a ROM image.
+    quiet = "-q" in args
+    if quiet:
+        args.remove("-q")
+
+    if len(args) != 2:
     
         sys.stderr.write("Usage: %s <new UEF file>\n" % sys.argv[0])
         sys.exit(1)
     
-    out_uef_file = sys.argv[1]
+    out_uef_file = args[1]
     
     # Memory map
     # 0EE0 enemy x locations in the current room
@@ -239,6 +247,30 @@ if __name__ == "__main__":
     files = []
 
     files.append(("RETRO", 0x1900, 0x8023, open("resources/loader_U5D", "rb").read()))
+    
+    # Prepare any code to be included before and after loading.
+    preload = postload = ""
+    
+    if quiet:
+        preload = (
+            "lda #210\n"
+            "ldx #1\n"      # disable sound
+            "ldy #0\n"
+            "jsr $fff4\n"
+            "lda #17\n"
+            "jsr $ffee\n"
+            "lda #0\n"      # COLOUR 0
+            "jsr $ffee\n"
+            )
+        postload = (
+            "lda #210\n"
+            "ldx #0\n"      # enable sound
+            "ldy #0\n"
+            "jsr $fff4\n"
+            )
+    
+    open("preload.oph", "w").write(preload)
+    open("postload.oph", "w").write(postload)
     
     system("ophis loader.oph -o JUNGLE")
     code = open("JUNGLE").read()
