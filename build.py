@@ -125,7 +125,9 @@ def build_uef(files):
         offset += len(gap_padding)
         f["position"] += offset
         f["last position"] += offset
-    
+
+    u.chunks += [(0x110, "\xdc\x05")]
+
     return u
 
 
