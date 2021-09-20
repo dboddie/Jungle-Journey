@@ -5064,6 +5064,10 @@ check_high_scores:
     ; The player's score didn't make it into the high score table.
     rts
 
+.alias high_pos_low $7c
+.alias high_pos_high $7d
+.alias high_pos_cursor $7b
+
 check_high_scores_move_down:    ; $70,$71=pointer to current score
                                 ; $72,$73=pointer to old score
 
@@ -5071,10 +5075,10 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     ; position in the high score table, insert the player's score, and take
     ; the old score
 
-    lda $72     ; Record the position in the high score table of the
-    sta $8d     ; player's score.
+    lda $72             ; Record the position in the high score table of the
+    sta high_pos_low    ; player's score.
     lda $73
-    sta $8e
+    sta high_pos_high
 
     lda #$e0
     sta $74
@@ -5202,8 +5206,8 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
     lda #0          ; reset the level number so that the correct tiles are used
     sta $578a
 
-    lda #3          ; cursor position in the high score entry held in $8d,$8e
-    sta $8f
+    lda #3          ; cursor position in the high score entry held in high_pos
+    sta high_pos_cursor
 
     jsr set_standard_palette
 
@@ -5293,20 +5297,20 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
         sta $7e
 
         insert_character:
-        lda $8f
+        lda high_pos_cursor
         cmp #12
         bpl high_score_entry_pressed
 
         tay             ; insert the character
         lda $7e
-        sta ($8d),y
+        sta (high_pos_low),y
         jsr print_high_score_character
 
-        inc $8f
+        inc high_pos_cursor
         jmp high_score_entry_pressed
 
         delete_character:
-        lda $8f
+        lda high_pos_cursor
         cmp #4
         bmi high_score_entry_pressed
 
@@ -5315,15 +5319,15 @@ check_high_scores_move_down:    ; $70,$71=pointer to current score
 
         tay
         lda #32         ; insert a space
-        sta ($8d),y
+        sta (high_pos_low),y
         jsr print_high_score_character
 
         high_score_delete_previous_character:
-        dec $8f
-        lda $8f
+        dec high_pos_cursor
+        lda high_pos_cursor
         tay             ; insert a space
         lda #32
-        sta ($8d),y
+        sta (high_pos_low),y
         jsr print_high_score_character
 
         high_score_entry_pressed:
@@ -5379,7 +5383,7 @@ print_high_score_character:  ; A=ASCII code
 
     clc
     sta $72         ; store the character
-    lda $8f
+    lda high_pos_cursor
     adc #3
     sta $70         ; store the x position of the character
     lda #30
